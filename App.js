@@ -23,7 +23,7 @@ import { connect } from 'react-redux';
 //import Button from 'react-native-button';
 
 import { principalChanged, dateOpenChanged } from './src/actions';
-import CalendarTest from './src/components/2.js';
+//import CalendarTest from './src/components/2.js';
 import { Input, Button, CardSection, Card, Header } from './src/components/common';
 
 
