@@ -3,6 +3,8 @@ import {
   DATE_OPEN_CHANGED
 } from '../actions/types';
 
+import { initDate } from '../components';
+
 let today = new Date();
 const DD = today.getDate() < 10 ? '0' : 0;
 const MM = today.getMonth() < 9 ? '0' : 0;
@@ -10,7 +12,8 @@ today = `${DD + today.getDate()}.${MM + (today.getMonth() + 1)}.${today.getFullY
 
 const INITIAL_STATE = {
   principal: '1000',
-  dateOpen: today
+  dateOpen: initDate(new Date())
+  //dateOpen: today
 };
 
 export default (state = INITIAL_STATE, action) => {

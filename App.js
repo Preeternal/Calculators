@@ -8,8 +8,8 @@ import {
     Text,
     //View,
     Image,
-    TouchableOpacity,
-    DatePickerAndroid,
+    //TouchableOpacity,
+    //DatePickerAndroid,
     //TextInput,
 } from 'react-native';
 
@@ -23,13 +23,15 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 
 
 import { connect } from 'react-redux';
+//import moment from 'moment';
 
 //import Button from 'react-native-button';
 
 import { principalChanged, dateOpenChanged } from './src/actions';
 //import CalendarTest from './src/components/2.js';
-import { Input, Button, CardSection, Card, Header } from './src/components/common';
-
+import { initDate, changeDate } from './src/components';
+import { Input, DateInput, Button, CardSection, Card, Header } from './src/components/common';
+//import DatePicker from './src/components/DatePicker.js';
 
 class App extends Component {
     constructor() {
@@ -57,6 +59,7 @@ class App extends Component {
     //state = { email: '', password: '', error: '', loading: false };
     //state = { isDateTimePickerVisible: false };
 
+
     onPrincipalChange(text) {
       this.props.principalChanged(text);
     }
@@ -64,6 +67,11 @@ class App extends Component {
     onDateOpenChange(text) {
       this.props.dateOpenChanged(text);
     }
+
+
+    // setDate = (date) => {
+    //   this.setState({ date });
+    // }
 
 
     //showDateTimePicker() { this.setState({ isDateTimePickerVisible: true }); }
@@ -80,8 +88,6 @@ class App extends Component {
         const pic = {
             uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg'
         };
-        let date2 = 0;
-
 
         return (
             <Card>
@@ -103,11 +109,13 @@ class App extends Component {
                     formHorizontal
                     labelHorizontal
                     buttonColor={'#757171'}
+                    selectedButtonColor={'#525050'}
                     //buttonInnerColor={'#e74c3c'}
                     //buttonOuterColor={'#757171'}
                     //buttonSize={40}
                     //buttonOuterSize={60}
                     labelColor={'#757171'}
+                    selectedLabelColor={'#525050'}
                     animation
                     onPress={(value, index) => {
                       this.setState({
@@ -121,13 +129,15 @@ class App extends Component {
                   </Text> */}
                 {/* </CardSection> */}
                 {/* <CardSection> */}
-                  <Text style={instructions}>
-                    1) Сумма Вашего вклада (любая сумма):
-                  </Text>
+                  {/* <Text style={instructions}>
+                    1) Сумма Вашего вклада (любая сумма):{'\n'}
+                  </Text> */}
 
                   <Input
                     placeholder="Сумма вклада"
-                    label={this.state.types1[this.state.value1Index].label}
+                    label='Сумма вклада'
+                    keyboardType='numeric'
+                    //label={this.state.types1[this.state.value1Index].label}
                     onChangeText={this.onPrincipalChange.bind(this)}
                     value={this.props.principal}
                     //value={this.state.email}
@@ -135,35 +145,59 @@ class App extends Component {
                   />
                 {/* </CardSection>
                 <CardSection> */}
-                  <Text style={instructions}>
-                    2) Дата открытия вклада{'\n'}
-                  </Text>
-                  <Input
-                    placeholder="Дата открытия"
-                    label="Дата"
-                    onChangeText={this.onDateOpenChange.bind(this)}
+                  {/* <Text style={instructions}>
+                    2) Дата открытия вклада
+                  </Text> */}
+
+                  <DateInput
+                    label="Дата открытия вклада"
                     value={this.props.dateOpen}
+                    onPress={() => {
+                        this.setState({
+                        isDateTimePickerVisible: true
+                      });
+                    }}
                   />
+
+                  <DateTimePicker
+                    date={changeDate(this.props.dateOpen)}
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={(date) => {
+                      console.log('A date has been picked: ', date);
+                      this.setState({
+                        isDateTimePickerVisible: false
+                      });
+                    this.onDateOpenChange(initDate(date));
+                    }}
+                    //
+                    onCancel={() => {
+                      this.setState({
+                        isDateTimePickerVisible: false
+                      });
+                    }}
+                    datePickerModeAndroid='spinner'
+                  />
+
+
                   {/* <Button
                     style={{ fontSize: 20, borderColor: '#2196f3', borderWidth: 2 }}
                     onPress={showAndroidDatePicker} >
                     Обновить
                   </Button> */}
                   <Text style={instructions}>
-                    3) Дата закрытия вклада{'\n'}
+                    3) Дата закрытия вклада
                   </Text>
                   <Input
                     placeholder="Дата открытия"
                     label="Дата"
                     //onChangeText={() => {
-                    onSelectionChange={() => {
-                      this.setState({
-                        isDateTimePickerVisible: true
-                      });
-                    }}
+                    // onSelectionChange={() => {
+                    //   this.setState({
+                    //     isDateTimePickerVisible: true
+                    //   });
+                    // }}
                     value={this.props.dateOpen}
                   />
-
                     {/* <TouchableOpacity
                       //onPress={this.showDateTimePicker}
                       onPress={() => {
@@ -174,28 +208,35 @@ class App extends Component {
                     >
                       <Text>{this.props.dateOpen}</Text>
                     </TouchableOpacity> */}
-                      <Text>{date2}</Text>
-                    <DateTimePicker
+
+
+                    {/* <DateTimePicker
                       isVisible={this.state.isDateTimePickerVisible}
                       onConfirm={(date) => {
                         console.log('A date has been picked: ', date);
-                        date2 = date;
                         this.setState({
                           isDateTimePickerVisible: false
                         });
+                        //this.props.dateOpen = date;
+                        this.onDateOpenChange(date.toLocaleDateString());
                       }}
-                      //
                       onCancel={() => {
                         this.setState({
                           isDateTimePickerVisible: false
                         });
                       }}
                       datePickerModeAndroid='spinner'
-                    />
+                    /> */}
 
                   <Text style={instructions}>
-                    2) Дата открытия вклада {this.props.dateOpen} {this.props.principal}
+                     4) {this.props.dateOpen} {this.props.principal}
                   </Text>
+
+                  {/* <DatePicker
+                    // label="Pick a date, any date:"
+                    date={date}
+                    // onDateChange={setDate}
+                  /> */}
                   {/* <Text>
                     {DatePickerAndroid.open({
                       date: new Date(2020, 4, 25),
@@ -208,32 +249,6 @@ class App extends Component {
                       Календарь
                   </Button> */}
                 </CardSection>
-                        <TouchableOpacity
-                          //onPress={this.showDateTimePicker}
-                          onPress={() => {
-                            this.setState({
-                              isDateTimePickerVisible: true
-                            });
-                          }}
-                        >
-                          <Text>{this.props.dateOpen}</Text>
-                        </TouchableOpacity>
-                        <DateTimePicker
-                          isVisible={this.state.isDateTimePickerVisible}
-                          onConfirm={(date) => {
-                            console.log('A date has been picked: ', date);
-                            this.setState({
-                              isDateTimePickerVisible: false
-                            });
-                          }}
-                          //
-                          onCancel={() => {
-                            this.setState({
-                              isDateTimePickerVisible: false
-                            });
-                          }}
-                          datePickerModeAndroid='spinner'
-                        />
 
                 {/* <CalendarTest /> */}
 
