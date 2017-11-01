@@ -2,7 +2,8 @@ import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
-  onSelectionChange, onSubmitEditing, onFocus, onBlur, keyboardType }) => {
+  onSelectionChange, onSubmitEditing, onFocus, onBlur
+}) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
 
   return (
@@ -19,7 +20,8 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
         onSubmitEditing={onSubmitEditing}
         onFocus={onFocus}
         onBlur={onBlur}
-        keyboardType={keyboardType}
+        keyboardType='numeric'
+        underlineColorAndroid='transparent'
       />
     </View>
   );
@@ -30,9 +32,13 @@ const styles = {
     color: '#525050',
     paddingRight: 5,
     paddingLeft: 10,
+    //paddingTop: 2,
     fontSize: 15,
     lineHeight: 23,
-    flex: 1
+    flex: 1,
+    height: 37,
+    borderColor: 'gray',
+    borderWidth: 1
   },
   labelStyle: {
     fontSize: 15,

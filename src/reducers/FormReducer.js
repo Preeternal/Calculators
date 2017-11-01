@@ -1,19 +1,26 @@
+//import moment from 'moment';
 import {
   PRINCIPAL_CHANGED,
-  DATE_OPEN_CHANGED
+  DATE_OPEN_CHANGED,
+  DATE_CLOSED_CHANGED,
+  INTEREST1_CHANGED
 } from '../actions/types';
 
 import { initDate } from '../components';
 
-let today = new Date();
-const DD = today.getDate() < 10 ? '0' : 0;
-const MM = today.getMonth() < 9 ? '0' : 0;
-today = `${DD + today.getDate()}.${MM + (today.getMonth() + 1)}.${today.getFullYear()}`;
+const nextYear = (d) => {
+  //const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  return new Date(year + 1, month, day);
+};
 
 const INITIAL_STATE = {
   principal: '1000',
-  dateOpen: initDate(new Date())
-  //dateOpen: today
+  dateOpen: initDate(new Date()),
+  dateClosed: initDate(nextYear(new Date())),
+  interest1: '7'
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -22,6 +29,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, principal: action.payload };
     case DATE_OPEN_CHANGED:
       return { ...state, dateOpen: action.payload };
+    case DATE_CLOSED_CHANGED:
+      return { ...state, dateClosed: action.payload };
+    case INTEREST1_CHANGED:
+      return { ...state, interest1: action.payload };
     default:
       return state;
   }

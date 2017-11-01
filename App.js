@@ -27,9 +27,10 @@ import { connect } from 'react-redux';
 
 //import Button from 'react-native-button';
 
-import { principalChanged, dateOpenChanged } from './src/actions';
+import { principalChanged, dateOpenChanged,
+  dateClosedChanged, interest1Changed } from './src/actions';
 //import CalendarTest from './src/components/2.js';
-import { initDate, changeDate } from './src/components';
+import { initDate, changeDate, number } from './src/components';
 import { Input, DateInput, Button, CardSection, Card, Header } from './src/components/common';
 //import DatePicker from './src/components/DatePicker.js';
 
@@ -61,13 +62,21 @@ class App extends Component {
 
 
     onPrincipalChange(text) {
-      this.props.principalChanged(text);
+      const numberT = number(text);
+      this.props.principalChanged(numberT);
     }
 
     onDateOpenChange(text) {
       this.props.dateOpenChanged(text);
     }
 
+    onDateClosedChange(text) {
+      this.props.dateClosedChanged(text);
+    }
+
+    onInterest1Change(text) {
+      this.props.interest1Changed(number(text));
+    }
 
     // setDate = (date) => {
     //   this.setState({ date });
@@ -135,8 +144,7 @@ class App extends Component {
 
                   <Input
                     placeholder="Сумма вклада"
-                    label='Сумма вклада'
-                    keyboardType='numeric'
+                    label="Сумма вклада"
                     //label={this.state.types1[this.state.value1Index].label}
                     onChangeText={this.onPrincipalChange.bind(this)}
                     value={this.props.principal}
@@ -184,70 +192,49 @@ class App extends Component {
                     onPress={showAndroidDatePicker} >
                     Обновить
                   </Button> */}
-                  <Text style={instructions}>
-                    3) Дата закрытия вклада
-                  </Text>
-                  <Input
-                    placeholder="Дата открытия"
-                    label="Дата"
-                    //onChangeText={() => {
-                    // onSelectionChange={() => {
-                    //   this.setState({
-                    //     isDateTimePickerVisible: true
-                    //   });
-                    // }}
-                    value={this.props.dateOpen}
+                  <DateInput
+                    label="Дата закрытия вклада"                    
+                    value={this.props.dateClosed}
+                    onPress={() => {
+                        this.setState({
+                        isDateTimePickerVisible2: true
+                      });
+                    }}
                   />
-                    {/* <TouchableOpacity
-                      //onPress={this.showDateTimePicker}
-                      onPress={() => {
-                        this.setState({
-                          isDateTimePickerVisible: true
-                        });
-                      }}
-                    >
-                      <Text>{this.props.dateOpen}</Text>
-                    </TouchableOpacity> */}
 
-
-                    {/* <DateTimePicker
-                      isVisible={this.state.isDateTimePickerVisible}
-                      onConfirm={(date) => {
-                        console.log('A date has been picked: ', date);
-                        this.setState({
-                          isDateTimePickerVisible: false
-                        });
-                        //this.props.dateOpen = date;
-                        this.onDateOpenChange(date.toLocaleDateString());
-                      }}
-                      onCancel={() => {
-                        this.setState({
-                          isDateTimePickerVisible: false
-                        });
-                      }}
-                      datePickerModeAndroid='spinner'
-                    /> */}
+                  <DateTimePicker
+                    date={changeDate(this.props.dateClosed)}
+                    isVisible={this.state.isDateTimePickerVisible2}
+                    onConfirm={(date) => {
+                      console.log('A date has been picked: ', date);
+                      this.setState({
+                        isDateTimePickerVisible2: false
+                      });
+                    this.onDateClosedChange(initDate(date));
+                    }}
+                    //
+                    onCancel={() => {
+                      this.setState({
+                        isDateTimePickerVisible2: false
+                      });
+                    }}
+                    datePickerModeAndroid='spinner'
+                  />
+                  <Input
+                    placeholder="Ставка"
+                    label='Процентная ставка'
+                    //label={this.state.types1[this.state.value1Index].label}
+                    onChangeText={this.onInterest1Change.bind(this)}
+                    value={this.props.interest1}
+                    //value={this.state.email}
+                    //onChangeText={email => this.setState({ email })}
+                  />
 
                   <Text style={instructions}>
                      4) {this.props.dateOpen} {this.props.principal}
+                        {this.props.dateClosed} {this.props.interest1}
                   </Text>
 
-                  {/* <DatePicker
-                    // label="Pick a date, any date:"
-                    date={date}
-                    // onDateChange={setDate}
-                  /> */}
-                  {/* <Text>
-                    {DatePickerAndroid.open({
-                      date: new Date(2020, 4, 25),
-                      mode: 'spinner'
-                      })
-                    }
-                  </Text> */}
-
-                  {/* <Button onPress={this.onButtonPress.bind(this)}>
-                      Календарь
-                  </Button> */}
                 </CardSection>
 
                 {/* <CalendarTest /> */}
@@ -302,8 +289,15 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     principal: state.form.principal,
-    dateOpen: state.form.dateOpen
+    dateOpen: state.form.dateOpen,
+    dateClosed: state.form.dateClosed,
+    interest1: state.form.interest1
   };
 };
 
-export default connect(mapStateToProps, { principalChanged, dateOpenChanged })(App);
+export default connect(mapStateToProps, {
+   principalChanged,
+   dateOpenChanged,
+   dateClosedChanged,
+   interest1Changed
+ })(App);
