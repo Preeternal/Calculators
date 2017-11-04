@@ -29,9 +29,7 @@ const Start = () => (
       <Provider store={store}>
       <ScrollView>
         <App />
-
-        {/* <Text> {'\n'} </Text> */}
-        {/* <One hello={helloEN} /> */}
+        {/* <Text> {'\n'} </Text> */}      
       </ScrollView>
     </Provider>
 );

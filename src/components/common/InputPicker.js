@@ -1,17 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Picker } from 'react-native';
 
-const DateInput = ({ label, value, onPress }) => {
+const InputPicker = ({ label1, label, selectedValue, onValueChange, value }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
+
   return (
     <View style={containerStyle}>
-      <Text style={labelStyle}>{label}</Text>
-      <Text
+      <Text style={labelStyle}>{label1}</Text>
+      <Picker
+        selectedValue={selectedValue}
+        onValueChange={onValueChange}
         style={inputStyle}
-        onPress={onPress}
       >
-        {value}
-      </Text>      
+        <Picker.Item
+          label={label}
+          value={value}
+        />
+      </Picker>
     </View>
   );
 };
@@ -21,10 +26,9 @@ const styles = {
     color: '#525050',
     paddingRight: 5,
     paddingLeft: 10,
-    paddingTop: 3,
-    fontSize: 15,
-    lineHeight: 23,
-    //textDecorationLine: 'underline',
+    //paddingTop: 2,
+    //fontSize: 15,
+    //lineHeight: 23,
     flex: 1,
     height: 37,
     borderColor: 'gray',
@@ -43,4 +47,4 @@ const styles = {
   }
 };
 
-export { DateInput };
+export { InputPicker };

@@ -3,7 +3,8 @@ import {
   PRINCIPAL_CHANGED,
   DATE_OPEN_CHANGED,
   DATE_CLOSED_CHANGED,
-  INTEREST1_CHANGED
+  INTEREST1_CHANGED,
+  INTEREST2_CHANGED
 } from '../actions/types';
 
 import { initDate } from '../components';
@@ -20,7 +21,8 @@ const INITIAL_STATE = {
   principal: '1000',
   dateOpen: initDate(new Date()),
   dateClosed: initDate(nextYear(new Date())),
-  interest1: '7'
+  interest1: '7',
+  interest2: '0'
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,6 +35,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, dateClosed: action.payload };
     case INTEREST1_CHANGED:
       return { ...state, interest1: action.payload };
+    case INTEREST2_CHANGED:
+      return { ...state, interest2: action.payload };
     default:
       return state;
   }

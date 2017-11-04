@@ -6,8 +6,9 @@ import {
     //AppRegistry,
     //StyleSheet,
     Text,
-    //View,
+    View,
     Image,
+    //Picker
     //TouchableOpacity,
     //DatePickerAndroid,
     //TextInput,
@@ -28,10 +29,17 @@ import { connect } from 'react-redux';
 //import Button from 'react-native-button';
 
 import { principalChanged, dateOpenChanged,
-  dateClosedChanged, interest1Changed } from './src/actions';
+  dateClosedChanged, interest1Changed, interest2Changed } from './src/actions';
 //import CalendarTest from './src/components/2.js';
 import { initDate, changeDate, number } from './src/components';
-import { Input, DateInput, Button, CardSection, Card, Header } from './src/components/common';
+import { Input,
+         InputDate,
+         InputPicker,
+         //Button,
+         CardSection,
+         Card,
+         Header
+        } from './src/components/common';
 //import DatePicker from './src/components/DatePicker.js';
 
 class App extends Component {
@@ -78,19 +86,10 @@ class App extends Component {
       this.props.interest1Changed(number(text));
     }
 
-    // setDate = (date) => {
-    //   this.setState({ date });
-    // }
+    onInterest2Change(text) {
+      this.props.interest2Changed(number(text));
+    }
 
-
-    //showDateTimePicker() { this.setState({ isDateTimePickerVisible: true }); }
-
-    //hideDateTimePicker() { this.setState({ isDateTimePickerVisible: false }); }
-
-    // handleDatePicked(date) {
-    //     console.log('A date has been picked: ', date);
-    //     this.hideDateTimePicker();
-    // }
 
         render() {
         const { topimage, welcome, radioStyle, instructions } = styles;
@@ -100,46 +99,48 @@ class App extends Component {
 
         return (
             <Card>
-                <Header headerText="Депозитный калькулятор" />
-                <CardSection>
-                  <Image source={pic} style={topimage} />
-                </CardSection>
-                <CardSection>
+
+                 <Header headerText="Депозитный калькулятор" />
+                 <CardSection>
+                   <Image source={pic} style={topimage} />
+                 </CardSection>
+
+                 <CardSection>
+
                   <Text style={welcome}>
-                       Введите информацию о депозите:
+                        Введите информацию о депозите:
                   </Text>
-                {/* </CardSection>
-                <CardSection> */}
+
                   <RadioForm
-                    style={radioStyle}
-                    ref="radioForm"
-                    radio_props={this.state.types1}
-                    initial={0}
-                    formHorizontal
-                    labelHorizontal
-                    buttonColor={'#757171'}
-                    selectedButtonColor={'#525050'}
-                    //buttonInnerColor={'#e74c3c'}
-                    //buttonOuterColor={'#757171'}
-                    //buttonSize={40}
-                    //buttonOuterSize={60}
-                    labelColor={'#757171'}
-                    selectedLabelColor={'#525050'}
-                    animation
-                    onPress={(value, index) => {
-                      this.setState({
-                        value1: value,
-                        value1Index: index
-                      });
-                    }}
+                      style={radioStyle}
+                      ref="radioForm"
+                      radio_props={this.state.types1}
+                      initial={0}
+                      formHorizontal
+                      labelHorizontal
+                      buttonColor={'#757171'}
+                      selectedButtonColor={'#525050'}
+                      //buttonInnerColor={'#e74c3c'}
+                      //buttonOuterColor={'#757171'}
+                      //buttonSize={40}
+                      //buttonOuterSize={60}
+                      labelColor={'#757171'}
+                      selectedLabelColor={'#525050'}
+                      animation
+                      onPress={(value, index) => {
+                        this.setState({
+                          value1: value,
+                          value1Index: index
+                        });
+                      }}
                   />
-                  {/* <Text style={iStyle}>
-                      выбрано: {this.state.types1[this.state.value1Index].label}
-                  </Text> */}
-                {/* </CardSection> */}
-                {/* <CardSection> */}
+
+                   {/* <Text style={iStyle}>
+        //               выбрано: {this.state.types1[this.state.value1Index].label}
+        //           </Text> */}
+
                   {/* <Text style={instructions}>
-                    1) Сумма Вашего вклада (любая сумма):{'\n'}
+                     1) Сумма Вашего вклада (любая сумма):{'\n'}
                   </Text> */}
 
                   <Input
@@ -151,13 +152,9 @@ class App extends Component {
                     //value={this.state.email}
                     //onChangeText={email => this.setState({ email })}
                   />
-                {/* </CardSection>
-                <CardSection> */}
-                  {/* <Text style={instructions}>
-                    2) Дата открытия вклада
-                  </Text> */}
 
-                  <DateInput
+
+                  <InputDate
                     label="Дата открытия вклада"
                     value={this.props.dateOpen}
                     onPress={() => {
@@ -187,13 +184,14 @@ class App extends Component {
                   />
 
 
-                  {/* <Button
-                    style={{ fontSize: 20, borderColor: '#2196f3', borderWidth: 2 }}
-                    onPress={showAndroidDatePicker} >
-                    Обновить
-                  </Button> */}
-                  <DateInput
-                    label="Дата закрытия вклада"                    
+                   {/* <Button
+        //             style={{ fontSize: 20, borderColor: '#2196f3', borderWidth: 2 }}
+        //             onPress={showAndroidDatePicker} >
+        //             Обновить
+        //           </Button> */}
+
+                  <InputDate
+                    label="Дата закрытия вклада"
                     value={this.props.dateClosed}
                     onPress={() => {
                         this.setState({
@@ -230,18 +228,43 @@ class App extends Component {
                     //onChangeText={email => this.setState({ email })}
                   />
 
-                  <Text style={instructions}>
-                     4) {this.props.dateOpen} {this.props.principal}
-                        {this.props.dateClosed} {this.props.interest1}
-                  </Text>
+                  <Input
+                    placeholder="Ставка"
+                    label='Процентная ставка при досрочном рассторжении вклада (не полный месяц)'
+                    //label={this.state.types1[this.state.value1Index].label}
+                    onChangeText={this.onInterest2Change.bind(this)}
+                    value={this.props.interest2}
+                    //value={this.state.email}
+                    //onChangeText={email => this.setState({ email })}
+                  />
 
-                </CardSection>
+                  {/* <InputPicker
+                    label1='Капитализация процентов *'
+                    //selectedValue={this.state.language}
+                    //onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}
+                  /> */}
+                     {/* <Picker.Item label="Java" value="java" />
+                     <Picker.Item label="JavaScript" value="js" /> */}
+                   {/* </InputPicker> */}
 
-                {/* <CalendarTest /> */}
+                   {/* <Picker
+        //             selectedValue={this.state.language}
+        //             onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}
+        //           >
+        //             <Picker.Item label="Java" value="java" />
+        //             <Picker.Item label="JavaScript" value="js" />
+        //           </Picker> */}
 
+                   <Text style={instructions}>
+                      4) {this.props.dateOpen} {this.props.principal}
+                         {this.props.dateClosed} {this.props.interest1}
+                         {this.props.interest2}
+                   </Text>
 
-            </Card>
-        //  </Provider>
+                 </CardSection>
+
+         </Card>
+
         );
     }
 }
@@ -291,7 +314,8 @@ const mapStateToProps = state => {
     principal: state.form.principal,
     dateOpen: state.form.dateOpen,
     dateClosed: state.form.dateClosed,
-    interest1: state.form.interest1
+    interest1: state.form.interest1,
+    interest2: state.form.interest2
   };
 };
 
@@ -299,5 +323,6 @@ export default connect(mapStateToProps, {
    principalChanged,
    dateOpenChanged,
    dateClosedChanged,
-   interest1Changed
+   interest1Changed,
+   interest2Changed
  })(App);

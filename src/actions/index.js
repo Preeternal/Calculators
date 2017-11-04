@@ -2,7 +2,8 @@ import {
   PRINCIPAL_CHANGED,
   DATE_OPEN_CHANGED,
   DATE_CLOSED_CHANGED,
-  INTEREST1_CHANGED
+  INTEREST1_CHANGED,
+  INTEREST2_CHANGED
 } from './types';
 
 export const principalChanged = (text) => {
@@ -29,6 +30,13 @@ export const dateClosedChanged = (text) => {
 export const interest1Changed = (text) => {
   return {
     type: INTEREST1_CHANGED,
+    payload: text
+  };
+};
+
+export const interest2Changed = (text) => {
+  return {
+    type: INTEREST2_CHANGED,
     payload: text
   };
 };

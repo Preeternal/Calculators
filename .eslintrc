@@ -3,6 +3,6 @@
   "rules": {
     "arrow-body-style": 0,
      react/require-extension: "off",
-     no-param-reassign: 'off'
+     no-param-reassign: "off"
   }
 }
