@@ -29,7 +29,7 @@ const Start = () => (
       <Provider store={store}>
       <ScrollView>
         <App />
-        {/* <Text> {'\n'} </Text> */}      
+        {/* <Text> {'\n'} </Text> */}
       </ScrollView>
     </Provider>
 );

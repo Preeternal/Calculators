@@ -6,7 +6,7 @@ import {
     //AppRegistry,
     //StyleSheet,
     Text,
-    View,
+    //View,
     Image,
     //Picker
     //TouchableOpacity,
@@ -28,8 +28,13 @@ import { connect } from 'react-redux';
 
 //import Button from 'react-native-button';
 
-import { principalChanged, dateOpenChanged,
-  dateClosedChanged, interest1Changed, interest2Changed } from './src/actions';
+import { principalChanged,
+         dateOpenChanged,
+         dateClosedChanged,
+         interest1Changed,
+         interest2Changed,
+         platezChanged
+       } from './src/actions';
 //import CalendarTest from './src/components/2.js';
 import { initDate, changeDate, number } from './src/components';
 import { Input,
@@ -90,6 +95,10 @@ class App extends Component {
       this.props.interest2Changed(number(text));
     }
 
+    onPlatezChange(text) {
+      this.props.platezChanged(text);
+      console.log(text);
+    }
 
         render() {
         const { topimage, welcome, radioStyle, instructions } = styles;
@@ -238,27 +247,49 @@ class App extends Component {
                     //onChangeText={email => this.setState({ email })}
                   />
 
-                  {/* <InputPicker
-                    label1='Капитализация процентов *'
-                    //selectedValue={this.state.language}
-                    //onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}
-                  /> */}
-                     {/* <Picker.Item label="Java" value="java" />
-                     <Picker.Item label="JavaScript" value="js" /> */}
-                   {/* </InputPicker> */}
+                  <InputPicker
+                    label='Капитализация процентов *'
+                    label1="Да"
+                    value1="yes"
+                    label2="Нет"
+                    value2="no"
+                    selectedValue={this.props.platez}
+                    //selectedValue={this.state.platez}
+                    onValueChange={this.onPlatezChange.bind(this)}
+                    // onValueChange={(itemValue) => this.onPlatezChange.bind({
+                    //   itemValue,
+                    //   //value
+                    // })}
 
-                   {/* <Picker
-        //             selectedValue={this.state.language}
-        //             onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}
-        //           >
-        //             <Picker.Item label="Java" value="java" />
-        //             <Picker.Item label="JavaScript" value="js" />
-        //           </Picker> */}
+
+                    // onValueChange={(itemValue, itemIndex) => this.setState({
+                    //    platez: itemValue,
+                    //    //platezIndex: itemIndex
+                    // })}
+                  />
+
+                  <InputPicker
+                    label='Пополнение депозита'
+                    label1="Нет"
+                    value1="no"
+                    label2="Да"
+                    value2="yes"
+                    selectedValue={this.state.plusperiod}
+                    onValueChange={(itemValue, itemIndex) => this.setState({
+                      plusperiod: itemValue,
+                      plusperiodIndex: itemIndex
+                     })}
+                  />
+
 
                    <Text style={instructions}>
-                      4) {this.props.dateOpen} {this.props.principal}
-                         {this.props.dateClosed} {this.props.interest1}
-                         {this.props.interest2}
+                         {this.props.dateOpen}{'\n'}
+                         {this.props.principal}{'\n'}
+                         {this.props.dateClosed}{'\n'}
+                         {this.props.interest1}{'\n'}
+                         {this.props.interest2}{'\n'}
+                         {this.props.platez}{'\n'}
+                         {this.state.types1[this.state.value1Index].label}
                    </Text>
 
                  </CardSection>
@@ -315,7 +346,8 @@ const mapStateToProps = state => {
     dateOpen: state.form.dateOpen,
     dateClosed: state.form.dateClosed,
     interest1: state.form.interest1,
-    interest2: state.form.interest2
+    interest2: state.form.interest2,
+    platez: state.form.platez
   };
 };
 
@@ -324,5 +356,6 @@ export default connect(mapStateToProps, {
    dateOpenChanged,
    dateClosedChanged,
    interest1Changed,
-   interest2Changed
+   interest2Changed,
+   platezChanged
  })(App);
