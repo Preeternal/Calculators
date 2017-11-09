@@ -3,7 +3,7 @@ import { View, Text, Picker } from 'react-native';
 
 const InputPicker = ({ label, label1, label2,
   selectedValue, onValueChange, value1, value2 }) => {
-  const { inputStyle, inputStyle1, labelStyle, containerStyle } = styles;
+  const { inputStyle, pickerStyle, labelStyle, containerStyle } = styles;
 
   return (
   <View style={containerStyle}>
@@ -12,7 +12,7 @@ const InputPicker = ({ label, label1, label2,
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
-          style={inputStyle1}
+          style={pickerStyle}
         >
           <Picker.Item
             label={label1}
@@ -42,7 +42,7 @@ const styles = {
     borderColor: 'gray',
     borderWidth: 1
   },
-  inputStyle1: {
+  pickerStyle: {
     color: '#525050',
     //paddingRight: 5,
     //paddingLeft: 20,
@@ -59,7 +59,6 @@ const styles = {
     paddingLeft: 10,
     flex: 2,
     //marginRight: 10,
-
   },
   containerStyle: {
     height: 40,

@@ -14,6 +14,10 @@ import {
     //TextInput,
 } from 'react-native';
 
+import {
+  //StackNavigator,
+} from 'react-navigation';
+
 import RadioForm, {
     //RadioButton,
     //RadioButtonInput,
@@ -46,6 +50,12 @@ import { Input,
          Header
         } from './src/components/common';
 //import DatePicker from './src/components/DatePicker.js';
+
+// const App = StackNavigator({
+//   Home: { screen: HomeScreen },
+//   Second: { screen: SecondScreen },
+// });
+
 
 class App extends Component {
     constructor() {
@@ -339,6 +349,7 @@ class App extends Component {
     // },
 
   };
+
 
 const mapStateToProps = state => {
   return {
