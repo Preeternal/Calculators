@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, Picker } from 'react-native';
 
-const InputPicker = ({ label, label1, label2,
-  selectedValue, onValueChange, value1, value2 }) => {
+const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
   const { inputStyle, pickerStyle, labelStyle, containerStyle } = styles;
 
   return (
@@ -12,21 +11,38 @@ const InputPicker = ({ label, label1, label2,
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
+          //mode='dropdown'
+          options={options}
           style={pickerStyle}
         >
-          <Picker.Item
-            label={label1}
-            value={value1}
-          />
-          <Picker.Item
-            label={label2}
-            value={value2}
-          />
+          {options.map((item, index) => {
+            return (< Picker.Item label={item} value={index} key={index} />);
+          })}
+
         </Picker>
     </View>
   </View>
   );
 };
+
+
+// var options ={
+//         "1": "Home",
+//         "2": "Food",
+//         "3": "Car",
+//         "4": "Bank",
+// };
+//     <Picker
+//            style={{your_style}}
+//            mode="dropdown"
+//            selectedValue={this.state.selected}
+//            onValueChange={()=>{}}>
+//            {Object.keys(options).map((key) => {
+//              return (<Item label={this.props.options[key]} value={key} key={key}/>)
+//              //if you have a bunch of keys value pair
+//                             })}
+//     </Picker>
+
 
 const styles = {
   inputStyle: {

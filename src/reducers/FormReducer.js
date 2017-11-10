@@ -5,7 +5,8 @@ import {
   DATE_CLOSED_CHANGED,
   INTEREST1_CHANGED,
   INTEREST2_CHANGED,
-  PLATEZ_CHANGED
+  PLATEZ_CHANGED,
+  PLUSPERIOD_CHANGED
 } from '../actions/types';
 
 import { initDate } from '../components';
@@ -24,7 +25,8 @@ const INITIAL_STATE = {
   dateClosed: initDate(nextYear(new Date())),
   interest1: '7',
   interest2: '0',
-  platez: 'yes'
+  platez: '0',
+  plusperiod: '0'
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -41,6 +43,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, interest2: action.payload };
     case PLATEZ_CHANGED:
       return { ...state, platez: action.payload };
+    case PLUSPERIOD_CHANGED:
+      return { ...state, plusperiod: action.payload };
     default:
       return state;
   }

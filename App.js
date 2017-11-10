@@ -37,7 +37,8 @@ import { principalChanged,
          dateClosedChanged,
          interest1Changed,
          interest2Changed,
-         platezChanged
+         platezChanged,
+         plusperiodChanged
        } from './src/actions';
 //import CalendarTest from './src/components/2.js';
 import { initDate, changeDate, number } from './src/components';
@@ -107,7 +108,12 @@ class App extends Component {
 
     onPlatezChange(text) {
       this.props.platezChanged(text);
-      console.log(text);
+      //console.log(text);
+    }
+
+    onPlusperiodChange(text) {
+      this.props.plusperiodChanged(text);
+      //console.log(text);
     }
 
         render() {
@@ -115,6 +121,8 @@ class App extends Component {
         const pic = {
             uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg'
         };
+        //let platezOptions=['да', '● нет '];
+        //platezOptions[this.props.platez] = `√ ${platezOptions[this.props.platez]}`;
 
         return (
             <Card>
@@ -187,7 +195,7 @@ class App extends Component {
                     date={changeDate(this.props.dateOpen)}
                     isVisible={this.state.isDateTimePickerVisible}
                     onConfirm={(date) => {
-                      console.log('A date has been picked: ', date);
+                      //console.log('A date has been picked: ', date);
                       this.setState({
                         isDateTimePickerVisible: false
                       });
@@ -259,36 +267,20 @@ class App extends Component {
 
                   <InputPicker
                     label='Капитализация процентов *'
-                    label1="Да"
-                    value1="yes"
-                    label2="Нет"
-                    value2="no"
+                    options={['да', 'нет']}
                     selectedValue={this.props.platez}
-                    //selectedValue={this.state.platez}
                     onValueChange={this.onPlatezChange.bind(this)}
-                    // onValueChange={(itemValue) => this.onPlatezChange.bind({
-                    //   itemValue,
-                    //   //value
-                    // })}
-
-
-                    // onValueChange={(itemValue, itemIndex) => this.setState({
-                    //    platez: itemValue,
-                    //    //platezIndex: itemIndex
-                    // })}
                   />
 
                   <InputPicker
                     label='Пополнение депозита'
-                    label1="Нет"
-                    value1="no"
-                    label2="Да"
-                    value2="yes"
-                    selectedValue={this.state.plusperiod}
-                    onValueChange={(itemValue, itemIndex) => this.setState({
-                      plusperiod: itemValue,
-                      plusperiodIndex: itemIndex
-                     })}
+                    options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
+                    selectedValue={this.props.plusperiod}
+                    onValueChange={this.onPlusperiodChange.bind(this)}
+                    // onValueChange={(itemValue, itemLabel) => this.setState({
+                    //   plusperiod: itemValue,
+                    //   plusperiodIndex: itemLabel
+                    //  })}
                   />
 
 
@@ -299,6 +291,7 @@ class App extends Component {
                          {this.props.interest1}{'\n'}
                          {this.props.interest2}{'\n'}
                          {this.props.platez}{'\n'}
+                         {this.props.plusperiod}{'\n'}
                          {this.state.types1[this.state.value1Index].label}
                    </Text>
 
@@ -358,7 +351,8 @@ const mapStateToProps = state => {
     dateClosed: state.form.dateClosed,
     interest1: state.form.interest1,
     interest2: state.form.interest2,
-    platez: state.form.platez
+    platez: state.form.platez,
+    plusperiod: state.form.plusperiod
   };
 };
 
@@ -368,5 +362,6 @@ export default connect(mapStateToProps, {
    dateClosedChanged,
    interest1Changed,
    interest2Changed,
-   platezChanged
+   platezChanged,
+   plusperiodChanged
  })(App);
