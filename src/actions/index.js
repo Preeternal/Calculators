@@ -4,7 +4,8 @@ import {
   DATE_CLOSED_CHANGED,
   INTEREST1_CHANGED,
   INTEREST2_CHANGED,
-  PLATEZ_CHANGED
+  PLATEZ_CHANGED,
+  PLUSPERIOD_CHANGED
 } from './types';
 
 export const principalChanged = (text) => {
@@ -46,6 +47,13 @@ export const interest2Changed = (text) => {
 export const platezChanged = (text) => {
   return {
     type: PLATEZ_CHANGED,
-    payload: (text)
+    payload: text
+  };
+};
+
+export const plusperiodChanged = (text) => {
+  return {
+    type: PLUSPERIOD_CHANGED,
+    payload: text
   };
 };
