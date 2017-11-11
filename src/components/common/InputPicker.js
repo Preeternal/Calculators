@@ -18,7 +18,6 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
           {options.map((item, index) => {
             return (< Picker.Item label={item} value={index} key={index} />);
           })}
-
         </Picker>
     </View>
   </View>
@@ -48,15 +47,19 @@ const styles = {
   inputStyle: {
     //color: '#525050',
     paddingRight: 5,
-    paddingLeft: 10,
+    paddingLeft: 7.15,
+    flex: 1,
     //marginLeft: 0,
     //paddingTop: 2,
     //fontSize: 15,
-    //lineHeight: 23,
-    flex: 1,
-    height: 37,
+    //lineHeight: 15,
+    height: 52,
     borderColor: 'gray',
-    borderWidth: 1
+    //borderWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 0.5,
+    borderTopWidth: 0.7,
+    borderBottomWidth: 0.7
   },
   pickerStyle: {
     color: '#525050',
@@ -65,19 +68,28 @@ const styles = {
     //paddingTop: 2,
     //fontSize: 15,
     //lineHeight: 23,
-    flex: 1,
+    //flex: 1,
     //height: 37,
     //borderColor: 'gray',
     //borderWidth: 1
   },
   labelStyle: {
     fontSize: 15,
+    color: '#ffffff',
+    backgroundColor: '#656262',
     paddingLeft: 10,
     flex: 2,
-    //marginRight: 10,
+    lineHeight: 15,
+    height: 52,
+    borderColor: 'gray',
+    borderRightWidth: 0.5,
+    borderLeftWidth: 1,
+    borderTopWidth: 0.7,
+    borderBottomWidth: 0.7,
+    textAlignVertical: 'center'
   },
   containerStyle: {
-    height: 40,
+    height: 52,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center'

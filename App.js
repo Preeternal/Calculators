@@ -38,7 +38,8 @@ import { principalChanged,
          interest1Changed,
          interest2Changed,
          platezChanged,
-         plusperiodChanged
+         plusperiodChanged,
+         prinplusChanged
        } from './src/actions';
 //import CalendarTest from './src/components/2.js';
 import { initDate, changeDate, number } from './src/components';
@@ -116,11 +117,18 @@ class App extends Component {
       //console.log(text);
     }
 
+    onPrinplusChange(text) {
+      this.props.prinplusChanged(number(text));
+      //console.log(text);
+    }
+
+
         render() {
         const { topimage, welcome, radioStyle, instructions } = styles;
         const pic = {
             uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg'
         };
+
         //let platezOptions=['да', '● нет '];
         //platezOptions[this.props.platez] = `√ ${platezOptions[this.props.platez]}`;
 
@@ -231,7 +239,7 @@ class App extends Component {
                     date={changeDate(this.props.dateClosed)}
                     isVisible={this.state.isDateTimePickerVisible2}
                     onConfirm={(date) => {
-                      console.log('A date has been picked: ', date);
+                      //console.log('A date has been picked: ', date);
                       this.setState({
                         isDateTimePickerVisible2: false
                       });
@@ -266,7 +274,7 @@ class App extends Component {
                   />
 
                   <InputPicker
-                    label='Капитализация процентов *'
+                    label='Капитализация процентов (ежемесячно)'
                     options={['да', 'нет']}
                     selectedValue={this.props.platez}
                     onValueChange={this.onPlatezChange.bind(this)}
@@ -283,8 +291,19 @@ class App extends Component {
                     //  })}
                   />
 
+                  {parseFloat(this.props.plusperiod) === 0 ?
+                      null :
+                      (<Input
+                        label="На сумму"
+                        placeholder="введите сумму"
+                        onChangeText={this.onPrinplusChange.bind(this)}
+                        value={this.props.prinplus}
+                      />)
+                  }
+
 
                    <Text style={instructions}>
+                         {'\n'}
                          {this.props.dateOpen}{'\n'}
                          {this.props.principal}{'\n'}
                          {this.props.dateClosed}{'\n'}
@@ -292,6 +311,7 @@ class App extends Component {
                          {this.props.interest2}{'\n'}
                          {this.props.platez}{'\n'}
                          {this.props.plusperiod}{'\n'}
+                         {this.props.prinplus}{'\n'}
                          {this.state.types1[this.state.value1Index].label}
                    </Text>
 
@@ -352,7 +372,8 @@ const mapStateToProps = state => {
     interest1: state.form.interest1,
     interest2: state.form.interest2,
     platez: state.form.platez,
-    plusperiod: state.form.plusperiod
+    plusperiod: state.form.plusperiod,
+    prinplus: state.form.prinplus
   };
 };
 
@@ -363,5 +384,6 @@ export default connect(mapStateToProps, {
    interest1Changed,
    interest2Changed,
    platezChanged,
-   plusperiodChanged
+   plusperiodChanged,
+   prinplusChanged
  })(App);

@@ -5,3 +5,4 @@ export const INTEREST1_CHANGED = 'interest1_changed';
 export const INTEREST2_CHANGED = 'interest2_changed';
 export const PLATEZ_CHANGED = 'platez_changed';
 export const PLUSPERIOD_CHANGED = 'plusperiod_changed';
+export const PRINPLUS_CHANGED = 'prinplus_changed';

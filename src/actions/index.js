@@ -5,7 +5,8 @@ import {
   INTEREST1_CHANGED,
   INTEREST2_CHANGED,
   PLATEZ_CHANGED,
-  PLUSPERIOD_CHANGED
+  PLUSPERIOD_CHANGED,
+  PRINPLUS_CHANGED
 } from './types';
 
 export const principalChanged = (text) => {
@@ -54,6 +55,13 @@ export const platezChanged = (text) => {
 export const plusperiodChanged = (text) => {
   return {
     type: PLUSPERIOD_CHANGED,
+    payload: text
+  };
+};
+
+export const prinplusChanged = (text) => {
+  return {
+    type: PRINPLUS_CHANGED,
     payload: text
   };
 };
