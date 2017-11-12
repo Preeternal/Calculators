@@ -49,7 +49,8 @@ import { Input,
          //Button,
          CardSection,
          Card,
-         Header
+         Header,
+         Result
         } from './src/components/common';
 //import DatePicker from './src/components/DatePicker.js';
 
@@ -157,7 +158,7 @@ class App extends Component {
                       selectedButtonColor={'#525050'}
                       //buttonInnerColor={'#e74c3c'}
                       //buttonOuterColor={'#757171'}
-                      //buttonSize={40}
+                      buttonSize={15}
                       //buttonOuterSize={60}
                       labelColor={'#757171'}
                       selectedLabelColor={'#525050'}
@@ -301,6 +302,49 @@ class App extends Component {
                       />)
                   }
 
+                </CardSection>
+
+                <CardSection>
+
+                  <Text style={welcome}>
+                        Информация о выплатах:
+                  </Text>
+
+                  <Result
+                    label="Срок депозита"
+                    resultData={this.props.dateClosed}
+                  />
+
+                  <Result
+                    label="Ваша месячная выручка (в среднем)"
+                    resultData={
+                      `${
+                        this.state.types1[this.state.value1Index].label.charAt(0)} ${
+                        this.props.principal
+                        }`
+                    }
+                  />
+
+                  <Result
+                    label="Сумма выплаты всех начислений"
+                    resultData={
+                      `${
+                        this.state.types1[this.state.value1Index].label.charAt(0)} ${
+                        this.props.principal
+                        }`
+                    }
+                  />
+
+                  <Result
+                    label="Полная сумма на руки"
+                    resultData={
+                      `${
+                        this.state.types1[this.state.value1Index].label.charAt(0)} ${
+                        this.props.principal
+                        }`
+                    }
+                  />
+
 
                    <Text style={instructions}>
                          {'\n'}
@@ -316,6 +360,7 @@ class App extends Component {
                    </Text>
 
                  </CardSection>
+                 <Header headerText="The end" />
 
          </Card>
 
@@ -332,7 +377,7 @@ class App extends Component {
     //     marginLeft: 10,
     // },
     welcome: {
-        fontSize: 16,
+        fontSize: 17,
         margin: 10,
         alignSelf: 'center',
     },

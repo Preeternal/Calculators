@@ -1,20 +1,16 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const InputDate = ({ label, value, onPress }) => {
-  const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
+const Result = ({ label, resultData }) => {
+  const { containerStyle, labelStyle, labelTextStyle, resultStyle, resultDataStyle } = styles;
+
   return (
     <View style={containerStyle}>
       <View style={labelStyle}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
-      <View style={inputStyle}>
-        <Text
-          style={inputTextStyle}
-          onPress={onPress}
-        >
-          {value}
-        </Text>
+      <View style={resultStyle}>
+        <Text style={resultDataStyle}>{resultData}</Text>
       </View>
     </View>
   );
@@ -44,9 +40,9 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 5,
     //textAlignVertical: 'center',
-    //lineHeight: 15,
+    lineHeight: 15,
   },
-  inputStyle: {
+  resultStyle: {
     flex: 1,
     //textDecorationLine: 'underline',
     height: 52,
@@ -58,12 +54,12 @@ const styles = {
     borderBottomWidth: 0.7,
     justifyContent: 'center'
   },
-  inputTextStyle: {
+  resultDataStyle: {
     fontSize: 15,
-    color: '#525050',
+    //color: '#525050',
     paddingLeft: 10,
     paddingRight: 5,
   }
 };
 
-export { InputDate };
+export { Result };

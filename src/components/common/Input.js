@@ -39,7 +39,7 @@ const styles = {
     //alignItems: 'center'
   },
   labelStyle: {
-    backgroundColor: '#656262',
+    //backgroundColor: '#757171',
     flex: 2,
     height: 52,
     borderColor: 'gray',
@@ -51,7 +51,7 @@ const styles = {
   },
   labelTextStyle: {
     fontSize: 15,
-    color: '#ffffff',
+    //color: '#eeeeee',
     paddingLeft: 10,
     paddingRight: 5,
     //textAlignVertical: 'center',
@@ -74,7 +74,7 @@ const styles = {
     color: '#525050',
     paddingLeft: 10,
     paddingRight: 5,
-  }    
+  }
 };
 
 export { Input };
