@@ -4,16 +4,19 @@ import { TextInput, View, Text } from 'react-native';
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
   onSelectionChange, onSubmitEditing, onFocus, onBlur
 }) => {
-  const { inputStyle, labelStyle, containerStyle } = styles;
+  const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
 
   return (
     <View style={containerStyle}>
-        <Text style={labelStyle}>{label}</Text>
+      <View style={labelStyle}>
+        <Text style={labelTextStyle}>{label}</Text>
+      </View>
+      <View style={inputStyle}>
         <TextInput
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
           //autoCorrect={false}
-          style={inputStyle}
+          style={inputTextStyle}
           value={value}
           onChangeText={onChangeText}
           onSelectionChange={onSelectionChange}
@@ -23,19 +26,40 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
           keyboardType='numeric'
           underlineColorAndroid='transparent'
         />
+      </View>
     </View>
   );
 };
 
 const styles = {
-  inputStyle: {
-    color: '#525050',
-    paddingRight: 5,
-    paddingLeft: 10,
+  containerStyle: {
+    height: 52,
     flex: 1,
-    //paddingTop: 2,
+    flexDirection: 'row',
+    //alignItems: 'center'
+  },
+  labelStyle: {
+    backgroundColor: '#656262',
+    flex: 2,
+    height: 52,
+    borderColor: 'gray',
+    borderRightWidth: 0.5,
+    borderLeftWidth: 1,
+    borderTopWidth: 0.7,
+    borderBottomWidth: 0.7,
+    justifyContent: 'center'
+  },
+  labelTextStyle: {
     fontSize: 15,
+    color: '#ffffff',
+    paddingLeft: 10,
+    paddingRight: 5,
+    //textAlignVertical: 'center',
     lineHeight: 15,
+  },
+  inputStyle: {
+    flex: 1,
+    //textDecorationLine: 'underline',
     height: 52,
     borderColor: 'gray',
     //borderWidth: 1,
@@ -43,37 +67,14 @@ const styles = {
     borderLeftWidth: 0.5,
     borderTopWidth: 0.7,
     borderBottomWidth: 0.7,
-    textAlign: 'left'
+    justifyContent: 'center'
   },
-  labelStyle: {
+  inputTextStyle: {
     fontSize: 15,
-    color: '#ffffff',
-    backgroundColor: '#656262',
-    paddingRight: 5,
+    color: '#525050',
     paddingLeft: 10,
-    flex: 2,
-    lineHeight: 13,
-    height: 52,
-    borderColor: 'gray',
-    //borderWidth: 1,
-    borderRightWidth: 0.5,
-    borderLeftWidth: 1,
-    borderTopWidth: 0.7,
-    borderBottomWidth: 0.7,
-    // alignSelf: 'center',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    textAlignVertical: 'center'
-  },
-  containerStyle: {
-    height: 52,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    //justifyContent: 'center',
-    //alignSelf: 'center',
-    //textAlign: 'center'
-  }
+    paddingRight: 5,
+  }    
 };
 
 export { Input };

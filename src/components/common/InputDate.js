@@ -2,29 +2,52 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 const InputDate = ({ label, value, onPress }) => {
-  const { inputStyle, labelStyle, containerStyle } = styles;
+  const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
   return (
     <View style={containerStyle}>
-      <Text style={labelStyle}>{label}</Text>
-      <Text
-        style={inputStyle}
-        onPress={onPress}
-      >
-        {value}
-      </Text>
+      <View style={labelStyle}>
+        <Text style={labelTextStyle}>{label}</Text>
+      </View>
+      <View style={inputStyle}>
+        <Text
+          style={inputTextStyle}
+          onPress={onPress}
+        >
+          {value}
+        </Text>
+      </View>
     </View>
   );
 };
 
 const styles = {
-  inputStyle: {
-    color: '#525050',
-    paddingRight: 5,
-    paddingLeft: 7.15,
+  containerStyle: {
+    height: 52,
     flex: 1,
-    //paddingTop: 4,
+    flexDirection: 'row',
+    //alignItems: 'center'
+  },
+  labelStyle: {
+    backgroundColor: '#656262',
+    flex: 2,
+    height: 52,
+    borderColor: 'gray',
+    borderRightWidth: 0.5,
+    borderLeftWidth: 1,
+    borderTopWidth: 0.7,
+    borderBottomWidth: 0.7,
+    justifyContent: 'center'
+  },
+  labelTextStyle: {
     fontSize: 15,
-    lineHeight: 15,
+    color: '#ffffff',
+    paddingLeft: 10,
+    paddingRight: 5,
+    //textAlignVertical: 'center',
+    //lineHeight: 15,
+  },
+  inputStyle: {
+    flex: 1,
     //textDecorationLine: 'underline',
     height: 52,
     borderColor: 'gray',
@@ -33,29 +56,14 @@ const styles = {
     borderLeftWidth: 0.5,
     borderTopWidth: 0.7,
     borderBottomWidth: 0.7,
-    textAlignVertical: 'center'
+    justifyContent: 'center'
   },
-  labelStyle: {
+  inputTextStyle: {
     fontSize: 15,
-    color: '#ffffff',
-    backgroundColor: '#656262',
+    color: '#525050',
     paddingLeft: 10,
-    flex: 2,
-    lineHeight: 15,
-    height: 52,
-    borderColor: 'gray',
-    borderRightWidth: 0.5,
-    borderLeftWidth: 1,
-    borderTopWidth: 0.7,
-    borderBottomWidth: 0.7,
-    textAlignVertical: 'center'
-  },
-  containerStyle: {
-    height: 52,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
-  }
+    paddingRight: 5,
+  }  
 };
 
 export { InputDate };

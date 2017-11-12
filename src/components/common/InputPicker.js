@@ -2,23 +2,26 @@ import React from 'react';
 import { View, Text, Picker } from 'react-native';
 
 const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
-  const { inputStyle, pickerStyle, labelStyle, containerStyle } = styles;
+  const { containerStyle, labelStyle, labelTextStyle, inputStyle, pickerStyle } = styles;
 
   return (
   <View style={containerStyle}>
-      <Text style={labelStyle}>{label}</Text>
+      <View style={labelStyle}>
+        <Text style={labelTextStyle}>{label}</Text>
+      </View>
       <View style={inputStyle}>
-        <Picker
-          selectedValue={selectedValue}
-          onValueChange={onValueChange}
-          //mode='dropdown'
-          options={options}
-          style={pickerStyle}
-        >
-          {options.map((item, index) => {
-            return (< Picker.Item label={item} value={index} key={index} />);
-          })}
-        </Picker>
+        <Text style={{ paddingLeft: 10 }} />
+          <Picker
+            selectedValue={selectedValue}
+            onValueChange={onValueChange}
+            //mode='dropdown'
+            options={options}
+            style={pickerStyle}
+          >
+            {options.map((item, index) => {
+              return (< Picker.Item label={item} value={index} key={index} />);
+            })}
+          </Picker>
     </View>
   </View>
   );
@@ -44,55 +47,48 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
 
 
 const styles = {
-  inputStyle: {
-    //color: '#525050',
-    paddingRight: 5,
-    paddingLeft: 7.15,
-    flex: 1,
-    //marginLeft: 0,
-    //paddingTop: 2,
-    //fontSize: 15,
-    //lineHeight: 15,
+  containerStyle: {
     height: 52,
-    borderColor: 'gray',
-    //borderWidth: 1,
-    borderRightWidth: 1,
-    borderLeftWidth: 0.5,
-    borderTopWidth: 0.7,
-    borderBottomWidth: 0.7
-  },
-  pickerStyle: {
-    color: '#525050',
-    //paddingRight: 5,
-    //paddingLeft: 20,
-    //paddingTop: 2,
-    //fontSize: 15,
-    //lineHeight: 23,
-    //flex: 1,
-    //height: 37,
-    //borderColor: 'gray',
-    //borderWidth: 1
+    flex: 1,
+    flexDirection: 'row',
+    //alignItems: 'center'
   },
   labelStyle: {
-    fontSize: 15,
-    color: '#ffffff',
     backgroundColor: '#656262',
-    paddingLeft: 10,
     flex: 2,
-    lineHeight: 15,
     height: 52,
     borderColor: 'gray',
     borderRightWidth: 0.5,
     borderLeftWidth: 1,
     borderTopWidth: 0.7,
     borderBottomWidth: 0.7,
-    textAlignVertical: 'center'
+    justifyContent: 'center'
   },
-  containerStyle: {
-    height: 52,
+  labelTextStyle: {
+    fontSize: 15,
+    color: '#ffffff',
+    paddingLeft: 10,
+    paddingRight: 5,
+    //textAlignVertical: 'center',
+    //lineHeight: 15,
+  },
+  inputStyle: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
+    //textDecorationLine: 'underline',
+    height: 52,
+    borderColor: 'gray',
+    //borderWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 0.5,
+    borderTopWidth: 0.7,
+    borderBottomWidth: 0.7,
+    justifyContent: 'center',
+    flexDirection: 'row'
+    //alignItems: 'center'
+  },
+  pickerStyle: {
+    color: '#525050',
+    flex: 1
   }
 };
 
