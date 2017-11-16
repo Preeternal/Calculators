@@ -10,7 +10,7 @@ import {
   PRINPLUS_CHANGED
 } from '../actions/types';
 
-import { initDate } from '../components';
+import { initDate } from '../lib';
 
 const nextYear = (d) => {
   //const d = new Date();

@@ -26,7 +26,7 @@ import reducers from './src/reducers';
 const store = createStore(reducers);
 
 const Start = () => (
-      <Provider store={store}>
+    <Provider store={store}>
       <ScrollView>
         <App />
         {/* <Text> {'\n'} </Text> */}

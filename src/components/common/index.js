@@ -6,3 +6,4 @@ export * from './CardSection';
 export * from './Card';
 export * from './Header';
 export * from './Result';
+export * from './ResultSrok';

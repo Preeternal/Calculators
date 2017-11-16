@@ -42,7 +42,11 @@ import { principalChanged,
          prinplusChanged
        } from './src/actions';
 //import CalendarTest from './src/components/2.js';
-import { initDate, changeDate, number } from './src/components';
+import { initDate, changeDate, number, calculate } from './src/lib';
+// import {
+//          principal2 as principal2Selector,
+//          principal3 as principal3Selector
+//        } from './src/lib/calculate';
 import { Input,
          InputDate,
          InputPicker,
@@ -50,7 +54,8 @@ import { Input,
          CardSection,
          Card,
          Header,
-         Result
+         Result,
+         ResultSrok
         } from './src/components/common';
 //import DatePicker from './src/components/DatePicker.js';
 
@@ -129,6 +134,17 @@ class App extends Component {
         const pic = {
             uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg'
         };
+        // const { principal,
+        //   //principal2,
+        //   //principal3
+        // } = this.props;
+        // const principal2 = principal2Selector(this.props.principal);
+        // const principal3 = principal3Selector(this.props.principal);
+        const { principal2, principal3, srok } = calculate(
+          this.props.principal,
+          this.props.dateOpen,
+          this.props.dateClosed
+        );
 
         //let platezOptions=['да', '● нет '];
         //platezOptions[this.props.platez] = `√ ${platezOptions[this.props.platez]}`;
@@ -144,7 +160,9 @@ class App extends Component {
                  <CardSection>
 
                   <Text style={welcome}>
-                        Введите информацию о депозите:
+                      {!srok ? 'Проверьте правильность ввода:' :  
+                        'Введите информацию о депозите:'
+                      }
                   </Text>
 
                   <RadioForm
@@ -183,8 +201,8 @@ class App extends Component {
                     placeholder="Сумма вклада"
                     label="Сумма вклада"
                     //label={this.state.types1[this.state.value1Index].label}
-                    onChangeText={this.onPrincipalChange.bind(this)}
                     value={this.props.principal}
+                    onChangeText={this.onPrincipalChange.bind(this)}
                     //value={this.state.email}
                     //onChangeText={email => this.setState({ email })}
                   />
@@ -303,23 +321,23 @@ class App extends Component {
                   }
 
                 </CardSection>
-
+              {!srok ? null :
                 <CardSection>
 
                   <Text style={welcome}>
                         Информация о выплатах:
                   </Text>
 
-                  <Result
-                    label="Срок депозита"
-                    resultData={this.props.dateClosed}
+                  <ResultSrok
+                    label={`Срок депозита ${srok}`}
+                    //resultData={this.props.dateClosed}
                   />
 
                   <Result
                     label="Ваша месячная выручка (в среднем)"
                     resultData={
                       `${
-                        this.state.types1[this.state.value1Index].label.charAt(0)} ${
+                        this.state.types1[this.state.value1Index].label.charAt(0)}${
                         this.props.principal
                         }`
                     }
@@ -329,7 +347,7 @@ class App extends Component {
                     label="Сумма выплаты всех начислений"
                     resultData={
                       `${
-                        this.state.types1[this.state.value1Index].label.charAt(0)} ${
+                        this.state.types1[this.state.value1Index].label.charAt(0)}${
                         this.props.principal
                         }`
                     }
@@ -339,7 +357,7 @@ class App extends Component {
                     label="Полная сумма на руки"
                     resultData={
                       `${
-                        this.state.types1[this.state.value1Index].label.charAt(0)} ${
+                        this.state.types1[this.state.value1Index].label.charAt(0)}${
                         this.props.principal
                         }`
                     }
@@ -356,10 +374,14 @@ class App extends Component {
                          {this.props.platez}{'\n'}
                          {this.props.plusperiod}{'\n'}
                          {this.props.prinplus}{'\n'}
-                         {this.state.types1[this.state.value1Index].label}
+                         {this.state.types1[this.state.value1Index].label}{'\n'}
+                         {/* {principal2}{'\n'}
+                         {principal3} */}
+                         {`${principal2} ${principal3} ${srok}`}
                    </Text>
 
                  </CardSection>
+              }
                  <Header headerText="The end" />
 
          </Card>
@@ -412,6 +434,8 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     principal: state.form.principal,
+    // principal2: principal2Selector(state.form.principal),
+    // principal3: principal3Selector(state.form.principal),
     dateOpen: state.form.dateOpen,
     dateClosed: state.form.dateClosed,
     interest1: state.form.interest1,
