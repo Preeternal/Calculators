@@ -5,25 +5,25 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, pickerStyle } = styles;
 
   return (
-  <View style={containerStyle}>
+    <View style={containerStyle}>
       <View style={labelStyle}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
         <Text style={{ paddingLeft: 10 }} />
-          <Picker
-            selectedValue={selectedValue}
-            onValueChange={onValueChange}
-            //mode='dropdown'
-            options={options}
-            style={pickerStyle}
-          >
-            {options.map((item, index) => {
-              return (< Picker.Item label={item} value={index} key={index} />);
-            })}
-          </Picker>
+        <Picker
+          selectedValue={selectedValue}
+          onValueChange={onValueChange}
+          //mode='dropdown'
+          options={options}
+          style={pickerStyle}
+        >
+          {options.map((item, index) => {
+            return (< Picker.Item label={item} value={index} key={index} />);
+          })}
+        </Picker>
+      </View>
     </View>
-  </View>
   );
 };
 

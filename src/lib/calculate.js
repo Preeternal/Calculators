@@ -4,7 +4,8 @@ import {
 } from '../lib';
 import {
   daysString,
-  monthsString
+  monthsString,
+  daysAfterMonths
 } from './calculates';
 
 
@@ -19,42 +20,31 @@ export const calculate = (principal, dateOpen, dateClosed) => {
   const days = Math.round(
     (dateClosed.getTime() - dateOpen.getTime()) / oneDay
   );
-  const dni = daysString(days);
+  const DaysString = daysString(days);
+  const dni = DaysString.dni;
 
+  const DaysAfterMonths = daysAfterMonths(dateOpen, dateClosed, oneDay);
+  let days1 = DaysAfterMonths.days1;
+  const cf = DaysAfterMonths.cf;
 
-  const cf = 0;
+  const DaysString1 = daysString(days1);
+  days1 = DaysString1.days;
+  let dni1 = DaysString1.dni;
 
   let months =
     (((dateClosed.getFullYear() - dateOpen.getFullYear()) * 12)
     + ((dateClosed.getMonth() + 1) - (dateOpen.getMonth() + 1))) - cf;
-  //let mesyacyi;
-  //let ili = ' или ';
 
-  const Months = monthsString(months);
-  const mesyacyi = Months.mesyacyi;
-   months = Months.months;
+  const Months = monthsString(months, days1, dni1);
   const ili = Months.ili;
+  months = Months.months;
+  const mesyacyi = Months.mesyacyi;
+  days1 = Months.days1; //убирает дни если срок < 1 месяца
+  dni1 = Months.dni1;
 
-
-  // const monthsInString = months.toString();
-  // const si = parseInt(monthsInString.charAt(monthsInString.length - 1), 10);
-  // const si2 = parseInt(monthsInString.charAt(monthsInString.length - 2), 10);
-  // if 	((si === 0) && (monthsInString.length === 1)) {
-  //   mesyacyi = '';
-  //   months = '';
-  //   //daysM = '';
-  //   //dniM = '';
-  //   ili = '';
-  // } else if ((si === 1) && (si2 !== 1)) {
-  //   mesyacyi = ' месяц ';
-  // } else if ((si <= 4) && (si !== 0) && (si !== 1) && (si2 !== 1)) {
-  //   mesyacyi = ' месяца ';
-  // } else if ((si > 4) || (si2 === 1) || (si === 0)) {
-  //   mesyacyi = ' месяцев ';
-  // }
-  const result = {};
-  result.srok = days > 0 ? days + dni + ili + months + mesyacyi : undefined;
-  result.principal2 = principal * 2;
-  result.principal3 = result.principal2 / 4;
-  return result;
+  const srok = days > 0 ? days + dni + ili + months + mesyacyi + days1 + dni1
+    : undefined;
+  const principal2 = principal * 2;
+  const principal3 = principal2 / 4;
+  return { principal2, principal3, srok };
 };

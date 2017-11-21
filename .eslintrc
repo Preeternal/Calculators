@@ -1,8 +1,13 @@
 {
-  "extends": "rallycoding",
+  # "extends": "rallycoding",
+  # "extends": "eslint-config-airbnb",
+  extends: 'fbjs',
+  # "parser": "babel-eslint",
   "rules": {
     "arrow-body-style": 0,
      react/require-extension: "off",
-     no-param-reassign: "off"
+     no-param-reassign: "off",
+     max-len: ["error", 120],
+     comma-dangle: ["error", "only-multiline"]
   }
 }

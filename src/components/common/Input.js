@@ -23,8 +23,8 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
           onSubmitEditing={onSubmitEditing}
           onFocus={onFocus}
           onBlur={onBlur}
-          keyboardType='numeric'
-          underlineColorAndroid='transparent'
+          keyboardType="numeric"
+          underlineColorAndroid="transparent"
         />
       </View>
     </View>

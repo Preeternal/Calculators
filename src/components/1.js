@@ -10,12 +10,12 @@ import {
 const One = (props) => {
   const { viewStyle, textStyle } = styles;
   return (
-  <View style={viewStyle}>
+    <View style={viewStyle}>
 
-    <Text style={textStyle}>{props.hello}</Text>
+      <Text style={textStyle}>{props.hello}</Text>
 
-  </View>
-);
+    </View>
+  );
 };
 
 // const styles = StyleSheet.create({
