@@ -144,7 +144,11 @@ class App extends Component {
     const { principal2, principal3, srok } = calculate(
       this.props.principal,
       this.props.dateOpen,
-      this.props.dateClosed
+      this.props.dateClosed,
+      this.props.interest1,
+      this.props.platez,
+      this.props.plusperiod,
+      this.props.prinplus
     );
 
     // let platezOptions=['да', '● нет '];
