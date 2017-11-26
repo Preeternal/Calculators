@@ -34,7 +34,8 @@ export const daysYfun = (dateY, dateY1, dateOpen, oneDay) => {
       dateY2.setYear(dateY.getFullYear());
     }
     x = parseFloat(dateY1.getDate() - Math.round((dateY.getTime() - dateY2.getTime()) / oneDay));
-    dateY.setTime(dateY.getTime() - x * oneDay); // фиксируем отчётный период на последнем дне месяца
+    dateY.setTime(dateY.getTime() - x * oneDay);
+    // фиксируем отчётный период на последнем дне месяца
   }
 
   const daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);

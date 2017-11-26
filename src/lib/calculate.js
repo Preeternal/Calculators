@@ -97,12 +97,16 @@ export const calculate = (
         }
 
         if (platez === 0) {
-          totalinterest1 = principal * interest1 * daysY;	// начислено процентов
-          principal1 = totalinterest1 + principal1 + zxc; // вклад + процент за последний месяц в цикле
+          totalinterest1 = principal * interest1 * daysY;
+          // начислено процентов
+          principal1 = totalinterest1 + principal1 + zxc;
+          // вклад + процент за последний месяц в цикле
           cxz += zxc;
         } else if (platez === 1) {
-          totalinterest1 = (parseFloat(principal) + cxz) * interest1 * daysY;	// начислено процентов
-          principal1 = totalinterest1 + principal1 + zxc; // вклад + проценты за весь период депозита
+          totalinterest1 = (parseFloat(principal) + cxz) * interest1 * daysY;
+          // начислено процентов
+          principal1 = totalinterest1 + principal1 + zxc;
+          // вклад + проценты за весь период депозита
           cxz += zxc;
         }
 

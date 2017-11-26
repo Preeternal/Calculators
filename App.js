@@ -82,13 +82,13 @@ class App extends Component {
           value: 2
         }
       ],
-      value1: 0,
+      // value1: 0,
       value1Index: 0,
     };
   }
 
-  //state = { email: '', password: '', error: '', loading: false };
-  //state = { isDateTimePickerVisible: false };
+  // state = { email: '', password: '', error: '', loading: false };
+  // state = { isDateTimePickerVisible: false };
 
 
   onPrincipalChange(text) {
@@ -172,23 +172,23 @@ class App extends Component {
 
           <RadioForm
             style={radioStyle}
-            ref="radioForm"
+            // ref="radioForm"
             radio_props={this.state.types1}
             initial={0}
             formHorizontal
             labelHorizontal
-            buttonColor={'#757171'}
-            selectedButtonColor={'#525050'}
-            //buttonInnerColor={'#e74c3c'}
-            //buttonOuterColor={'#757171'}
+            buttonColor="#757171"
+            selectedButtonColor="#525050"
+            // buttonInnerColor={'#e74c3c'}
+            // buttonOuterColor={'#757171'}
             buttonSize={15}
-            //buttonOuterSize={60}
-            labelColor={'#757171'}
-            selectedLabelColor={'#525050'}
+            // buttonOuterSize={60}
+            labelColor="#757171"
+            selectedLabelColor="#525050"
             animation
             onPress={(value, index) => {
               this.setState({
-                value1: value,
+                // value1: value,
                 value1Index: index
               });
             }}
@@ -205,7 +205,7 @@ class App extends Component {
           <Input
             placeholder="Сумма вклада"
             label="Сумма вклада"
-            //label={this.state.types1[this.state.value1Index].label}
+            // label={this.state.types1[this.state.value1Index].label}
             value={this.props.principal}
             onChangeText={this.onPrincipalChange.bind(this)}
             //value={this.state.email}
@@ -393,7 +393,6 @@ class App extends Component {
   }
 }
 
-
 const styles = {
   // container: {
   //
@@ -416,7 +415,7 @@ const styles = {
     alignSelf: 'center',
   },
   radioStyle: {
-    //color: 'gray',
+    // color: 'gray',
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -434,7 +433,7 @@ const styles = {
 };
 
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     principal: state.form.principal,
     // principal2: principal2Selector(state.form.principal),
