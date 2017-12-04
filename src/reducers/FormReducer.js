@@ -24,10 +24,10 @@ const INITIAL_STATE = {
   principal: '1000',
   dateOpen: initDate(new Date()),
   dateClosed: initDate(nextYear(new Date())),
-  interest1: '7',
+  interest1: '10',
   interest2: '0',
-  platez: '0',
-  plusperiod: '0',
+  platez: 0,
+  plusperiod: 0,
   prinplus: '100'
 };
 

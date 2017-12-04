@@ -9,6 +9,7 @@
      no-param-reassign: "off",
      max-len: ["error", 100],
      comma-dangle: ["error", "only-multiline"],
+     eqeqeq: ["error", "always"],
      #no-use-before-define: ["error", { "variables": false }],
      #react/prop-types: [<enabled>, 0],
      #react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]

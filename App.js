@@ -40,12 +40,7 @@ import { principalChanged,
   plusperiodChanged,
   prinplusChanged
 } from './src/actions';
-//  import CalendarTest from './src/components/2.js';
-import { initDate, changeDate, number, calculate } from './src/lib';
-// import {
-//          principal2 as principal2Selector,
-//          principal3 as principal3Selector
-//        } from './src/lib/calculate';
+
 import { Input,
   InputDate,
   InputPicker,
@@ -56,7 +51,13 @@ import { Input,
   Result,
   ResultSrok
 } from './src/components/common';
-// import DatePicker from './src/components/DatePicker.js';
+
+import { initDate, changeDate, number, calculate } from './src/lib';
+// import {
+//          principal2 as principal2Selector,
+//          principal3 as principal3Selector
+//        } from './src/lib/calculate';
+
 
 // const App = StackNavigator({
 //   Home: { screen: HomeScreen },
@@ -141,14 +142,15 @@ class App extends Component {
     // } = this.props;
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
-    const { principal2, principal3, srok } = calculate(
-      this.props.principal,
+    const { srok, payment, principal2, totalinterest1 } = calculate(
+      parseFloat(this.props.principal),
       this.props.dateOpen,
       this.props.dateClosed,
-      this.props.interest1,
+      parseFloat(this.props.interest1) / 365 / 100,
+      parseFloat(this.props.interest2) / 365 / 100,
       this.props.platez,
       this.props.plusperiod,
-      this.props.prinplus
+      parseFloat(this.props.prinplus)
     );
 
     // let platezOptions=['да', '● нет '];
@@ -343,7 +345,7 @@ class App extends Component {
               resultData={
                 `${
                   this.state.types1[this.state.value1Index].label.charAt(0)}${
-                  this.props.principal
+                  payment.toFixed(2)
                 }`
               }
             />
@@ -353,7 +355,7 @@ class App extends Component {
               resultData={
                 `${
                   this.state.types1[this.state.value1Index].label.charAt(0)}${
-                  this.props.principal
+                  principal2.toFixed(2)
                 }`
               }
             />
@@ -363,7 +365,7 @@ class App extends Component {
               resultData={
                 `${
                   this.state.types1[this.state.value1Index].label.charAt(0)}${
-                  this.props.principal
+                  totalinterest1.toFixed(2)
                 }`
               }
             />
@@ -382,7 +384,9 @@ class App extends Component {
               {this.state.types1[this.state.value1Index].label}{'\n'}
               {/* {principal2}{'\n'}
               {principal3} */}
-              {`${principal2} ${principal3} ${srok}`}
+              {`${principal2}
+              ${totalinterest1}
+               ${srok}`}
             </Text>
 
           </CardSection>

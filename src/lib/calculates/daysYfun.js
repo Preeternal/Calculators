@@ -23,7 +23,7 @@ export const daysYfun = (dateY, dateY1, dateOpen, oneDay) => {
   }
 
   let x = 0;
-  if (dateY.getDate() != dateOpen.getDate()) {
+  if (dateY.getDate() !== dateOpen.getDate()) {
     const dateY2 = new Date();
     dateY2.setTime(dateY.getTime());
     if (dateY.getMonth() === 0) {

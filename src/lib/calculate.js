@@ -14,6 +14,7 @@ export const calculate = (
   dateOpen,
   dateClosed,
   interest1,
+  interest2,
   platez,
   plusperiod,
   prinplus
@@ -54,41 +55,35 @@ export const calculate = (
     : undefined;
 
   let totalinterest1 = 0;
-  let principal1 = 0;
-  //payments = months;
-  //var principal1=parseFloat(principal);
-  // var dateY = new Date();
-  // var dateY1 = new Date();
-  // dateY.setTime(date1.getTime());
-  // dateY1.setTime(date1.getTime());
-  //let x = 0;
+  let principal1 = principal;
   const dateY = new Date();
   const dateY1 = new Date();
   dateY.setTime(dateOpen.getTime());
   dateY1.setTime(dateOpen.getTime());
   let zxc = 0;
   let cxz = 0;
+  let daysY;
   if (days !== '')	{
     if (days > 0) {
-      for (var i = 1; i <= months; i++) {
+      for (let i = 1; i <= months; i++) {
 
-        const daysY = daysYfun(dateY, dateY1, dateOpen, oneDay);
+        daysY = daysYfun(dateY, dateY1, dateOpen, oneDay);
 
         if (plusperiod === 0) {
           zxc = 0;
-        } else if (plusperiod == 2) {
+        } else if (plusperiod === 2) {
           if (i > 1) {
             zxc = prinplus;
           } else {
             zxc = 0;
           }
-        } else if (plusperiod == 3) {
+        } else if (plusperiod === 3) {
           if (i / 3 === Math.floor(i / 3)) {
             zxc = prinplus;
           } else {
             zxc = 0;
           }
-        } else if (plusperiod == 4) {
+        } else if (plusperiod === 4) {
           if (i / 12 === Math.floor(i / 12)) {
             zxc = prinplus;
           } else {
@@ -97,13 +92,13 @@ export const calculate = (
         }
 
         if (platez === 0) {
-          totalinterest1 = principal * interest1 * daysY;
+          totalinterest1 = principal1 * interest1 * daysY;
           // начислено процентов
           principal1 = totalinterest1 + principal1 + zxc;
           // вклад + процент за последний месяц в цикле
           cxz += zxc;
         } else if (platez === 1) {
-          totalinterest1 = (parseFloat(principal) + cxz) * interest1 * daysY;
+          totalinterest1 = (principal + cxz) * interest1 * daysY;
           // начислено процентов
           principal1 = totalinterest1 + principal1 + zxc;
           // вклад + проценты за весь период депозита
@@ -111,11 +106,26 @@ export const calculate = (
         }
 
         dateY1.setTime(dateY.getTime());
+        //console.log(cxz);
+        //console.log(totalinterest1);
       }
     }
   }
 
-  const principal2 = principal * 2;
-  const principal3 = principal2 / 4;
-  return { principal2, principal3, srok };
+  const payment = ((principal1 - principal) + cxz) / months;
+  const principal2 = principal1 - principal - cxz;
+
+  // if (days !== 0) {
+  //   if (platez === 0) {
+  //     totalinterest1 = principal1 * interest2 * days;
+  //     principal1 = totalinterest1 + principal1;
+  //   } else if (platez === 1) {
+  //     totalinterest1 = (principal + cxz) * interest2 * days;	// начислено процентов
+  //     principal1 = totalinterest1 + principal1;
+  //   }
+  // }
+
+  //const principal2 = principal * 2;
+  //const principal3 = principal2 / 4;
+  return { srok, payment, principal2, totalinterest1 };
 };
