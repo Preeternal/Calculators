@@ -48,25 +48,25 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
 
 const styles = {
   containerStyle: {
+    borderBottomWidth: 1,
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
     height: 52,
-    flex: 1,
-    flexDirection: 'row',
-    //alignItems: 'center'
+    flexDirection: 'row'
   },
   labelStyle: {
-    //backgroundColor: '#757171',
     flex: 2,
-    height: 52,
-    borderColor: 'gray',
-    borderRightWidth: 0.5,
-    borderLeftWidth: 1,
-    borderTopWidth: 0.7,
-    borderBottomWidth: 0.7,
+    borderRightWidth: 1,
+    borderColor: '#ddd',
+    // borderColor: 'gray',
+    // borderRightWidth: 0.5,
+    // borderLeftWidth: 1,
+    // borderTopWidth: 0.7,
+    // borderBottomWidth: 0.7,
     justifyContent: 'center'
   },
   labelTextStyle: {
-    fontSize: 15,
-    //color: '#eeeeee',
+    //fontSize: 15,
     paddingLeft: 10,
     paddingRight: 5,
     //textAlignVertical: 'center',
@@ -75,14 +75,14 @@ const styles = {
   inputStyle: {
     flex: 1,
     //textDecorationLine: 'underline',
-    height: 52,
-    borderColor: 'gray',
+    //height: 52,
+    // borderColor: 'gray',
     //borderWidth: 1,
-    borderRightWidth: 1,
-    borderLeftWidth: 0.5,
-    borderTopWidth: 0.7,
-    borderBottomWidth: 0.7,
-    justifyContent: 'center',
+    // borderRightWidth: 1,
+    // borderLeftWidth: 0.5,
+    // borderTopWidth: 0.7,
+    // borderBottomWidth: 0.7,
+    // justifyContent: 'center',
     flexDirection: 'row'
     //alignItems: 'center'
   },

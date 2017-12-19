@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
-  onSelectionChange, onSubmitEditing, onFocus, onBlur
+  onSelectionChange, onSubmitEditing, onFocus, onBlur, style
 }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
 
@@ -16,7 +16,8 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
           //autoCorrect={false}
-          style={inputTextStyle}
+          // style={inputTextStyle}
+          style={[inputTextStyle, style]}
           value={value}
           onChangeText={onChangeText}
           onSelectionChange={onSelectionChange}
@@ -33,45 +34,41 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
 
 const styles = {
   containerStyle: {
+    borderBottomWidth: 1,
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
     height: 52,
-    flex: 1,
-    flexDirection: 'row',
-    //alignItems: 'center'
+    flexDirection: 'row'
   },
   labelStyle: {
-    //backgroundColor: '#757171',
     flex: 2,
-    height: 52,
-    borderColor: 'gray',
-    borderRightWidth: 0.5,
-    borderLeftWidth: 1,
-    borderTopWidth: 0.7,
-    borderBottomWidth: 0.7,
+    borderRightWidth: 1,
+    borderColor: '#ddd',
+    // borderLeftWidth: 1,
+    // borderTopWidth: 0.7,
+    // borderBottomWidth: 0.7,
     justifyContent: 'center'
   },
   labelTextStyle: {
-    fontSize: 15,
-    //color: '#eeeeee',
+    //fontSize: 15,
     paddingLeft: 10,
-    paddingRight: 5,
-    //textAlignVertical: 'center',
-    lineHeight: 15,
+    paddingRight: 5
   },
   inputStyle: {
     flex: 1,
-    //textDecorationLine: 'underline',
-    height: 52,
-    borderColor: 'gray',
-    //borderWidth: 1,
-    borderRightWidth: 1,
-    borderLeftWidth: 0.5,
-    borderTopWidth: 0.7,
-    borderBottomWidth: 0.7,
+    // textDecorationLine: 'underline',
+    // height: 52,
+    // borderColor: 'gray',
+    // borderWidth: 1,
+    // borderRightWidth: 1,
+    // borderLeftWidth: 0.5,
+    // borderTopWidth: 0.7,
+    // borderBottomWidth: 0.7,
     justifyContent: 'center'
   },
   inputTextStyle: {
-    fontSize: 15,
-    color: '#525050',
+    //fontSize: 15,
+    //color: '#525050',
     paddingLeft: 10,
     paddingRight: 5,
   }

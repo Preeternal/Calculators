@@ -85,16 +85,36 @@ class App extends Component {
       ],
       // value1: 0,
       value1Index: 0,
+      principalColor: '#525050',
+      interest1Color: '#525050',
+      interest2Color: '#525050',
+      prinplusColor: '#525050'
     };
   }
 
   // state = { email: '', password: '', error: '', loading: false };
   // state = { isDateTimePickerVisible: false };
 
+  onFocus(input, text) {
+    this.setState({
+      [`${input}Color`]: '#000000'
+    });
+    if (text === '0') {
+      this.props[`${input}Changed`]('');
+    }
+  }
+
+  onBlur(input, text) {
+    this.setState({
+      [`${input}Color`]: '#525050'
+    });
+    if (text === '') {
+      this.props[`${input}Changed`]('0');
+    }
+  }
 
   onPrincipalChange(text) {
-    const numberT = number(text);
-    this.props.principalChanged(numberT);
+    this.props.principalChanged(number(text));
   }
 
   onDateOpenChange(text) {
@@ -143,15 +163,26 @@ class App extends Component {
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
     const { srok, payment, principal2, totalinterest1 } = calculate(
-      parseFloat(this.props.principal),
+      Number(this.props.principal),
       this.props.dateOpen,
       this.props.dateClosed,
-      parseFloat(this.props.interest1) / 365 / 100,
-      parseFloat(this.props.interest2) / 365 / 100,
+      Number(this.props.interest1) / 365 / 100,
+      Number(this.props.interest2) / 365 / 100,
       this.props.platez,
       this.props.plusperiod,
-      parseFloat(this.props.prinplus)
+      Number(this.props.prinplus)
     );
+
+
+    // const clears = (text) => {
+    //   console.log(text);
+    //   if (text === '0') {
+    //     return text = '';
+    //   } else {
+    //     return text;
+    //   }
+    //   console.log(text);
+    // };
 
     // let platezOptions=['да', '● нет '];
     // platezOptions[this.props.platez] = `√ ${platezOptions[this.props.platez]}`;
@@ -162,9 +193,6 @@ class App extends Component {
         <Header headerText="Депозитный калькулятор" />
         <CardSection>
           <Image source={pic} style={topimage} />
-        </CardSection>
-
-        <CardSection>
 
           <Text style={welcome}>
             {!srok ? 'Проверьте правильность ввода:' :
@@ -195,139 +223,140 @@ class App extends Component {
               });
             }}
           />
-
-          {/* <Text style={iStyle}>
-//               выбрано: {this.state.types1[this.state.value1Index].label}
-//           </Text> */}
-
-          {/* <Text style={instructions}>
-             1) Сумма Вашего вклада (любая сумма):{'\n'}
-          </Text> */}
-
-          <Input
-            placeholder="Сумма вклада"
-            label="Сумма вклада"
-            // label={this.state.types1[this.state.value1Index].label}
-            value={this.props.principal}
-            onChangeText={this.onPrincipalChange.bind(this)}
-            //value={this.state.email}
-            //onChangeText={email => this.setState({ email })}
-          />
-
-
-          <InputDate
-            label="Дата открытия вклада"
-            value={this.props.dateOpen}
-            onPress={() => {
-              this.setState({
-                isDateTimePickerVisible: true
-              });
-            }}
-          />
-
-          <DateTimePicker
-            date={changeDate(this.props.dateOpen)}
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={(date) => {
-              //console.log('A date has been picked: ', date);
-              this.setState({
-                isDateTimePickerVisible: false
-              });
-              this.onDateOpenChange(initDate(date));
-            }}
-            //
-            onCancel={() => {
-              this.setState({
-                isDateTimePickerVisible: false
-              });
-            }}
-            datePickerModeAndroid="spinner"
-          />
-
-
-          {/* <Button
-        //             style={{ fontSize: 20, borderColor: '#2196f3', borderWidth: 2 }}
-        //             onPress={showAndroidDatePicker} >
-        //             Обновить
-        //           </Button> */}
-
-          <InputDate
-            label="Дата закрытия вклада"
-            value={this.props.dateClosed}
-            onPress={() => {
-              this.setState({
-                isDateTimePickerVisible2: true
-              });
-            }}
-          />
-
-          <DateTimePicker
-            date={changeDate(this.props.dateClosed)}
-            isVisible={this.state.isDateTimePickerVisible2}
-            onConfirm={(date) => {
-              //console.log('A date has been picked: ', date);
-              this.setState({
-                isDateTimePickerVisible2: false
-              });
-              this.onDateClosedChange(initDate(date));
-            }}
-            //
-            onCancel={() => {
-              this.setState({
-                isDateTimePickerVisible2: false
-              });
-            }}
-            datePickerModeAndroid="spinner"
-          />
-          <Input
-            placeholder="Ставка"
-            label="Процентная ставка"
-            //label={this.state.types1[this.state.value1Index].label}
-            onChangeText={this.onInterest1Change.bind(this)}
-            value={this.props.interest1}
-            //value={this.state.email}
-            //onChangeText={email => this.setState({ email })}
-          />
-
-          <Input
-            placeholder="Ставка"
-            label="Процентная ставка при досрочном рассторжении вклада (не полный месяц)"
-            //label={this.state.types1[this.state.value1Index].label}
-            onChangeText={this.onInterest2Change.bind(this)}
-            value={this.props.interest2}
-            //value={this.state.email}
-            //onChangeText={email => this.setState({ email })}
-          />
-
-          <InputPicker
-            label="Капитализация процентов (ежемесячно)"
-            options={['да', 'нет']}
-            selectedValue={this.props.platez}
-            onValueChange={this.onPlatezChange.bind(this)}
-          />
-
-          <InputPicker
-            label="Пополнение депозита"
-            options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
-            selectedValue={this.props.plusperiod}
-            onValueChange={this.onPlusperiodChange.bind(this)}
-            // onValueChange={(itemValue, itemLabel) => this.setState({
-            //   plusperiod: itemValue,
-            //   plusperiodIndex: itemLabel
-            //  })}
-          />
-
-          {parseFloat(this.props.plusperiod) === 0 ?
-            null :
-            (<Input
-              label="На сумму"
-              placeholder="введите сумму"
-              onChangeText={this.onPrinplusChange.bind(this)}
-              value={this.props.prinplus}
-            />)
-          }
-
         </CardSection>
+        <Input
+          placeholder="введите сумму"
+          label="Сумма вклада"
+          // label={this.state.types1[this.state.value1Index].label}
+          value={this.props.principal}
+          onChangeText={this.onPrincipalChange.bind(this)}
+          onBlur={ () => this.onBlur('principal', this.props.principal) }
+          onFocus={ () => this.onFocus('principal', this.props.principal) }
+          style={{ color: this.state.principalColor }}
+          //value={this.state.email}
+          //onChangeText={email => this.setState({ email })}
+        />
+        <InputDate
+          label="Дата открытия вклада"
+          value={this.props.dateOpen}
+          onPress={() => {
+            this.setState({
+              isDateTimePickerVisible: true
+            });
+          }}
+        />
+
+        <DateTimePicker
+          date={changeDate(this.props.dateOpen)}
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={(date) => {
+            //console.log('A date has been picked: ', date);
+            this.setState({
+              isDateTimePickerVisible: false
+            });
+            this.onDateOpenChange(initDate(date));
+          }}
+          //
+          onCancel={() => {
+            this.setState({
+              isDateTimePickerVisible: false
+            });
+          }}
+          datePickerModeAndroid="spinner"
+        />
+
+
+        {/* <Button
+      //             style={{ fontSize: 20, borderColor: '#2196f3', borderWidth: 2 }}
+      //             onPress={showAndroidDatePicker} >
+      //             Обновить
+      //           </Button> */}
+
+        <InputDate
+          label="Дата закрытия вклада"
+          value={this.props.dateClosed}
+          onPress={() => {
+            this.setState({
+              isDateTimePickerVisible2: true
+            });
+          }}
+        />
+
+        <DateTimePicker
+          date={changeDate(this.props.dateClosed)}
+          isVisible={this.state.isDateTimePickerVisible2}
+          onConfirm={(date) => {
+            //console.log('A date has been picked: ', date);
+            this.setState({
+              isDateTimePickerVisible2: false
+            });
+            this.onDateClosedChange(initDate(date));
+          }}
+          //
+          onCancel={() => {
+            this.setState({
+              isDateTimePickerVisible2: false
+            });
+          }}
+          datePickerModeAndroid="spinner"
+        />
+        <Input
+          placeholder="введите ставку"
+          label="Процентная ставка"
+          //label={this.state.types1[this.state.value1Index].label}
+          onChangeText={this.onInterest1Change.bind(this)}
+          onBlur={ () => this.onBlur('interest1', this.props.interest1) }
+          onFocus={ () => this.onFocus('interest1', this.props.interest1) }
+          style={{ color: this.state.interest1Color }}
+          value={this.props.interest1}
+          //value={this.state.email}
+          //onChangeText={email => this.setState({ email })}
+        />
+
+        <Input
+          placeholder="введите ставку"
+          label="Процентная ставка при досрочном рассторжении вклада (не полный месяц)"
+          //label={this.state.types1[this.state.value1Index].label}
+          onChangeText={this.onInterest2Change.bind(this)}
+          onBlur={ () => this.onBlur('interest2', this.props.interest2) }
+          onFocus={ () => this.onFocus('interest2', this.props.interest2) }
+          style={{ color: this.state.interest2Color }}
+          value={this.props.interest2}
+          //value={this.state.email}
+          //onChangeText={email => this.setState({ email })}
+        />
+
+        <InputPicker
+          label="Капитализация процентов (ежемесячно)"
+          options={['да', 'нет']}
+          selectedValue={this.props.platez}
+          onValueChange={this.onPlatezChange.bind(this)}
+        />
+
+        <InputPicker
+          label="Пополнение депозита"
+          options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
+          selectedValue={this.props.plusperiod}
+          onValueChange={this.onPlusperiodChange.bind(this)}
+          // onValueChange={(itemValue, itemLabel) => this.setState({
+          //   plusperiod: itemValue,
+          //   plusperiodIndex: itemLabel
+          //  })}
+        />
+
+        {parseFloat(this.props.plusperiod) === 0 ?
+          null :
+          (<Input
+            label="На сумму"
+            placeholder="введите сумму"
+            onChangeText={this.onPrinplusChange.bind(this)}
+            onBlur={ () => this.onBlur('prinplus', this.props.prinplus) }
+            onFocus={ () => this.onFocus('prinplus', this.props.prinplus) }
+            style={{ color: this.state.prinplusColor }}
+            value={this.props.prinplus}
+          />)
+        }
+
         {!srok ? null :
           <CardSection>
 
@@ -387,6 +416,7 @@ class App extends Component {
               {`${principal2}
               ${totalinterest1}
                ${srok}`}
+              {/*  {console.log(this.state)} */}
             </Text>
 
           </CardSection>

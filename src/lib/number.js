@@ -1,8 +1,8 @@
 export const number = (text) => {
-  if (text.match(',') != null) {
+  if (text.match(',') !== null) {
     text = text.replace(',', '.');
   }
-  if (text.match(/[*.*][0-9]*[*.*]/) != null) {
+  if (text.match(/[*.*][0-9]*[*.*]/) !== null) {
     if (text.match(/\.$/)) {
       text = text.replace(/\.$/, '');
     } else {
