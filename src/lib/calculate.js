@@ -1,5 +1,5 @@
 import {
-  //initDate,
+  initDate,
   changeDate
 } from '../lib';
 import {
@@ -63,28 +63,37 @@ export const calculate = (
   let zxc = 0;
   let cxz = 0;
   let daysY;
+  const n = days1 !== '' ? 1 : 0;
+  // const table = (date) => {
+  //   this.date = date;
+  // };
+  const table = [];
+  table.n = [];
+  table.date = [];
+  table.totalinterest1 = [];
+
   if (days !== '')	{
     if (days > 0) {
-      for (let i = 1; i <= months; i++) {
+      for (let i = 0; i < months + n; i++) {
 
         daysY = daysYfun(dateY, dateY1, dateOpen, oneDay);
 
         if (plusperiod === 0) {
           zxc = 0;
+        } else if (plusperiod === 1) {
+          if (i > 0) {
+            zxc = prinplus;
+          } else {
+            zxc = 0;
+          }
         } else if (plusperiod === 2) {
-          if (i > 1) {
+          if ((i + 1) / 3 === Math.floor((i + 1) / 3)) {
             zxc = prinplus;
           } else {
             zxc = 0;
           }
         } else if (plusperiod === 3) {
-          if (i / 3 === Math.floor(i / 3)) {
-            zxc = prinplus;
-          } else {
-            zxc = 0;
-          }
-        } else if (plusperiod === 4) {
-          if (i / 12 === Math.floor(i / 12)) {
+          if ((i + 1) / 12 === Math.floor((i + 1) / 12)) {
             zxc = prinplus;
           } else {
             zxc = 0;
@@ -106,12 +115,17 @@ export const calculate = (
         }
 
         dateY1.setTime(dateY.getTime());
-        //console.log(cxz);
+        table.n.push(i + 1);
+        table.date.push(initDate(dateY));
+        table.totalinterest1.push(totalinterest1.toFixed(2));
+        //console.log(table);
         //console.log(totalinterest1);
       }
     }
   }
 
+  // console.log(table);
+  // console.log(table.date);
   const payment = ((principal1 - principal) + cxz) / months;
   const principal2 = principal1 - principal - cxz;
 
@@ -127,5 +141,5 @@ export const calculate = (
 
   //const principal2 = principal * 2;
   //const principal3 = principal2 / 4;
-  return { srok, payment, principal2, totalinterest1 };
+  return { srok, payment, principal2, totalinterest1, table };
 };

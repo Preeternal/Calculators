@@ -6,7 +6,7 @@ import {
   //  AppRegistry,
   //  StyleSheet,
   Text,
-  // View,
+  View,
   Image,
   // Picker
   // TouchableOpacity,
@@ -25,6 +25,8 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 
 import DateTimePicker from 'react-native-modal-datetime-picker';
+
+// import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 
 import { connect } from 'react-redux';
@@ -49,7 +51,8 @@ import { Input,
   Card,
   Header,
   Result,
-  ResultSrok
+  ResultSrok,
+  Table
 } from './src/components/common';
 
 import { initDate, changeDate, number, calculate } from './src/lib';
@@ -148,7 +151,6 @@ class App extends Component {
     // console.log(text);
   }
 
-
   render() {
     const {
       topimage, welcome, radioStyle, instructions
@@ -162,7 +164,7 @@ class App extends Component {
     // } = this.props;
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
-    const { srok, payment, principal2, totalinterest1 } = calculate(
+    const { srok, payment, principal2, totalinterest1, table } = calculate(
       Number(this.props.principal),
       this.props.dateOpen,
       this.props.dateClosed,
@@ -172,7 +174,6 @@ class App extends Component {
       this.props.plusperiod,
       Number(this.props.prinplus)
     );
-
 
     // const clears = (text) => {
     //   console.log(text);
@@ -189,7 +190,6 @@ class App extends Component {
 
     return (
       <Card>
-
         <Header headerText="Депозитный калькулятор" />
         <CardSection>
           <Image source={pic} style={topimage} />
@@ -401,7 +401,7 @@ class App extends Component {
 
 
             <Text style={instructions}>
-              {'\n'}
+              {/* {'\n'}
               {this.props.dateOpen}{'\n'}
               {this.props.principal}{'\n'}
               {this.props.dateClosed}{'\n'}
@@ -410,19 +410,31 @@ class App extends Component {
               {this.props.platez}{'\n'}
               {this.props.plusperiod}{'\n'}
               {this.props.prinplus}{'\n'}
-              {this.state.types1[this.state.value1Index].label}{'\n'}
+              {this.state.types1[this.state.value1Index].label}{'\n'} */}
               {/* {principal2}{'\n'}
               {principal3} */}
-              {`${principal2}
+              {/* {`${principal2}
               ${totalinterest1}
-               ${srok}`}
+              ${srok}`}
+              {'\n'} */}
+              {/* {table.n} */}
               {/*  {console.log(this.state)} */}
             </Text>
-
           </CardSection>
+
         }
-        <Header headerText="The end" />
+
+        <Header headerText="Выписка со счёта" />
+
+        <Table
+          tablen={table.n}
+          tabled={table.date}
+          tablet={table.totalinterest1}
+        />
+
+        {/* <Header headerText="The end" /> */}
       </Card>
+
     );
   }
 }

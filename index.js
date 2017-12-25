@@ -5,15 +5,15 @@
 
 //import libraries
 import React, {
-    //Component
+//Component
 } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import {
-    AppRegistry,
-//    Text,
-    ScrollView,
+  AppRegistry,
+  // Text,
+  ScrollView,
 //  StyleSheet
 } from 'react-native';
 
@@ -26,12 +26,12 @@ import reducers from './src/reducers';
 const store = createStore(reducers);
 
 const Start = () => (
-    <Provider store={store}>
-      <ScrollView>
-        <App />
-        {/* <Text> {'\n'} </Text> */}
-      </ScrollView>
-    </Provider>
+  <Provider store={store}>
+    <ScrollView>
+      <App />
+      {/* <Text> {'\n'} </Text> */}
+    </ScrollView>
+  </Provider>
 );
 
 
