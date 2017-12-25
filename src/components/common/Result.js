@@ -18,6 +18,9 @@ const Result = ({ label, resultData }) => {
 
 const styles = {
   containerStyle: {
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: '#fff',
     height: 52,
     flex: 1,
     flexDirection: 'row',
@@ -25,6 +28,8 @@ const styles = {
   },
   labelStyle: {
     //backgroundColor: '#757171',
+    borderRightWidth: 1,
+    borderColor: '#ddd',
     flex: 2,
     height: 52,
     //borderColor: 'gray',
@@ -35,7 +40,7 @@ const styles = {
     justifyContent: 'center'
   },
   labelTextStyle: {
-    fontSize: 15,
+    //fontSize: 15,
     //color: '#eeeeee',
     paddingLeft: 10,
     paddingRight: 5,
@@ -55,7 +60,7 @@ const styles = {
     justifyContent: 'center'
   },
   resultDataStyle: {
-    fontSize: 15,
+    //fontSize: 15,
     //color: '#525050',
     paddingLeft: 10,
     paddingRight: 5,

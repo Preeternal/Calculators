@@ -18,6 +18,9 @@ const ResultSrok = ({ label }) => {
 
 const styles = {
   containerStyle: {
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: '#fff',
     height: 52,
     flex: 1,
     flexDirection: 'row',
@@ -35,11 +38,11 @@ const styles = {
     justifyContent: 'center'
   },
   labelTextStyle: {
-    fontSize: 15,
+    //fontSize: 15,
     //color: '#eeeeee',
     paddingLeft: 10,
     paddingRight: 5,
-    //textAlign: 'center',
+    textAlign: 'center',
     lineHeight: 15,
   },
   // resultStyle: {

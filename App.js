@@ -164,7 +164,7 @@ class App extends Component {
     // } = this.props;
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
-    const { srok, payment, principal2, totalinterest1, table } = calculate(
+    const { srok, payment, principal2, principal1, table } = calculate(
       Number(this.props.principal),
       this.props.dateOpen,
       this.props.dateClosed,
@@ -189,180 +189,182 @@ class App extends Component {
     // platezOptions[this.props.platez] = `√ ${platezOptions[this.props.platez]}`;
 
     return (
-      <Card>
-        <Header headerText="Депозитный калькулятор" />
-        <CardSection>
-          <Image source={pic} style={topimage} />
+      <View>
+        <Card>
+          <Header headerText="Депозитный калькулятор" />
+          <CardSection>
+            <Image source={pic} style={topimage} />
+            <Text style={welcome}>
+              {!srok ? 'Проверьте правильность ввода:' :
+                'Введите информацию о депозите:'
+              }
+            </Text>
 
-          <Text style={welcome}>
-            {!srok ? 'Проверьте правильность ввода:' :
-              'Введите информацию о депозите:'
-            }
-          </Text>
-
-          <RadioForm
-            style={radioStyle}
-            // ref="radioForm"
-            radio_props={this.state.types1}
-            initial={0}
-            formHorizontal
-            labelHorizontal
-            buttonColor="#757171"
-            selectedButtonColor="#525050"
-            // buttonInnerColor={'#e74c3c'}
-            // buttonOuterColor={'#757171'}
-            buttonSize={15}
-            // buttonOuterSize={60}
-            labelColor="#757171"
-            selectedLabelColor="#525050"
-            animation
-            onPress={(value, index) => {
-              this.setState({
+            <RadioForm
+              style={radioStyle}
+              // ref="radioForm"
+              radio_props={this.state.types1}
+              initial={0}
+              formHorizontal
+              labelHorizontal
+              buttonColor="#757171"
+              selectedButtonColor="#525050"
+              // buttonInnerColor={'#e74c3c'}
+              // buttonOuterColor={'#757171'}
+              buttonSize={15}
+              // buttonOuterSize={60}
+              labelColor="#757171"
+              selectedLabelColor="#525050"
+              animation
+              onPress={(value, index) => {
+                this.setState({
                 // value1: value,
-                value1Index: index
+                  value1Index: index
+                });
+              }}
+            />
+          </CardSection>
+          <Input
+            placeholder="введите сумму"
+            label="Сумма вклада"
+            // label={this.state.types1[this.state.value1Index].label}
+            value={this.props.principal}
+            onChangeText={this.onPrincipalChange.bind(this)}
+            onBlur={ () => this.onBlur('principal', this.props.principal) }
+            onFocus={ () => this.onFocus('principal', this.props.principal) }
+            style={{ color: this.state.principalColor }}
+          //value={this.state.email}
+          //onChangeText={email => this.setState({ email })}
+          />
+          <InputDate
+            label="Дата открытия вклада"
+            value={this.props.dateOpen}
+            onPress={() => {
+              this.setState({
+                isDateTimePickerVisible: true
               });
             }}
           />
-        </CardSection>
-        <Input
-          placeholder="введите сумму"
-          label="Сумма вклада"
-          // label={this.state.types1[this.state.value1Index].label}
-          value={this.props.principal}
-          onChangeText={this.onPrincipalChange.bind(this)}
-          onBlur={ () => this.onBlur('principal', this.props.principal) }
-          onFocus={ () => this.onFocus('principal', this.props.principal) }
-          style={{ color: this.state.principalColor }}
-          //value={this.state.email}
-          //onChangeText={email => this.setState({ email })}
-        />
-        <InputDate
-          label="Дата открытия вклада"
-          value={this.props.dateOpen}
-          onPress={() => {
-            this.setState({
-              isDateTimePickerVisible: true
-            });
-          }}
-        />
 
-        <DateTimePicker
-          date={changeDate(this.props.dateOpen)}
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={(date) => {
+          <DateTimePicker
+            date={changeDate(this.props.dateOpen)}
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={(date) => {
             //console.log('A date has been picked: ', date);
-            this.setState({
-              isDateTimePickerVisible: false
-            });
-            this.onDateOpenChange(initDate(date));
-          }}
-          //
-          onCancel={() => {
-            this.setState({
-              isDateTimePickerVisible: false
-            });
-          }}
-          datePickerModeAndroid="spinner"
-        />
+              this.setState({
+                isDateTimePickerVisible: false
+              });
+              this.onDateOpenChange(initDate(date));
+            }}
+            //
+            onCancel={() => {
+              this.setState({
+                isDateTimePickerVisible: false
+              });
+            }}
+            datePickerModeAndroid="spinner"
+          />
 
 
-        {/* <Button
+          {/* <Button
       //             style={{ fontSize: 20, borderColor: '#2196f3', borderWidth: 2 }}
       //             onPress={showAndroidDatePicker} >
       //             Обновить
       //           </Button> */}
 
-        <InputDate
-          label="Дата закрытия вклада"
-          value={this.props.dateClosed}
-          onPress={() => {
-            this.setState({
-              isDateTimePickerVisible2: true
-            });
-          }}
-        />
+          <InputDate
+            label="Дата закрытия вклада"
+            value={this.props.dateClosed}
+            onPress={() => {
+              this.setState({
+                isDateTimePickerVisible2: true
+              });
+            }}
+          />
 
-        <DateTimePicker
-          date={changeDate(this.props.dateClosed)}
-          isVisible={this.state.isDateTimePickerVisible2}
-          onConfirm={(date) => {
+          <DateTimePicker
+            date={changeDate(this.props.dateClosed)}
+            isVisible={this.state.isDateTimePickerVisible2}
+            onConfirm={(date) => {
             //console.log('A date has been picked: ', date);
-            this.setState({
-              isDateTimePickerVisible2: false
-            });
-            this.onDateClosedChange(initDate(date));
-          }}
-          //
-          onCancel={() => {
-            this.setState({
-              isDateTimePickerVisible2: false
-            });
-          }}
-          datePickerModeAndroid="spinner"
-        />
-        <Input
-          placeholder="введите ставку"
-          label="Процентная ставка"
-          //label={this.state.types1[this.state.value1Index].label}
-          onChangeText={this.onInterest1Change.bind(this)}
-          onBlur={ () => this.onBlur('interest1', this.props.interest1) }
-          onFocus={ () => this.onFocus('interest1', this.props.interest1) }
-          style={{ color: this.state.interest1Color }}
-          value={this.props.interest1}
+              this.setState({
+                isDateTimePickerVisible2: false
+              });
+              this.onDateClosedChange(initDate(date));
+            }}
+            //
+            onCancel={() => {
+              this.setState({
+                isDateTimePickerVisible2: false
+              });
+            }}
+            datePickerModeAndroid="spinner"
+          />
+          <Input
+            placeholder="введите ставку"
+            label="Процентная ставка"
+            //label={this.state.types1[this.state.value1Index].label}
+            onChangeText={this.onInterest1Change.bind(this)}
+            onBlur={ () => this.onBlur('interest1', this.props.interest1) }
+            onFocus={ () => this.onFocus('interest1', this.props.interest1) }
+            style={{ color: this.state.interest1Color }}
+            value={this.props.interest1}
           //value={this.state.email}
           //onChangeText={email => this.setState({ email })}
-        />
+          />
 
-        <Input
-          placeholder="введите ставку"
-          label="Процентная ставка при досрочном рассторжении вклада (не полный месяц)"
-          //label={this.state.types1[this.state.value1Index].label}
-          onChangeText={this.onInterest2Change.bind(this)}
-          onBlur={ () => this.onBlur('interest2', this.props.interest2) }
-          onFocus={ () => this.onFocus('interest2', this.props.interest2) }
-          style={{ color: this.state.interest2Color }}
-          value={this.props.interest2}
+          <Input
+            placeholder="введите ставку"
+            label="Процентная ставка при досрочном рассторжении вклада (не полный месяц)"
+            //label={this.state.types1[this.state.value1Index].label}
+            onChangeText={this.onInterest2Change.bind(this)}
+            onBlur={ () => this.onBlur('interest2', this.props.interest2) }
+            onFocus={ () => this.onFocus('interest2', this.props.interest2) }
+            style={{ color: this.state.interest2Color }}
+            value={this.props.interest2}
           //value={this.state.email}
           //onChangeText={email => this.setState({ email })}
-        />
+          />
 
-        <InputPicker
-          label="Капитализация процентов (ежемесячно)"
-          options={['да', 'нет']}
-          selectedValue={this.props.platez}
-          onValueChange={this.onPlatezChange.bind(this)}
-        />
+          <InputPicker
+            label="Капитализация процентов (ежемесячно)"
+            options={['да', 'нет']}
+            selectedValue={this.props.platez}
+            onValueChange={this.onPlatezChange.bind(this)}
+          />
 
-        <InputPicker
-          label="Пополнение депозита"
-          options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
-          selectedValue={this.props.plusperiod}
-          onValueChange={this.onPlusperiodChange.bind(this)}
+          <InputPicker
+            label="Пополнение депозита"
+            options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
+            selectedValue={this.props.plusperiod}
+            onValueChange={this.onPlusperiodChange.bind(this)}
           // onValueChange={(itemValue, itemLabel) => this.setState({
           //   plusperiod: itemValue,
           //   plusperiodIndex: itemLabel
           //  })}
-        />
+          />
 
-        {parseFloat(this.props.plusperiod) === 0 ?
-          null :
-          (<Input
-            label="На сумму"
-            placeholder="введите сумму"
-            onChangeText={this.onPrinplusChange.bind(this)}
-            onBlur={ () => this.onBlur('prinplus', this.props.prinplus) }
-            onFocus={ () => this.onFocus('prinplus', this.props.prinplus) }
-            style={{ color: this.state.prinplusColor }}
-            value={this.props.prinplus}
-          />)
-        }
+          {parseFloat(this.props.plusperiod) === 0 ?
+            null :
+            (<Input
+              label="На сумму"
+              placeholder="введите сумму"
+              onChangeText={this.onPrinplusChange.bind(this)}
+              onBlur={ () => this.onBlur('prinplus', this.props.prinplus) }
+              onFocus={ () => this.onFocus('prinplus', this.props.prinplus) }
+              style={{ color: this.state.prinplusColor }}
+              value={this.props.prinplus}
+            />)
+          }
+        </Card>
 
         {!srok ? null :
-          <CardSection>
+          <Card>
+            <Header headerText="Информация о выплатах" />
 
-            <Text style={welcome}>
-                  Информация о выплатах:
-            </Text>
+            {/* <Text style={welcome}>
+                Информация о выплатах:
+              </Text> */}
 
             <ResultSrok
               label={`Срок депозита ${srok}`}
@@ -394,50 +396,58 @@ class App extends Component {
               resultData={
                 `${
                   this.state.types1[this.state.value1Index].label.charAt(0)}${
-                  totalinterest1.toFixed(2)
+                  principal1.toFixed(2)
                 }`
               }
             />
 
 
-            <Text style={instructions}>
-              {/* {'\n'}
-              {this.props.dateOpen}{'\n'}
-              {this.props.principal}{'\n'}
-              {this.props.dateClosed}{'\n'}
-              {this.props.interest1}{'\n'}
-              {this.props.interest2}{'\n'}
-              {this.props.platez}{'\n'}
-              {this.props.plusperiod}{'\n'}
-              {this.props.prinplus}{'\n'}
-              {this.state.types1[this.state.value1Index].label}{'\n'} */}
-              {/* {principal2}{'\n'}
-              {principal3} */}
-              {/* {`${principal2}
-              ${totalinterest1}
-              ${srok}`}
-              {'\n'} */}
-              {/* {table.n} */}
-              {/*  {console.log(this.state)} */}
-            </Text>
-          </CardSection>
+            {/* <Text style={instructions}> */}
+            {/* {'\n'}
+          {this.props.dateOpen}{'\n'}
+          {this.props.principal}{'\n'}
+          {this.props.dateClosed}{'\n'}
+          {this.props.interest1}{'\n'}
+          {this.props.interest2}{'\n'}
+          {this.props.platez}{'\n'}
+          {this.props.plusperiod}{'\n'}
+          {this.props.prinplus}{'\n'}
+          {this.state.types1[this.state.value1Index].label}{'\n'} */}
+            {/* {principal2}{'\n'}
+          {principal3} */}
+            {/* {`${principal2}
+          ${totalinterest1}
+          ${srok}`}
+          {'\n'} */}
+            {/* {table.n} */}
+            {/*  {console.log(this.state)} */}
+            {/* </Text> */}
 
+          </Card>
         }
 
-        <Header headerText="Выписка со счёта" />
 
-        <Table
-          tablen={table.n}
-          tabled={table.date}
-          tablet={table.totalinterest1}
-        />
 
-        {/* <Header headerText="The end" /> */}
-      </Card>
+
+        {!srok ? null :
+          <Card>
+            <Header headerText="Выписка со счёта" />
+            <Table
+              col1={table.n}
+              col2={table.date}
+              col3={table.totalinterest1}
+              col4={table.daysY}
+              col5={table.totalinterest2}
+              col6={table.principal1}
+            />
+          </Card>
+        }
+      </View>
 
     );
   }
 }
+
 
 const styles = {
   // container: {

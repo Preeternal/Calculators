@@ -63,6 +63,7 @@ export const calculate = (
   let zxc = 0;
   let cxz = 0;
   let daysY;
+  let totalinterest2 = 0;
   const n = days1 !== '' ? 1 : 0;
   // const table = (date) => {
   //   this.date = date;
@@ -71,6 +72,9 @@ export const calculate = (
   table.n = [];
   table.date = [];
   table.totalinterest1 = [];
+  table.daysY = [];
+  table.totalinterest2 = [];
+  table.principal1 = [];
 
   if (days !== '')	{
     if (days > 0) {
@@ -113,11 +117,15 @@ export const calculate = (
           // вклад + проценты за весь период депозита
           cxz += zxc;
         }
+        totalinterest2 += totalinterest1; // начислено процентов итого
 
         dateY1.setTime(dateY.getTime());
         table.n.push(i + 1);
         table.date.push(initDate(dateY));
         table.totalinterest1.push(totalinterest1.toFixed(2));
+        table.daysY.push(daysY);
+        table.totalinterest2.push(totalinterest2.toFixed(2));
+        table.principal1.push(principal1.toFixed(2));
         //console.log(table);
         //console.log(totalinterest1);
       }
@@ -126,8 +134,8 @@ export const calculate = (
 
   // console.log(table);
   // console.log(table.date);
-  const payment = ((principal1 - principal) + cxz) / months;
-  const principal2 = principal1 - principal - cxz;
+  const payment = ((principal1 - principal) + cxz) / months; //месячная выручка (в среднем)
+  const principal2 = principal1 - principal - cxz; //Сумма выплаты всех начислений
 
   // if (days !== 0) {
   //   if (platez === 0) {
@@ -141,5 +149,5 @@ export const calculate = (
 
   //const principal2 = principal * 2;
   //const principal3 = principal2 / 4;
-  return { srok, payment, principal2, totalinterest1, table };
+  return { srok, payment, principal2, principal1, table };
 };
