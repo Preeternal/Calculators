@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 const InputDate = ({ label, value, onPress }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
@@ -9,12 +9,16 @@ const InputDate = ({ label, value, onPress }) => {
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
-        <Text
-          style={inputTextStyle}
+        <TouchableOpacity
           onPress={onPress}
         >
-          {value}
-        </Text>
+          <Text
+            style={inputTextStyle}
+            //onPress={onPress}
+          >
+            {value}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -22,10 +26,15 @@ const InputDate = ({ label, value, onPress }) => {
 
 const styles = {
   containerStyle: {
+    flex: 1,
+    // flexGrow: 1,
+    // flexShrink: 1,
+    // flexBasis: 52,
     borderBottomWidth: 1,
     backgroundColor: '#fff',
     borderColor: '#ddd',
-    height: 52,
+    //height: 52,
+    minHeight: 52,
     flexDirection: 'row',
 
   },
@@ -33,8 +42,6 @@ const styles = {
     flex: 2,
     borderRightWidth: 1,
     borderColor: '#ddd',
-    // borderColor: 'gray',
-    // borderRightWidth: 0.5,
     // borderLeftWidth: 1,
     // borderTopWidth: 0.7,
     // borderBottomWidth: 0.7,

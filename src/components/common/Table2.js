@@ -1,36 +1,43 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const ViewItem = (props) => {
-  return (
-    <View style={props.style}>
-      <Text style={styles.textStyle}>{props.value}</Text>
-    </View>
-  );
+// const ViewItem = (props) => {
+//   return (
+//     <View style={props.style}>
+//       <Text style={styles.textStyle}>{props.value}</Text>
+//     </View>
+//   );
+// };
+
+// const column = (col, style) => {
+//   return col.map((value, index) =>
+//     <ViewItem
+//       key={index + value.toString()}
+//       value={value}
+//       style={style}
+//     />
+//   );
+
+// };
+
+const row = (col) => {
+  //return 
 };
 
-const column = (col, style) => {
-  return col.map((value, index) =>
-    <ViewItem
-      key={index + value.toString()}
-      value={value}
-      style={style}
-    />
-  );
-
-};
-
-const Table = (props) => {
+const Table2 = (props) => {
   const {containerStyle, headerStyle, renderStyle, textStyle, ViewItemStyle,
     col1Style, col2Style, col3Style, col4Style, col5Style, col6Style} = styles;
   const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого',
     'общая сумма'];
-  const col1 = column(props.col1, ViewItemStyle);
-  const col2 = column(props.col2, ViewItemStyle);
-  const col3 = column(props.col3, ViewItemStyle);
-  const col4 = column(props.col4, ViewItemStyle);
-  const col5 = column(props.col5, ViewItemStyle);
-  const col6 = column(props.col6, ViewItemStyle);
+  // const col1 = column(props.col1, ViewItemStyle);
+  // const col2 = column(props.col2, ViewItemStyle);
+  // const col3 = column(props.col3, ViewItemStyle);
+  // const col4 = column(props.col4, ViewItemStyle);
+  // const col5 = column(props.col5, ViewItemStyle);
+  // const col6 = column(props.col6, ViewItemStyle);
+
+  console.log(props.value.n);
+
 
   return (
     <View style={containerStyle}>
@@ -55,7 +62,7 @@ const Table = (props) => {
         </View>
       </View>
       <View style={renderStyle}>
-        <View style={col1Style}>
+        {/* <View style={col1Style}>
           {col1}
         </View>
         <View style={col2Style}>
@@ -72,7 +79,7 @@ const Table = (props) => {
         </View>
         <View style={col6Style}>
           {col6}
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -138,4 +145,4 @@ const styles = {
 
 };
 
-export { Table };
+export { Table2 };

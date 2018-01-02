@@ -48,10 +48,15 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
 
 const styles = {
   containerStyle: {
+    flex: 1,
+    // flexGrow: 1,
+    // flexShrink: 1,
+    // flexBasis: 52,
     borderBottomWidth: 1,
     backgroundColor: '#fff',
     borderColor: '#ddd',
-    height: 52,
+    minHeight: 52,
+    //height: 52,
     flexDirection: 'row'
   },
   labelStyle: {
@@ -68,9 +73,7 @@ const styles = {
   labelTextStyle: {
     //fontSize: 15,
     paddingLeft: 10,
-    paddingRight: 5,
-    //textAlignVertical: 'center',
-    //lineHeight: 15,
+    paddingRight: 5,    
   },
   inputStyle: {
     flex: 1,

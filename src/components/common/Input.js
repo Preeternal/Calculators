@@ -5,7 +5,6 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
   onSelectionChange, onSubmitEditing, onFocus, onBlur, style
 }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
-
   return (
     <View style={containerStyle}>
       <View style={labelStyle}>
@@ -34,10 +33,15 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry,
 
 const styles = {
   containerStyle: {
+    flex: 1,
+    // flexGrow: 1,
+    // flexShrink: 1,
+    // flexBasis: 52,
     borderBottomWidth: 1,
     backgroundColor: '#fff',
     borderColor: '#ddd',
-    height: 52,
+    //height: 52,
+    minHeight: 52,
     flexDirection: 'row'
   },
   labelStyle: {
