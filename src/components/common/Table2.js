@@ -20,8 +20,78 @@ import { View, Text } from 'react-native';
 
 // };
 
-const row = (col) => {
-  //return 
+const cell = (row_value) => {
+  for (let i = 1; i <= row_value.length; i++) {
+    console.log(row_value[i]);
+    return (         
+      <View style={styles[`col${i}Style`]}>
+        <Text style={styles.textStyle}>{row_value[i-1]}</Text>
+      </View>
+    );
+  }
+}; 
+const row = (row, style) => {
+  return row.map((value, index) =>          
+    <View key={index} style={styles.renderStyle}>    
+      {cell(value)}
+    </View>
+      
+    
+
+    /* <View style={styles.col1Style}>
+      <Text style={styles.textStyle}>{value[0]}</Text>
+    </View>
+    <View style={styles.col2Style}>
+      <Text style={styles.textStyle}>{value[1]}</Text>
+    </View>
+    <View style={styles.col3Style}>
+      <Text style={styles.textStyle}>{value[2]}</Text>
+    </View>
+    <View style={styles.col4Style}>
+      <Text style={styles.textStyle}>{value[3]}</Text>
+    </View>
+    <View style={styles.col5Style}>
+      <Text style={styles.textStyle}>{value[4]}</Text>
+    </View>
+    <View style={styles.col6Style}>
+      <Text style={styles.textStyle}>{value[5]}</Text>
+    </View> 
+    
+    */
+  );
+};
+
+const transpose = (a) => {
+
+  // Calculate the width and height of the Array
+  var w = a.length || 0;
+  var h = a[0] instanceof Array ? a[0].length : 0;
+
+  // In case it is a zero matrix, no transpose routine needed.
+  if (h === 0 || w === 0) { return []; }
+
+  /**
+   * @var {Number} i Counter
+   * @var {Number} j Counter
+   * @var {Array} t Transposed data is stored in this array.
+   */
+  var i, j, t = [];
+
+  // Loop through every item in the outer array (height)
+  for (i = 0; i < h; i++) {
+
+    // Insert a new row (array)
+    t[i] = [];
+
+    // Loop through every item per item in outer array (width)
+    for (j = 0; j < w; j++) {
+
+      // Save transposed data.
+      t[i][j] = a[j][i];
+    }
+  }
+
+  return t;
 };
 
 const Table2 = (props) => {
@@ -35,8 +105,13 @@ const Table2 = (props) => {
   // const col4 = column(props.col4, ViewItemStyle);
   // const col5 = column(props.col5, ViewItemStyle);
   // const col6 = column(props.col6, ViewItemStyle);
-
+ 
   console.log(props.value.n);
+  const reverse = transpose([props.value.n, props.value.date, props.value.totalinterest1, 
+    props.value.daysY, props.value.totalinterest2, props.value.principal1]);
+  //console.log(reverse[0]);
+  const rows = row(reverse);
+  //console.log(rows);
 
 
   return (
@@ -61,8 +136,9 @@ const Table2 = (props) => {
           <Text style={textStyle}>{tableHead[5]}</Text>
         </View>
       </View>
-      <View style={renderStyle}>
-        {/* <View style={col1Style}>
+      {/* <View style={renderStyle}> */}
+      {rows}
+      {/* <View style={col1Style}>
           {col1}
         </View>
         <View style={col2Style}>
@@ -80,7 +156,7 @@ const Table2 = (props) => {
         <View style={col6Style}>
           {col6}
         </View> */}
-      </View>
+      {/* </View> */}
     </View>
   );
 };
@@ -104,7 +180,9 @@ const styles = {
     alignItems: 'stretch',
   },
   renderStyle: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderBottomWidth: 1, //
+    borderColor: '#ddd'   //
   },
   textStyle: {
     fontSize: 12,
@@ -120,6 +198,7 @@ const styles = {
     borderColor: '#ddd',
   },
   col2Style: {
+    //flex: 0.5,  
     flex: 0.9,    
     borderRightWidth: 1,
     borderColor: '#ddd',
