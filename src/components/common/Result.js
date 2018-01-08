@@ -21,7 +21,8 @@ const styles = {
     borderBottomWidth: 1,
     borderColor: '#ddd',
     backgroundColor: '#fff',
-    height: 52,
+    //height: 52,
+    minHeight: 52,
     flex: 1,
     flexDirection: 'row',
     //alignItems: 'center'
@@ -31,7 +32,7 @@ const styles = {
     borderRightWidth: 1,
     borderColor: '#ddd',
     flex: 2,
-    height: 52,
+    //height: 52,
     //borderColor: 'gray',
     // borderRightWidth: 0.5,
     // borderLeftWidth: 1,

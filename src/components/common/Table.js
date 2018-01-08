@@ -113,7 +113,7 @@ const styles = {
     borderColor: '#ddd',
   },
   col2Style: {
-    flex: 0.9,    
+    flex: 0.8,    
     borderRightWidth: 1,
     borderColor: '#ddd',
   },

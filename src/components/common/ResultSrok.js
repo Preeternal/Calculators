@@ -21,7 +21,8 @@ const styles = {
     borderBottomWidth: 1,
     borderColor: '#ddd',
     backgroundColor: '#fff',
-    height: 52,
+    //height: 52,
+    minHeight: 52,
     flex: 1,
     flexDirection: 'row',
     //alignItems: 'center'
@@ -29,7 +30,7 @@ const styles = {
   labelStyle: {
     //backgroundColor: '#757171',
     flex: 1,
-    height: 52,
+    //height: 52,
     // borderColor: 'gray',
     // borderRightWidth: 1,
     // borderLeftWidth: 1,

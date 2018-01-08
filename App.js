@@ -1,5 +1,6 @@
 import React, {
-  Component,
+  Component, 
+  //Fragment,
 } from 'react';
 
 import {
@@ -8,7 +9,7 @@ import {
   Text,
   View,
   Image,
-  TextInput,
+  //TextInput,
   // Picker
   // TouchableOpacity,
   // DatePickerAndroid,
@@ -27,12 +28,11 @@ import RadioForm, {
 
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
-// import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-
 
 import { connect } from 'react-redux';
 
 // import Button from 'react-native-button';
+import Pie from 'react-native-pie';
 
 import { principalChanged,
   dateOpenChanged,
@@ -53,7 +53,7 @@ import { Input,
   Header,
   Result,
   ResultSrok,
-  Table,
+  //Table,
   Table2
 } from './src/components/common';
 
@@ -155,7 +155,8 @@ class App extends Component {
 
   render() {
     const {
-      topimage, welcome, radioStyle, inputDataStyle, 
+      topimage, welcome, radioStyle, inputDataStyle, pieContainer, pie,
+      gauge, gaugeText,
       //instructions
     } = styles;
     const pic = {
@@ -413,56 +414,53 @@ class App extends Component {
                 }`
               }
             />
-
-
-            {/* <Text style={instructions}> */}
-            {/* {'\n'}
-          {this.props.dateOpen}{'\n'}
-          {this.props.principal}{'\n'}
-          {this.props.dateClosed}{'\n'}
-          {this.props.interest1}{'\n'}
-          {this.props.interest2}{'\n'}
-          {this.props.platez}{'\n'}
-          {this.props.plusperiod}{'\n'}
-          {this.props.prinplus}{'\n'}
-          {this.state.types1[this.state.value1Index].label}{'\n'} */}
-            {/* {principal2}{'\n'}
-          {principal3} */}
-            {/* {`${principal2}
-          ${totalinterest1}
-          ${srok}`}
-          {'\n'} */}
-            {/* {table.n} */}
-            {/*  {console.log(this.state)} */}
-            {/* </Text> */}
+            <CardSection>
+              <View style={pieContainer}
+              >
+                <Text> Доходность </Text>
+                <View style={pie}>                               
+                  <Pie
+                    radius={50}
+                    innerRadius={45}
+                    series={[Number(
+                      (principal2 / Number(this.props.principal) * 100).toFixed(2)
+                    )]}
+                    colors={['#f00']}
+                    backgroundColor="#ddd" 
+                  />
+                  <View style={gauge}>
+                    <Text style={gaugeText}>
+                      {(principal2 / Number(this.props.principal) * 100).toFixed(2)}%
+                    </Text>
+                  </View>
+                </View>
+              </View>           
+            </CardSection>
 
           </Card>
         }
 
-
-
-
         {!srok ? null :
-          <View>
-            <Card>
-              <Header headerText="Выписка со счёта" />
-              <Table
-                col1={table.n}
-                col2={table.date}
-                col3={table.totalinterest1}
-                col4={table.daysY}
-                col5={table.totalinterest2}
-                col6={table.principal1}
-              />
-            </Card>
-            <Card>
-              <Header headerText="Выписка со счёта2" />
-              <Table2
-                value={table}                
-              />
-            </Card>
-          </View>
+         
+          // <Card>
+          //   <Header headerText="Выписка со счёта" />
+          //   <Table
+          //     col1={table.n}
+          //     col2={table.date}
+          //     col3={table.totalinterest1}
+          //     col4={table.daysY}
+          //     col5={table.totalinterest2}
+          //     col6={table.principal1}
+          //   />
+          // </Card>
+          <Card>
+            <Header headerText="Выписка со счёта" />
+            <Table2
+              value={table}                
+            />
+          </Card>         
         }
+        
       </View>    
 
     );
@@ -503,7 +501,7 @@ const styles = {
     position: 'relative',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-  }
+  },
   // radioButtonWrap: {
   //   marginRight: 5
   // },
@@ -513,6 +511,31 @@ const styles = {
   //   alignSelf: 'stretch',
   //   textAlign: 'center'
   // },
+
+  pieContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center',  
+    paddingLeft: 70
+  },
+
+  pie: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    //flexDirection: 'row',
+  },
+  gauge: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gaugeText: {
+    backgroundColor: 'transparent',
+    color: '#000',
+    fontSize: 24,
+  },
 
 };
 
