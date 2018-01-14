@@ -5,7 +5,7 @@ export const daysString = (days) => {
   const simvol2 = parseInt(daysInString.charAt(daysInString.length - 2), 10);
   if 	((simvol === 0) && (daysInString.length === 1)) {
     dni = '';
-    days = '';
+    //days = '';
   } else if ((simvol === 1) && (simvol2 !== 1)) {
     dni = ' день';
   } else if ((simvol <= 4) && (simvol !== 0) && (simvol !== 1) && (simvol2 !== 1)) {
@@ -13,5 +13,5 @@ export const daysString = (days) => {
   } else if ((simvol > 4) || (simvol2 === 1) || (simvol === 0)) {
     dni = ' дней';
   }
-  return { dni, days };
+  return dni;
 };

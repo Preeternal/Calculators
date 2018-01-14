@@ -1,6 +1,5 @@
 import React, {
-  Component, 
-  //Fragment,
+  Component, Fragment,   
 } from 'react';
 
 import {
@@ -168,7 +167,7 @@ class App extends Component {
     // } = this.props;
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
-    const { srok, payment, principal2, principal1, table } = calculate(
+    const { days1, srok, payment, principal2, principal1, table } = calculate(
       Number(this.props.principal),
       this.props.dateOpen,
       this.props.dateClosed,
@@ -193,7 +192,7 @@ class App extends Component {
     // platezOptions[this.props.platez] = `√ ${platezOptions[this.props.platez]}`;
 
     return (
-      <View>
+      <Fragment>
         <Card>
           <Header headerText="Депозитный калькулятор" />
           <CardSection>
@@ -320,18 +319,20 @@ class App extends Component {
               //onChangeText={email => this.setState({ email })}
             />
 
-            <Input
-              placeholder="введите ставку"
-              label="Процентная ставка при досрочном рассторжении вклада (не полный месяц)"
-              //label={this.state.types1[this.state.value1Index].label}
-              onChangeText={this.onInterest2Change.bind(this)}
-              onBlur={ () => this.onBlur('interest2', this.props.interest2) }
-              onFocus={ () => this.onFocus('interest2', this.props.interest2) }
-              style={{ color: this.state.interest2Color }}
-              value={this.props.interest2}
+            {days1 > 0 ? 
+              <Input
+                placeholder="введите ставку"
+                label="Процентная ставка при досрочном рассторжении вклада (не полный месяц)"
+                //label={this.state.types1[this.state.value1Index].label}
+                onChangeText={this.onInterest2Change.bind(this)}
+                onBlur={ () => this.onBlur('interest2', this.props.interest2) }
+                onFocus={ () => this.onFocus('interest2', this.props.interest2) }
+                style={{ color: this.state.interest2Color }}
+                value={this.props.interest2}
               //value={this.state.email}
               //onChangeText={email => this.setState({ email })}
-            />
+              /> : null
+            }
 
             <InputPicker
               label="Капитализация процентов (ежемесячно)"
@@ -384,16 +385,20 @@ class App extends Component {
               label={`Срок депозита ${srok}`}
               //resultData={this.props.dateClosed}
             />
-
-            <Result
-              label="Ваша месячная выручка (в среднем)"
-              resultData={
-                `${
-                  this.state.types1[this.state.value1Index].label.charAt(0)}${
-                  payment.toFixed(2)
-                }`
-              }
-            />
+            
+            {isNaN(payment) || payment === Infinity ? null :
+              
+              <Result
+                label="Ваша месячная выручка (в среднем)"
+                resultData={
+                  `${
+                    this.state.types1[this.state.value1Index].label.charAt(0)}${
+                    payment.toFixed(2)
+                  }`
+                }
+              />
+              
+            }
 
             <Result
               label="Сумма выплаты всех начислений"
@@ -459,9 +464,9 @@ class App extends Component {
               value={table}                
             />
           </Card>         
-        }
-        
-      </View>    
+        }  
+
+      </Fragment>          
 
     );
   }
