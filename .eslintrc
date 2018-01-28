@@ -1,19 +1,20 @@
 {
   # "extends": "rallycoding",
-  #"extends": "eslint-config-airbnb",
-  extends: 'fbjs',
+  # "extends": "eslint-config-airbnb",
+  "extends": "fbjs",
   # "parser": "babel-eslint",
   "rules": {
     "arrow-body-style": 0,
-     react/require-extension: "off",
-     no-param-reassign: "off",
-     max-len: ["error", 100],
-     comma-dangle: ["error", "only-multiline"],
-     eqeqeq: ["error", "always"],
-     #no-use-before-define: ["error", { "variables": false }],
-     #react/prop-types: [<enabled>, 0],
-     #react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }],
-     "flowtype/require-valid-file-annotation": 0,
-     "flowtype/no-types-missing-file-annotation": 0
+    "react/require-extension": "off",
+    "no-param-reassign": "off",
+    "max-len": ["error", 100],
+    "comma-dangle": ["error", "only-multiline"],
+    "eqeqeq": ["error", "always"],
+    #"no-use-before-define": ["error", { "variables": false }],
+    #"react/prop-types": [<enabled>, 0],
+    #"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "flowtype/require-valid-file-annotation": 0,
+    "flowtype/no-types-missing-file-annotation": 0,
+    "no-unused-vars": 1
   }
 }

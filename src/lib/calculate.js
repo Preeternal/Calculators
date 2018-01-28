@@ -24,8 +24,7 @@ export const calculate = (
   const oneMinute = 60 * 1000;
   const oneHour = oneMinute * 60;
   const oneDay = oneHour * 24;
- 
-
+  
   const days = Math.round(
     (dateClosed.getTime() - dateOpen.getTime()) / oneDay
   );

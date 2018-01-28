@@ -1,4 +1,5 @@
-export const number = (text) => {
+//@flow
+export const number = (text:string) :string => {
   if (text.match(',') !== null) {
     text = text.replace(',', '.');
   }

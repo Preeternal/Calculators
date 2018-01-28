@@ -1,8 +1,9 @@
-export const daysString = (days) => {
-  let dni;
+//@flow
+export const daysString = (days:number) => {
+  let dni : string;
   const daysInString = days.toString();
-  const simvol = parseInt(daysInString.charAt(daysInString.length - 1), 10);
-  const simvol2 = parseInt(daysInString.charAt(daysInString.length - 2), 10);
+  const simvol = Number(daysInString.charAt(daysInString.length - 1));
+  const simvol2 = Number(daysInString.charAt(daysInString.length - 2));
   if 	((simvol === 0) && (daysInString.length === 1)) {
     dni = '';
     //days = '';

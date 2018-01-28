@@ -2,17 +2,10 @@ import React, {
   Component, Fragment,   
 } from 'react';
 
-import {
-  //  AppRegistry,
-  //  StyleSheet,
+import {  
   Text,
   View,
-  Image,
-  //TextInput,
-  // Picker
-  // TouchableOpacity,
-  // DatePickerAndroid,
-  // TextInput,
+  Image, 
 } from 'react-native';
 
 // import {
@@ -154,7 +147,8 @@ class App extends Component {
 
   render() {
     const {
-      topimage, welcome, radioStyle, inputDataStyle, pieContainer, pie,
+      topimage, 
+      welcome, radioStyle, inputDataStyle, pieContainer, pie,
       gauge, gaugeText,
       //instructions
     } = styles;
@@ -167,16 +161,27 @@ class App extends Component {
     // } = this.props;
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
-    const { days1, srok, payment, principal2, principal1, table } = calculate(
-      Number(this.props.principal),
-      this.props.dateOpen,
-      this.props.dateClosed,
-      Number(this.props.interest1) / 365 / 100,
-      Number(this.props.interest2) / 365 / 100,
-      this.props.platez,
-      this.props.plusperiod,
-      Number(this.props.prinplus)
-    );
+
+
+
+    // const { days1, srok, payment, principal2, principal1, table } = calculate(
+    //   Number(this.props.principal),
+    //   this.props.dateOpen,
+    //   this.props.dateClosed,
+    //   Number(this.props.interest1) / 365 / 100,
+    //   Number(this.props.interest2) / 365 / 100,
+    //   this.props.platez,
+    //   this.props.plusperiod,
+    //   Number(this.props.prinplus)
+    // );
+
+
+    const {days1, 
+      srok, 
+      payment, 
+      principal2, 
+      principal1, 
+      table} = this.props;
 
     // const clears = (text) => {
     //   console.log(text);
@@ -546,6 +551,17 @@ const styles = {
 
 
 const mapStateToProps = (state) => {
+  const { days1, srok, payment, principal2, principal1, table } = calculate(
+    Number(state.form.principal),
+    state.form.dateOpen,
+    state.form.dateClosed,
+    Number(state.form.interest1) / 365 / 100,
+    Number(state.form.interest2) / 365 / 100,
+    state.form.platez,
+    state.form.plusperiod,
+    Number(state.form.prinplus)
+  );
+
   return {
     principal: state.form.principal,
     // principal2: principal2Selector(state.form.principal),
@@ -556,7 +572,15 @@ const mapStateToProps = (state) => {
     interest2: state.form.interest2,
     platez: state.form.platez,
     plusperiod: state.form.plusperiod,
-    prinplus: state.form.prinplus
+    prinplus: state.form.prinplus,
+
+    days1, 
+    srok, 
+    payment, 
+    principal2, 
+    principal1, 
+    table     
+
   };
 };
 
