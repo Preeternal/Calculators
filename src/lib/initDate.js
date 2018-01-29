@@ -1,4 +1,5 @@
-export const initDate = (dateL) => {
+//@flow
+export const initDate = (dateL : Date) : string => {
   //const date = dateL;
   const DD = dateL.getDate() < 10 ? '0' : 0;
   const MM = dateL.getMonth() < 9 ? '0' : 0;

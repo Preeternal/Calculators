@@ -1,4 +1,5 @@
-export const monthsString = (months) => {
+//@flow
+export const monthsString = (months : number) : string  => {
   let mesyacyi;  
   const monthsInString = months.toString();
   const si = parseInt(monthsInString.charAt(monthsInString.length - 1), 10);
@@ -6,11 +7,13 @@ export const monthsString = (months) => {
   if 	((si === 0) && (monthsInString.length === 1)) {
     mesyacyi = '';    
   } else if ((si === 1) && (si2 !== 1)) {
-    mesyacyi = ' месяц ';
+    mesyacyi = 'месяц';
   } else if ((si <= 4) && (si !== 0) && (si !== 1) && (si2 !== 1)) {
-    mesyacyi = ' месяца ';
+    mesyacyi = 'месяца';
   } else if ((si > 4) || (si2 === 1) || (si === 0)) {
-    mesyacyi = ' месяцев ';
-  }  
+    mesyacyi = 'месяцев';
+  } else {
+    mesyacyi = '';  
+  } 
   return mesyacyi;
 };

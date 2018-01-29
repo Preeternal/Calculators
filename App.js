@@ -450,19 +450,7 @@ class App extends Component {
           </Card>
         }
 
-        {!srok ? null :
-         
-          // <Card>
-          //   <Header headerText="Выписка со счёта" />
-          //   <Table
-          //     col1={table.n}
-          //     col2={table.date}
-          //     col3={table.totalinterest1}
-          //     col4={table.daysY}
-          //     col5={table.totalinterest2}
-          //     col6={table.principal1}
-          //   />
-          // </Card>
+        {!srok ? null :          
           <Card>
             <Header headerText="Выписка со счёта" />
             <Table2

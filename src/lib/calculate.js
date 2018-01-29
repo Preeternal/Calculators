@@ -1,3 +1,4 @@
+//@flow
 import {
   initDate,
   changeDate
@@ -10,48 +11,48 @@ import {
 } from './calculates';
 
 export const calculate = (
-  principal,
-  dateOpen,
-  dateClosed,
-  interest1,
-  interest2,
-  platez,
-  plusperiod,
-  prinplus
+  principal : number,
+  dateOpen : string,
+  dateClosed : string,
+  interest1 : number,
+  interest2 : number,
+  platez : number,
+  plusperiod : number,
+  prinplus : number
 ) => {
-  dateOpen = changeDate(dateOpen);
-  dateClosed = changeDate(dateClosed);
+  const dOpen : Date = changeDate(dateOpen);
+  const dClosed : Date = changeDate(dateClosed);
   const oneMinute = 60 * 1000;
   const oneHour = oneMinute * 60;
   const oneDay = oneHour * 24;
   
   const days = Math.round(
-    (dateClosed.getTime() - dateOpen.getTime()) / oneDay
+    (dClosed.getTime() - dOpen.getTime()) / oneDay
   );
-  const dni = daysString(days); // '', день, дня, дней  
+  const dni: string = daysString(days); // '', день, дня, дней  
 
-  const DaysAfterMonths = daysAfterMonths(dateOpen, dateClosed, oneDay);
+  const DaysAfterMonths: {days1: number, cf: number} = daysAfterMonths(dOpen, dClosed, oneDay);
   let days1 = DaysAfterMonths.days1;
   const cf = DaysAfterMonths.cf;
-  let dni1 = daysString(days1); // '', день, дня, дней  
+  let dni1: string = daysString(days1); // '', день, дня, дней  
   
   let months =
-    (((dateClosed.getFullYear() - dateOpen.getFullYear()) * 12)
-    + ((dateClosed.getMonth() + 1) - (dateOpen.getMonth() + 1))) - cf;  
-  const mesyacyi = monthsString(months);// '',  месяц , месяца, месяцев
+    (((dClosed.getFullYear() - dOpen.getFullYear()) * 12)
+    + ((dClosed.getMonth() + 1) - (dOpen.getMonth() + 1))) - cf;  
+  const mesyacyi: string = monthsString(months);// '',  месяц , месяца, месяцев
   
-  const ili = ' или ';
+  //const ili = ' или ';
 
-  const srok = days > 0 ? (() => { 
+  const srok = days > 0 ? (() : string => { 
     switch (true) {
       // case (days <= 0):
       //   return undefined;
       case (months === 0):
-        return days + dni;      
+        return `${days} ${dni}`;      
       case (days1 === 0):
-        return days + dni + ili + months + mesyacyi;       
+        return `${days} ${dni} или ${months} ${mesyacyi}`;       
       default: 
-        return days + dni + ili + months + mesyacyi + days1 + dni1;
+        return `${days} ${dni}  или ${months} ${mesyacyi} ${days1} ${dni1}`;
     }
   })() : undefined;
 
@@ -59,28 +60,30 @@ export const calculate = (
   let principal1 = principal;
   const dateY = new Date();
   const dateY1 = new Date();
-  dateY.setTime(dateOpen.getTime());
-  dateY1.setTime(dateOpen.getTime());
+  dateY.setTime(dOpen.getTime());
+  dateY1.setTime(dOpen.getTime());
   let adjunction = 0; // пополнение в цикле
   let adjunctionAll = 0; // пополнение за весь срок 
-  let daysY;
+  let daysY : number;
   let totalinterest2 = 0;
-  const n = days1 !== '' || months === ''  ? 1 : 0;
+  const payments = days1 !== 0 || months === 0  ? months + 1 : months;
  
-  const table = [];
-  table.n = []; // №
-  table.date = []; // дата
-  table.totalinterest1 = []; // начислено % 
-  table.daysY = []; // дни 
-  table.totalinterest2 = []; // начислено % итого
-  table.principal1 = []; // общая сумма
+  const table : {n: number[], date: string[], totalinterest1: string[], daysY: number[], 
+    totalinterest2: string[], principal1: string[]} = {
+      n: [],              // №
+      date: [],           // дата
+      totalinterest1: [], // начислено % 
+      daysY: [],          // дни 
+      totalinterest2: [], // начислено % итого
+      principal1: []      // общая сумма
+    };
 
   if (days > 0) {
-    for (let i = 0; i < months + n; i++) {
+    for (let i = 0; i < payments; i++) {
         
       if (i < months) {
 
-        daysY = daysYfun(dateY, dateY1, dateOpen, oneDay);
+        daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
 
         if (plusperiod === 0) {
           adjunction = 0; // пополнение
@@ -130,7 +133,7 @@ export const calculate = (
         }
         // вклад + процент за последний месяц в цикле:
         principal1 = totalinterest1 + principal1; 
-        table.date.push(initDate(dateClosed)); // дата
+        table.date.push(initDate(dClosed)); // дата
         table.daysY.push(days1); // дни
       }         
                
