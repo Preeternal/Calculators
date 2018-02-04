@@ -1,32 +1,25 @@
-import React, {
-  Component, Fragment,   
-} from 'react';
+import React, { Component, Fragment } from 'react';
 
-import {  
-  Text,
-  View,
-  Image, 
-} from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 // import {
 // StackNavigator,
 // } from 'react-navigation';
 
-import RadioForm, {
+import RadioForm from 'react-native-simple-radio-button';
 // RadioButton,
 // RadioButtonInput,
 // RadioButtonLabel
-} from 'react-native-simple-radio-button';
 
 import DateTimePicker from 'react-native-modal-datetime-picker';
-
 
 import { connect } from 'react-redux';
 
 // import Button from 'react-native-button';
 import Pie from 'react-native-pie';
 
-import { principalChanged,
+import {
+  principalChanged,
   dateOpenChanged,
   dateClosedChanged,
   interest1Changed,
@@ -36,7 +29,8 @@ import { principalChanged,
   prinplusChanged
 } from './src/actions';
 
-import { Input,
+import {
+  Input,
   InputDate,
   InputPicker,
   //  Button,
@@ -55,12 +49,10 @@ import { initDate, changeDate, number, calculate } from './src/lib';
 //          principal3 as principal3Selector
 //        } from './src/lib/calculate';
 
-
 // const App = StackNavigator({
 //   Home: { screen: HomeScreen },
 //   Second: { screen: SecondScreen },
 // });
-
 
 class App extends Component {
   constructor() {
@@ -96,6 +88,7 @@ class App extends Component {
     this.setState({
       [`${input}Color`]: '#000000'
     });
+    //console.log('focus');
     if (text === '0') {
       this.props[`${input}Changed`]('');
     }
@@ -105,6 +98,7 @@ class App extends Component {
     this.setState({
       [`${input}Color`]: '#525050'
     });
+    //console.log('blur');
     if (text === '') {
       this.props[`${input}Changed`]('0');
     }
@@ -147,9 +141,14 @@ class App extends Component {
 
   render() {
     const {
-      topimage, 
-      welcome, radioStyle, inputDataStyle, pieContainer, pie,
-      gauge, gaugeText,
+      topimage,
+      welcome,
+      radioStyle,
+      inputDataStyle,
+      pieContainer,
+      pie,
+      gauge,
+      gaugeText
       //instructions
     } = styles;
     const pic = {
@@ -162,26 +161,23 @@ class App extends Component {
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
 
+    const { days1, srok, payment, principal2, principal1, table } = calculate(
+      Number(this.props.principal),
+      this.props.dateOpen,
+      this.props.dateClosed,
+      Number(this.props.interest1) / 365 / 100,
+      Number(this.props.interest2) / 365 / 100,
+      this.props.platez,
+      this.props.plusperiod,
+      Number(this.props.prinplus)
+    );
 
-
-    // const { days1, srok, payment, principal2, principal1, table } = calculate(
-    //   Number(this.props.principal),
-    //   this.props.dateOpen,
-    //   this.props.dateClosed,
-    //   Number(this.props.interest1) / 365 / 100,
-    //   Number(this.props.interest2) / 365 / 100,
-    //   this.props.platez,
-    //   this.props.plusperiod,
-    //   Number(this.props.prinplus)
-    // );
-
-
-    const {days1, 
-      srok, 
-      payment, 
-      principal2, 
-      principal1, 
-      table} = this.props;
+    // const {days1,
+    //   srok,
+    //   payment,
+    //   principal2,
+    //   principal1,
+    //   table} = this.props;
 
     // const clears = (text) => {
     //   console.log(text);
@@ -203,9 +199,7 @@ class App extends Component {
           <CardSection>
             <Image source={pic} style={topimage} />
             <Text style={welcome}>
-              {!srok ? 'Проверьте правильность ввода:' :
-                'Введите информацию о депозите:'
-              }
+              {!srok ? 'Проверьте правильность ввода:' : 'Введите информацию о депозите:'}
             </Text>
 
             <RadioForm
@@ -226,13 +220,12 @@ class App extends Component {
               animation
               onPress={(value, index) => {
                 this.setState({
-                // value1: value,
+                  // value1: value,
                   value1Index: index
                 });
               }}
             />
           </CardSection>
-
 
           <View style={inputDataStyle}>
             <Input
@@ -241,8 +234,8 @@ class App extends Component {
               // label={this.state.types1[this.state.value1Index].label}
               value={this.props.principal}
               onChangeText={this.onPrincipalChange.bind(this)}
-              onBlur={ () => this.onBlur('principal', this.props.principal) }
-              onFocus={ () => this.onFocus('principal', this.props.principal) }
+              onBlur={() => this.onBlur('principal', this.props.principal)}
+              onFocus={() => this.onFocus('principal', this.props.principal)}
               style={{ color: this.state.principalColor }}
               //value={this.state.email}
               //onChangeText={email => this.setState({ email })}
@@ -260,7 +253,7 @@ class App extends Component {
             <DateTimePicker
               date={changeDate(this.props.dateOpen)}
               isVisible={this.state.isDateTimePickerVisible}
-              onConfirm={(date) => {
+              onConfirm={date => {
                 //console.log('A date has been picked: ', date);
                 this.setState({
                   isDateTimePickerVisible: false
@@ -275,7 +268,6 @@ class App extends Component {
               }}
               datePickerModeAndroid="spinner"
             />
-
 
             {/* <Button
       //             style={{ fontSize: 20, borderColor: '#2196f3', borderWidth: 2 }}
@@ -296,7 +288,7 @@ class App extends Component {
             <DateTimePicker
               date={changeDate(this.props.dateClosed)}
               isVisible={this.state.isDateTimePickerVisible2}
-              onConfirm={(date) => {
+              onConfirm={date => {
                 //console.log('A date has been picked: ', date);
                 this.setState({
                   isDateTimePickerVisible2: false
@@ -316,28 +308,28 @@ class App extends Component {
               label="Процентная ставка"
               //label={this.state.types1[this.state.value1Index].label}
               onChangeText={this.onInterest1Change.bind(this)}
-              onBlur={ () => this.onBlur('interest1', this.props.interest1) }
-              onFocus={ () => this.onFocus('interest1', this.props.interest1) }
+              onBlur={() => this.onBlur('interest1', this.props.interest1)}
+              onFocus={() => this.onFocus('interest1', this.props.interest1)}
               style={{ color: this.state.interest1Color }}
               value={this.props.interest1}
               //value={this.state.email}
               //onChangeText={email => this.setState({ email })}
             />
 
-            {days1 > 0 ? 
+            {days1 > 0 ? (
               <Input
                 placeholder="введите ставку"
                 label="Процентная ставка при досрочном рассторжении вклада (не полный месяц)"
                 //label={this.state.types1[this.state.value1Index].label}
                 onChangeText={this.onInterest2Change.bind(this)}
-                onBlur={ () => this.onBlur('interest2', this.props.interest2) }
-                onFocus={ () => this.onFocus('interest2', this.props.interest2) }
+                onBlur={() => this.onBlur('interest2', this.props.interest2)}
+                onFocus={() => this.onFocus('interest2', this.props.interest2)}
                 style={{ color: this.state.interest2Color }}
                 value={this.props.interest2}
-              //value={this.state.email}
-              //onChangeText={email => this.setState({ email })}
-              /> : null
-            }
+                //value={this.state.email}
+                //onChangeText={email => this.setState({ email })}
+              />
+            ) : null}
 
             <InputPicker
               label="Капитализация процентов (ежемесячно)"
@@ -357,28 +349,21 @@ class App extends Component {
               //  })}
             />
 
-            {parseFloat(this.props.plusperiod) === 0 ?
-              null :
-
-              (
-
-                <Input
-                  label="На сумму"
-                  placeholder="введите сумму"
-                  onChangeText={this.onPrinplusChange.bind(this)}
-                  onBlur={ () => this.onBlur('prinplus', this.props.prinplus) }
-                  onFocus={ () => this.onFocus('prinplus', this.props.prinplus) }
-                  style={{ color: this.state.prinplusColor, height: 52 }}
-                  value={this.props.prinplus}
-                />
-
-              )
-
-            }
+            {parseFloat(this.props.plusperiod) === 0 ? null : (
+              <Input
+                label="На сумму"
+                placeholder="введите сумму"
+                onChangeText={this.onPrinplusChange.bind(this)}
+                onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
+                onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
+                style={{ color: this.state.prinplusColor, height: 52 }}
+                value={this.props.prinplus}
+              />
+            )}
           </View>
         </Card>
 
-        {!srok ? null :
+        {!srok ? null : (
           <Card>
             <Header headerText="Информация о выплатах" />
 
@@ -390,53 +375,39 @@ class App extends Component {
               label={`Срок депозита ${srok}`}
               //resultData={this.props.dateClosed}
             />
-            
-            {isNaN(payment) || payment === Infinity ? null :
-              
+
+            {isNaN(payment) || payment === Infinity ? null : (
               <Result
                 label="Ваша месячная выручка (в среднем)"
-                resultData={
-                  `${
-                    this.state.types1[this.state.value1Index].label.charAt(0)}${
-                    payment.toFixed(2)
-                  }`
-                }
+                resultData={`${this.state.types1[this.state.value1Index].label.charAt(
+                  0
+                )}${payment.toFixed(2)}`}
               />
-              
-            }
+            )}
 
             <Result
               label="Сумма выплаты всех начислений"
-              resultData={
-                `${
-                  this.state.types1[this.state.value1Index].label.charAt(0)}${
-                  principal2.toFixed(2)
-                }`
-              }
+              resultData={`${this.state.types1[this.state.value1Index].label.charAt(
+                0
+              )}${principal2.toFixed(2)}`}
             />
 
             <Result
               label="Полная сумма на руки"
-              resultData={
-                `${
-                  this.state.types1[this.state.value1Index].label.charAt(0)}${
-                  principal1.toFixed(2)
-                }`
-              }
+              resultData={`${this.state.types1[this.state.value1Index].label.charAt(
+                0
+              )}${principal1.toFixed(2)}`}
             />
             <CardSection>
-              <View style={pieContainer}
-              >
+              <View style={pieContainer}>
                 <Text> Доходность </Text>
-                <View style={pie}>                               
+                <View style={pie}>
                   <Pie
                     radius={50}
                     innerRadius={45}
-                    series={[Number(
-                      (principal2 / Number(this.props.principal) * 100).toFixed(2)
-                    )]}
+                    series={[Number((principal2 / Number(this.props.principal) * 100).toFixed(2))]}
                     colors={['#f00']}
-                    backgroundColor="#ddd" 
+                    backgroundColor="#ddd"
                   />
                   <View style={gauge}>
                     <Text style={gaugeText}>
@@ -444,27 +415,21 @@ class App extends Component {
                     </Text>
                   </View>
                 </View>
-              </View>           
+              </View>
             </CardSection>
-
           </Card>
-        }
+        )}
 
-        {!srok ? null :          
+        {!srok ? null : (
           <Card>
             <Header headerText="Выписка со счёта" />
-            <Table2
-              value={table}                
-            />
-          </Card>         
-        }  
-
-      </Fragment>          
-
+            <Table2 value={table} />
+          </Card>
+        )}
+      </Fragment>
     );
   }
 }
-
 
 const styles = {
   // container: {
@@ -477,7 +442,7 @@ const styles = {
     fontSize: 17,
     margin: 10,
     //alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   // instructions: {
   //   color: '#333333',
@@ -486,19 +451,19 @@ const styles = {
   topimage: {
     width: 193,
     height: 110,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   radioStyle: {
     // color: 'gray',
     alignSelf: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   inputDataStyle: {
     flex: 1,
     position: 'relative',
     alignItems: 'stretch',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   // radioButtonWrap: {
   //   marginRight: 5
@@ -511,15 +476,15 @@ const styles = {
   // },
 
   pieContainer: {
-    flexDirection: 'row', 
-    alignItems: 'center',  
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: 70
   },
 
   pie: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
     //flexDirection: 'row',
   },
   gauge: {
@@ -527,28 +492,26 @@ const styles = {
     width: 100,
     height: 100,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   gaugeText: {
     backgroundColor: 'transparent',
     color: '#000',
-    fontSize: 24,
-  },
-
+    fontSize: 24
+  }
 };
 
-
-const mapStateToProps = (state) => {
-  const { days1, srok, payment, principal2, principal1, table } = calculate(
-    Number(state.form.principal),
-    state.form.dateOpen,
-    state.form.dateClosed,
-    Number(state.form.interest1) / 365 / 100,
-    Number(state.form.interest2) / 365 / 100,
-    state.form.platez,
-    state.form.plusperiod,
-    Number(state.form.prinplus)
-  );
+const mapStateToProps = state => {
+  // const { days1, srok, payment, principal2, principal1, table } = calculate(
+  //   Number(state.form.principal),
+  //   state.form.dateOpen,
+  //   state.form.dateClosed,
+  //   Number(state.form.interest1) / 365 / 100,
+  //   Number(state.form.interest2) / 365 / 100,
+  //   state.form.platez,
+  //   state.form.plusperiod,
+  //   Number(state.form.prinplus)
+  //);
 
   return {
     principal: state.form.principal,
@@ -560,15 +523,14 @@ const mapStateToProps = (state) => {
     interest2: state.form.interest2,
     platez: state.form.platez,
     plusperiod: state.form.plusperiod,
-    prinplus: state.form.prinplus,
+    prinplus: state.form.prinplus
 
-    days1, 
-    srok, 
-    payment, 
-    principal2, 
-    principal1, 
-    table     
-
+    // days1,
+    // srok,
+    // payment,
+    // principal2,
+    // principal1,
+    // table
   };
 };
 

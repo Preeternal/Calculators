@@ -1,4 +1,5 @@
 //@flow
+
 // const addMonth = (dateY1: Date, dateOpen: Date): Date => {
 //   const dateY: Date = new Date();
 //   if (dateY1.getMonth() === 11) {
@@ -13,10 +14,19 @@
 //   return dateY;
 // };
 
-export const daysYfun = (dateY : Date, dateY1 : Date, dateOpen : Date,
-  oneDay : number) : number => {
+const addMonth = (d: Date): Date => {
+  //const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  return new Date(year, month + 1, day);
+};
 
-  if (dateY.getDate() === dateOpen.getDate()) { //если число совпадает с начальной датой
+export const daysYfun = (dateY: Date, dateY1: Date, dateOpen: Date, oneDay: number): number => {
+  console.log(addMonth(new Date(2019, 11, 1)));
+
+  if (dateY.getDate() === dateOpen.getDate()) {
+    //если число совпадает с начальной датой
     if (dateY1.getMonth() === 11) {
       dateY.setDate(dateOpen.getDate());
       dateY.setFullYear(dateY1.getFullYear() + 1);

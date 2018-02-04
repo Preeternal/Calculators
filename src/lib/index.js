@@ -1,4 +1,5 @@
-export * from './initDate';
-export * from './changeDate';
-export * from './number';
-export * from './calculate';
+//@flow
+export { initDate } from './initDate';
+export { changeDate } from './changeDate';
+export { number } from './number';
+export { calculate } from './calculate';

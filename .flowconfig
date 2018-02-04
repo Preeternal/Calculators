@@ -2,6 +2,12 @@
 ; We fork some components by platform
 .*/*[.]android.js
 
+; Ignore templates for 'react-native init'
+.*/local-cli/templates/.*
+
+; Ignore the Dangerfile
+<PROJECT_ROOT>/danger/dangerfile.js
+
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
 
@@ -13,19 +19,29 @@
 ; "node_modules/react-native" but in the source repo it is in the root
 .*/Libraries/react-native/React.js
 
+; Ignore errors from react-native 
+; <PROJECT_ROOT>/node_modules/react-native/Libraries/Components/ScrollResponder.js
+; <PROJECT_ROOT>/node_modules/react-native/Libraries/Inspector/Inspector.js
+; <PROJECT_ROOT>/node_modules/react-native/Libraries/Interaction/InteractionManager.js
 .*/react-native/Libraries/.*
+
 
 ; Ignore polyfills
 .*/Libraries/polyfills/.*
+
+; Ignore metro
+.*/node_modules/metro/.*
+
 
 [include]
 
 [libs]
 node_modules/react-native/Libraries/react-native/react-native-interface.js
 node_modules/react-native/flow/
+flow-github/
 
 [lints]
-; all=warn
+all=warn
 
 [options]
 emoji=true

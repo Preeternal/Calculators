@@ -256,8 +256,7 @@ type JestExpectType = {
    */
   toMatch(regexpOrString: RegExp | string): void,
   /**
-   * Use .toMatchObject to check that a javascript object matches a subset of the properties 
-   * of an object.
+   * Use .toMatchObject to check that a javascript object matches a subset of the properties of an object.
    */
   toMatchObject(object: Object | Array<Object>): void,
   /**

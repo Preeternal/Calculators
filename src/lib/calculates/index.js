@@ -1,5 +1,6 @@
-export * from './daysString';
-export * from './monthsString';
-export * from './daysAfterMonths';
-export * from './daysYfun';
+//@flow
+export { daysString } from './daysString';
+export { monthsString } from './monthsString';
+export { daysAfterMonths } from './daysAfterMonths';
+export { daysYfun } from './daysYfun';
 //export * from './loop';
