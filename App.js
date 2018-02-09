@@ -43,6 +43,8 @@ import {
   Table2
 } from './src/components/common';
 
+import { strings } from './locales/i18n';
+
 import { initDate, changeDate, number, calculate } from './src/lib';
 // import {
 //          principal2 as principal2Selector,
@@ -195,7 +197,8 @@ class App extends Component {
     return (
       <Fragment>
         <Card>
-          <Header headerText="Депозитный калькулятор" />
+          {/* <Header headerText="Депозитный калькулятор" /> */}
+          <Header headerText={strings('header')} />
           <CardSection>
             <Image source={pic} style={topimage} />
             <Text style={welcome}>

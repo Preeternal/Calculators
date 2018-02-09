@@ -24,7 +24,7 @@ const styles = {
     //height: 52,
     minHeight: 52,
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'row'
     //alignItems: 'center'
   },
   labelStyle: {
@@ -46,7 +46,7 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 5,
     //textAlignVertical: 'center',
-    lineHeight: 15,
+    lineHeight: 15
   },
   resultStyle: {
     flex: 1,
@@ -64,7 +64,7 @@ const styles = {
     //fontSize: 15,
     //color: '#525050',
     paddingLeft: 10,
-    paddingRight: 5,
+    paddingRight: 5
   }
 };
 

@@ -1,6 +1,6 @@
 //@flow
 import { initDate, changeDate } from '../lib';
-import { daysString, monthsString, daysAfterMonths, daysYfun } from './calculates';
+import { daysString, monthsString, daysAfterMonths } from './calculates';
 
 export const calculate = (
   principal: number,
@@ -21,7 +21,7 @@ export const calculate = (
   const days = Math.round((dClosed.getTime() - dOpen.getTime()) / oneDay);
   const dni: string = daysString(days); // '', день, дня, дней
 
-  const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed, oneDay);
+  const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed);
   let days1 = DaysAfterMonths.days1;
   const cf = DaysAfterMonths.cf;
   let dni1: string = daysString(days1); // '', день, дня, дней
@@ -81,8 +81,6 @@ export const calculate = (
   if (days > 0) {
     for (let i = 0; i < payments; i++) {
       if (i < months) {
-        daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
-
         if (plusperiod === 0) {
           adjunction = 0; // пополнение
         } else if (plusperiod === 1) {
@@ -104,6 +102,10 @@ export const calculate = (
             adjunction = 0;
           }
         }
+
+        //daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
+        dateY.setMonth(dateY1.getMonth() + 1);
+        daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);
 
         if (platez === 0) {
           // начислено процентов
