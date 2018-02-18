@@ -8,4 +8,4 @@ export * from './Header';
 export * from './Result';
 export * from './ResultSrok';
 export * from './Table';
-export * from './Table2';
+//export * from './TableOld';

@@ -1,4 +1,3 @@
-import ReactNative from 'react-native';
 import I18n from 'react-native-i18n';
 
 // Import all locales
@@ -14,7 +13,9 @@ I18n.translations = {
   ru
 };
 
-const currentLocale = I18n.currentLocale();
+// console.log(I18n.l('number', 1990.99));
+
+//const currentLocale = I18n.currentLocale();
 
 // Is it a RTL language?
 //export const isRTL = currentLocale.indexOf('ru') === 0;
@@ -26,5 +27,12 @@ const currentLocale = I18n.currentLocale();
 export function strings(name, params = {}) {
   return I18n.t(name, params);
 }
+
+export function numbers(name, params) {
+  return I18n.l(name, params);
+}
+
+export const currentLocale = I18n.currentLocale();
+//console.log(currentLocale);
 
 export default I18n;

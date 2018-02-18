@@ -1,36 +1,70 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { strings, currentLocale } from '../../../locales/i18n';
 
-const ViewItem = (props) => {
-  return (
-    <View style={props.style}>
-      <Text style={styles.textStyle}>{props.value}</Text>
+const options = {
+  //style: 'currency',
+  // currencyDisplay: 'symbol',
+  // currency: radio_props[this.props.radio].index,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+};
+
+const row = (row, style) => {
+  return row.map((value, index) => (
+    <View key={index} style={styles.renderStyle}>
+      <View style={styles.col1Style}>
+        <Text style={styles.textStyle}>{value[0]}</Text>
+      </View>
+      <View style={styles.col2Style}>
+        <Text style={styles.textStyle}>{value[1]}</Text>
+      </View>
+      <View style={styles.col3Style}>
+        <Text style={styles.textStyle}>{value[2].toLocaleString(currentLocale, options)}</Text>
+      </View>
+      <View style={styles.col4Style}>
+        <Text style={styles.textStyle}>{value[3]}</Text>
+      </View>
+      <View style={styles.col5Style}>
+        <Text style={styles.textStyle}>{value[4].toLocaleString(currentLocale, options)}</Text>
+      </View>
+      <View style={styles.col6Style}>
+        <Text style={styles.textStyle}>{value[5].toLocaleString(currentLocale, options)}</Text>
+      </View>
     </View>
-  );
+  ));
 };
 
-const column = (col, style) => {
-  return col.map((value, index) =>
-    <ViewItem
-      key={index + value.toString()}
-      value={value}
-      style={style}
-    />
-  );
-
+const transpose = a => {
+  // return a[0].map(function (_, c) { return a.map(function (r) { return r[c]; }); });
+  // or in more modern dialect
+  return a[0].map((_, c) => a.map(r => r[c]));
 };
 
-const Table = (props) => {
-  const {containerStyle, headerStyle, renderStyle, textStyle, ViewItemStyle,
-    col1Style, col2Style, col3Style, col4Style, col5Style, col6Style} = styles;
-  const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого',
-    'общая сумма'];
-  const col1 = column(props.col1, ViewItemStyle);
-  const col2 = column(props.col2, ViewItemStyle);
-  const col3 = column(props.col3, ViewItemStyle);
-  const col4 = column(props.col4, ViewItemStyle);
-  const col5 = column(props.col5, ViewItemStyle);
-  const col6 = column(props.col6, ViewItemStyle);
+const Table = props => {
+  const {
+    containerStyle,
+    headerStyle,
+    textStyle,
+    col1Style,
+    col2Style,
+    col3Style,
+    col4Style,
+    col5Style,
+    col6Style
+  } = styles;
+  //const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого', 'общая сумма'];
+  const tableHead = strings('table.tableHead');
+  const reverse = transpose([
+    props.value.n,
+    props.value.date,
+    props.value.totalinterest1,
+    props.value.daysY,
+    props.value.totalinterest2,
+    props.value.principal1
+  ]);
+
+  const rows = row(reverse);
 
   return (
     <View style={containerStyle}>
@@ -42,42 +76,22 @@ const Table = (props) => {
           <Text style={textStyle}>{tableHead[1]}</Text>
         </View>
         <View style={col3Style}>
-          <Text style={textStyle}>{tableHead[2]}</Text>
+          <Text style={textStyle}>{`${tableHead[2]}, ${props.currency.substring(1)}`}</Text>
         </View>
         <View style={col4Style}>
           <Text style={textStyle}>{tableHead[3]}</Text>
         </View>
         <View style={col5Style}>
-          <Text style={textStyle}>{tableHead[4]}</Text>
+          <Text style={textStyle}>{`${tableHead[4]}, ${props.currency.substring(1)}`}</Text>
         </View>
         <View style={col6Style}>
-          <Text style={textStyle}>{tableHead[5]}</Text>
+          <Text style={textStyle}>{`${tableHead[5]}, ${props.currency.substring(1)}`}</Text>
         </View>
       </View>
-      <View style={renderStyle}>
-        <View style={col1Style}>
-          {col1}
-        </View>
-        <View style={col2Style}>
-          {col2}
-        </View>
-        <View style={col3Style}>
-          {col3}
-        </View>
-        <View style={col4Style}>
-          {col4}
-        </View>
-        <View style={col5Style}>
-          {col5}
-        </View>
-        <View style={col6Style}>
-          {col6}
-        </View>
-      </View>
+      {rows}
     </View>
   );
 };
-
 
 const styles = {
   containerStyle: {
@@ -94,48 +108,50 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   renderStyle: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderBottomWidth: 1, //
+    borderColor: '#ddd' //
   },
   textStyle: {
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: 'center'
   },
-  ViewItemStyle: {
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-  },
+  // ViewItemStyle: {
+  //   borderBottomWidth: 1,
+  //   borderColor: '#ddd'
+  // },
   col1Style: {
     flex: 0.3,
     borderRightWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ddd'
   },
   col2Style: {
-    flex: 0.8,    
+    //flex: 0.5,
+    flex: 0.8,
     borderRightWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ddd'
   },
   col3Style: {
     flex: 0.65,
     borderRightWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ddd'
   },
   col4Style: {
     flex: 0.35,
     borderRightWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ddd'
   },
   col5Style: {
     flex: 0.8,
     borderRightWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ddd'
   },
   col6Style: {
-    flex: 1,
-  },
-
+    flex: 1
+  }
 };
 
 export { Table };

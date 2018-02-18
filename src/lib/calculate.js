@@ -1,6 +1,8 @@
 //@flow
+import { strings } from '../../locales/i18n';
 import { initDate, changeDate } from '../lib';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
+// import { number } from './number';
 
 export const calculate = (
   principal: number,
@@ -12,6 +14,7 @@ export const calculate = (
   plusperiod: number,
   prinplus: number
 ) => {
+  // console.log(subscribe);
   const dOpen: Date = changeDate(dateOpen);
   const dClosed: Date = changeDate(dateClosed);
   const oneMinute = 60 * 1000;
@@ -32,7 +35,7 @@ export const calculate = (
     cf;
   const mesyacyi: string = monthsString(months); // '',  месяц , месяца, месяцев
 
-  //const ili = ' или ';
+  const ili: string = strings('result.srok.ili');
 
   const srok =
     //days > 0  ?
@@ -43,9 +46,9 @@ export const calculate = (
         case months === 0:
           return `${days} ${dni}`;
         case days1 === 0:
-          return `${days} ${dni} или ${months} ${mesyacyi}`;
+          return `${days} ${dni} ${ili} ${months} ${mesyacyi}`;
         default:
-          return `${days} ${dni}  или ${months} ${mesyacyi} ${days1} ${dni1}`;
+          return `${days} ${dni}  ${ili} ${months} ${mesyacyi} ${days1} ${dni1}`;
       }
     })();
   //: undefined;
@@ -65,10 +68,10 @@ export const calculate = (
   const table: {
     n: number[],
     date: string[],
-    totalinterest1: string[],
+    totalinterest1: number[],
     daysY: number[],
-    totalinterest2: string[],
-    principal1: string[]
+    totalinterest2: number[],
+    principal1: number[]
   } = {
     n: [], // №
     date: [], // дата
@@ -136,10 +139,10 @@ export const calculate = (
 
       totalinterest2 += totalinterest1; // начислено процентов итого
       table.n.push(i + 1); // №
-      table.totalinterest1.push(totalinterest1.toFixed(2)); // начислено %
-      table.totalinterest2.push(totalinterest2.toFixed(2)); // начислено % итого
+      table.totalinterest1.push(totalinterest1); // начислено %
+      table.totalinterest2.push(totalinterest2); // начислено % итого
       // вклад + процент за последний месяц в цикле:
-      table.principal1.push(principal1.toFixed(2));
+      table.principal1.push(principal1);
     }
   }
 
@@ -147,6 +150,36 @@ export const calculate = (
   const payment = (principal1 - principal - adjunctionAll) / months;
   //Сумма выплаты всех начислений
   const principal2 = principal1 - principal - adjunctionAll;
+  const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  };
+  const dateQ = new Date();
+
+  //console.log(dateQ.toLocaleString(currentLocale, options));
+  // console.log(dateQ.toLocaleString('en', options));
+
+  // const formatter = new Intl.NumberFormat(currentLocale, {
+  //   //style: 'currency',
+  //   //currency: 'USD',
+  //   maximumFractionDigits: 2
+  // });
+  // console.log(formatter.format(15));
+
+  // const optionsN = {
+  //   style: 'currency',
+  //   currencyDisplay: 'symbol',
+  //   currency: 'USD',
+  //   maximumFractionDigits: 2
+  // };
+
+  // const numQ = 238234838.349349;
+
+  // const numL = numQ.toLocaleString(currentLocale, optionsN);
+
+  // console.log(numL);
+  // console.log(number(numL));
 
   return { days1, srok, payment, principal2, principal1, table };
 };

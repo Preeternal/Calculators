@@ -1,7 +1,7 @@
 {
   # "extends": "rallycoding",
   # "extends": "eslint-config-airbnb",
-  "extends": "fbjs",
+  "extends":  "fbjs",  
   # "parser": "babel-eslint",
   "rules": {
     "arrow-body-style": 0,
