@@ -1,4 +1,11 @@
 {
+  "format": {
+    "number": {
+      "precision": "2",
+      "separator": ".",
+      "delimiter": ","
+    }
+  },
   "header": "Deposit calculator",
   "welcome": {
     "error": "Check the correctness of the input:",

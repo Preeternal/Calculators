@@ -1,4 +1,5 @@
 import I18n from 'react-native-i18n';
+import moment from 'moment';
 
 // Import all locales
 import en from './en.json';
@@ -12,10 +13,6 @@ I18n.translations = {
   en,
   ru
 };
-
-// console.log(I18n.l('number', 1990.99));
-
-//const currentLocale = I18n.currentLocale();
 
 // Is it a RTL language?
 //export const isRTL = currentLocale.indexOf('ru') === 0;
@@ -33,6 +30,26 @@ export function numbers(name, params) {
 }
 
 export const currentLocale = I18n.currentLocale();
-//console.log(currentLocale);
+
+// let languages = {
+//   en:  require('../common/languages/en'),
+//   ru: require('../common/languages/ru'),
+//   de: require('../common/languages/de')
+// }
+
+// switch (currentLocale.indexOf(currentLocale.substring(0, 2)) === 0) {
+//   case 'ru':
+//     return require('moment/locale/ru.js');
+//   case 'en':
+//     return require('moment/locale/en.js');
+//   // etc...
+// }
+
+if (currentLocale.indexOf('ru') === 0) {
+  require('moment/locale/ru.js');
+  moment.locale(currentLocale);
+} else {
+  moment.locale('en');
+}
 
 export default I18n;

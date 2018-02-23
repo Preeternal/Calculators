@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { strings, currentLocale } from '../../../locales/i18n';
+import 'number-to-locale-string';
 
 const options = {
   //style: 'currency',

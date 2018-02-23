@@ -16,6 +16,7 @@ import type { FormActionsTypes } from '../actions/types';
 import { initDate } from '../lib';
 
 import { currentLocale } from '../../locales/i18n';
+import 'number-to-locale-string';
 
 const nextYear = (d: Date) => {
   //const d = new Date();

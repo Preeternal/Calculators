@@ -150,36 +150,6 @@ export const calculate = (
   const payment = (principal1 - principal - adjunctionAll) / months;
   //Сумма выплаты всех начислений
   const principal2 = principal1 - principal - adjunctionAll;
-  const options = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric'
-  };
-  const dateQ = new Date();
-
-  //console.log(dateQ.toLocaleString(currentLocale, options));
-  // console.log(dateQ.toLocaleString('en', options));
-
-  // const formatter = new Intl.NumberFormat(currentLocale, {
-  //   //style: 'currency',
-  //   //currency: 'USD',
-  //   maximumFractionDigits: 2
-  // });
-  // console.log(formatter.format(15));
-
-  // const optionsN = {
-  //   style: 'currency',
-  //   currencyDisplay: 'symbol',
-  //   currency: 'USD',
-  //   maximumFractionDigits: 2
-  // };
-
-  // const numQ = 238234838.349349;
-
-  // const numL = numQ.toLocaleString(currentLocale, optionsN);
-
-  // console.log(numL);
-  // console.log(number(numL));
 
   return { days1, srok, payment, principal2, principal1, table };
 };

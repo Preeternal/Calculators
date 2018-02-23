@@ -40,7 +40,8 @@ import {
   Table
 } from './src/components/common';
 
-import { strings, currentLocale } from './locales/i18n';
+import I18n, { strings, currentLocale } from './locales/i18n';
+import 'number-to-locale-string';
 
 import { initDate, changeDate, number, calculate } from './src/lib';
 // import {
@@ -88,6 +89,7 @@ class App extends Component {
         })
       );
     }
+    //I18n.locale = 'en-US';
   }
 
   onPrincipalChange(text) {
@@ -192,8 +194,11 @@ class App extends Component {
       style: 'currency',
       currencyDisplay: 'symbol',
       currency: radio_props[this.props.radio].index,
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2
     };
+
+    //console.log(dateQ.toLocaleString(currentLocale, options));
 
     // console.log(currentLocale);
     // console.log(optionsN);
@@ -431,12 +436,9 @@ class App extends Component {
                     />
                     <View style={gauge}>
                       <Text style={gaugeText}>
-                        {(principal2 / Number(number(this.props.principal))).toLocaleString(
-                          currentLocale,
-                          {
-                            style: 'percent',
-                            maximumFractionDigits: 2
-                          }
+                        {I18n.toPercentage(
+                          principal2 * 100 / Number(number(this.props.principal)),
+                          strings('format.number')
                         )}
                       </Text>
                     </View>

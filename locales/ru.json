@@ -1,4 +1,11 @@
 {
+  "format": {
+    "number": {
+      "precision": 2,
+      "separator": ",",
+      "delimiter": " "
+    }
+  },
   "header": "Депозитный калькулятор",
   "welcome": {
     "error": "Проверьте правильность ввода:",
