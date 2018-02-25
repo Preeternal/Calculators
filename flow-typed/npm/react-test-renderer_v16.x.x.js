@@ -2,8 +2,7 @@
 // flow-typed version: 95b3e05165/react-test-renderer_v16.x.x/flow_>=v0.47.x
 
 // Type definitions for react-test-renderer 16.x.x
-// Ported from:
-// https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-test-renderer
+// Ported from: https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-test-renderer
 
 type ReactTestRendererJSON = {
   type: string,
@@ -12,7 +11,7 @@ type ReactTestRendererJSON = {
 };
 
 type ReactTestRendererTree = ReactTestRendererJSON & {
-  nodeType: 'component' | 'host',
+  nodeType: "component" | "host",
   instance: any,
   rendered: null | ReactTestRendererTree
 };
@@ -32,7 +31,10 @@ type ReactTestInstance = {
     predicate: (node: ReactTestInstance) => boolean,
     options?: { deep: boolean }
   ): ReactTestInstance[],
-  findAllByType(type: React$ElementType, options?: { deep: boolean }): ReactTestInstance[],
+  findAllByType(
+    type: React$ElementType,
+    options?: { deep: boolean }
+  ): ReactTestInstance[],
   findAllByProps(
     props: { [propName: string]: any },
     options?: { deep: boolean }
@@ -52,7 +54,7 @@ type TestRendererOptions = {
   createNodeMock(element: React$Element<any>): any
 };
 
-declare module 'react-test-renderer' {
+declare module "react-test-renderer" {
   declare function create(
     nextElement: React$Element<any>,
     options?: TestRendererOptions

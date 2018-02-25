@@ -1,8 +1,8 @@
 //@flow
 import { strings } from '../../locales/i18n';
 import { initDate, changeDate } from '../lib';
+import { createSelector } from 'reselect';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
-// import { number } from './number';
 
 export const calculate = (
   principal: number,
@@ -14,7 +14,6 @@ export const calculate = (
   plusperiod: number,
   prinplus: number
 ) => {
-  // console.log(subscribe);
   const dOpen: Date = changeDate(dateOpen);
   const dClosed: Date = changeDate(dateClosed);
   const oneMinute = 60 * 1000;

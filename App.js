@@ -43,7 +43,14 @@ import {
 import I18n, { strings, currentLocale } from './locales/i18n';
 import 'number-to-locale-string';
 
-import { initDate, changeDate, number, calculate } from './src/lib';
+import {
+  initDate,
+  changeDate,
+  number
+  //calculate
+} from './src/lib';
+import { calculate } from './src/lib/calculate2';
+
 // import {
 //          principal2 as principal2Selector,
 //          principal3 as principal3Selector
@@ -69,7 +76,7 @@ class App extends Component {
     this.setState({
       [`${input}Color`]: '#000000'
     });
-    if (text === '0') {
+    if (text === '0' || text === '0,00') {
       this.props[`${input}Changed`]('');
     } else {
       this.props[`${input}Changed`](number(text));
@@ -85,6 +92,7 @@ class App extends Component {
     } else {
       this.props[`${input}Changed`](
         Number(text).toLocaleString('ru-RU', {
+          minimumFractionDigits: 2,
           maximumFractionDigits: 2
         })
       );
@@ -154,23 +162,18 @@ class App extends Component {
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
 
-    const { days1, srok, payment, principal2, principal1, table } = calculate(
-      Number(number(this.props.principal)),
-      this.props.dateOpen,
-      this.props.dateClosed,
-      Number(number(this.props.interest1)) / 365 / 100,
-      Number(number(this.props.interest2)) / 365 / 100,
-      this.props.platez,
-      this.props.plusperiod,
-      Number(number(this.props.prinplus))
-    );
+    const { days1, srok, payment, principal2, principal1, table } = this.props;
 
-    // const {days1,
-    //   srok,
-    //   payment,
-    //   principal2,
-    //   principal1,
-    //   table} = this.props;
+    // const { days1, srok, payment, principal2, principal1, table } = calculate(
+    //   Number(number(this.props.principal)),
+    //   this.props.dateOpen,
+    //   this.props.dateClosed,
+    //   Number(number(this.props.interest1)) / 365 / 100,
+    //   Number(number(this.props.interest2)) / 365 / 100,
+    //   this.props.platez,
+    //   this.props.plusperiod,
+    //   Number(number(this.props.prinplus))
+    // );
 
     const radio_props = [
       {
@@ -249,7 +252,7 @@ class App extends Component {
               ].label.charAt(0)}`}
               onChangeText={this.onPrincipalChange.bind(this)}
               onFocus={() => this.onFocus('principal', this.props.principal)}
-              onBlur={() => this.onBlur('principal', this.props.principal, optionsN)}
+              onBlur={() => this.onBlur('principal', this.props.principal)}
               style={{ color: this.state.principalColor }}
               value={this.props.principal}
             />
@@ -380,7 +383,7 @@ class App extends Component {
           </View>
         </Card>
 
-        {!srok ? null : (
+        {!srok || Number(number(this.props.principal)) === 0 ? null : (
           <Card>
             {/* <Header headerText="Информация о выплатах" /> */}
             <Header headerText={strings('result.header')} />
@@ -449,7 +452,7 @@ class App extends Component {
           </Card>
         )}
 
-        {!srok ? null : (
+        {!srok || Number(number(this.props.principal)) === 0 ? null : (
           <Card>
             {/* <Header headerText="Выписка со счёта" /> */}
             <Header headerText={strings('table.header')} />
@@ -544,6 +547,7 @@ const mapStateToProps = state => {
   //   state.form.plusperiod,
   //   Number(state.form.prinplus)
   //);
+  //const su = getSum(state);
 
   return {
     principal: state.form.principal,
@@ -556,7 +560,15 @@ const mapStateToProps = state => {
     platez: state.form.platez,
     plusperiod: state.form.plusperiod,
     prinplus: state.form.prinplus,
-    radio: state.form.radio
+    radio: state.form.radio,
+    days1: calculate(state)[0],
+    srok: calculate(state)[1],
+    payment: calculate(state)[2],
+    principal2: calculate(state)[3],
+    principal1: calculate(state)[4],
+    table: calculate(state)[5]
+    // su: getSum(state)[0],
+    // mi: getSum(state)[1]
 
     // days1,
     // srok,

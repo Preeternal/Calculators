@@ -26,7 +26,7 @@ const nextYear = (d: Date) => {
   return new Date(year + 1, month, day);
 };
 
-const radioValue = currentLocale => {
+const radioValue = (currentLocale: string) => {
   if (currentLocale === 'ru-RU') {
     return 2;
   } else {
