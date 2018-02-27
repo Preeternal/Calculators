@@ -261,6 +261,11 @@ class App extends Component {
               //label="Дата открытия вклада"
               label={strings('input.dateOpen.label')}
               value={this.props.dateOpen}
+              onRootPress={() => {
+                this.setState({
+                  isDateTimePickerVisible: true
+                });
+              }}
               onPress={() => {
                 this.setState({
                   isDateTimePickerVisible: true
@@ -291,6 +296,11 @@ class App extends Component {
               //label="Дата закрытия вклада"
               label={strings('input.dateClosed.label')}
               value={this.props.dateClosed}
+              onRootPress={() => {
+                this.setState({
+                  isDateTimePickerVisible2: true
+                });
+              }}
               onPress={() => {
                 this.setState({
                   isDateTimePickerVisible2: true
@@ -561,14 +571,13 @@ const mapStateToProps = state => {
     plusperiod: state.form.plusperiod,
     prinplus: state.form.prinplus,
     radio: state.form.radio,
+
     days1: calculate(state)[0],
     srok: calculate(state)[1],
     payment: calculate(state)[2],
     principal2: calculate(state)[3],
     principal1: calculate(state)[4],
     table: calculate(state)[5]
-    // su: getSum(state)[0],
-    // mi: getSum(state)[1]
 
     // days1,
     // srok,

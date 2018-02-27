@@ -19,32 +19,13 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
           style={pickerStyle}
         >
           {options.map((item, index) => {
-            return (< Picker.Item label={item} value={index} key={index} />);
+            return <Picker.Item label={item} value={index} key={index} />;
           })}
         </Picker>
       </View>
     </View>
   );
 };
-
-
-// var options ={
-//         "1": "Home",
-//         "2": "Food",
-//         "3": "Car",
-//         "4": "Bank",
-// };
-//     <Picker
-//            style={{your_style}}
-//            mode="dropdown"
-//            selectedValue={this.state.selected}
-//            onValueChange={()=>{}}>
-//            {Object.keys(options).map((key) => {
-//              return (<Item label={this.props.options[key]} value={key} key={key}/>)
-//              //if you have a bunch of keys value pair
-//                             })}
-//     </Picker>
-
 
 const styles = {
   containerStyle: {
@@ -73,7 +54,7 @@ const styles = {
   labelTextStyle: {
     //fontSize: 15,
     paddingLeft: 10,
-    paddingRight: 5,    
+    paddingRight: 5
   },
   inputStyle: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View, Text, TouchableOpacity } from 'react-native';
 
 const Input = ({
   label,
@@ -14,29 +14,41 @@ const Input = ({
   style
 }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
+
+  let textInput = null;
+
+  function handleClick() {
+    textInput.focus();
+  }
+
   return (
-    <View style={containerStyle}>
-      <View style={labelStyle}>
-        <Text style={labelTextStyle}>{label}</Text>
+    <TouchableOpacity onPress={handleClick}>
+      <View style={containerStyle}>
+        <View style={labelStyle}>
+          <Text style={labelTextStyle}>{label}</Text>
+        </View>
+        <View style={inputStyle}>
+          <TextInput
+            secureTextEntry={secureTextEntry}
+            placeholder={placeholder}
+            //autoCorrect={false}
+            // style={inputTextStyle}
+            style={[inputTextStyle, style]}
+            value={value}
+            onChangeText={onChangeText}
+            onSelectionChange={onSelectionChange}
+            onSubmitEditing={onSubmitEditing}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            keyboardType="numeric"
+            underlineColorAndroid="transparent"
+            ref={input => {
+              textInput = input;
+            }}
+          />
+        </View>
       </View>
-      <View style={inputStyle}>
-        <TextInput
-          secureTextEntry={secureTextEntry}
-          placeholder={placeholder}
-          //autoCorrect={false}
-          // style={inputTextStyle}
-          style={[inputTextStyle, style]}
-          value={value}
-          onChangeText={onChangeText}
-          onSelectionChange={onSelectionChange}
-          onSubmitEditing={onSubmitEditing}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          keyboardType="numeric"
-          underlineColorAndroid="transparent"
-        />
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

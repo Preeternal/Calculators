@@ -1,26 +1,21 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const InputDate = ({ label, value, onPress }) => {
+const InputDate = ({ label, value, onPress, onRootPress }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
   return (
-    <View style={containerStyle}>
-      <View style={labelStyle}>
-        <Text style={labelTextStyle}>{label}</Text>
+    <TouchableOpacity onPress={onRootPress}>
+      <View style={containerStyle}>
+        <View style={labelStyle}>
+          <Text style={labelTextStyle}>{label}</Text>
+        </View>
+        <View style={inputStyle}>
+          <TouchableOpacity onPress={onPress}>
+            <Text style={inputTextStyle}>{value}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={inputStyle}>
-        <TouchableOpacity
-          onPress={onPress}
-        >
-          <Text
-            style={inputTextStyle}
-            //onPress={onPress}
-          >
-            {value}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -35,8 +30,7 @@ const styles = {
     borderColor: '#ddd',
     //height: 52,
     minHeight: 52,
-    flexDirection: 'row',
-
+    flexDirection: 'row'
   },
   labelStyle: {
     flex: 2,
@@ -68,7 +62,7 @@ const styles = {
     //fontSize: 15,
     color: '#525050',
     paddingLeft: 10,
-    paddingRight: 5,
+    paddingRight: 5
   }
 };
 
