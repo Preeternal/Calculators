@@ -31,13 +31,4 @@ const Start = () => (
   </Provider>
 );
 
-// const styles = StyleSheet.create({
-//   ViewStyle: {
-//      flex: 1,
-//      //justifyContent: 'space-around',
-//      //alignItems: 'center',
-//      backgroundColor: '#F5FCFF'
-//    }
-// });
-
 AppRegistry.registerComponent('Calculators', () => Start);

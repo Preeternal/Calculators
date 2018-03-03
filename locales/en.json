@@ -70,7 +70,7 @@
     "payment": "Your monthly revenue (on average)",
     "principal2": "Amount of payment of all accruals",
     "principal1": "Total amount on hands",
-    "pie": "Profitability"
+    "pie": "Total amount with interest"
   },
   "table": {
     "header": "Account statement",

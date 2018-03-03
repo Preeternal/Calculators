@@ -11,7 +11,7 @@ const Input = ({
   onSubmitEditing,
   onFocus,
   onBlur,
-  style
+  appInputStyle
 }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle } = styles;
 
@@ -33,7 +33,7 @@ const Input = ({
             placeholder={placeholder}
             //autoCorrect={false}
             // style={inputTextStyle}
-            style={[inputTextStyle, style]}
+            style={[inputTextStyle, appInputStyle]}
             value={value}
             onChangeText={onChangeText}
             onSelectionChange={onSelectionChange}

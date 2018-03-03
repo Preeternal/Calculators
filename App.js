@@ -253,7 +253,7 @@ class App extends Component {
               onChangeText={this.onPrincipalChange.bind(this)}
               onFocus={() => this.onFocus('principal', this.props.principal)}
               onBlur={() => this.onBlur('principal', this.props.principal)}
-              style={{ color: this.state.principalColor }}
+              appInputStyle={{ color: this.state.principalColor }}
               value={this.props.principal}
             />
 
@@ -334,7 +334,7 @@ class App extends Component {
               onChangeText={this.onInterest1Change.bind(this)}
               onBlur={() => this.onBlur('interest1', this.props.interest1)}
               onFocus={() => this.onFocus('interest1', this.props.interest1)}
-              style={{ color: this.state.interest1Color }}
+              appInputStyle={{ color: this.state.interest1Color }}
               value={this.props.interest1}
             />
 
@@ -347,7 +347,7 @@ class App extends Component {
                 onChangeText={this.onInterest2Change.bind(this)}
                 onBlur={() => this.onBlur('interest2', this.props.interest2)}
                 onFocus={() => this.onFocus('interest2', this.props.interest2)}
-                style={{ color: this.state.interest2Color }}
+                appInputStyle={{ color: this.state.interest2Color }}
                 value={this.props.interest2}
               />
             ) : null}
@@ -386,7 +386,7 @@ class App extends Component {
                 onChangeText={this.onPrinplusChange.bind(this)}
                 onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
                 onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
-                style={{ color: this.state.prinplusColor, height: 52 }}
+                appInputStyle={{ color: this.state.prinplusColor, height: 52 }}
                 value={this.props.prinplus}
               />
             )}
@@ -449,10 +449,11 @@ class App extends Component {
                     />
                     <View style={gauge}>
                       <Text style={gaugeText}>
-                        {I18n.toPercentage(
+                        {/* {I18n.toPercentage(
                           principal2 * 100 / Number(number(this.props.principal)),
                           strings('format.number')
-                        )}
+                        )} */}
+                        {principal1.toLocaleString(currentLocale, optionsN)}
                       </Text>
                     </View>
                   </View>
@@ -512,7 +513,9 @@ const styles = {
   pieContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 70
+    paddingLeft: 10,
+    paddingRight: 5
+    //paddingLeft: 70
   },
   pie: {
     flex: 1,
@@ -528,9 +531,9 @@ const styles = {
     justifyContent: 'center'
   },
   gaugeText: {
-    backgroundColor: 'transparent',
-    color: '#000',
-    fontSize: 24
+    backgroundColor: 'transparent'
+    //color: '#000',
+    //fontSize: 18
   }
 };
 
