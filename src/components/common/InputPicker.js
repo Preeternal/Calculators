@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Picker } from 'native-base';
+import { strings } from '../../../locales/i18n';
 
 const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, pickerStyle } = styles;
@@ -15,6 +16,12 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
+          itemStyle={{ color: '#525050' }}
+          itemTextStyle={{ color: '#525050' }}
+          iosHeader={strings('picker.iosHeader')}
+          headerBackButtonText={strings('picker.headerBackButtonText')}
+          headerStyle={{ color: '#525050' }}
+          textStyle={{ color: '#525050' }}
           //mode='dropdown'
           options={options}
           style={pickerStyle}
@@ -73,7 +80,8 @@ const styles = {
     //alignItems: 'center'
   },
   pickerStyle: {
-    color: '#525050',
+    //color: '#525050',
+
     flex: 1
   }
 };

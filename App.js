@@ -40,16 +40,10 @@ import {
   Table
 } from './src/components/common';
 
-import I18n, { strings, currentLocale } from './locales/i18n';
+import { strings, currentLocale } from './locales/i18n';
 import 'number-to-locale-string';
 
-import {
-  initDate,
-  changeDate,
-  number
-  //calculate
-} from './src/lib';
-import { calculate } from './src/lib/calculate2';
+import { initDate, changeDate, number, calculate } from './src/lib';
 
 // import {
 //          principal2 as principal2Selector,

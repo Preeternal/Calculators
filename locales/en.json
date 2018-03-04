@@ -75,5 +75,9 @@
   "table": {
     "header": "Account statement",
     "tableHead": ["№", "date", "accrued %", "days", "accrued % total", "total amount"]
+  },
+  "picker": {
+    "iosHeader": "Select One",
+    "headerBackButtonText": "Back"
   }
 }
