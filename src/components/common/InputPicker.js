@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Picker } from 'react-native';
+import { View, Text } from 'react-native';
+import { Picker } from 'native-base';
 
 const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
   const { containerStyle, labelStyle, labelTextStyle, inputStyle, pickerStyle } = styles;
@@ -17,6 +18,7 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
           //mode='dropdown'
           options={options}
           style={pickerStyle}
+          //headerStyle={{ backgroundColor: '#b95dd3' }}
         >
           {options.map((item, index) => {
             return <Picker.Item label={item} value={index} key={index} />;

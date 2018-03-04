@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "moment": "^2.21.0",
+    "native-base": "^2.3.9",
     "number-to-locale-string": "^1.2.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.0-alpha.1",
