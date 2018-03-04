@@ -11,7 +11,9 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
       <View style={labelStyle}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
-      <View style={inputStyle}>     
+      <View style={inputStyle}>
+        {/* <Text style={{ paddingLeft: 10 }} /> */}
+        <View style={{ paddingLeft: 10 }} />
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
@@ -23,13 +25,13 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
           textStyle={{ color: '#525050' }}
           //mode='dropdown'
           options={options}
-          //style={pickerStyle}
+          style={pickerStyle}
           //headerStyle={{ backgroundColor: '#b95dd3' }}
         >
           {options.map((item, index) => {
             return <Picker.Item label={item} value={index} key={index} />;
           })}
-        </Picker>       
+        </Picker>
       </View>
     </View>
   );
@@ -80,8 +82,6 @@ const styles = {
   },
   pickerStyle: {
     //color: '#525050',
-    //paddingLeft: -10,
-    //paddingRight: 5,    
     flex: 1
   }
 };
