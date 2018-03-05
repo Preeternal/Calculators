@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Result = ({ label, resultData }) => {
+const Result = ({ label, resultData, resultPieStyle }) => {
   const { containerStyle, labelStyle, labelTextStyle, resultStyle, resultDataStyle } = styles;
 
   return (
@@ -9,7 +9,7 @@ const Result = ({ label, resultData }) => {
       <View style={labelStyle}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
-      <View style={resultStyle}>
+      <View style={[resultStyle, resultPieStyle]}>
         <Text style={resultDataStyle}>{resultData}</Text>
       </View>
     </View>
@@ -29,8 +29,8 @@ const styles = {
   },
   labelStyle: {
     //backgroundColor: '#757171',
-    borderRightWidth: 1,
-    borderColor: '#ddd',
+    //borderRightWidth: 1,
+    //borderColor: '#ddd',
     flex: 2,
     //height: 52,
     //borderColor: 'gray',

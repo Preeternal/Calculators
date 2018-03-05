@@ -67,8 +67,9 @@
         "mesyacyi3": "months"
       }
     },
-    "payment": "Your monthly revenue (on average)",
-    "principal2": "Amount of payment of all accruals",
+    "payment": "Interest monthly calculation (on average)",
+    "principal2": "Interest charges",
+    "adjunctionAll": "Replenishments",
     "principal1": "Total amount on hands",
     "pie": "Total amount with interest"
   },

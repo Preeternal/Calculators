@@ -156,7 +156,7 @@ class App extends Component {
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
 
-    const { days1, srok, payment, principal2, principal1, table } = this.props;
+    const { days1, srok, principal2, principal1, adjunctionAll, table } = this.props;
 
     // const { days1, srok, payment, principal2, principal1, table } = calculate(
     //   Number(number(this.props.principal)),
@@ -397,7 +397,7 @@ class App extends Component {
               label={`${strings('result.srok.srok')} ${srok}`}
             />
 
-            {isNaN(payment) || payment === Infinity ? null : (
+            {/* {isNaN(payment) || payment === Infinity ? null : (
               <Result
                 //label="Ваша месячная выручка (в среднем)"
                 label={strings('result.payment')}
@@ -405,48 +405,84 @@ class App extends Component {
                 //{`${radio_props[this.props.radio].label.charAt(0)}${payment.toFixed(2)}`}
                 resultData={payment.toLocaleString(currentLocale, optionsN)}
               />
-            )}
+            )} */}
 
             <Result
-              //label="Сумма выплаты всех начислений"
+              //label="Сумма вклада
+              label={`${strings('input.principal.label')}`}
+              // resultData={`${radio_props[this.props.radio].label.charAt(0)}${principal2.toFixed(
+              //   2
+              // )}`}
+              resultData={Number(number(this.props.principal)).toLocaleString(
+                currentLocale,
+                optionsN
+              )}
+              resultPieStyle={{
+                borderLeftWidth: 5,
+                borderColor: '#ddd'
+                //color: '#ddd'
+              }}
+            />
+
+            {adjunctionAll > 0 ? (
+              <Result
+                //label="Сумма пополнений"
+                label={strings('result.adjunctionAll')}
+                resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
+                resultPieStyle={{
+                  borderLeftWidth: 5,
+                  borderColor: '#a2aaa4'
+                  //color: '#a2aaa4'
+                }}
+              />
+            ) : null}
+
+            <Result
+              //label="Начисленные проценты"
               label={strings('result.principal2')}
               // resultData={`${radio_props[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
               resultData={principal2.toLocaleString(currentLocale, optionsN)}
+              resultPieStyle={{
+                borderLeftWidth: 5,
+                borderColor: '#569e69'
+                //color: '#569e69'
+              }}
             />
 
-            <Result
+            {/* <Result
               //label="Полная сумма на руки"
               label={strings('result.principal1')}
               // resultData={`${radio_props[this.props.radio].label.charAt(0)}${principal1.toFixed(
               //   2
               // )}`}
               resultData={principal1.toLocaleString(currentLocale, optionsN)}
-            />
+            /> */}
             {Number(number(this.props.principal)) !== 0 ? (
               <CardSection>
                 <View style={pieContainer}>
-                  <Text>
-                    {/* Доходность */}
-                    {strings('result.pie')}
-                  </Text>
+                  <View style={{ flex: 2, justifyContent: 'center' }}>
+                    <Text>
+                      {/* Доходность */}
+                      {strings('result.pie')}
+                    </Text>
+                  </View>
                   <View style={pie}>
                     <Pie
                       radius={50}
                       innerRadius={45}
                       series={[
-                        Number((principal2 / Number(number(this.props.principal)) * 100).toFixed(2))
+                        Number(number(this.props.principal)) * 100 / principal1,
+                        adjunctionAll * 100 / principal1,
+                        principal2 * 100 / principal1
                       ]}
-                      colors={['#f00']}
+                      //colors={['#ddd', '#f00']}
+                      colors={['#ddd', '#a2aaa4', '#569e69']}
                       backgroundColor="#ddd"
                     />
                     <View style={gauge}>
                       <Text style={gaugeText}>
-                        {/* {I18n.toPercentage(
-                          principal2 * 100 / Number(number(this.props.principal)),
-                          strings('format.number')
-                        )} */}
                         {principal1.toLocaleString(currentLocale, optionsN)}
                       </Text>
                     </View>
@@ -505,16 +541,19 @@ const styles = {
   },
 
   pieContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
     paddingLeft: 10,
-    paddingRight: 5
+    paddingRight: 5,
+    flex: 2,
+    flexDirection: 'row'
     //paddingLeft: 70
   },
   pie: {
     flex: 1,
+    paddingLeft: 10,
+    paddingRight: 5,
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'center'
     //flexDirection: 'row',
   },
   gauge: {
@@ -540,7 +579,14 @@ App.propTypes = {
   platez: PropTypes.number,
   plusperiod: PropTypes.number,
   prinplus: PropTypes.string,
-  radio: PropTypes.number
+  radio: PropTypes.number,
+
+  days1: PropTypes.number,
+  srok: PropTypes.string,
+  principal2: PropTypes.number,
+  principal1: PropTypes.number,
+  adjunctionAll: PropTypes.number,
+  table: PropTypes.object
 };
 
 const mapStateToProps = state => {
@@ -571,9 +617,9 @@ const mapStateToProps = state => {
 
     days1: calculate(state)[0],
     srok: calculate(state)[1],
-    payment: calculate(state)[2],
-    principal2: calculate(state)[3],
-    principal1: calculate(state)[4],
+    principal2: calculate(state)[2],
+    principal1: calculate(state)[3],
+    adjunctionAll: calculate(state)[4],
     table: calculate(state)[5]
 
     // days1,

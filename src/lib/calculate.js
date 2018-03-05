@@ -169,10 +169,11 @@ export const calculate = createSelector(
     }
 
     //месячная выручка (в среднем)
-    const payment = (principal1 - principal - adjunctionAll) / months;
-    //Сумма выплаты всех начислений
+    //const payment = (principal1 - principal - adjunctionAll) / months;
+    //Начисленные проценты
     const principal2 = principal1 - principal - adjunctionAll;
+    //Сумма пополнений adjunctionAll
 
-    return [days1, srok, payment, principal2, principal1, table];
+    return [days1, srok, principal2, principal1, adjunctionAll, table];
   }
 );
