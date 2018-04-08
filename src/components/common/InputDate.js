@@ -33,7 +33,7 @@ const styles = {
     flexDirection: 'row'
   },
   labelStyle: {
-    flex: 2,
+    flex: 1.9,
     borderRightWidth: 1,
     borderColor: '#ddd',
     // borderLeftWidth: 1,
@@ -47,7 +47,7 @@ const styles = {
     paddingRight: 5
   },
   inputStyle: {
-    flex: 1,
+    flex: 1.1,
     //textDecorationLine: 'underline',
     // height: 52,
     // borderColor: 'gray',

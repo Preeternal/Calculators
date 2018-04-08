@@ -31,7 +31,7 @@ const styles = {
     //backgroundColor: '#757171',
     //borderRightWidth: 1,
     //borderColor: '#ddd',
-    flex: 2,
+    flex: 1.9,
     //height: 52,
     //borderColor: 'gray',
     // borderRightWidth: 0.5,
@@ -49,7 +49,7 @@ const styles = {
     lineHeight: 15
   },
   resultStyle: {
-    flex: 1,
+    flex: 1.1,
     //textDecorationLine: 'underline',
     height: 52,
     //borderColor: 'gray',

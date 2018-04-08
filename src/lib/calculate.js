@@ -5,7 +5,7 @@ import { strings } from '../../locales/i18n';
 import { initDate, changeDate } from '../lib';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
 
-import type Selector from 'reselect';
+//import type Selector from 'reselect';
 
 const getPrincipal = state => Number(number(state.form.principal));
 const dateOpen = state => changeDate(state.form.dateOpen);

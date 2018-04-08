@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-
 import { Text, View, Image } from 'react-native';
 
+import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 // RadioButton,
 // RadioButtonInput,
@@ -462,7 +461,12 @@ class App extends Component {
             {Number(number(this.props.principal)) !== 0 ? (
               <CardSection>
                 <View style={pieContainer}>
-                  <View style={{ flex: 2, justifyContent: 'center' }}>
+                  <View
+                    style={{
+                      flex: 1.9,
+                      justifyContent: 'center'
+                    }}
+                  >
                     <Text>
                       {/* Доходность */}
                       {strings('result.pie')}
@@ -470,8 +474,8 @@ class App extends Component {
                   </View>
                   <View style={pie}>
                     <Pie
-                      radius={50}
-                      innerRadius={45}
+                      radius={65}
+                      innerRadius={59}
                       series={[
                         Number(number(this.props.principal)) * 100 / principal1,
                         adjunctionAll * 100 / principal1,
@@ -549,7 +553,7 @@ const styles = {
     //paddingLeft: 70
   },
   pie: {
-    flex: 1,
+    flex: 1.1,
     paddingLeft: 10,
     paddingRight: 5,
     alignItems: 'center',
@@ -558,8 +562,8 @@ const styles = {
   },
   gauge: {
     position: 'absolute',
-    width: 100,
-    height: 100,
+    //width: 100,
+    //height: 100,
     alignItems: 'center',
     justifyContent: 'center'
   },
