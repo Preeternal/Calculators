@@ -15,6 +15,7 @@ const getInterest2 = state => Number(number(state.form.interest2)) / 365 / 100;
 const getPlatez = state => state.form.platez;
 const getPlusperiod = state => state.form.plusperiod;
 const getPrinplus = state => Number(number(state.form.prinplus));
+const getRadio = state => state.form.radio;
 
 export const calculate = createSelector(
   [
@@ -25,7 +26,8 @@ export const calculate = createSelector(
     getInterest2,
     getPlatez,
     getPlusperiod,
-    getPrinplus
+    getPrinplus,
+    getRadio
   ],
   (
     principal: number,
@@ -35,7 +37,8 @@ export const calculate = createSelector(
     interest2: number,
     platez: number,
     plusperiod: number,
-    prinplus: number
+    prinplus: number,
+    radio: number
   ) => {
     // const dOpen: Date = changeDate(dateOpen);
     // const dClosed: Date = changeDate(dateClosed);
