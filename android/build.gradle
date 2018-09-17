@@ -2,8 +2,8 @@
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
@@ -16,6 +16,7 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
+        google() 
         jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -25,12 +26,28 @@ allprojects {
     }
 }
 
+ext {
+    // dependency versions
+    googlePlayServicesVersion = "+" // default: "+"
+    compileSdkVersion = 27 // default: 23
+    buildToolsVersion = "27.0.3" // default: "25.0.2"
+    targetSdkVersion = 27 // default: 22
+    minSdkVersion = 16
+    reactNative = "0.55.2" // current react-native version in package.json
+    supportLibrariesVersion = "27.1.1"
+  }
+
 subprojects {
     afterEvaluate {project ->
         if (project.hasProperty("android")) {
             android {
-                compileSdkVersion 27
-                buildToolsVersion '27.0.3'
+                compileSdkVersion rootProject.compileSdkVersion
+                buildToolsVersion rootProject.buildToolsVersion
+
+                defaultConfig {
+                    minSdkVersion rootProject.minSdkVersion
+                    targetSdkVersion rootProject.targetSdkVersion
+                }
             }
         }
     }
