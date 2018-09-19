@@ -1,49 +1,20 @@
 {
-  "name": "calculators",
+  "name": "Calculators",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "flow": "flow",
-    "flow-stop": "flow stop",
-    "flow start": "flow start",
-    "flow status": "flow status",
-    "flow coverage": "flow coverage"
+    "test": "jest"
   },
   "dependencies": {
-    "moment": "^2.22.2",
-    "native-base": "^2.4.2",
-    "number-to-locale-string": "^1.2.0",
-    "prop-types": "^15.6.2",
-    "react": "16.3.1",
-    "react-native": "0.55.2",
-    "react-native-i18n": "^2.0.15",
-    "react-native-modal-datetime-picker": "^6.0.0",
-    "react-native-pie": "^0.5.0",
-    "react-native-simple-radio-button": "^2.7.2",
-    "react-navigation": "^2.11.2",
-    "react-redux": "^5.0.7",
-    "redux": "^4.0.0",
-    "redux-thunk": "^2.3.0",
-    "reselect": "^3.0.1"
+    "react": "16.5.0",
+    "react-native": "0.57.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "babel-jest": "^23.4.2",
-    "babel-preset-flow": "^6.23.0",
-    "babel-preset-react-native": "4.0.0",
-    "eslint": "^5.3.0",
-    "eslint-config-fbjs": "^2.0.1",
-    "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-flowtype": "^2.50.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-relay": "^0.0.26",
-    "flow-bin": "^0.78.0",
-    "jest": "^23.4.2",
-    "prettier-eslint": "^8.8.2",
-    "react-test-renderer": "^16.4.2"
+    "babel-jest": "23.6.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.45.3",
+    "react-test-renderer": "16.5.0"
   },
   "jest": {
     "preset": "react-native"

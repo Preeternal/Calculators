@@ -51,7 +51,6 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
-.vscode/tasks.json
-.vscode/launch.json
-2.code-workspace
-.eslintignore
+
+# Bundle artifact
+*.jsbundle
