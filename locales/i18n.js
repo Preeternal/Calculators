@@ -1,35 +1,37 @@
-import I18n from 'react-native-i18n';
+import RNLanguages from 'react-native-languages';
+import i18n from 'i18n-js';
 import moment from 'moment';
 
 // Import all locales
 import en from './en.json';
 import ru from './ru.json';
 
+i18n.locale = RNLanguages.language;
 // Should the app fallback to English if user locale doesn't exists
-I18n.fallbacks = true;
+i18n.fallbacks = true;
 
 // Define the supported translations
-I18n.translations = {
+i18n.translations = {
   en,
-  ru
+  ru,
 };
 
 // Is it a RTL language?
-//export const isRTL = currentLocale.indexOf('ru') === 0;
+// export const isRTL = currentLocale.indexOf('ru') === 0;
 
 // Allow RTL alignment in RTL languages
-//ReactNative.I18nManager.allowRTL(isRTL);
+// ReactNative.I18nManager.allowRTL(isRTL);
 
 // The method we'll use instead of a regular string
 export function strings(name, params = {}) {
-  return I18n.t(name, params);
+  return i18n.t(name, params);
 }
 
 export function numbers(name, params) {
-  return I18n.l(name, params);
+  return i18n.l(name, params);
 }
 
-export const currentLocale = I18n.currentLocale();
+export const currentLocale = i18n.currentLocale();
 
 // let languages = {
 //   en:  require('../common/languages/en'),
@@ -46,10 +48,10 @@ export const currentLocale = I18n.currentLocale();
 // }
 
 if (currentLocale.indexOf('ru') === 0) {
-  require('moment/locale/ru.js');
+  require('moment/locale/ru.js'); // eslint-disable-line global-require
   moment.locale(currentLocale);
 } else {
   moment.locale('en');
 }
 
-export default I18n;
+export default i18n;

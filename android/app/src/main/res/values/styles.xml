@@ -14,7 +14,7 @@
         <item name="android:textColor">#e4dcdc</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/mydivider</item>
-        <!-- <item name="android:background">#993399</item> -->
+        <item name="android:background">#993399</item>
     </style>
 
 </resources>
