@@ -1,5 +1,5 @@
 {
-  "name": "Calculators",
+  "name": "calculators",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
     "lint": "eslint *.js **/*.js"
   },
   "dependencies": {
+    "i18n-js": "^3.0.11",
     "moment": "^2.22.2",
     "native-base": "^2.8.0",
     "number-to-locale-string": "^1.2.0",
@@ -38,6 +39,9 @@
     "react-test-renderer": "16.5.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    }
   }
 }
