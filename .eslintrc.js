@@ -14,6 +14,7 @@ module.exports = {
     'react/destructuring-assignment': 0,
     'react/require-default-props': 0,
     'react/prop-types': 'off',
+    'react/jsx-wrap-multilines': [1, { prop: 'ignore' }],
     'import/extensions': [1, 'never', { svg: 'always' }],
     'import/first': 1,
     'import/prefer-default-export': 0,

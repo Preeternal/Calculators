@@ -1,13 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Picker } from 'native-base';
+import { View, Text, Platform } from 'react-native';
+import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
 
 const InputPicker = ({
   label, selectedValue, onValueChange, options,
 }) => {
   const {
-    containerStyle, labelStyle, labelTextStyle, inputStyle, pickerStyle,
+    containerStyle,
+    labelStyle,
+    labelTextStyle,
+    inputStyle,
+    pickerStyle,
+    arrowIosStyle,
   } = styles;
 
   return (
@@ -16,7 +21,7 @@ const InputPicker = ({
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
-        <View style={{ paddingLeft: 10 }} />
+        {Platform.OS === 'android' && <View style={{ paddingLeft: 10 }} />}
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
@@ -25,11 +30,15 @@ const InputPicker = ({
           iosHeader={strings('picker.iosHeader')}
           headerBackButtonText={strings('picker.headerBackButtonText')}
           // headerStyle={{ color: '#525050' }}
-          textStyle={{ color: '#525050' }}
+          textStyle={{
+            color: '#525050',
+            fontSize: Platform.OS === 'ios' ? 13 : 15,
+          }}
           // mode='dropdown'
           options={options}
           style={pickerStyle}
           // headerStyle={{ backgroundColor: '#b95dd3' }}
+          iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
         >
           {options.map((item, index) => (
             <Picker.Item label={item} value={index} key={item} />
@@ -62,9 +71,16 @@ const styles = {
   inputStyle: {
     flex: 1.1,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   pickerStyle: {
     flex: 1,
+  },
+  arrowIosStyle: {
+    color: '#5c251c',
+    alignSelf: 'flex-start',
+    fontSize: 15,
+    marginLeft: -8,
   },
 };
 
