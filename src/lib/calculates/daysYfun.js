@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 // const addMonth = (dateY1: Date, dateOpen: Date): Date => {
 //   const dateY: Date = new Date();

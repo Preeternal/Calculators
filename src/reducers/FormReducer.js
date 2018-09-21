@@ -1,4 +1,5 @@
-//@flow
+// @flow
+import 'number-to-locale-string';
 import {
   PRINCIPAL_CHANGED,
   DATE_OPEN_CHANGED,
@@ -8,7 +9,7 @@ import {
   PLATEZ_CHANGED,
   PLUSPERIOD_CHANGED,
   PRINPLUS_CHANGED,
-  RADIO_PRESSED
+  RADIO_PRESSED,
 } from '../actions/types';
 
 import type { FormActionsTypes } from '../actions/types';
@@ -16,22 +17,19 @@ import type { FormActionsTypes } from '../actions/types';
 import { initDate } from '../lib';
 
 import { currentLocale } from '../../locales/i18n';
-import 'number-to-locale-string';
 
 const nextYear = (d: Date) => {
-  //const d = new Date();
   const year = d.getFullYear();
   const month = d.getMonth();
   const day = d.getDate();
   return new Date(year + 1, month, day);
 };
 
-const radioValue = (currentLocale: string) => {
-  if (currentLocale === 'ru-RU') {
+const radioValue = (locale: string) => {
+  if (locale === 'ru-RU') {
     return 2;
-  } else {
-    return 0;
   }
+  return 0;
 };
 
 type FormState = {
@@ -43,7 +41,7 @@ type FormState = {
   platez: number,
   plusperiod: number,
   prinplus: string,
-  radio: number
+  radio: number,
 };
 
 const INITIAL_STATE: FormState = {
@@ -55,11 +53,11 @@ const INITIAL_STATE: FormState = {
   platez: 0,
   plusperiod: 0,
   prinplus: '100',
-  radio: radioValue(currentLocale)
+  radio: radioValue(currentLocale),
 };
 
 export default (state: FormState = INITIAL_STATE, action: FormActionsTypes): FormState => {
-  //console.log(action.type);
+  // console.log(action.type);
   switch (action.type) {
     case PRINCIPAL_CHANGED:
       return { ...state, principal: action.payload };

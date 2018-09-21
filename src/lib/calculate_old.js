@@ -1,7 +1,7 @@
-//@flow
+// @flow
+// import { createSelector } from 'reselect';
 import { strings } from '../../locales/i18n';
-import { initDate, changeDate } from '../lib';
-import { createSelector } from 'reselect';
+import { initDate, changeDate } from '.';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
 
 export const calculate = (
@@ -12,7 +12,7 @@ export const calculate = (
   interest2: number,
   platez: number,
   plusperiod: number,
-  prinplus: number
+  prinplus: number,
 ) => {
   const dOpen: Date = changeDate(dateOpen);
   const dClosed: Date = changeDate(dateClosed);
@@ -24,33 +24,28 @@ export const calculate = (
   const dni: string = daysString(days); // '', день, дня, дней
 
   const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed);
-  let days1 = DaysAfterMonths.days1;
-  const cf = DaysAfterMonths.cf;
-  let dni1: string = daysString(days1); // '', день, дня, дней
+  const { days1, cf } = DaysAfterMonths;
+  const dni1: string = daysString(days1); // '', день, дня, дней
 
-  let months =
-    (dClosed.getFullYear() - dOpen.getFullYear()) * 12 +
-    (dClosed.getMonth() + 1 - (dOpen.getMonth() + 1)) -
-    cf;
+  const months = (dClosed.getFullYear() - dOpen.getFullYear()) * 12
+    + (dClosed.getMonth() + 1 - (dOpen.getMonth() + 1))
+    - cf;
   const mesyacyi: string = monthsString(months); // '',  месяц , месяца, месяцев
 
   const ili: string = strings('result.srok.ili');
 
-  const srok =
-    //days > 0  ?
-    (() => {
-      switch (true) {
-        case days <= 0:
-          return undefined;
-        case months === 0:
-          return `${days} ${dni}`;
-        case days1 === 0:
-          return `${days} ${dni} ${ili} ${months} ${mesyacyi}`;
-        default:
-          return `${days} ${dni}  ${ili} ${months} ${mesyacyi} ${days1} ${dni1}`;
-      }
-    })();
-  //: undefined;
+  const srok = (() => {
+    switch (true) {
+      case days <= 0:
+        return undefined;
+      case months === 0:
+        return `${days} ${dni}`;
+      case days1 === 0:
+        return `${days} ${dni} ${ili} ${months} ${mesyacyi}`;
+      default:
+        return `${days} ${dni}  ${ili} ${months} ${mesyacyi} ${days1} ${dni1}`;
+    }
+  })();
 
   let totalinterest1 = 0;
   let principal1 = principal;
@@ -70,14 +65,14 @@ export const calculate = (
     totalinterest1: number[],
     daysY: number[],
     totalinterest2: number[],
-    principal1: number[]
+    principal1: number[],
   } = {
     n: [], // №
     date: [], // дата
     totalinterest1: [], // начислено %
     daysY: [], // дни
     totalinterest2: [], // начислено % итого
-    principal1: [] // общая сумма
+    principal1: [], // общая сумма
   };
 
   if (days > 0) {
@@ -105,7 +100,7 @@ export const calculate = (
           }
         }
 
-        //daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
+        // daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
         dateY.setMonth(dateY1.getMonth() + 1);
         daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);
 
@@ -145,10 +140,17 @@ export const calculate = (
     }
   }
 
-  //месячная выручка (в среднем)
+  // месячная выручка (в среднем)
   const payment = (principal1 - principal - adjunctionAll) / months;
-  //Сумма выплаты всех начислений
+  // Сумма выплаты всех начислений
   const principal2 = principal1 - principal - adjunctionAll;
 
-  return { days1, srok, payment, principal2, principal1, table };
+  return {
+    days1,
+    srok,
+    payment,
+    principal2,
+    principal1,
+    table,
+  };
 };

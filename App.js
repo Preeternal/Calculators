@@ -1,17 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Text, View, Image } from 'react-native';
-
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
-// RadioButton,
-// RadioButtonInput,
-// RadioButtonLabel
-
 import DateTimePicker from 'react-native-modal-datetime-picker';
-
 import { connect } from 'react-redux';
-
 import Pie from 'react-native-pie';
+import 'number-to-locale-string';
 
 import {
   principalChanged,
@@ -22,27 +16,26 @@ import {
   platezChanged,
   plusperiodChanged,
   prinplusChanged,
-  radioPressed
+  radioPressed,
 } from './src/actions';
 
 import {
   Input,
   InputDate,
   InputPicker,
-  //  Button,
   CardSection,
   Card,
   Header,
   Result,
   ResultSrok,
-  //Table,
-  Table
+  Table,
 } from './src/components/common';
 
 import { strings, currentLocale } from './locales/i18n';
-import 'number-to-locale-string';
 
-import { initDate, changeDate, number, calculate } from './src/lib';
+import {
+  initDate, changeDate, number, calculate,
+} from './src/lib';
 
 // import {
 //          principal2 as principal2Selector,
@@ -55,19 +48,17 @@ import { initDate, changeDate, number, calculate } from './src/lib';
 // });
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      principalColor: '#525050',
-      interest1Color: '#525050',
-      interest2Color: '#525050',
-      prinplusColor: '#525050'
-    };
-  }
+  state = {
+    principalColor: '#525050',
+    interest1Color: '#525050',
+    interest2Color: '#525050',
+    prinplusColor: '#525050',
+  };
 
-  onFocus(input, text) {
+
+  onFocus = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#000000'
+      [`${input}Color`]: '#000000',
     });
     if (text === '0' || text === '0,00') {
       this.props[`${input}Changed`]('');
@@ -76,9 +67,9 @@ class App extends Component {
     }
   }
 
-  onBlur(input, text) {
+  onBlur = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#525050'
+      [`${input}Color`]: '#525050',
     });
     if (text === '') {
       this.props[`${input}Changed`]('0');
@@ -86,67 +77,62 @@ class App extends Component {
       this.props[`${input}Changed`](
         Number(text).toLocaleString('ru-RU', {
           minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        })
+          maximumFractionDigits: 2,
+        }),
       );
     }
-    //I18n.locale = 'en-US';
   }
 
-  onPrincipalChange(text) {
+  onPrincipalChange = (text) => {
     this.props.principalChanged(number(text));
-    //this.props.principalChanged(text);
   }
 
-  onDateOpenChange(text) {
+  onDateOpenChange = (text) => {
     this.props.dateOpenChanged(text);
   }
 
-  onDateClosedChange(text) {
+  onDateClosedChange = (text) => {
     this.props.dateClosedChanged(text);
   }
 
-  onInterest1Change(text) {
+  onInterest1Change = (text) => {
     this.props.interest1Changed(number(text));
   }
 
-  onInterest2Change(text) {
+  onInterest2Change = (text) => {
     this.props.interest2Changed(number(text));
   }
 
-  onPlatezChange(text) {
+  onPlatezChange = (text) => {
     this.props.platezChanged(text);
-    // console.log(text);
   }
 
-  onPlusperiodChange(text) {
+  onPlusperiodChange = (text) => {
     this.props.plusperiodChanged(text);
-    // console.log(text);
   }
 
-  onPrinplusChange(text) {
+  onPrinplusChange = (text) => {
     this.props.prinplusChanged(number(text));
-    // console.log(text);
   }
 
-  onRadioPress(value) {
+  onRadioPress = (value) => {
     this.props.radioPressed(value);
   }
 
   render() {
     const {
-      topimage,
+      topImage,
       welcome,
       radioStyle,
       inputDataStyle,
       pieContainer,
       pie,
       gauge,
-      gaugeText
-      //instructions
+      gaugeText,
+      // instructions
     } = styles;
     const pic = {
-      uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg'
+      uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg',
     };
     // const { principal,
     //   //principal2,
@@ -155,7 +141,9 @@ class App extends Component {
     // const principal2 = principal2Selector(this.props.principal);
     // const principal3 = principal3Selector(this.props.principal);
 
-    const { days1, srok, principal2, principal1, adjunctionAll, table } = this.props;
+    const {
+      days1, srok, principal2, principal1, adjunctionAll, table,
+    } = this.props;
 
     // const { days1, srok, payment, principal2, principal1, table } = calculate(
     //   Number(number(this.props.principal)),
@@ -168,33 +156,33 @@ class App extends Component {
     //   Number(number(this.props.prinplus))
     // );
 
-    const radio_props = [
+    const radio = [
       {
         label: '$usd ',
         index: 'USD',
-        value: 0
+        value: 0,
       },
       {
         label: '€eur ',
         index: 'EUR',
-        value: 1
+        value: 1,
       },
       {
         label: '₽руб',
         index: 'RUB',
-        value: 2
-      }
+        value: 2,
+      },
     ];
 
     const optionsN = {
       style: 'currency',
       currencyDisplay: 'symbol',
-      currency: radio_props[this.props.radio].index,
+      currency: radio[this.props.radio].index,
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     };
 
-    //console.log(dateQ.toLocaleString(currentLocale, options));
+    // console.log(dateQ.toLocaleString(currentLocale, options));
 
     // console.log(currentLocale);
     // console.log(optionsN);
@@ -207,7 +195,7 @@ class App extends Component {
           {/* <Header headerText="Депозитный калькулятор" /> */}
           <Header headerText={strings('header')} />
           <CardSection>
-            <Image source={pic} style={topimage} />
+            <Image source={pic} style={topImage} />
             <Text style={welcome}>
               {/* {!srok ? 'Проверьте правильность ввода:' : 'Введите информацию о депозите:'} */}
               {!srok ? strings('welcome.error') : strings('welcome.go')}
@@ -216,7 +204,7 @@ class App extends Component {
             <RadioForm
               style={radioStyle}
               // ref="radioForm"
-              radio_props={radio_props}
+              radio_props={radio}
               initial={this.props.radio}
               formHorizontal
               labelHorizontal
@@ -224,12 +212,12 @@ class App extends Component {
               selectedButtonColor="#525050"
               // buttonInnerColor={'#e74c3c'}
               // buttonOuterColor={'#757171'}
-              //buttonSize={15}
+              // buttonSize={15}
               // buttonOuterSize={60}
               labelColor="#757171"
               selectedLabelColor="#525050"
               animation
-              onPress={value => {
+              onPress={(value) => {
                 this.onRadioPress(value);
               }}
             />
@@ -237,13 +225,13 @@ class App extends Component {
 
           <View style={inputDataStyle}>
             <Input
-              //placeholder="введите сумму"
+              // placeholder="введите сумму"
               placeholder={strings('input.principal.placeholder')}
-              //label="Сумма вклада"
-              label={`${strings('input.principal.label')}, ${radio_props[
+              // label="Сумма вклада"
+              label={`${strings('input.principal.label')}, ${radio[
                 this.props.radio
               ].label.charAt(0)}`}
-              onChangeText={this.onPrincipalChange.bind(this)}
+              onChangeText={this.onPrincipalChange}
               onFocus={() => this.onFocus('principal', this.props.principal)}
               onBlur={() => this.onBlur('principal', this.props.principal)}
               appInputStyle={{ color: this.state.principalColor }}
@@ -251,17 +239,17 @@ class App extends Component {
             />
 
             <InputDate
-              //label="Дата открытия вклада"
+              // label="Дата открытия вклада"
               label={strings('input.dateOpen.label')}
               value={this.props.dateOpen}
               onRootPress={() => {
                 this.setState({
-                  isDateTimePickerVisible: true
+                  isDateTimePickerVisible: true,
                 });
               }}
               onPress={() => {
                 this.setState({
-                  isDateTimePickerVisible: true
+                  isDateTimePickerVisible: true,
                 });
               }}
             />
@@ -269,34 +257,33 @@ class App extends Component {
             <DateTimePicker
               date={changeDate(this.props.dateOpen)}
               isVisible={this.state.isDateTimePickerVisible}
-              onConfirm={date => {
-                //console.log('A date has been picked: ', date);
+              onConfirm={(date) => {
                 this.setState({
-                  isDateTimePickerVisible: false
+                  isDateTimePickerVisible: false,
                 });
                 this.onDateOpenChange(initDate(date));
               }}
               //
               onCancel={() => {
                 this.setState({
-                  isDateTimePickerVisible: false
+                  isDateTimePickerVisible: false,
                 });
               }}
               datePickerModeAndroid="spinner"
             />
 
             <InputDate
-              //label="Дата закрытия вклада"
+              // label="Дата закрытия вклада"
               label={strings('input.dateClosed.label')}
               value={this.props.dateClosed}
               onRootPress={() => {
                 this.setState({
-                  isDateTimePickerVisible2: true
+                  isDateTimePickerVisible2: true,
                 });
               }}
               onPress={() => {
                 this.setState({
-                  isDateTimePickerVisible2: true
+                  isDateTimePickerVisible2: true,
                 });
               }}
             />
@@ -304,27 +291,25 @@ class App extends Component {
             <DateTimePicker
               date={changeDate(this.props.dateClosed)}
               isVisible={this.state.isDateTimePickerVisible2}
-              onConfirm={date => {
-                //console.log('A date has been picked: ', date);
+              onConfirm={(date) => {
                 this.setState({
-                  isDateTimePickerVisible2: false
+                  isDateTimePickerVisible2: false,
                 });
                 this.onDateClosedChange(initDate(date));
               }}
-              //
               onCancel={() => {
                 this.setState({
-                  isDateTimePickerVisible2: false
+                  isDateTimePickerVisible2: false,
                 });
               }}
               datePickerModeAndroid="spinner"
             />
             <Input
-              //placeholder="введите ставку"
+              // placeholder="введите ставку"
               placeholder={strings('input.interest1.placeholder')}
-              //label="Процентная ставка"
+              // label="Процентная ставка"
               label={strings('input.interest1.label')}
-              onChangeText={this.onInterest1Change.bind(this)}
+              onChangeText={this.onInterest1Change}
               onBlur={() => this.onBlur('interest1', this.props.interest1)}
               onFocus={() => this.onFocus('interest1', this.props.interest1)}
               appInputStyle={{ color: this.state.interest1Color }}
@@ -333,11 +318,11 @@ class App extends Component {
 
             {days1 > 0 ? (
               <Input
-                //placeholder="введите ставку"
+                // placeholder="введите ставку"
                 placeholder={strings('input.interest2.placeholder')}
-                //label="Процентная ставка при досрочном расторжении вклада (не полный месяц)"
+                // label="Процентная ставка при досрочном расторжении вклада (не полный месяц)"
                 label={strings('input.interest2.label')}
-                onChangeText={this.onInterest2Change.bind(this)}
+                onChangeText={this.onInterest2Change}
                 onBlur={() => this.onBlur('interest2', this.props.interest2)}
                 onFocus={() => this.onFocus('interest2', this.props.interest2)}
                 appInputStyle={{ color: this.state.interest2Color }}
@@ -346,37 +331,37 @@ class App extends Component {
             ) : null}
 
             <InputPicker
-              //label="Капитализация процентов (ежемесячно)"
+              // label="Капитализация процентов (ежемесячно)"
               label={strings('input.platez.label')}
-              //options={['да', 'нет']}
+              // options={['да', 'нет']}
               options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
               selectedValue={this.props.platez}
-              onValueChange={this.onPlatezChange.bind(this)}
+              onValueChange={this.onPlatezChange}
             />
 
             <InputPicker
-              //label="Пополнение депозита"
+              // label="Пополнение депозита"
               label={strings('input.plusperiod.label')}
-              //options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
+              // options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
               options={[
                 strings('input.plusperiod.options.no'),
                 strings('input.plusperiod.options.monthly'),
                 strings('input.plusperiod.options.quarterly'),
-                strings('input.plusperiod.options.annually')
+                strings('input.plusperiod.options.annually'),
               ]}
               selectedValue={this.props.plusperiod}
-              onValueChange={this.onPlusperiodChange.bind(this)}
+              onValueChange={this.onPlusperiodChange}
             />
 
             {Number(this.props.plusperiod) === 0 ? null : (
               <Input
-                //label="На сумму"
-                label={`${strings('input.prinplus.label')}, ${radio_props[
+                // label="На сумму"
+                label={`${strings('input.prinplus.label')}, ${radio[
                   this.props.radio
                 ].label.charAt(0)}`}
-                //placeholder="введите сумму"
+                // placeholder="введите сумму"
                 placeholder={strings('input.prinplus.placeholder')}
-                onChangeText={this.onPrinplusChange.bind(this)}
+                onChangeText={this.onPrinplusChange}
                 onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
                 onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
                 appInputStyle={{ color: this.state.prinplusColor, height: 52 }}
@@ -392,7 +377,7 @@ class App extends Component {
             <Header headerText={strings('result.header')} />
 
             <ResultSrok
-              //label={`Срок депозита ${srok}`}
+              // label={`Срок депозита ${srok}`}
               label={`${strings('result.srok.srok')} ${srok}`}
             />
 
@@ -401,59 +386,59 @@ class App extends Component {
                 //label="Ваша месячная выручка (в среднем)"
                 label={strings('result.payment')}
                 //resultData=
-                //{`${radio_props[this.props.radio].label.charAt(0)}${payment.toFixed(2)}`}
+                //{`${radio[this.props.radio].label.charAt(0)}${payment.toFixed(2)}`}
                 resultData={payment.toLocaleString(currentLocale, optionsN)}
               />
             )} */}
 
             <Result
-              //label="Сумма вклада
+              // label="Сумма вклада
               label={`${strings('input.principal.label')}`}
-              // resultData={`${radio_props[this.props.radio].label.charAt(0)}${principal2.toFixed(
+              // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
               resultData={Number(number(this.props.principal)).toLocaleString(
                 currentLocale,
-                optionsN
+                optionsN,
               )}
               resultPieStyle={{
                 borderLeftWidth: 5,
-                borderColor: '#ddd'
-                //color: '#ddd'
+                borderColor: '#ddd',
+                // color: '#ddd'
               }}
             />
 
             {adjunctionAll > 0 ? (
               <Result
-                //label="Сумма пополнений"
+                // label="Сумма пополнений"
                 label={strings('result.adjunctionAll')}
                 resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
                 resultPieStyle={{
                   borderLeftWidth: 5,
-                  borderColor: '#a2aaa4'
-                  //color: '#a2aaa4'
+                  borderColor: '#a2aaa4',
+                  // color: '#a2aaa4'
                 }}
               />
             ) : null}
 
             <Result
-              //label="Начисленные проценты"
+              // label="Начисленные проценты"
               label={strings('result.principal2')}
-              // resultData={`${radio_props[this.props.radio].label.charAt(0)}${principal2.toFixed(
+              // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
               resultData={principal2.toLocaleString(currentLocale, optionsN)}
               resultPieStyle={{
                 borderLeftWidth: 5,
-                borderColor: '#569e69'
-                //color: '#569e69'
+                borderColor: '#569e69',
+                // color: '#569e69'
               }}
             />
 
             {/* <Result
               //label="Полная сумма на руки"
               label={strings('result.principal1')}
-              // resultData={`${radio_props[this.props.radio].label.charAt(0)}${principal1.toFixed(
+              // resultData={`${radio[this.props.radio].label.charAt(0)}${principal1.toFixed(
               //   2
               // )}`}
               resultData={principal1.toLocaleString(currentLocale, optionsN)}
@@ -464,7 +449,7 @@ class App extends Component {
                   <View
                     style={{
                       flex: 1.9,
-                      justifyContent: 'center'
+                      justifyContent: 'center',
                     }}
                   >
                     <Text>
@@ -479,9 +464,9 @@ class App extends Component {
                       series={[
                         Number(number(this.props.principal)) * 100 / principal1,
                         adjunctionAll * 100 / principal1,
-                        principal2 * 100 / principal1
+                        principal2 * 100 / principal1,
                       ]}
-                      //colors={['#ddd', '#f00']}
+                      // colors={['#ddd', '#f00']}
                       colors={['#ddd', '#a2aaa4', '#569e69']}
                       backgroundColor="#ddd"
                     />
@@ -501,7 +486,7 @@ class App extends Component {
           <Card>
             {/* <Header headerText="Выписка со счёта" /> */}
             <Header headerText={strings('table.header')} />
-            <Table currency={radio_props[this.props.radio].label} value={table} />
+            <Table currency={radio[this.props.radio].label} value={table} />
           </Card>
         )}
       </Fragment>
@@ -519,59 +504,59 @@ const styles = {
   welcome: {
     fontSize: 17,
     margin: 10,
-    //alignSelf: 'center',
-    textAlign: 'center'
+    // alignSelf: 'center',
+    textAlign: 'center',
   },
   // instructions: {
   //   color: '#333333',
   //   marginBottom: 5,
   // },
-  topimage: {
+  topImage: {
     width: 193,
     height: 110,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   radioStyle: {
     // color: 'gray',
     alignSelf: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   inputDataStyle: {
     flex: 1,
     position: 'relative',
     alignItems: 'stretch',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
 
   pieContainer: {
-    //alignItems: 'center',
+    // alignItems: 'center',
     paddingLeft: 10,
     paddingRight: 5,
     flex: 2,
-    flexDirection: 'row'
-    //paddingLeft: 70
+    flexDirection: 'row',
+    // paddingLeft: 70
   },
   pie: {
     flex: 1.1,
     paddingLeft: 10,
     paddingRight: 5,
     alignItems: 'center',
-    justifyContent: 'center'
-    //flexDirection: 'row',
+    justifyContent: 'center',
+    // flexDirection: 'row',
   },
   gauge: {
     position: 'absolute',
-    //width: 100,
-    //height: 100,
+    // width: 100,
+    // height: 100,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   gaugeText: {
-    backgroundColor: 'transparent'
-    //color: '#000',
-    //fontSize: 18
-  }
+    backgroundColor: 'transparent',
+    // color: '#000',
+    // fontSize: 18
+  },
 };
 
 App.propTypes = {
@@ -590,51 +575,36 @@ App.propTypes = {
   principal2: PropTypes.number,
   principal1: PropTypes.number,
   adjunctionAll: PropTypes.number,
-  table: PropTypes.object
+  table: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  // const { days1, srok, payment, principal2, principal1, table } = calculate(
-  //   Number(state.form.principal),
-  //   state.form.dateOpen,
-  //   state.form.dateClosed,
-  //   Number(state.form.interest1) / 365 / 100,
-  //   Number(state.form.interest2) / 365 / 100,
-  //   state.form.platez,
-  //   state.form.plusperiod,
-  //   Number(state.form.prinplus)
-  //);
-  //const su = getSum(state);
+const mapStateToProps = state => ({
+  principal: state.form.principal,
+  // principal2: principal2Selector(state.form.principal),
+  // principal3: principal3Selector(state.form.principal),
+  dateOpen: state.form.dateOpen,
+  dateClosed: state.form.dateClosed,
+  interest1: state.form.interest1,
+  interest2: state.form.interest2,
+  platez: state.form.platez,
+  plusperiod: state.form.plusperiod,
+  prinplus: state.form.prinplus,
+  radio: state.form.radio,
 
-  return {
-    principal: state.form.principal,
-    // principal2: principal2Selector(state.form.principal),
-    // principal3: principal3Selector(state.form.principal),
-    dateOpen: state.form.dateOpen,
-    dateClosed: state.form.dateClosed,
-    interest1: state.form.interest1,
-    interest2: state.form.interest2,
-    platez: state.form.platez,
-    plusperiod: state.form.plusperiod,
-    prinplus: state.form.prinplus,
-    radio: state.form.radio,
+  days1: calculate(state)[0],
+  srok: calculate(state)[1],
+  principal2: calculate(state)[2],
+  principal1: calculate(state)[3],
+  adjunctionAll: calculate(state)[4],
+  table: calculate(state)[5],
 
-    days1: calculate(state)[0],
-    srok: calculate(state)[1],
-    principal2: calculate(state)[2],
-    principal1: calculate(state)[3],
-    adjunctionAll: calculate(state)[4],
-    table: calculate(state)[5]
-
-    // days1,
-    // srok,
-    // payment,
-    // principal2,
-    // principal1,
-    // table
-  };
-};
-
+  // days1,
+  // srok,
+  // payment,
+  // principal2,
+  // principal1,
+  // table
+});
 export default connect(mapStateToProps, {
   principalChanged,
   dateOpenChanged,
@@ -644,5 +614,5 @@ export default connect(mapStateToProps, {
   platezChanged,
   plusperiodChanged,
   prinplusChanged,
-  radioPressed
+  radioPressed,
 })(App);
