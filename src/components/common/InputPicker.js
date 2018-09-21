@@ -1,15 +1,13 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { Picker, Icon } from "native-base";
-import { strings } from "../../../locales/i18n";
+import React from 'react';
+import { View, Text } from 'react-native';
+import { Picker, Icon } from 'native-base';
+import { strings } from '../../../locales/i18n';
 
-const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
+const InputPicker = ({
+  label, selectedValue, onValueChange, options,
+}) => {
   const {
-    containerStyle,
-    labelStyle,
-    labelTextStyle,
-    inputStyle,
-    pickerStyle
+    containerStyle, labelStyle, labelTextStyle, inputStyle, pickerStyle,
   } = styles;
 
   return (
@@ -23,11 +21,11 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
           selectedValue={selectedValue}
           onValueChange={onValueChange}
           // itemStyle={{ color: '#525050' }}
-          itemTextStyle={{ color: "#525050" }}
-          iosHeader={strings("picker.iosHeader")}
-          headerBackButtonText={strings("picker.headerBackButtonText")}
+          itemTextStyle={{ color: '#525050' }}
+          iosHeader={strings('picker.iosHeader')}
+          headerBackButtonText={strings('picker.headerBackButtonText')}
           // headerStyle={{ color: '#525050' }}
-          textStyle={{ color: "#525050" }}
+          textStyle={{ color: '#525050' }}
           // mode='dropdown'
           options={options}
           style={pickerStyle}
@@ -36,10 +34,10 @@ const InputPicker = ({ label, selectedValue, onValueChange, options }) => {
             <Icon
               name="md-arrow-dropdown"
               style={{
-                color: "#5c251c",
-                alignSelf: "flex-start",
-                textAlignVertical: "bottom",
-                fontSize: 20
+                color: '#5c251c',
+                alignSelf: 'flex-start',
+                textAlignVertical: 'bottom',
+                fontSize: 20,
               }}
             />
           }
@@ -57,28 +55,28 @@ const styles = {
   containerStyle: {
     flex: 1,
     borderBottomWidth: 1,
-    backgroundColor: "#fff",
-    borderColor: "#ddd",
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
     minHeight: 52,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   labelStyle: {
     flex: 1.9,
     borderRightWidth: 1,
-    borderColor: "#ddd",
-    justifyContent: "center"
+    borderColor: '#ddd',
+    justifyContent: 'center',
   },
   labelTextStyle: {
     paddingLeft: 10,
-    paddingRight: 5
+    paddingRight: 5,
   },
   inputStyle: {
     flex: 1.1,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   pickerStyle: {
-    flex: 1
-  }
+    flex: 1,
+  },
 };
 
 export { InputPicker };
