@@ -7,7 +7,12 @@ const InputPicker = ({
   label, selectedValue, onValueChange, options,
 }) => {
   const {
-    containerStyle, labelStyle, labelTextStyle, inputStyle, pickerStyle,
+    containerStyle,
+    labelStyle,
+    labelTextStyle,
+    inputStyle,
+    pickerStyle,
+    arrowIosStyle,
   } = styles;
 
   return (
@@ -16,6 +21,7 @@ const InputPicker = ({
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
+        {Platform.OS === 'android' && <View style={{ paddingLeft: 10 }} />}
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
@@ -24,22 +30,15 @@ const InputPicker = ({
           iosHeader={strings('picker.iosHeader')}
           headerBackButtonText={strings('picker.headerBackButtonText')}
           // headerStyle={{ color: '#525050' }}
-          textStyle={{ color: '#525050', fontSize: Platform.OS === 'ios' ? 13 : 15 }}
+          textStyle={{
+            color: '#525050',
+            fontSize: Platform.OS === 'ios' ? 13 : 15,
+          }}
           // mode='dropdown'
           options={options}
           style={pickerStyle}
           // headerStyle={{ backgroundColor: '#b95dd3' }}
-          iosIcon={
-            <Icon
-              name="md-arrow-dropdown"
-              style={{
-                color: '#5c251c',
-                alignSelf: 'flex-start',
-                fontSize: 15,
-                marginLeft: -8,
-              }}
-            />
-          }
+          iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
         >
           {options.map((item, index) => (
             <Picker.Item label={item} value={index} key={item} />
@@ -73,10 +72,15 @@ const styles = {
     flex: 1.1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingLeft: Platform.OS === 'ios' ? -5 : 10,
   },
   pickerStyle: {
     flex: 1,
+  },
+  arrowIosStyle: {
+    color: '#5c251c',
+    alignSelf: 'flex-start',
+    fontSize: 15,
+    marginLeft: -8,
   },
 };
 
