@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
 
@@ -16,7 +16,6 @@ const InputPicker = ({
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
-        <View style={{ paddingLeft: 10 }} />
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
@@ -25,7 +24,7 @@ const InputPicker = ({
           iosHeader={strings('picker.iosHeader')}
           headerBackButtonText={strings('picker.headerBackButtonText')}
           // headerStyle={{ color: '#525050' }}
-          textStyle={{ color: '#525050' }}
+          textStyle={{ color: '#525050', fontSize: Platform.OS === 'ios' ? 13 : 15 }}
           // mode='dropdown'
           options={options}
           style={pickerStyle}
@@ -36,8 +35,8 @@ const InputPicker = ({
               style={{
                 color: '#5c251c',
                 alignSelf: 'flex-start',
-                textAlignVertical: 'bottom',
-                fontSize: 20,
+                fontSize: 15,
+                marginLeft: -8,
               }}
             />
           }
@@ -73,6 +72,8 @@ const styles = {
   inputStyle: {
     flex: 1.1,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingLeft: Platform.OS === 'ios' ? -5 : 10,
   },
   pickerStyle: {
     flex: 1,
