@@ -1,7 +1,7 @@
-//@flow
+// @flow
 export const daysAfterMonths = (
   dateOpen: Date,
-  dateClosed: Date
+  dateClosed: Date,
 ): { days1: number, cf: number } => {
   const oneMinute = 60 * 1000;
   const oneHour = oneMinute * 60;
@@ -19,7 +19,7 @@ export const daysAfterMonths = (
     //   dateZ.setFullYear(dateOpen.getFullYear());
     //   dateZ.setMonth(dateOpen.getMonth() - 1);
     // }
-    //dateZ.setDate(dateOpen.getDate());
+    // dateZ.setDate(dateOpen.getDate());
     dateZ.setMonth(dateOpen.getMonth() - 1);
 
     days1 = Math.round((dateOpen.getTime() - dateZ.getTime()) / oneDay) + days1;

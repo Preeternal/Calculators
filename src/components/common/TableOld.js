@@ -1,30 +1,31 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const ViewItem = (props) => {
-  return (
-    <View style={props.style}>
-      <Text style={styles.textStyle}>{props.value}</Text>
-    </View>
-  );
-};
+const ViewItem = props => (
+  <View style={props.style}>
+    <Text style={styles.textStyle}>{props.value}</Text>
+  </View>
+);
 
-const column = (col, style) => {
-  return col.map((value, index) =>
-    <ViewItem
-      key={index + value.toString()}
-      value={value}
-      style={style}
-    />
-  );
-
-};
+const column = (col, style) => col.map((value, index) => (
+  <ViewItem key={parseInt(index.toString(), 10) + value} value={value} style={style} />
+));
 
 const Table = (props) => {
-  const {containerStyle, headerStyle, renderStyle, textStyle, ViewItemStyle,
-    col1Style, col2Style, col3Style, col4Style, col5Style, col6Style} = styles;
-  const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого',
-    'общая сумма'];
+  const {
+    containerStyle,
+    headerStyle,
+    renderStyle,
+    textStyle,
+    ViewItemStyle,
+    col1Style,
+    col2Style,
+    col3Style,
+    col4Style,
+    col5Style,
+    col6Style,
+  } = styles;
+  const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого', 'общая сумма'];
   const col1 = column(props.col1, ViewItemStyle);
   const col2 = column(props.col2, ViewItemStyle);
   const col3 = column(props.col3, ViewItemStyle);
@@ -55,39 +56,26 @@ const Table = (props) => {
         </View>
       </View>
       <View style={renderStyle}>
-        <View style={col1Style}>
-          {col1}
-        </View>
-        <View style={col2Style}>
-          {col2}
-        </View>
-        <View style={col3Style}>
-          {col3}
-        </View>
-        <View style={col4Style}>
-          {col4}
-        </View>
-        <View style={col5Style}>
-          {col5}
-        </View>
-        <View style={col6Style}>
-          {col6}
-        </View>
+        <View style={col1Style}>{col1}</View>
+        <View style={col2Style}>{col2}</View>
+        <View style={col3Style}>{col3}</View>
+        <View style={col4Style}>{col4}</View>
+        <View style={col5Style}>{col5}</View>
+        <View style={col6Style}>{col6}</View>
       </View>
     </View>
   );
 };
-
 
 const styles = {
   containerStyle: {
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
     flexDirection: 'column',
-    position: 'relative'
+    position: 'relative',
   },
   headerStyle: {
-    //height: 37,
+    // height: 37,
     borderBottomWidth: 1,
     borderColor: '#ddd',
     backgroundColor: '#f1f1f1',
@@ -97,7 +85,7 @@ const styles = {
     alignItems: 'stretch',
   },
   renderStyle: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   textStyle: {
     fontSize: 12,
@@ -113,7 +101,7 @@ const styles = {
     borderColor: '#ddd',
   },
   col2Style: {
-    flex: 0.8,    
+    flex: 0.8,
     borderRightWidth: 1,
     borderColor: '#ddd',
   },
@@ -135,7 +123,6 @@ const styles = {
   col6Style: {
     flex: 1,
   },
-
 };
 
 export { Table };

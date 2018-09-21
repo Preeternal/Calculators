@@ -1,15 +1,21 @@
-//@flow
+// @flow
 export const number = (text: string): string => {
+  let value;
   if (text.match(',') !== null) {
-    text = text.replace(',', '.');
+    value = text.replace(',', '.');
+  } else {
+    value = text;
   }
-  if (text.match(/[*.*][0-9]*[*.*]/) !== null) {
-    if (text.match(/\.$/)) {
-      text = text.replace(/\.$/, '');
+  let result;
+  if (value.match(/[*.*][0-9]*[*.*]/) !== null) {
+    if (value.match(/\.$/)) {
+      result = value.replace(/\.$/, '');
     } else {
-      text = text.replace(/[.]/, '');
+      result = value.replace(/[.]/, '');
     }
+  } else {
+    result = value;
   }
 
-  return text.replace(/[^\d.]/g, '');
+  return result.replace(/[^\d.]/g, '');
 };

@@ -7,10 +7,16 @@ module.exports = {
   },
   rules: {
     'no-use-before-define': 'off',
+    'no-plusplus': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/prefer-stateless-function': [2, { ignorePureComponents: true }],
     'react/forbid-prop-types': [0, { forbid: [] }],
+    'react/destructuring-assignment': 0,
+    'react/require-default-props': 0,
+    'react/prop-types': 'off',
     'import/extensions': [1, 'never', { svg: 'always' }],
+    'import/first': 1,
+    'import/prefer-default-export': 0,
     'import/no-extraneous-dependencies': [
       'error',
       {
@@ -19,7 +25,6 @@ module.exports = {
         peerDependencies: false,
       },
     ],
-    'react/prop-types': 'off',
     'flowtype/require-valid-file-annotation': 0,
     'flowtype/no-types-missing-file-annotation': 0,
   },

@@ -1,11 +1,10 @@
-//@flow
+// @flow
 import { createSelector } from 'reselect';
-import { number } from '../lib';
 import { strings } from '../../locales/i18n';
-import { initDate, changeDate } from '../lib';
+import { initDate, changeDate, number } from '.';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
 
-//import type Selector from 'reselect';
+// import type Selector from 'reselect';
 
 const getPrincipal = state => Number(number(state.form.principal));
 const dateOpen = state => changeDate(state.form.dateOpen);
@@ -15,7 +14,7 @@ const getInterest2 = state => Number(number(state.form.interest2)) / 365 / 100;
 const getPlatez = state => state.form.platez;
 const getPlusperiod = state => state.form.plusperiod;
 const getPrinplus = state => Number(number(state.form.prinplus));
-const getRadio = state => state.form.radio;
+// const getRadio = state => state.form.radio;
 
 export const calculate = createSelector(
   [
@@ -27,7 +26,7 @@ export const calculate = createSelector(
     getPlatez,
     getPlusperiod,
     getPrinplus,
-    getRadio
+    // getRadio,
   ],
   (
     principal: number,
@@ -38,7 +37,7 @@ export const calculate = createSelector(
     platez: number,
     plusperiod: number,
     prinplus: number,
-    radio: number
+    // radio: number,
   ) => {
     // const dOpen: Date = changeDate(dateOpen);
     // const dClosed: Date = changeDate(dateClosed);
@@ -50,33 +49,28 @@ export const calculate = createSelector(
     const dni: string = daysString(days); // '', день, дня, дней
 
     const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed);
-    let days1 = DaysAfterMonths.days1;
-    const cf = DaysAfterMonths.cf;
-    let dni1: string = daysString(days1); // '', день, дня, дней
+    const { days1, cf } = DaysAfterMonths;
+    const dni1: string = daysString(days1); // '', день, дня, дней
 
-    let months =
-      (dClosed.getFullYear() - dOpen.getFullYear()) * 12 +
-      (dClosed.getMonth() + 1 - (dOpen.getMonth() + 1)) -
-      cf;
+    const months = (dClosed.getFullYear() - dOpen.getFullYear()) * 12
+      + (dClosed.getMonth() + 1 - (dOpen.getMonth() + 1))
+      - cf;
     const mesyacyi: string = monthsString(months); // '',  месяц , месяца, месяцев
 
     const ili: string = strings('result.srok.ili');
 
-    const srok =
-      //days > 0  ?
-      (() => {
-        switch (true) {
-          case days <= 0:
-            return undefined;
-          case months === 0:
-            return `${days} ${dni}`;
-          case days1 === 0:
-            return `${days} ${dni} ${ili} ${months} ${mesyacyi}`;
-          default:
-            return `${days} ${dni}  ${ili} ${months} ${mesyacyi} ${days1} ${dni1}`;
-        }
-      })();
-    //: undefined;
+    const srok = (() => {
+      switch (true) {
+        case days <= 0:
+          return undefined;
+        case months === 0:
+          return `${days} ${dni}`;
+        case days1 === 0:
+          return `${days} ${dni} ${ili} ${months} ${mesyacyi}`;
+        default:
+          return `${days} ${dni}  ${ili} ${months} ${mesyacyi} ${days1} ${dni1}`;
+      }
+    })();
 
     let totalinterest1 = 0;
     let principal1 = principal;
@@ -96,14 +90,14 @@ export const calculate = createSelector(
       totalinterest1: number[],
       daysY: number[],
       totalinterest2: number[],
-      principal1: number[]
+      principal1: number[],
     } = {
       n: [], // №
       date: [], // дата
       totalinterest1: [], // начислено %
       daysY: [], // дни
       totalinterest2: [], // начислено % итого
-      principal1: [] // общая сумма
+      principal1: [], // общая сумма
     };
 
     if (days > 0) {
@@ -131,7 +125,7 @@ export const calculate = createSelector(
             }
           }
 
-          //daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
+          // daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
           dateY.setMonth(dateY1.getMonth() + 1);
           daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);
 
@@ -171,12 +165,12 @@ export const calculate = createSelector(
       }
     }
 
-    //месячная выручка (в среднем)
-    //const payment = (principal1 - principal - adjunctionAll) / months;
-    //Начисленные проценты
+    // месячная выручка (в среднем)
+    // const payment = (principal1 - principal - adjunctionAll) / months;
+    // Начисленные проценты
     const principal2 = principal1 - principal - adjunctionAll;
-    //Сумма пополнений adjunctionAll
+    // Сумма пополнений adjunctionAll
 
     return [days1, srok, principal2, principal1, adjunctionAll, table];
-  }
+  },
 );

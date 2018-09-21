@@ -17,8 +17,8 @@ const styles = {
     marginLeft: 5,
     marginRight: 5,
     marginTop: 10,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 };
 
 export { Card };
