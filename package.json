@@ -18,8 +18,8 @@
     "native-base": "^2.8.0",
     "number-to-locale-string": "^1.2.0",
     "prop-types": "^15.6.2",
-    "react": "16.5.0",
-    "react-native": "0.57.0",
+    "react": "16.6.0-alpha.8af6728",
+    "react-native": "0.57.3",
     "react-native-languages": "^3.0.0",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-pie": "^0.5.0",
@@ -28,21 +28,21 @@
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "reselect": "^3.0.1"
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "23.6.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-flowtype": "^2.50.1",
+    "eslint-plugin-flowtype": "^3.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",
     "flow-bin": "0.78.0",
     "jest": "23.6.0",
-    "metro-react-native-babel-preset": "0.45.3",
-    "react-test-renderer": "16.5.0"
+    "metro-react-native-babel-preset": "0.48.1",
+    "react-test-renderer": "16.6.0-alpha.8af6728"
   },
   "jest": {
     "preset": "react-native",

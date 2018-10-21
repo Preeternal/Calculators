@@ -1,5 +1,5 @@
-// flow-typed signature: 9193fed094e301d74ef6fc57c33255d8
-// flow-typed version: 8c13c8b2d5/react-navigation_v2.x.x/flow_>=v0.60.x
+// flow-typed signature: 58c2e45fb9d58fe9295085cdd84067fb
+// flow-typed version: 3b86451010/react-navigation_v2.x.x/flow_>=v0.60.x
 
 // @flow
 
@@ -410,9 +410,15 @@ declare module 'react-navigation' {
     headerLayoutPreset?: 'left' | 'center',
     headerBackTitleVisible?: boolean,
     cardStyle?: ViewStyleProp,
-    transitionConfig?: () => TransitionConfig,
+    transitionConfig?: (
+      transitionProps: NavigationTransitionProps,
+      prevTransitionProps: ?NavigationTransitionProps,
+      isModal: boolean
+    ) => TransitionConfig,
     onTransitionStart?: () => void,
     onTransitionEnd?: () => void,
+    transparentCard?: boolean,
+    disableKeyboardHandling?: boolean,
   |};
 
   declare export type StackNavigatorConfig = {|
@@ -531,6 +537,7 @@ declare module 'react-navigation' {
       callback: NavigationEventCallback
     ) => NavigationEventSubscription,
     getParam: (paramName: string, fallback?: any) => any,
+    dangerouslyGetParent: () => NavigationScreenProp<*>,
     isFocused: () => boolean,
     // Shared action creators that exist for all routers
     goBack: (routeKey?: ?string) => boolean,
@@ -814,7 +821,7 @@ declare module 'react-navigation' {
       actions: Array<NavigationNavigateAction>,
     }) => NavigationResetAction,
     replace: (payload: {
-      key: string,
+      key?: string,
       routeName: string,
       params?: NavigationParams,
       action?: NavigationNavigateAction,
