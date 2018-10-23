@@ -55,6 +55,12 @@ import CustomHeader from '../Common/CustomHeader';
 class Credit extends Component {
   static navigationOptions = {
     drawerLabel: strings('headerCredit'),
+    drawerIcon: ({ tintColor }) => (
+      <Icon
+        name="md-calculator"
+        style={{ fontSize: 24, color: tintColor }}
+      />
+    ),
   };
 
   state = {

@@ -27,7 +27,7 @@ class DrawerScreen extends Component {
             </Body>
           </Header>
           <Content>
-            <DrawerItems activeTintColor="#000000" inactiveTintColor="#525050" {...this.props} />
+            <DrawerItems {...this.props} />
           </Content>
         </SafeAreaView>
       </Container>

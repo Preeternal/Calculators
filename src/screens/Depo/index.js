@@ -55,6 +55,12 @@ import CustomHeader from '../Common/CustomHeader';
 class Depo extends Component {
   static navigationOptions = {
     drawerLabel: strings('header'),
+    drawerIcon: ({ tintColor }) => (
+      <Icon
+        name="ios-calculator"
+        style={{ fontSize: 24, color: tintColor }}
+      />
+    ),
   };
 
   state = {

@@ -1,11 +1,11 @@
 // import { createStackNavigator } from 'react-navigation';
-import React from 'react';
-import { TouchableOpacity, Image } from 'react-native';
+// import React from 'react';
+// import { TouchableOpacity, Image } from 'react-native';
 import {
-  createStackNavigator,
+  // createStackNavigator,
   createDrawerNavigator,
   // createMaterialTopTabNavigator,
-  DrawerActions,
+  // DrawerActions,
 } from 'react-navigation';
 // import Icon from 'native-base';
 
@@ -45,9 +45,10 @@ const Navigator = createDrawerNavigator(
     initialRouteName: 'Depo',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
-    // drawerOpenRoute: 'DrawerOpen',
-    // drawerCloseRoute: 'DrawerClose',
-    // drawerToggleRoute: 'DrawerToggle',
+    contentOptions: {
+      activeTintColor: '#000000',
+      inactiveTintColor: '#525050',
+    },
   },
 );
 
@@ -92,11 +93,11 @@ const Navigator = createDrawerNavigator(
 
 export default Navigator;
 
-const styles = {
-  bar: {
-    // padding: 10,
-    // marginLeft: 10,
-    // borderWidth: 0.5,
-    // borderColor: '#d6d7da',
-  },
-};
+// const styles = {
+//   bar: {
+//     // padding: 10,
+//     // marginLeft: 10,
+//     // borderWidth: 0.5,
+//     // borderColor: '#d6d7da',
+//   },
+// };
