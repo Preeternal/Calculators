@@ -10,7 +10,7 @@ const CustomHeader = props => (
       <Icon name="ios-menu" style={{ color: 'white' }} onPress={() => props.drawerOpen()} />
     </Left>
     <Body>
-      <Title style={{color: 'white'}}>{props.title}</Title>
+      <Title style={{ color: 'white' }}>{props.title}</Title>
     </Body>
     <Right />
   </Header>
