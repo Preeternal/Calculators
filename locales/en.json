@@ -7,6 +7,8 @@
     }
   },
   "header": "Deposit calculator",
+  "titleDeposit": "Deposit",
+  "titleCredit": "Credit",
   "welcome": {
     "error": "Check the correctness of the input:",
     "go": "Enter information about the deposit:"
@@ -75,7 +77,14 @@
   },
   "table": {
     "header": "Account statement",
-    "tableHead": ["№", "date", "accrued %", "days", "accrued % total", "total amount"]
+    "tableHead": [
+      "№",
+      "date",
+      "accrued %",
+      "days",
+      "accrued % total",
+      "total amount"
+    ]
   },
   "picker": {
     "iosHeader": "Select One",
