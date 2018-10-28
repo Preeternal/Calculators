@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, View, Image, ScrollView,
+  Text, View, Image, ScrollView, InteractionManager, ActivityIndicator,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
@@ -57,18 +57,33 @@ class Depo extends Component {
     drawerLabel: strings('header'),
     drawerIcon: ({ tintColor }) => (
       <Icon
-        name="ios-calculator"
+        name="md-calculator"
         style={{ fontSize: 24, color: tintColor }}
       />
     ),
   };
 
   state = {
+    didFinishInitialAnimation: false,
     principalColor: '#525050',
     interest1Color: '#525050',
     interest2Color: '#525050',
     prinplusColor: '#525050',
   };
+
+  componentDidMount() {
+    // 1: Component is mounted off-screen
+    InteractionManager.runAfterInteractions(() => {
+      // 2: Component is done animating
+      // 3: Start fetching the data
+      // this.props.dispatchDataFetchStart();
+      // 4: set didFinishInitialAnimation to false
+      // This will render the navigation bar and a list of players
+      this.setState({
+        didFinishInitialAnimation: true,
+      });
+    });
+  }
 
 
   onFocus = (input, text) => {
@@ -207,198 +222,199 @@ class Depo extends Component {
     return (
       <View style={{ flex: 1 }}>
         <CustomHeader title={strings('titleDeposit')} drawerOpen={() => this.props.navigation.openDrawer()} />
-        <ScrollView style={{ flex: 1 }}>
-          <Card>
-            {/* <Header headerText="Депозитный калькулятор" /> */}
-            <Header headerText={strings('header')} />
-            <CardSection>
-              <Image source={pic} style={topImage} />
-              <Text style={welcome}>
-                {/* {!srok ? 'Проверьте правильность ввода:' : 'Введите информацию о депозите:'} */}
-                {!srok ? strings('welcome.error') : strings('welcome.go')}
-              </Text>
+        { this.state.didFinishInitialAnimation ? (
+          <ScrollView style={{ flex: 1 }}>
+            <Card>
+              {/* <Header headerText="Депозитный калькулятор" /> */}
+              <Header headerText={strings('header')} />
+              <CardSection>
+                <Image source={pic} style={topImage} />
+                <Text style={welcome}>
+                  {/* {!srok ? 'Проверьте правильность ввода:' : 'Введите информацию о депозите:'} */}
+                  {!srok ? strings('welcome.error') : strings('welcome.go')}
+                </Text>
 
-              <RadioForm
-                style={radioStyle}
+                <RadioForm
+                  style={radioStyle}
               // ref="radioForm"
-                radio_props={radio}
-                initial={this.props.radio}
-                formHorizontal
-                labelHorizontal
-                buttonColor="#757171"
-                selectedButtonColor="#525050"
+                  radio_props={radio}
+                  initial={this.props.radio}
+                  formHorizontal
+                  labelHorizontal
+                  buttonColor="#757171"
+                  selectedButtonColor="#525050"
               // buttonInnerColor={'#e74c3c'}
               // buttonOuterColor={'#757171'}
               // buttonSize={15}
               // buttonOuterSize={60}
-                labelColor="#757171"
-                selectedLabelColor="#525050"
-                animation
-                onPress={(value) => {
-                  this.onRadioPress(value);
-                }}
-              />
-            </CardSection>
-
-            <View style={inputDataStyle}>
-              <Input
-              // placeholder="введите сумму"
-                placeholder={strings('input.principal.placeholder')}
-              // label="Сумма вклада"
-                label={`${strings('input.principal.label')}, ${radio[
-                  this.props.radio
-                ].label.charAt(0)}`}
-                onChangeText={this.onPrincipalChange}
-                onFocus={() => this.onFocus('principal', this.props.principal)}
-                onBlur={() => this.onBlur('principal', this.props.principal)}
-                appInputStyle={{ color: this.state.principalColor }}
-                value={this.props.principal}
-              />
-
-              <InputDate
-              // label="Дата открытия вклада"
-                label={strings('input.dateOpen.label')}
-                value={this.props.dateOpen}
-                onRootPress={() => {
-                  this.setState({
-                    isDateTimePickerVisible: true,
-                  });
-                }}
-                onPress={() => {
-                  this.setState({
-                    isDateTimePickerVisible: true,
-                  });
-                }}
-              />
-
-              <DateTimePicker
-                date={changeDate(this.props.dateOpen)}
-                isVisible={this.state.isDateTimePickerVisible}
-                onConfirm={(date) => {
-                  this.setState({
-                    isDateTimePickerVisible: false,
-                  });
-                  this.onDateOpenChange(initDate(date));
-                }}
-              //
-                onCancel={() => {
-                  this.setState({
-                    isDateTimePickerVisible: false,
-                  });
-                }}
-                datePickerModeAndroid="spinner"
-              />
-
-              <InputDate
-              // label="Дата закрытия вклада"
-                label={strings('input.dateClosed.label')}
-                value={this.props.dateClosed}
-                onRootPress={() => {
-                  this.setState({
-                    isDateTimePickerVisible2: true,
-                  });
-                }}
-                onPress={() => {
-                  this.setState({
-                    isDateTimePickerVisible2: true,
-                  });
-                }}
-              />
-
-              <DateTimePicker
-                date={changeDate(this.props.dateClosed)}
-                isVisible={this.state.isDateTimePickerVisible2}
-                onConfirm={(date) => {
-                  this.setState({
-                    isDateTimePickerVisible2: false,
-                  });
-                  this.onDateClosedChange(initDate(date));
-                }}
-                onCancel={() => {
-                  this.setState({
-                    isDateTimePickerVisible2: false,
-                  });
-                }}
-                datePickerModeAndroid="spinner"
-              />
-              <Input
-              // placeholder="введите ставку"
-                placeholder={strings('input.interest1.placeholder')}
-              // label="Процентная ставка"
-                label={strings('input.interest1.label')}
-                onChangeText={this.onInterest1Change}
-                onBlur={() => this.onBlur('interest1', this.props.interest1)}
-                onFocus={() => this.onFocus('interest1', this.props.interest1)}
-                appInputStyle={{ color: this.state.interest1Color }}
-                value={this.props.interest1}
-              />
-
-              {days1 > 0 ? (
-                <Input
-                // placeholder="введите ставку"
-                  placeholder={strings('input.interest2.placeholder')}
-                // label="Процентная ставка при досрочном расторжении вклада (не полный месяц)"
-                  label={strings('input.interest2.label')}
-                  onChangeText={this.onInterest2Change}
-                  onBlur={() => this.onBlur('interest2', this.props.interest2)}
-                  onFocus={() => this.onFocus('interest2', this.props.interest2)}
-                  appInputStyle={{ color: this.state.interest2Color }}
-                  value={this.props.interest2}
+                  labelColor="#757171"
+                  selectedLabelColor="#525050"
+                  animation
+                  onPress={(value) => {
+                    this.onRadioPress(value);
+                  }}
                 />
-              ) : null}
+              </CardSection>
 
-              <InputPicker
-              // label="Капитализация процентов (ежемесячно)"
-                label={strings('input.platez.label')}
-              // options={['да', 'нет']}
-                options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
-                selectedValue={this.props.platez}
-                onValueChange={this.onPlatezChange}
-              />
-
-              <InputPicker
-              // label="Пополнение депозита"
-                label={strings('input.plusperiod.label')}
-              // options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
-                options={[
-                  strings('input.plusperiod.options.no'),
-                  strings('input.plusperiod.options.monthly'),
-                  strings('input.plusperiod.options.quarterly'),
-                  strings('input.plusperiod.options.annually'),
-                ]}
-                selectedValue={this.props.plusperiod}
-                onValueChange={this.onPlusperiodChange}
-              />
-
-              {Number(this.props.plusperiod) === 0 ? null : (
+              <View style={inputDataStyle}>
                 <Input
-                // label="На сумму"
-                  label={`${strings('input.prinplus.label')}, ${radio[
+              // placeholder="введите сумму"
+                  placeholder={strings('input.principal.placeholder')}
+              // label="Сумма вклада"
+                  label={`${strings('input.principal.label')}, ${radio[
                     this.props.radio
                   ].label.charAt(0)}`}
-                // placeholder="введите сумму"
-                  placeholder={strings('input.prinplus.placeholder')}
-                  onChangeText={this.onPrinplusChange}
-                  onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
-                  onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
-                  appInputStyle={{ color: this.state.prinplusColor, height: 52 }}
-                  value={this.props.prinplus}
+                  onChangeText={this.onPrincipalChange}
+                  onFocus={() => this.onFocus('principal', this.props.principal)}
+                  onBlur={() => this.onBlur('principal', this.props.principal)}
+                  appInputStyle={{ color: this.state.principalColor }}
+                  value={this.props.principal}
                 />
-              )}
-            </View>
-          </Card>
 
-          {!srok || Number(number(this.props.principal)) === 0 ? null : (
-            <Card>
-              {/* <Header headerText="Информация о выплатах" /> */}
-              <Header headerText={strings('result.header')} />
+                <InputDate
+              // label="Дата открытия вклада"
+                  label={strings('input.dateOpen.label')}
+                  value={this.props.dateOpen}
+                  onRootPress={() => {
+                    this.setState({
+                      isDateTimePickerVisible: true,
+                    });
+                  }}
+                  onPress={() => {
+                    this.setState({
+                      isDateTimePickerVisible: true,
+                    });
+                  }}
+                />
 
-              <ResultSrok
+                <DateTimePicker
+                  date={changeDate(this.props.dateOpen)}
+                  isVisible={this.state.isDateTimePickerVisible}
+                  onConfirm={(date) => {
+                    this.setState({
+                      isDateTimePickerVisible: false,
+                    });
+                    this.onDateOpenChange(initDate(date));
+                  }}
+              //
+                  onCancel={() => {
+                    this.setState({
+                      isDateTimePickerVisible: false,
+                    });
+                  }}
+                  datePickerModeAndroid="spinner"
+                />
+
+                <InputDate
+              // label="Дата закрытия вклада"
+                  label={strings('input.dateClosed.label')}
+                  value={this.props.dateClosed}
+                  onRootPress={() => {
+                    this.setState({
+                      isDateTimePickerVisible2: true,
+                    });
+                  }}
+                  onPress={() => {
+                    this.setState({
+                      isDateTimePickerVisible2: true,
+                    });
+                  }}
+                />
+
+                <DateTimePicker
+                  date={changeDate(this.props.dateClosed)}
+                  isVisible={this.state.isDateTimePickerVisible2}
+                  onConfirm={(date) => {
+                    this.setState({
+                      isDateTimePickerVisible2: false,
+                    });
+                    this.onDateClosedChange(initDate(date));
+                  }}
+                  onCancel={() => {
+                    this.setState({
+                      isDateTimePickerVisible2: false,
+                    });
+                  }}
+                  datePickerModeAndroid="spinner"
+                />
+                <Input
+              // placeholder="введите ставку"
+                  placeholder={strings('input.interest1.placeholder')}
+              // label="Процентная ставка"
+                  label={strings('input.interest1.label')}
+                  onChangeText={this.onInterest1Change}
+                  onBlur={() => this.onBlur('interest1', this.props.interest1)}
+                  onFocus={() => this.onFocus('interest1', this.props.interest1)}
+                  appInputStyle={{ color: this.state.interest1Color }}
+                  value={this.props.interest1}
+                />
+
+                {days1 > 0 ? (
+                  <Input
+                // placeholder="введите ставку"
+                    placeholder={strings('input.interest2.placeholder')}
+                // label="Процентная ставка при досрочном расторжении вклада (не полный месяц)"
+                    label={strings('input.interest2.label')}
+                    onChangeText={this.onInterest2Change}
+                    onBlur={() => this.onBlur('interest2', this.props.interest2)}
+                    onFocus={() => this.onFocus('interest2', this.props.interest2)}
+                    appInputStyle={{ color: this.state.interest2Color }}
+                    value={this.props.interest2}
+                  />
+                ) : null}
+
+                <InputPicker
+              // label="Капитализация процентов (ежемесячно)"
+                  label={strings('input.platez.label')}
+              // options={['да', 'нет']}
+                  options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
+                  selectedValue={this.props.platez}
+                  onValueChange={this.onPlatezChange}
+                />
+
+                <InputPicker
+              // label="Пополнение депозита"
+                  label={strings('input.plusperiod.label')}
+              // options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
+                  options={[
+                    strings('input.plusperiod.options.no'),
+                    strings('input.plusperiod.options.monthly'),
+                    strings('input.plusperiod.options.quarterly'),
+                    strings('input.plusperiod.options.annually'),
+                  ]}
+                  selectedValue={this.props.plusperiod}
+                  onValueChange={this.onPlusperiodChange}
+                />
+
+                {Number(this.props.plusperiod) === 0 ? null : (
+                  <Input
+                // label="На сумму"
+                    label={`${strings('input.prinplus.label')}, ${radio[
+                      this.props.radio
+                    ].label.charAt(0)}`}
+                // placeholder="введите сумму"
+                    placeholder={strings('input.prinplus.placeholder')}
+                    onChangeText={this.onPrinplusChange}
+                    onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
+                    onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
+                    appInputStyle={{ color: this.state.prinplusColor, height: 52 }}
+                    value={this.props.prinplus}
+                  />
+                )}
+              </View>
+            </Card>
+
+            {!srok || Number(number(this.props.principal)) === 0 ? null : (
+              <Card>
+                {/* <Header headerText="Информация о выплатах" /> */}
+                <Header headerText={strings('result.header')} />
+
+                <ResultSrok
               // label={`Срок депозита ${srok}`}
-                label={`${strings('result.srok.srok')} ${srok}`}
-              />
+                  label={`${strings('result.srok.srok')} ${srok}`}
+                />
 
-              {/* {isNaN(payment) || payment === Infinity ? null : (
+                {/* {isNaN(payment) || payment === Infinity ? null : (
               <Result
                 //label="Ваша месячная выручка (в среднем)"
                 label={strings('result.payment')}
@@ -408,51 +424,51 @@ class Depo extends Component {
               />
             )} */}
 
-              <Result
+                <Result
               // label="Сумма вклада
-                label={`${strings('input.principal.label')}`}
+                  label={`${strings('input.principal.label')}`}
               // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
-                resultData={Number(number(this.props.principal)).toLocaleString(
-                  currentLocale,
-                  optionsN,
-                )}
-                resultPieStyle={{
-                  borderLeftWidth: 5,
-                  borderColor: '#ddd',
-                // color: '#ddd'
-                }}
-              />
-
-              {adjunctionAll > 0 ? (
-                <Result
-                // label="Сумма пополнений"
-                  label={strings('result.adjunctionAll')}
-                  resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
+                  resultData={Number(number(this.props.principal)).toLocaleString(
+                    currentLocale,
+                    optionsN,
+                  )}
                   resultPieStyle={{
                     borderLeftWidth: 5,
-                    borderColor: '#a2aaa4',
-                  // color: '#a2aaa4'
+                    borderColor: '#ddd',
+                    // color: '#ddd'
                   }}
                 />
-              ) : null}
 
-              <Result
+                {adjunctionAll > 0 ? (
+                  <Result
+                // label="Сумма пополнений"
+                    label={strings('result.adjunctionAll')}
+                    resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
+                    resultPieStyle={{
+                      borderLeftWidth: 5,
+                      borderColor: '#a2aaa4',
+                      // color: '#a2aaa4'
+                    }}
+                  />
+                ) : null}
+
+                <Result
               // label="Начисленные проценты"
-                label={strings('result.principal2')}
+                  label={strings('result.principal2')}
               // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
-                resultData={principal2.toLocaleString(currentLocale, optionsN)}
-                resultPieStyle={{
-                  borderLeftWidth: 5,
-                  borderColor: '#569e69',
-                // color: '#569e69'
-                }}
-              />
+                  resultData={principal2.toLocaleString(currentLocale, optionsN)}
+                  resultPieStyle={{
+                    borderLeftWidth: 5,
+                    borderColor: '#569e69',
+                    // color: '#569e69'
+                  }}
+                />
 
-              {/* <Result
+                {/* <Result
               //label="Полная сумма на руки"
               label={strings('result.principal1')}
               // resultData={`${radio[this.props.radio].label.charAt(0)}${principal1.toFixed(
@@ -460,54 +476,65 @@ class Depo extends Component {
               // )}`}
               resultData={principal1.toLocaleString(currentLocale, optionsN)}
             /> */}
-              {Number(number(this.props.principal)) !== 0 ? (
-                <CardSection>
-                  <View style={pieContainer}>
-                    <View
-                      style={{
-                        flex: 1.9,
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <Text>
-                        {/* Доходность */}
-                        {strings('result.pie')}
-                      </Text>
-                    </View>
-                    <View style={pie}>
-                      <Pie
-                        radius={65}
-                        innerRadius={59}
-                        series={[
-                          Number(number(this.props.principal)) * 100 / principal1,
-                          adjunctionAll * 100 / principal1,
-                          principal2 * 100 / principal1,
-                        ]}
-                      // colors={['#ddd', '#f00']}
-                        colors={['#ddd', '#a2aaa4', '#569e69']}
-                        backgroundColor="#ddd"
-                      />
-                      <View style={gauge}>
-                        <Text style={gaugeText}>
-                          {principal1.toLocaleString(currentLocale, optionsN)}
+                {Number(number(this.props.principal)) !== 0 ? (
+                  <CardSection>
+                    <View style={pieContainer}>
+                      <View
+                        style={{
+                          flex: 1.9,
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Text>
+                          {/* Доходность */}
+                          {strings('result.pie')}
                         </Text>
                       </View>
+                      <View style={pie}>
+                        <Pie
+                          radius={65}
+                          innerRadius={59}
+                          series={[
+                            Number(number(this.props.principal)) * 100 / principal1,
+                            adjunctionAll * 100 / principal1,
+                            principal2 * 100 / principal1,
+                          ]}
+                      // colors={['#ddd', '#f00']}
+                          colors={['#ddd', '#a2aaa4', '#569e69']}
+                          backgroundColor="#ddd"
+                        />
+                        <View style={gauge}>
+                          <Text style={gaugeText}>
+                            {principal1.toLocaleString(currentLocale, optionsN)}
+                          </Text>
+                        </View>
+                      </View>
                     </View>
-                  </View>
-                </CardSection>
-              ) : null}
-            </Card>
-          )}
+                  </CardSection>
+                ) : null}
+              </Card>
+            )}
 
-          {!srok || Number(number(this.props.principal)) === 0 ? null : (
-            <Card>
-              {/* <Header headerText="Выписка со счёта" /> */}
-              <Header headerText={strings('table.header')} />
-              <Table currency={radio[this.props.radio].label} value={table} />
-            </Card>
-          )}
-        </ScrollView>
+            {!srok || Number(number(this.props.principal)) === 0 ? null : (
+              <Card>
+                {/* <Header headerText="Выписка со счёта" /> */}
+                <Header headerText={strings('table.header')} />
+                <Table currency={radio[this.props.radio].label} value={table} />
+              </Card>
+            )}
+          </ScrollView>
+        ) : (
+          <View style={{
+            flex: 1,
+            justifyContent: 'center',
+          }}
+          >
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        )
+        }
       </View>
+
     );
   }
 }
