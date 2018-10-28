@@ -3,8 +3,8 @@ import i18n from 'i18n-js';
 import moment from 'moment';
 
 // Import all locales
-import en from './en.json';
-import ru from './ru.json';
+import en from './en';
+import ru from './ru';
 
 i18n.locale = RNLanguages.language;
 // Should the app fallback to English if user locale doesn't exists
@@ -32,20 +32,6 @@ export function numbers(name, params) {
 }
 
 export const currentLocale = i18n.currentLocale();
-
-// let languages = {
-//   en:  require('../common/languages/en'),
-//   ru: require('../common/languages/ru'),
-//   de: require('../common/languages/de')
-// }
-
-// switch (currentLocale.indexOf(currentLocale.substring(0, 2)) === 0) {
-//   case 'ru':
-//     return require('moment/locale/ru.js');
-//   case 'en':
-//     return require('moment/locale/en.js');
-//   // etc...
-// }
 
 if (currentLocale.indexOf('ru') === 0) {
   require('moment/locale/ru.js'); // eslint-disable-line global-require

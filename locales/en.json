@@ -80,7 +80,7 @@
     "tableHead": [
       "№",
       "date",
-      "accrued %",
+      "% current month",
       "days",
       "accrued % total",
       "total amount"
