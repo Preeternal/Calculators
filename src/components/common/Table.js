@@ -67,16 +67,34 @@ const Table = (props) => {
           <Text style={textStyle}>{tableHead[1]}</Text>
         </View>
         <View style={col3Style}>
-          <Text style={textStyle}>{`${tableHead[2]}, ${props.currency.substring(1) === 'руб' ? props.currency.substring(1) : props.currency.charAt(0)}`}</Text>
+          <Text style={textStyle}>
+            {`${tableHead[2]}, ${
+              props.currency.substring(1) === 'руб'
+                ? props.currency.substring(1)
+                : props.currency.charAt(0)
+            }`}
+          </Text>
         </View>
         <View style={col4Style}>
           <Text style={textStyle}>{tableHead[3]}</Text>
         </View>
         <View style={col5Style}>
-          <Text style={textStyle}>{`${tableHead[4]}, ${props.currency.substring(1) === 'руб' ? props.currency.substring(1) : props.currency.charAt(0)}`}</Text>
+          <Text style={textStyle}>
+            {`${tableHead[4]}, ${
+              props.currency.substring(1) === 'руб'
+                ? props.currency.substring(1)
+                : props.currency.charAt(0)
+            }`}
+          </Text>
         </View>
         <View style={col6Style}>
-          <Text style={textStyle}>{`${tableHead[5]}, ${props.currency.substring(1) === 'руб' ? props.currency.substring(1) : props.currency.charAt(0)}`}</Text>
+          <Text style={textStyle}>
+            {`${tableHead[5]}, ${
+              props.currency.substring(1) === 'руб'
+                ? props.currency.substring(1)
+                : props.currency.charAt(0)
+            }`}
+          </Text>
         </View>
       </View>
       {rows}
