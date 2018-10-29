@@ -8,6 +8,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
+import DeviceInfo from 'react-native-device-info';
 import 'number-to-locale-string';
 
 import {
@@ -51,6 +52,8 @@ import CustomHeader from '../Common/CustomHeader';
 //   Home: { screen: HomeScreen },
 //   Second: { screen: SecondScreen },
 // });
+
+const userLocaleCountryCode = DeviceInfo.getDeviceCountry();
 
 class Depo extends Component {
   static navigationOptions = {
@@ -232,6 +235,7 @@ class Depo extends Component {
                 <Text style={welcome}>
                   {/* {!srok ? 'Проверьте правильность ввода:' : 'Введите информацию о депозите:'} */}
                   {!srok ? strings('welcome.error') : strings('welcome.go')}
+                  {userLocaleCountryCode}
                 </Text>
 
                 <RadioForm
