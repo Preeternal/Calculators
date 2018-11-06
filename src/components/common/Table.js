@@ -69,7 +69,7 @@ const Table = (props) => {
         <View style={col3Style}>
           <Text style={textStyle}>
             {`${tableHead[2]}, ${
-              props.currency.substring(1) === 'руб'
+              props.currency.substring(1) === 'руб' && currentLocale.indexOf('ru') === 0
                 ? props.currency.substring(1)
                 : props.currency.charAt(0)
             }`}
@@ -81,7 +81,7 @@ const Table = (props) => {
         <View style={col5Style}>
           <Text style={textStyle}>
             {`${tableHead[4]}, ${
-              props.currency.substring(1) === 'руб'
+              props.currency.substring(1) === 'руб' && currentLocale.indexOf('ru') === 0
                 ? props.currency.substring(1)
                 : props.currency.charAt(0)
             }`}
@@ -90,7 +90,7 @@ const Table = (props) => {
         <View style={col6Style}>
           <Text style={textStyle}>
             {`${tableHead[5]}, ${
-              props.currency.substring(1) === 'руб'
+              props.currency.substring(1) === 'руб' && currentLocale.indexOf('ru') === 0
                 ? props.currency.substring(1)
                 : props.currency.charAt(0)
             }`}

@@ -7,6 +7,7 @@
     }
   },
   "header": "Deposit calculator",
+  "headerCredit": "Credit calculator",
   "titleDeposit": "Deposit",
   "titleCredit": "Credit",
   "welcome": {

@@ -10,6 +10,8 @@ import {
   PLUSPERIOD_CHANGED,
   PRINPLUS_CHANGED,
   RADIO_PRESSED,
+  TAX_SELECTED,
+  TAX_RATE_SELECTED,
 } from '../actions/types';
 
 import type { FormActionsTypes } from '../actions/types';
@@ -42,6 +44,7 @@ type FormState = {
   plusperiod: number,
   prinplus: string,
   radio: number,
+  taxCheck: number,
 };
 
 const INITIAL_STATE: FormState = {
@@ -54,6 +57,8 @@ const INITIAL_STATE: FormState = {
   plusperiod: 0,
   prinplus: '100',
   radio: radioValue(currentLocale),
+  taxCheck: 0,
+  taxRate: 0,
 };
 
 export default (state: FormState = INITIAL_STATE, action: FormActionsTypes): FormState => {
@@ -77,6 +82,10 @@ export default (state: FormState = INITIAL_STATE, action: FormActionsTypes): For
       return { ...state, prinplus: action.payload };
     case RADIO_PRESSED:
       return { ...state, radio: action.payload };
+    case TAX_SELECTED:
+      return { ...state, taxCheck: action.payload };
+    case TAX_RATE_SELECTED:
+      return { ...state, taxRate: action.payload };
     default:
       return state;
   }

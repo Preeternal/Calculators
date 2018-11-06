@@ -2,12 +2,14 @@ import { createDrawerNavigator } from 'react-navigation';
 
 import Depo from './Depo';
 import Credit from './Credit';
+import Settings from './Settings';
 import DrawerScreen from './Common/DrawerScreen';
 
 const Navigator = createDrawerNavigator(
   {
     Depo,
     Credit,
+    Settings,
   },
   {
     initialRouteName: 'Depo',

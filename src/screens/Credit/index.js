@@ -57,7 +57,7 @@ class Credit extends Component {
     drawerLabel: strings('headerCredit'),
     drawerIcon: ({ tintColor }) => (
       <Icon
-        name="md-calculator"
+        name="md-download"
         style={{ fontSize: 24, color: tintColor }}
       />
     ),
