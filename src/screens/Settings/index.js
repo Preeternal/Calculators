@@ -3,7 +3,6 @@ import { View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
-import DeviceInfo from 'react-native-device-info';
 import i18n from 'i18n-js';
 import 'number-to-locale-string';
 
@@ -16,7 +15,7 @@ import CustomHeader from '../Common/CustomHeader';
 
 class Settings extends Component {
   static navigationOptions = {
-    drawerLabel: 'Settings', // strings('header'),
+    drawerLabel: strings('settings.settings'), // Settings
     drawerIcon: ({ tintColor }) => (
       <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
     ),
@@ -32,27 +31,26 @@ class Settings extends Component {
       <View style={{ flex: 1 }}>
         <CustomHeader
           // title="Settings"
-          title={strings('titleDeposit')}
+          title={strings('settings.settings')}
           drawerOpen={() => this.props.navigation.openDrawer()}
         />
         <ScrollView style={{ flex: 1 }}>
           <Card>
-            <Header headerText="Локальные данные" />
-            {/* <Header headerText={strings('header')} /> */}
+            {/* <Header headerText="Локальные данные" /> */}
+            <Header headerText={strings('settings.localization')} />
             <TableSection>
               <InputPicker
-                label="Язык"
-                // label={strings('input.platez.label')}
+                // label="Язык"
+                label={strings('settings.language')}
                 options={['русский', 'english']}
-                // options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
                 selectedValue={this.props.language}
                 onValueChange={this.onLanguageChange}
               />
               <InputPicker
-                label="Страна"
-                // label={strings('input.platez.label')}
-                options={['да', 'нет']}
-                // options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
+                // label="Страна"
+                label={strings('settings.country')}
+                // options={['да', 'нет']}
+                options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
                 // selectedValue={this.props.platez}
                 // onValueChange={this.onLanguageChange}
               />

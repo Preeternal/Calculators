@@ -90,5 +90,14 @@
   "picker": {
     "iosHeader": "Select One",
     "headerBackButtonText": "Back"
+  },
+  "settings": {
+    "settings": "Settings",
+    "localization": "Localization data",
+    "language": "Language",
+    "country": "Country",
+    "Russia": "Russia",
+    "ukraine": "Ukraine",
+    "other": "Other"
   }
 }

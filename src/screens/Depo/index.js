@@ -57,7 +57,6 @@ const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d
 class Depo extends Component {
   static navigationOptions = {
     drawerLabel: strings('header'),
-    drawerTitle: strings('header'),
     drawerIcon: ({ tintColor }) => (
       <Icon
         type="Entypo"
