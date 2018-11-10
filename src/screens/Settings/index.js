@@ -7,7 +7,7 @@ import { Icon } from 'native-base';
 import i18n from 'i18n-js';
 import 'number-to-locale-string';
 
-import { languageChanged } from '../../actions';
+import { languageChanged, countryChanged } from '../../actions';
 import {
   InputPicker, Card, Header, TableSection,
 } from '../../components/common';
@@ -52,6 +52,10 @@ class Settings extends Component {
     i18n.locale = value === 0 ? 'ru' : 'en';
   };
 
+  onCountryChange = (value) => {
+    this.props.countryChanged(value);
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -75,10 +79,14 @@ class Settings extends Component {
               <InputPicker
                 // label="Страна"
                 label={strings('settings.country')}
-                // options={['да', 'нет']}
-                options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
-                // selectedValue={this.props.platez}
-                // onValueChange={this.onLanguageChange}
+                // options={['Россия', 'Другая', 'Украина']}
+                options={[
+                  strings('settings.russia'),
+                  strings('settings.other'),
+                  strings('settings.ukraine'),
+                ]}
+                selectedValue={this.props.country}
+                onValueChange={this.onCountryChange}
               />
             </TableSection>
           </Card>
@@ -90,14 +98,17 @@ class Settings extends Component {
 
 Settings.propTypes = {
   language: PropTypes.number,
+  country: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
   language: state.settings.language,
+  country: state.settings.country,
 });
 export default connect(
   mapStateToProps,
   {
     languageChanged,
+    countryChanged,
   },
 )(Settings);

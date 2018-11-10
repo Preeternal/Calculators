@@ -97,8 +97,8 @@
     "localization": "Локальные данные",
     "language": "Язык",
     "country": "Страна",
-    "Russia": "Россия",
+    "russia": "Россия",
     "ukraine": "Украина",
-    "other": "другая"
+    "other": "Другая"
   }
 }

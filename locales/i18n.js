@@ -1,3 +1,4 @@
+// @flow
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
 import moment from 'moment';

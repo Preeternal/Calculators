@@ -27,4 +27,7 @@ export type FormActionsTypes =
 
 // Settings
 export const LANGUAGE_CHANGED = 'language_changed';
-export type SettingsActionsTypes = { type: 'language_changed', payload: number };
+export const COUNTRY_CHANGED = 'country_changed';
+export type SettingsActionsTypes =
+  | { type: 'language_changed', payload: number }
+  | { type: 'country_changed', payload: number };

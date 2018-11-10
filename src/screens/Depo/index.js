@@ -559,7 +559,11 @@ class Depo extends Component {
               <Card>
                 {/* <Header headerText="Выписка со счёта" /> */}
                 <Header headerText={strings('table.header')} />
-                <Table currency={radio[this.props.radio].label} value={table} />
+                <Table
+                  currency={radio[this.props.radio].label}
+                  value={table}
+                  language={this.props.language}
+                />
               </Card>
             )}
           </ScrollView>
@@ -649,6 +653,7 @@ Depo.propTypes = {
   radio: PropTypes.number,
   taxCheck: PropTypes.number,
   taxRate: PropTypes.number,
+  language: PropTypes.number,
 
   days1: PropTypes.number,
   srok: PropTypes.string,
@@ -672,6 +677,7 @@ const mapStateToProps = state => ({
   radio: state.form.radio,
   taxCheck: state.form.taxCheck,
   taxRate: state.form.taxRate,
+  language: state.settings.language,
 
   days1: calculate(state)[0],
   srok: calculate(state)[1],
