@@ -53,15 +53,23 @@ import CustomHeader from '../Common/CustomHeader';
 // });
 
 class Credit extends Component {
-  static navigationOptions = {
-    drawerLabel: strings('headerCredit'),
-    drawerIcon: ({ tintColor }) => (
-      <Icon
-        name="md-download"
-        style={{ fontSize: 24, color: tintColor }}
-      />
-    ),
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: strings('headerCredit'), // drawer label initialization
+      drawerLabel: params && params.DLabel,
+      drawerIcon: ({ tintColor }) => (
+        <Icon
+          name="md-download"
+          style={{ fontSize: 24, color: tintColor }}
+        />
+      ),
+    };
   };
+
+  // static navigationOptions = {
+  //   headerTitle: strings('titleCredit'),
+  // };
 
   state = {
     principalColor: '#525050',

@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import { DrawerItems, NavigationActions, DrawerActions } from 'react-navigation';
+import React from 'react';
+import { DrawerItems } from 'react-navigation';
 import PropTypes from 'prop-types';
 import {
-  Image, SafeAreaView, View, Text,
+  Image,
+  SafeAreaView,
+  // View, Text,
 } from 'react-native';
 import {
   Container, Content, Header, Body,
 } from 'native-base';
 
 import images from '../../images';
-import { strings } from '../../../locales/i18n';
 
 const DrawerScreen = props => (
   <Container>

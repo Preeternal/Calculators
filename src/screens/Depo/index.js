@@ -55,16 +55,24 @@ const userLocaleCountryCode = DeviceInfo.getDeviceCountry();
 const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
 
 class Depo extends Component {
-  static navigationOptions = {
-    drawerLabel: strings('header'),
-    drawerIcon: ({ tintColor }) => (
-      <Icon
-        type="Entypo"
-        name="wallet"
-        style={{ fontSize: 24, color: tintColor }}
-      />
-    ),
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: strings('header'), // drawer label initialization
+      drawerLabel: params && params.DLabel,
+      drawerIcon: ({ tintColor }) => (
+        <Icon
+          type="Entypo"
+          name="wallet"
+          style={{ fontSize: 24, color: tintColor }}
+        />
+      ),
+    };
   };
+
+  // static navigationOptions = {
+  //   headerTitle: strings('titleDeposit'),
+  // };
 
   state = {
     didFinishInitialAnimation: false,
@@ -98,7 +106,6 @@ class Depo extends Component {
       });
     });
   }
-
 
   onFocus = (input, text) => {
     this.setState({

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { Icon } from 'native-base';
 import i18n from 'i18n-js';
 import 'number-to-locale-string';
@@ -14,12 +15,37 @@ import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 
 class Settings extends Component {
-  static navigationOptions = {
-    drawerLabel: strings('settings.settings'), // Settings
-    drawerIcon: ({ tintColor }) => (
-      <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
-    ),
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: strings('settings.settings'), // drawer label initialization
+      drawerLabel: params && params.DLabel,
+      drawerIcon: ({ tintColor }) => (
+        <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
+      ),
+    };
   };
+
+  // no need to preset drawer label because we define title in navigationOptions
+  // componentWillMount() {
+  //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
+  // }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.language !== this.props.language) {
+      this.props.navigation.setParams({ DLabel: strings('settings.settings') });
+      const setDepoLabel = NavigationActions.setParams({
+        params: { DLabel: strings('header') },
+        key: 'Depo',
+      });
+      this.props.navigation.dispatch(setDepoLabel);
+      const setCreditLabel = NavigationActions.setParams({
+        params: { DLabel: strings('headerCredit') },
+        key: 'Credit',
+      });
+      this.props.navigation.dispatch(setCreditLabel);
+    }
+  }
 
   onLanguageChange = (value) => {
     this.props.languageChanged(value);
