@@ -23,6 +23,7 @@ import {
   radioPressed,
   taxSelected,
   taxRateSelected,
+  countryChanged,
 } from '../../actions';
 
 import {
@@ -84,13 +85,23 @@ class Depo extends Component {
   };
 
   async componentWillMount() {
-    // await fetch(url)
-    //   .then(response => response.json())
-    //   .then((responseJson) => {
-    //     this.setState({
-    //       userCountryCode: responseJson.country_code,
-    //     });
-    //   });
+    await fetch(url)
+      .then(response => response.json())
+      .then((responseJson) => {
+        this.setState({
+          userCountryCode: responseJson.country_code,
+        });
+        switch (this.state.userCountryCode) {
+          case 'RU':
+            this.onCountryChange(0);
+            break;
+          case 'UA':
+            this.onCountryChange(2);
+            break;
+          default:
+            this.onCountryChange(1);
+        }
+      });
   }
 
   componentDidMount() {
@@ -176,6 +187,10 @@ class Depo extends Component {
 
   onTaxRateSelect = (value) => {
     this.props.taxRateSelected(value);
+  }
+
+  onCountryChange = (value) => {
+    this.props.countryChanged(value);
   }
 
   render() {
@@ -562,7 +577,7 @@ class Depo extends Component {
                 <Table
                   currency={radio[this.props.radio].label}
                   value={table}
-                  language={this.props.language}
+                  language={this.props.settings.language}
                 />
               </Card>
             )}
@@ -654,6 +669,7 @@ Depo.propTypes = {
   taxCheck: PropTypes.number,
   taxRate: PropTypes.number,
   language: PropTypes.number,
+  country: PropTypes.number,
 
   days1: PropTypes.number,
   srok: PropTypes.string,
@@ -677,7 +693,7 @@ const mapStateToProps = state => ({
   radio: state.form.radio,
   taxCheck: state.form.taxCheck,
   taxRate: state.form.taxRate,
-  language: state.settings.language,
+  settings: state.settings,
 
   days1: calculate(state)[0],
   srok: calculate(state)[1],
@@ -705,4 +721,5 @@ export default connect(mapStateToProps, {
   radioPressed,
   taxSelected,
   taxRateSelected,
+  countryChanged,
 })(Depo);
