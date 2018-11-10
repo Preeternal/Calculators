@@ -17,16 +17,19 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: 30,
-    paddingTop: 0,
+    borderTopLeftRadius: 2,
+    borderTopRightRadius: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
-    elevation: 2,
+    shadowRadius: 1,
+    elevation: 1,
     position: 'relative',
   },
   textStyle: {
     fontSize: 18,
     color: '#ffffff',
+    textAlign: 'center',
   },
 };
 
