@@ -4,16 +4,16 @@ import { LANGUAGE_CHANGED, COUNTRY_CHANGED } from '../actions/types';
 import type { SettingsActionsTypes } from '../actions/types';
 import { currentLocale } from '../../locales/i18n';
 
+type SettingsState = {
+  language: number,
+  country: any,
+};
+
 const radioValue = (locale: string) => {
   if (locale === 'ru-RU') {
     return 0;
   }
   return 1;
-};
-
-type SettingsState = {
-  language: number,
-  country: number,
 };
 
 const INITIAL_STATE: SettingsState = {

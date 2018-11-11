@@ -8,7 +8,6 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
-import DeviceInfo from 'react-native-device-info';
 import 'number-to-locale-string';
 
 import {
@@ -25,6 +24,8 @@ import {
   taxRateSelected,
   countryChanged,
 } from '../../actions';
+
+import store from '../../store';
 
 import {
   Input,
@@ -52,8 +53,11 @@ import CustomHeader from '../Common/CustomHeader';
 //          principal3 as principal3Selector
 //        } from './src/lib/calculate';
 
-const userLocaleCountryCode = DeviceInfo.getDeviceCountry();
+// const userLocaleCountryCode = DeviceInfo.getDeviceCountry();
 const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
+
+
+let currentValue;
 
 class Depo extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -81,10 +85,12 @@ class Depo extends Component {
     interest1Color: '#525050',
     interest2Color: '#525050',
     prinplusColor: '#525050',
-    userCountryCode: userLocaleCountryCode,
+    userCountryCode: currentLocale.substring(3),
   };
 
   async componentWillMount() {
+    // делать запрос не чаще чем раз в неделю раз в неделю
+    // рассмотреть redux-saga или redux-thunk
     await fetch(url)
       .then(response => response.json())
       .then((responseJson) => {
@@ -117,6 +123,24 @@ class Depo extends Component {
       });
     });
   }
+
+  select = state => state.form.principal;
+  
+  // handleChange = () => {
+  //   const previousValue = currentValue;
+  //   currentValue = this.select(store.getState());
+  //   // console.log(currentValue);
+  //   if (previousValue !== currentValue) {
+  //     console.log(
+  //       'Some deep nested property changed from',
+  //       previousValue,
+  //       'to',
+  //       currentValue,
+  //     );
+  //   }
+  // }
+
+  // unsubscribe = () => store.subscribe(this.handleChange());
 
   onFocus = (input, text) => {
     this.setState({
@@ -194,6 +218,26 @@ class Depo extends Component {
   }
 
   render() {
+    // console.log(store.getState());
+
+    const handleChange = () => {
+      const previousValue = currentValue;
+      currentValue = this.select(store.getState());
+      // console.log(currentValue);
+      if (previousValue !== currentValue) {
+        console.log(
+          'Some deep nested property changed from',
+          previousValue,
+          'to',
+          currentValue,
+        );
+      }
+    };
+    // const unsubscribe = store.subscribe(handleChange);
+    // unsubscribe();
+    handleChange();
+
+
     const {
       topImage,
       welcome,
