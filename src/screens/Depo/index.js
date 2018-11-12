@@ -23,6 +23,7 @@ import {
   taxSelected,
   taxRateSelected,
   countryChanged,
+  countryIpTriggered,
 } from '../../actions';
 
 import store from '../../store';
@@ -89,25 +90,26 @@ class Depo extends Component {
   };
 
   async componentWillMount() {
-    // делать запрос не чаще чем раз в неделю раз в неделю
-    // рассмотреть redux-saga или redux-thunk
-    await fetch(url)
-      .then(response => response.json())
-      .then((responseJson) => {
-        this.setState({
-          userCountryCode: responseJson.country_code,
+    if (!this.props.countryIP) {
+      await fetch(url)
+        .then(response => response.json())
+        .then((responseJson) => {
+          this.setState({
+            userCountryCode: responseJson.country_code,
+          });
+          switch (this.state.userCountryCode) {
+            case 'RU':
+              this.onCountryChange(0);
+              break;
+            case 'UA':
+              this.onCountryChange(2);
+              break;
+            default:
+              this.onCountryChange(1);
+          }
+          this.onCountryIpTrigger(true);
         });
-        switch (this.state.userCountryCode) {
-          case 'RU':
-            this.onCountryChange(0);
-            break;
-          case 'UA':
-            this.onCountryChange(2);
-            break;
-          default:
-            this.onCountryChange(1);
-        }
-      });
+    }
   }
 
   componentDidMount() {
@@ -124,8 +126,8 @@ class Depo extends Component {
     });
   }
 
-  select = state => state.form.principal;
-  
+  select = state => state.settings.country;
+
   // handleChange = () => {
   //   const previousValue = currentValue;
   //   currentValue = this.select(store.getState());
@@ -215,6 +217,10 @@ class Depo extends Component {
 
   onCountryChange = (value) => {
     this.props.countryChanged(value);
+  }
+
+  onCountryIpTrigger = (value) => {
+    this.props.countryIpTriggered(value);
   }
 
   render() {
@@ -621,7 +627,7 @@ class Depo extends Component {
                 <Table
                   currency={radio[this.props.radio].label}
                   value={table}
-                  language={this.props.settings.language}
+                  language={this.props.language}
                 />
               </Card>
             )}
@@ -713,7 +719,7 @@ Depo.propTypes = {
   taxCheck: PropTypes.number,
   taxRate: PropTypes.number,
   language: PropTypes.number,
-  country: PropTypes.number,
+  countryIP: PropTypes.bool,
 
   days1: PropTypes.number,
   srok: PropTypes.string,
@@ -737,7 +743,8 @@ const mapStateToProps = state => ({
   radio: state.form.radio,
   taxCheck: state.form.taxCheck,
   taxRate: state.form.taxRate,
-  settings: state.settings,
+  language: state.settings.language,
+  countryIP: state.settings.countryIP,
 
   days1: calculate(state)[0],
   srok: calculate(state)[1],
@@ -766,4 +773,5 @@ export default connect(mapStateToProps, {
   taxSelected,
   taxRateSelected,
   countryChanged,
+  countryIpTriggered,
 })(Depo);

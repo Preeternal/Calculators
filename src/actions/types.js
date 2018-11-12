@@ -28,6 +28,8 @@ export type FormActionsTypes =
 // Settings
 export const LANGUAGE_CHANGED = 'language_changed';
 export const COUNTRY_CHANGED = 'country_changed';
+export const COUNTRY_IP_TRIGGERED = 'country_ip_triggered';
 export type SettingsActionsTypes =
   | { type: 'language_changed', payload: number }
-  | { type: 'country_changed', payload: number };
+  | { type: 'country_changed', payload: number }
+  | { type: 'country_ip_triggered', payload: boolean };

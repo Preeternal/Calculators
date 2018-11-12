@@ -1,12 +1,13 @@
 // @flow
 
-import { LANGUAGE_CHANGED, COUNTRY_CHANGED } from '../actions/types';
+import { LANGUAGE_CHANGED, COUNTRY_CHANGED, COUNTRY_IP_TRIGGERED } from '../actions/types';
 import type { SettingsActionsTypes } from '../actions/types';
 import { currentLocale } from '../../locales/i18n';
 
 type SettingsState = {
   language: number,
-  country: any,
+  country: number,
+  countryIP: boolean,
 };
 
 const radioValue = (locale: string) => {
@@ -19,6 +20,7 @@ const radioValue = (locale: string) => {
 const INITIAL_STATE: SettingsState = {
   language: radioValue(currentLocale),
   country: radioValue(currentLocale),
+  countryIP: false,
 };
 
 export default (
@@ -30,6 +32,8 @@ export default (
       return { ...state, language: action.payload };
     case COUNTRY_CHANGED:
       return { ...state, country: action.payload };
+    case COUNTRY_IP_TRIGGERED:
+      return { ...state, countryIP: action.payload };
     default:
       return state;
   }
