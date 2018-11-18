@@ -10,7 +10,7 @@ type SettingsState = {
   countryIP: boolean,
 };
 
-const radioValue = (locale: string) => {
+const pickerValue = (locale: string) => {
   if (locale === 'ru-RU') {
     return 0;
   }
@@ -18,8 +18,8 @@ const radioValue = (locale: string) => {
 };
 
 const INITIAL_STATE: SettingsState = {
-  language: radioValue(currentLocale),
-  country: radioValue(currentLocale),
+  language: pickerValue(currentLocale),
+  country: pickerValue(currentLocale),
   countryIP: false,
 };
 

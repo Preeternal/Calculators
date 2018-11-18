@@ -96,9 +96,6 @@
     "settings": "Настройки",
     "localization": "Локальные данные",
     "language": "Язык",
-    "country": "Страна",
-    "russia": "Россия",
-    "ukraine": "Украина",
-    "other": "Другая"
+    "country": "Страна"
   }
 }

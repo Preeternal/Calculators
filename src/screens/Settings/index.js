@@ -31,8 +31,8 @@ class Settings extends Component {
   //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
   // }
 
-  componentDidUpdate(nextProps) {
-    if (nextProps.language !== this.props.language) {
+  componentDidUpdate(prevProps) {
+    if (this.props.language !== prevProps.language) {
       this.props.navigation.setParams({ DLabel: strings('settings.settings') });
       const setDepoLabel = NavigationActions.setParams({
         params: { DLabel: strings('header') },
@@ -79,12 +79,7 @@ class Settings extends Component {
               <InputPicker
                 // label="Страна"
                 label={strings('settings.country')}
-                // options={['Россия', 'Другая', 'Украина']}
-                options={[
-                  strings('settings.russia'),
-                  strings('settings.other'),
-                  strings('settings.ukraine'),
-                ]}
+                options={['Россия', 'Other', 'Украина']}
                 selectedValue={this.props.country}
                 onValueChange={this.onCountryChange}
               />

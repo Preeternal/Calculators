@@ -95,9 +95,6 @@
     "settings": "Settings",
     "localization": "Localization data",
     "language": "Language",
-    "country": "Country",
-    "russia": "Russia",
-    "ukraine": "Ukraine",
-    "other": "Other"
+    "country": "Country"
   }
 }

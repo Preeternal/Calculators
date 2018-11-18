@@ -323,7 +323,7 @@ class Depo extends Component {
               <CardSection>
                 <Image source={pic} style={topImage} />
                 <Text style={welcome}>
-                  {/* {!srok ? 'Проверьте правильность ввода:' : 'Введите информацию о депозите:'} */}
+                  {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
                   {!srok ? strings('welcome.error') : strings('welcome.go')}
                 </Text>
 
