@@ -14,7 +14,8 @@ const getInterest2 = state => Number(number(state.form.interest2)) / 365 / 100;
 const getPlatez = state => state.form.platez;
 const getPlusperiod = state => state.form.plusperiod;
 const getPrinplus = state => Number(number(state.form.prinplus));
-// const getRadio = state => state.form.radio;
+const getRadio = state => state.form.radio;
+const getCountry = state => state.settings.country;
 
 export const calculate = createSelector(
   [
@@ -26,7 +27,8 @@ export const calculate = createSelector(
     getPlatez,
     getPlusperiod,
     getPrinplus,
-    // getRadio,
+    getRadio,
+    getCountry,
   ],
   (
     principal: number,
@@ -37,7 +39,8 @@ export const calculate = createSelector(
     platez: number,
     plusperiod: number,
     prinplus: number,
-    // radio: number,
+    radio: number,
+    country: number,
   ) => {
     // const dOpen: Date = changeDate(dateOpen);
     // const dClosed: Date = changeDate(dateClosed);
@@ -73,6 +76,7 @@ export const calculate = createSelector(
     })();
 
     let totalinterest1 = 0;
+    let tax = 0;
     let principal1 = principal;
     const dateY = new Date();
     const dateY1 = new Date();
@@ -136,6 +140,8 @@ export const calculate = createSelector(
             // начислено процентов
             totalinterest1 = (principal + adjunctionAll) * interest1 * daysY;
           }
+          // налог украина
+          if (country === 2) tax += 0.195 * totalinterest1;
           dateY1.setTime(dateY.getTime());
           adjunctionAll += adjunction; // пополнение за весь срок
           // вклад + процент за последний месяц в цикле:
@@ -150,6 +156,8 @@ export const calculate = createSelector(
             // начислено процентов
             totalinterest1 = (principal + adjunctionAll) * interest2 * days1;
           }
+          // налог украина
+          if (country === 2) tax += 0.195 * totalinterest1;
           // вклад + процент за последний месяц в цикле:
           principal1 = totalinterest1 + principal1;
           table.date.push(initDate(dClosed)); // дата
@@ -171,6 +179,8 @@ export const calculate = createSelector(
     const principal2 = principal1 - principal - adjunctionAll;
     // Сумма пополнений adjunctionAll
 
-    return [days1, srok, principal2, principal1, adjunctionAll, table];
+    return {
+      days1, srok, principal2, principal1, tax, adjunctionAll, table,
+    };
   },
 );

@@ -72,6 +72,7 @@
     },
     "payment": "Interest monthly calculation (on average)",
     "principal2": "Interest charges",
+    "taxes": "Taxes",
     "adjunctionAll": "Replenishments",
     "principal1": "Total amount on hands",
     "pie": "Total amount with interest"
@@ -95,6 +96,8 @@
     "settings": "Settings",
     "localization": "Localization data",
     "language": "Language",
-    "country": "Country"
+    "country": "Country",
+    "resident": "resident of the Russian Federation",
+    "non-resident": "non-resident of the Russian Federation"
   }
 }
