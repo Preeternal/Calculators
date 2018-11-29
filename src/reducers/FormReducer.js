@@ -14,7 +14,7 @@ import {
   TAX_RATE_SELECTED,
 } from '../actions/types';
 
-import type { FormActionsTypes } from '../actions/types';
+import type { Action } from '../actions/types';
 
 import { initDate } from '../lib';
 
@@ -34,20 +34,20 @@ const radioValue = (locale: string) => {
   return 0;
 };
 
-type FormState = {
-  principal: string | null,
-  dateOpen: string,
-  dateClosed: string,
-  interest1: string,
-  interest2: string,
-  platez: number,
-  plusperiod: number,
-  prinplus: string,
-  radio: number,
-  taxCheck: number,
+type State = {
+  +principal: string | null,
+  +dateOpen: string,
+  +dateClosed: string,
+  +interest1: string,
+  +interest2: string,
+  +platez: number,
+  +plusperiod: number,
+  +prinplus: string,
+  +radio: number,
+  +taxCheck: number,
 };
 
-const INITIAL_STATE: FormState = {
+const INITIAL_STATE: State = {
   principal: (1000).toLocaleString('ru-RU'),
   dateOpen: initDate(new Date()),
   dateClosed: initDate(nextYear(new Date())),
@@ -61,7 +61,7 @@ const INITIAL_STATE: FormState = {
   taxRate: 0,
 };
 
-export default (state: FormState = INITIAL_STATE, action: FormActionsTypes): FormState => {
+export default (state: State = INITIAL_STATE, action: Action): State => {
   // console.log(action.type);
   switch (action.type) {
     case PRINCIPAL_CHANGED:

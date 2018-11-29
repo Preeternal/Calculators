@@ -1,5 +1,6 @@
 // @flow
 import { createSelector } from 'reselect';
+import moment from 'moment';
 import { strings } from '../../locales/i18n';
 import { initDate, changeDate, number } from '.';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
@@ -129,8 +130,8 @@ export const calculate = createSelector(
             }
           }
 
-          // daysY = daysYfun(dateY, dateY1, dOpen, oneDay);
           dateY.setMonth(dateY1.getMonth() + 1);
+          // console.log(moment(dateY1).add(1, 'months'));
           daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);
 
           if (platez === 0) {
@@ -141,7 +142,10 @@ export const calculate = createSelector(
             totalinterest1 = (principal + adjunctionAll) * interest1 * daysY;
           }
           // налог украина
-          if (country === 2) tax += 0.195 * totalinterest1;
+          if (country === 2) {
+            tax += 0.195 * totalinterest1;
+            // totalinterest1 -= tax;
+          }
           dateY1.setTime(dateY.getTime());
           adjunctionAll += adjunction; // пополнение за весь срок
           // вклад + процент за последний месяц в цикле:
@@ -157,7 +161,10 @@ export const calculate = createSelector(
             totalinterest1 = (principal + adjunctionAll) * interest2 * days1;
           }
           // налог украина
-          if (country === 2) tax += 0.195 * totalinterest1;
+          if (country === 2) {
+            tax += 0.195 * totalinterest1;
+            // totalinterest1 -= tax;
+          }
           // вклад + процент за последний месяц в цикле:
           principal1 = totalinterest1 + principal1;
           table.date.push(initDate(dClosed)); // дата
@@ -180,7 +187,13 @@ export const calculate = createSelector(
     // Сумма пополнений adjunctionAll
 
     return {
-      days1, srok, principal2, principal1, tax, adjunctionAll, table,
+      days1,
+      srok,
+      principal2,
+      principal1,
+      tax,
+      adjunctionAll,
+      table,
     };
   },
 );

@@ -27,8 +27,6 @@ import {
   countryIpTriggered,
 } from '../../actions';
 
-import type { FormActionsTypes, SettingsActionsTypes } from '../../actions/types';
-
 import store from '../../store';
 
 import {
@@ -74,8 +72,21 @@ type Props = {
   language: number,
   country: number,
   countryIP: boolean,
-  principalChanged: FormActionsTypes,
+  principalChanged: typeof principalChanged,
+  dateOpenChanged: typeof dateOpenChanged,
+  dateClosedChanged: typeof dateClosedChanged,
+  interest1Changed: typeof interest1Changed,
+  interest2Changed: typeof interest2Changed,
+  platezChanged: typeof platezChanged,
+  plusperiodChanged: typeof plusperiodChanged,
+  prinplusChanged: typeof prinplusChanged,
+  radioPressed: typeof radioPressed,
+  taxSelected: typeof taxSelected,
+  taxRateSelected: typeof taxRateSelected,
+  countryChanged: typeof countryChanged,
+  countryIpTriggered: typeof countryIpTriggered,
 
+  calculated: typeof calculate,
   navigation: any
 };
 
@@ -85,8 +96,8 @@ type State = {
   interest1Color?: string,
   interest2Color?: string,
   prinplusColor?: string,
-  isDatePickerVisible: boolean,
-  isDatePicker2Visible: boolean,
+  isDatePickerVisible?: boolean,
+  isDatePicker2Visible?: boolean,
   userCountryCode?: string,
 };
 const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
@@ -275,7 +286,7 @@ class Depo extends Component<Props, State> {
 
   render() {
     // console.log(store.getState());
-    console.log(this.props.calculated);
+    // console.log(this.props.calculated);
 
     const handleChange = () => {
       const previousValue = currentValue;
@@ -590,7 +601,7 @@ class Depo extends Component<Props, State> {
                   resultData={tax.toLocaleString(currentLocale, optionsN)}
                   resultPieStyle={{
                     borderLeftWidth: 5,
-                    borderColor: '#134d22',
+                    borderColor: '#db2323',
                   }}
                 />
 
@@ -618,7 +629,7 @@ class Depo extends Component<Props, State> {
                             (principal2 - tax) * 100 / (principal1 - tax),
                             tax * 100 / (principal1 - tax),
                           ]}
-                          colors={['#ddd', '#a2aaa4', '#569e69', '#134d22']}
+                          colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
                           backgroundColor="#ddd"
                         />
                         <View style={gauge}>
@@ -762,7 +773,8 @@ const mapStateToProps = state => ({
 
   calculated: calculate(state),
 });
-export default connect(mapStateToProps, {
+
+const mapDispatchToActions = {
   principalChanged,
   dateOpenChanged,
   dateClosedChanged,
@@ -776,4 +788,5 @@ export default connect(mapStateToProps, {
   taxRateSelected,
   countryChanged,
   countryIpTriggered,
-})(Depo);
+};
+export default connect(mapStateToProps, mapDispatchToActions)(Depo);

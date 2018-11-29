@@ -12,7 +12,7 @@ export const PRINPLUS_CHANGED = 'prinplus_changed';
 export const RADIO_PRESSED = 'radio_pressed';
 export const TAX_SELECTED = 'tax_selected';
 export const TAX_RATE_SELECTED = 'tax_rate_selected';
-export type FormActionsTypes =
+type FormActionsTypes =
   | { type: 'principal_changed', payload: string | null }
   | { type: 'date_open_changed', payload: string }
   | { type: 'date_closed_changed', payload: string }
@@ -29,7 +29,9 @@ export type FormActionsTypes =
 export const LANGUAGE_CHANGED = 'language_changed';
 export const COUNTRY_CHANGED = 'country_changed';
 export const COUNTRY_IP_TRIGGERED = 'country_ip_triggered';
-export type SettingsActionsTypes =
+type SettingsActionsTypes =
   | { type: 'language_changed', payload: number }
   | { type: 'country_changed', payload: number }
   | { type: 'country_ip_triggered', payload: boolean };
+
+export type Action = FormActionsTypes | SettingsActionsTypes;
