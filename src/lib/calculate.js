@@ -1,11 +1,9 @@
 // @flow
 import { createSelector } from 'reselect';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { strings } from '../../locales/i18n';
 import { initDate, changeDate, number } from '.';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
-
-// import type Selector from 'reselect';
 
 const getPrincipal = state => Number(number(state.form.principal));
 const dateOpen = state => changeDate(state.form.dateOpen);
@@ -49,7 +47,14 @@ export const calculate = createSelector(
     const oneHour = oneMinute * 60;
     const oneDay = oneHour * 24;
 
+    // const dtOpen = DateTime.fromJSDate(dOpen);
+    // const dtClosed = DateTime.fromJSDate(dClosed);
+
     const days = Math.round((dClosed.getTime() - dOpen.getTime()) / oneDay);
+    // const days = dtClosed.diff(dtOpen, ['days']).as('days');
+    // console.log(days);
+    // console.log(dtClosed.diff(dtOpen, ['months', 'days']).as('months'));
+    // console.log(dtClosed.diff(dtOpen, ['days']).shiftTo('months', 'days').toObject());
     const dni: string = daysString(days); // '', день, дня, дней
 
     const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed);
@@ -129,11 +134,11 @@ export const calculate = createSelector(
               adjunction = 0;
             }
           }
-
-          dateY.setMonth(dateY1.getMonth() + 1);
-          // console.log(moment(dateY1).add(1, 'months'));
-          daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);
-
+          const endDate = DateTime.fromJSDate(dOpen).plus({ months: i + 1 });
+          const startDate = DateTime.fromJSDate(dOpen).plus({ months: i });
+          daysY = endDate.diff(startDate, ['days']).as('days');
+          // dateY.setMonth(dateY1.getMonth() + 1);
+          // daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);
           if (platez === 0) {
             // начислено процентов
             totalinterest1 = principal1 * interest1 * daysY;
@@ -150,7 +155,8 @@ export const calculate = createSelector(
           adjunctionAll += adjunction; // пополнение за весь срок
           // вклад + процент за последний месяц в цикле:
           principal1 = totalinterest1 + principal1 + adjunction;
-          table.date.push(initDate(dateY)); // дата
+          // table.date.push(initDate(dateY)); // дата
+          table.date.push(initDate(endDate.toJSDate())); // дата
           table.daysY.push(daysY); // дни
         } else if (i === months || months === 0) {
           if (platez === 0) {
