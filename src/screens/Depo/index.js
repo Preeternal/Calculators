@@ -624,17 +624,17 @@ class Depo extends Component<Props, State> {
                           radius={65}
                           innerRadius={59}
                           series={[
-                            Number(number(this.props.principal)) * 100 / (principal1 - tax),
-                            adjunctionAll * 100 / (principal1 - tax),
-                            (principal2 - tax) * 100 / (principal1 - tax),
-                            tax * 100 / (principal1 - tax),
+                            Number(number(this.props.principal)) * 100 / (principal1 + tax),
+                            adjunctionAll * 100 / (principal1 + tax),
+                            principal2 * 100 / (principal1 + tax),
+                            tax * 100 / (principal1 + tax),
                           ]}
                           colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
                           backgroundColor="#ddd"
                         />
                         <View style={gauge}>
                           <Text style={gaugeText}>
-                            {(principal1 - tax).toLocaleString(currentLocale, optionsN)}
+                            {principal1.toLocaleString(currentLocale, optionsN)}
                           </Text>
                         </View>
                       </View>

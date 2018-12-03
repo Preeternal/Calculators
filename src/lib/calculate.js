@@ -14,6 +14,8 @@ const getPlatez = state => state.form.platez;
 const getPlusperiod = state => state.form.plusperiod;
 const getPrinplus = state => Number(number(state.form.prinplus));
 const getRadio = state => state.form.radio;
+const getTaxCheck = state => state.form.taxCheck;
+const getTaxRate = state => state.form.taxRate;
 const getCountry = state => state.settings.country;
 
 export const calculate = createSelector(
@@ -27,6 +29,8 @@ export const calculate = createSelector(
     getPlusperiod,
     getPrinplus,
     getRadio,
+    getTaxCheck,
+    getTaxRate,
     getCountry,
   ],
   (
@@ -39,6 +43,8 @@ export const calculate = createSelector(
     plusperiod: number,
     prinplus: number,
     radio: number,
+    taxCheck: number,
+    taxRate: number,
     country: number,
   ) => {
     // const dOpen: Date = changeDate(dateOpen);
@@ -46,17 +52,11 @@ export const calculate = createSelector(
     const oneMinute = 60 * 1000;
     const oneHour = oneMinute * 60;
     const oneDay = oneHour * 24;
-
-    // const dtOpen = DateTime.fromJSDate(dOpen);
-    // const dtClosed = DateTime.fromJSDate(dClosed);
+    const taxForRF = taxRate === 0 ? 0.35 : 0.3; // Ставка налога на процентные доходы по вкладам для лиц, являющихся налоговыми резидентами Российской Федерации и получающих такие доходы, составляет 35%; для нерезидентов (фактически находящихся на территории Российской Федерации менее 183 дней в календарном году) — 30%.
+    const interestLimit = radio === 2 ? (8 + 5) / 365 / 100 : 9 / 365 / 100;
 
     const days = Math.round((dClosed.getTime() - dOpen.getTime()) / oneDay);
-    // const days = dtClosed.diff(dtOpen, ['days']).as('days');
-    // console.log(days);
-    // console.log(dtClosed.diff(dtOpen, ['months', 'days']).as('months'));
-    // console.log(dtClosed.diff(dtOpen, ['days']).shiftTo('months', 'days').toObject());
     const dni: string = daysString(days); // '', день, дня, дней
-
     const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed);
     const { days1, cf } = DaysAfterMonths;
     const dni1: string = daysString(days1); // '', день, дня, дней
@@ -84,10 +84,10 @@ export const calculate = createSelector(
     let totalinterest1 = 0;
     let tax = 0;
     let principal1 = principal;
-    const dateY = new Date();
-    const dateY1 = new Date();
-    dateY.setTime(dOpen.getTime());
-    dateY1.setTime(dOpen.getTime());
+    // const dateY = new Date();
+    // const dateY1 = new Date();
+    // dateY.setTime(dOpen.getTime());
+    // dateY1.setTime(dOpen.getTime());
     let adjunction = 0; // пополнение в цикле
     let adjunctionAll = 0; // пополнение за весь срок
     let daysY: number;
@@ -146,12 +146,19 @@ export const calculate = createSelector(
             // начислено процентов
             totalinterest1 = (principal + adjunctionAll) * interest1 * daysY;
           }
-          // налог украина
-          if (country === 2) {
-            tax += 0.195 * totalinterest1;
-            // totalinterest1 -= tax;
+          if (taxCheck === 0) {
+            if (country === 2) {
+              // налог Украина
+              tax += 0.195 * totalinterest1;
+              totalinterest1 -= 0.195 * totalinterest1;
+            } else if (country === 0 && interest1 > interestLimit) {
+              // налог Россия
+              tax = (interest1 - interestLimit) * totalinterest1 * taxForRF;
+              totalinterest1 -= (interest1 - interestLimit) * totalinterest1 * taxForRF;
+            }
           }
-          dateY1.setTime(dateY.getTime());
+          console.log(tax);
+          // dateY1.setTime(dateY.getTime());
           adjunctionAll += adjunction; // пополнение за весь срок
           // вклад + процент за последний месяц в цикле:
           principal1 = totalinterest1 + principal1 + adjunction;
@@ -166,17 +173,23 @@ export const calculate = createSelector(
             // начислено процентов
             totalinterest1 = (principal + adjunctionAll) * interest2 * days1;
           }
-          // налог украина
-          if (country === 2) {
-            tax += 0.195 * totalinterest1;
-            // totalinterest1 -= tax;
+          if (taxCheck === 0) {
+            if (country === 2) {
+              // налог Украина
+              tax += 0.195 * totalinterest1;
+              totalinterest1 -= 0.195 * totalinterest1;
+            } else if (country === 0 && interest2 > interestLimit) {
+              // налог Россия
+              tax = (interest1 - interestLimit) * totalinterest2 * taxForRF;
+              totalinterest1 -= (interest2 - interestLimit) * totalinterest2 * taxForRF;
+            }
           }
           // вклад + процент за последний месяц в цикле:
           principal1 = totalinterest1 + principal1;
           table.date.push(initDate(dClosed)); // дата
           table.daysY.push(days1); // дни
         }
-
+        console.log(tax);
         totalinterest2 += totalinterest1; // начислено процентов итого
         table.n.push(i + 1); // №
         table.totalinterest1.push(totalinterest1); // начислено %
@@ -188,9 +201,9 @@ export const calculate = createSelector(
 
     // месячная выручка (в среднем)
     // const payment = (principal1 - principal - adjunctionAll) / months;
+
     // Начисленные проценты
     const principal2 = principal1 - principal - adjunctionAll;
-    // Сумма пополнений adjunctionAll
 
     return {
       days1,
