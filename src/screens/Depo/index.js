@@ -595,7 +595,8 @@ class Depo extends Component<Props, State> {
                   }}
                 />
 
-                <Result
+                {this.props.taxCheck === 0 && this.props.country !== 1
+                && <Result
                   // label="Налоги"
                   label={strings('result.taxes')}
                   resultData={tax.toLocaleString(currentLocale, optionsN)}
@@ -604,6 +605,7 @@ class Depo extends Component<Props, State> {
                     borderColor: '#db2323',
                   }}
                 />
+                }
 
                 {Number(number(this.props.principal)) !== 0 ? (
                   <CardSection>

@@ -52,7 +52,12 @@ export const calculate = createSelector(
     const oneMinute = 60 * 1000;
     const oneHour = oneMinute * 60;
     const oneDay = oneHour * 24;
-    const taxForRF = taxRate === 0 ? 0.35 : 0.3; // Ставка налога на процентные доходы по вкладам для лиц, являющихся налоговыми резидентами Российской Федерации и получающих такие доходы, составляет 35%; для нерезидентов (фактически находящихся на территории Российской Федерации менее 183 дней в календарном году) — 30%.
+    const taxForRF = taxRate === 0 ? 0.35 : 0.3;
+    // Ставка налога на процентные доходы по вкладам для лиц,
+    // являющихся налоговыми резидентами Российской Федерации
+    // и получающих такие доходы, составляет 35%;
+    // для нерезидентов (фактически находящихся на территории Российской
+    // Федерации менее 183 дней в календарном году) — 30%.
     const interestLimit = radio === 2 ? (8 + 5) / 365 / 100 : 9 / 365 / 100;
 
     const days = Math.round((dClosed.getTime() - dOpen.getTime()) / oneDay);
@@ -153,11 +158,11 @@ export const calculate = createSelector(
               totalinterest1 -= 0.195 * totalinterest1;
             } else if (country === 0 && interest1 > interestLimit) {
               // налог Россия
-              tax = (interest1 - interestLimit) * totalinterest1 * taxForRF;
-              totalinterest1 -= (interest1 - interestLimit) * totalinterest1 * taxForRF;
+              tax += ((interest1 - interestLimit) / interest1) * totalinterest1 * taxForRF;
+              totalinterest1
+                -= ((interest1 - interestLimit) / interest1) * totalinterest1 * taxForRF;
             }
           }
-          console.log(tax);
           // dateY1.setTime(dateY.getTime());
           adjunctionAll += adjunction; // пополнение за весь срок
           // вклад + процент за последний месяц в цикле:
@@ -180,8 +185,9 @@ export const calculate = createSelector(
               totalinterest1 -= 0.195 * totalinterest1;
             } else if (country === 0 && interest2 > interestLimit) {
               // налог Россия
-              tax = (interest1 - interestLimit) * totalinterest2 * taxForRF;
-              totalinterest1 -= (interest2 - interestLimit) * totalinterest2 * taxForRF;
+              tax += ((interest2 - interestLimit) / interest2) * totalinterest2 * taxForRF;
+              totalinterest1
+                -= ((interest2 - interestLimit) / interest2) * totalinterest2 * taxForRF;
             }
           }
           // вклад + процент за последний месяц в цикле:
@@ -189,7 +195,6 @@ export const calculate = createSelector(
           table.date.push(initDate(dClosed)); // дата
           table.daysY.push(days1); // дни
         }
-        console.log(tax);
         totalinterest2 += totalinterest1; // начислено процентов итого
         table.n.push(i + 1); // №
         table.totalinterest1.push(totalinterest1); // начислено %
