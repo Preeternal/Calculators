@@ -2,12 +2,12 @@
 import { createSelector } from 'reselect';
 import { DateTime } from 'luxon';
 import { strings } from '../../locales/i18n';
-import { initDate, changeDate, number } from '.';
+import { initDate, number } from '.';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
 
 const getPrincipal = state => Number(number(state.form.principal));
-const dateOpen = state => changeDate(state.form.dateOpen);
-const dateClosed = state => changeDate(state.form.dateClosed);
+const dateOpen = state => state.form.dateOpen;
+const dateClosed = state => state.form.dateClosed;
 const getInterest1 = state => Number(number(state.form.interest1)) / 365 / 100;
 const getInterest2 = state => Number(number(state.form.interest2)) / 365 / 100;
 const getPlatez = state => state.form.platez;
@@ -185,9 +185,9 @@ export const calculate = createSelector(
               totalinterest1 -= 0.195 * totalinterest1;
             } else if (country === 0 && interest2 > interestLimit) {
               // налог Россия
-              tax += ((interest2 - interestLimit) / interest2) * totalinterest2 * taxForRF;
+              tax += ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
               totalinterest1
-                -= ((interest2 - interestLimit) / interest2) * totalinterest2 * taxForRF;
+                -= ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
             }
           }
           // вклад + процент за последний месяц в цикле:

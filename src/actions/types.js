@@ -14,8 +14,8 @@ export const TAX_SELECTED = 'tax_selected';
 export const TAX_RATE_SELECTED = 'tax_rate_selected';
 type FormActionsTypes =
   | { type: 'principal_changed', payload: string | null }
-  | { type: 'date_open_changed', payload: string }
-  | { type: 'date_closed_changed', payload: string }
+  | { type: 'date_open_changed', payload: Date }
+  | { type: 'date_closed_changed', payload: Date }
   | { type: 'interest1_changed', payload: string }
   | { type: 'interest2_changed', payload: string }
   | { type: 'platez_changed', payload: number }

@@ -16,8 +16,6 @@ import {
 
 import type { Action } from '../actions/types';
 
-import { initDate } from '../lib';
-
 import { currentLocale } from '../../locales/i18n';
 
 const nextYear = (d: Date) => {
@@ -36,8 +34,8 @@ const radioValue = (locale: string) => {
 
 type State = {
   +principal: string | null,
-  +dateOpen: string,
-  +dateClosed: string,
+  +dateOpen: Date,
+  +dateClosed: Date,
   +interest1: string,
   +interest2: string,
   +platez: number,
@@ -49,8 +47,8 @@ type State = {
 
 const INITIAL_STATE: State = {
   principal: (1000).toLocaleString('ru-RU'),
-  dateOpen: initDate(new Date()),
-  dateClosed: initDate(nextYear(new Date())),
+  dateOpen: new Date(),
+  dateClosed: nextYear(new Date()),
   interest1: '10',
   interest2: '0',
   platez: 0,
