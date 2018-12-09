@@ -1,7 +1,11 @@
 import React from 'react';
 import { DrawerItems } from 'react-navigation';
 import PropTypes from 'prop-types';
-import { Image, SafeAreaView } from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  // View, Text,
+} from 'react-native';
 import {
   Container, Content, Header, Body,
 } from 'native-base';
@@ -22,6 +26,41 @@ const DrawerScreen = props => (
     </SafeAreaView>
   </Container>
 );
+
+// class DrawerScreen extends Component {
+//   navigateToScreen = route => () => {
+//     const navigateAction = NavigationActions.navigate({
+//       routeName: route,
+//     });
+//     this.props.navigation.dispatch(navigateAction);
+//     this.props.navigation.dispatch(DrawerActions.closeDrawer());
+//   };
+
+//   render() {
+//     return (
+//       <Container>
+//         <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'always', horizontal: 'never' }}>
+//           <Header androidStatusBarColor="#757171" style={styles.drawerHeader}>
+//             <Body>
+//               <Image resizeMode="cover" style={styles.drawerImage} source={images.logo} />
+//             </Body>
+//           </Header>
+//           <Content>
+//             <View style={styles.menuItem}>
+//               <Text onPress={this.navigateToScreen('Depo')}>{strings('header')}</Text>
+//             </View>
+//             <View style={styles.menuItem}>
+//               <Text onPress={this.navigateToScreen('Credit')}>{strings('headerCredit')}</Text>
+//             </View>
+//             <View style={styles.menuItem}>
+//               <Text onPress={this.navigateToScreen('Settings')}>Settings</Text>
+//             </View>
+//           </Content>
+//         </SafeAreaView>
+//       </Container>
+//     );
+//   }
+// }
 
 DrawerScreen.propTypes = {
   navigation: PropTypes.object,

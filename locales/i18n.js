@@ -1,6 +1,6 @@
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
-import moment from 'moment';
+// import moment from 'moment';
 
 // Import all locales
 import en from './en';
@@ -33,11 +33,11 @@ export function numbers(name, params) {
 
 export const currentLocale = i18n.currentLocale();
 
-if (currentLocale.indexOf('ru') === 0) {
-  require('moment/locale/ru.js'); // eslint-disable-line global-require
-  moment.locale(currentLocale);
-} else {
-  moment.locale('en');
-}
+// if (currentLocale.indexOf('ru') === 0) {
+//   require('moment/locale/ru.js'); // eslint-disable-line global-require
+//   moment.locale(currentLocale);
+// } else {
+//   moment.locale('en');
+// }
 
 export default i18n;

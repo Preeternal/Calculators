@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import {
   Text, View, Image, ScrollView, InteractionManager, ActivityIndicator,
@@ -20,7 +21,13 @@ import {
   plusperiodChanged,
   prinplusChanged,
   radioPressed,
+  taxSelected,
+  taxRateSelected,
+  countryChanged,
+  countryIpTriggered,
 } from '../../actions';
+
+import store from '../../store';
 
 import {
   Input,
@@ -32,6 +39,7 @@ import {
   Result,
   ResultSrok,
   Table,
+  TableSection,
 } from '../../components/common';
 
 import { strings, currentLocale } from '../../../locales/i18n';
@@ -47,21 +55,75 @@ import CustomHeader from '../Common/CustomHeader';
 //          principal3 as principal3Selector
 //        } from './src/lib/calculate';
 
-// const App = StackNavigator({
-//   Home: { screen: HomeScreen },
-//   Second: { screen: SecondScreen },
-// });
+// const userLocaleCountryCode = DeviceInfo.getDeviceCountry();
 
-class Depo extends Component {
-  static navigationOptions = {
-    drawerLabel: strings('header'),
-    drawerIcon: ({ tintColor }) => (
-      <Icon
-        name="md-calculator"
-        style={{ fontSize: 24, color: tintColor }}
-      />
-    ),
+type Props = {
+  principal: string,
+  dateOpen: string,
+  dateClosed: string,
+  interest1: string,
+  interest2: string,
+  platez: number,
+  plusperiod: number,
+  prinplus: string,
+  radio: number,
+  taxCheck: number,
+  taxRate: number,
+  language: number,
+  country: number,
+  countryIP: boolean,
+  principalChanged: typeof principalChanged,
+  dateOpenChanged: typeof dateOpenChanged,
+  dateClosedChanged: typeof dateClosedChanged,
+  interest1Changed: typeof interest1Changed,
+  interest2Changed: typeof interest2Changed,
+  platezChanged: typeof platezChanged,
+  plusperiodChanged: typeof plusperiodChanged,
+  prinplusChanged: typeof prinplusChanged,
+  radioPressed: typeof radioPressed,
+  taxSelected: typeof taxSelected,
+  taxRateSelected: typeof taxRateSelected,
+  countryChanged: typeof countryChanged,
+  countryIpTriggered: typeof countryIpTriggered,
+
+  calculated: typeof calculate,
+  navigation: any
+};
+
+type State = {
+  didFinishInitialAnimation?: boolean,
+  principalColor?: string,
+  interest1Color?: string,
+  interest2Color?: string,
+  prinplusColor?: string,
+  isDatePickerVisible?: boolean,
+  isDatePicker2Visible?: boolean,
+  userCountryCode?: string,
+};
+const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
+
+
+let currentValue;
+
+class Depo extends Component<Props, State> {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      title: strings('header'), // drawer label initialization
+      drawerLabel: params && params.DLabel,
+      drawerIcon: ({ tintColor }) => (
+        <Icon
+          type="Entypo"
+          name="wallet"
+          style={{ fontSize: 24, color: tintColor }}
+        />
+      ),
+    };
   };
+
+  // static navigationOptions = {
+  //   headerTitle: strings('titleDeposit'),
+  // };
 
   state = {
     didFinishInitialAnimation: false,
@@ -69,7 +131,33 @@ class Depo extends Component {
     interest1Color: '#525050',
     interest2Color: '#525050',
     prinplusColor: '#525050',
+    isDatePickerVisible: false,
+    isDatePicker2Visible: false,
+    userCountryCode: currentLocale.substring(3),
   };
+
+  async componentWillMount() {
+    if (!this.props.countryIP) {
+      await fetch(url)
+        .then(response => response.json())
+        .then((responseJson) => {
+          this.setState({
+            userCountryCode: responseJson.country_code,
+          });
+          switch (this.state.userCountryCode) {
+            case 'RU':
+              this.onCountryChange(0);
+              break;
+            case 'UA':
+              this.onCountryChange(2);
+              break;
+            default:
+              this.onCountryChange(1);
+          }
+          this.onCountryIpTrigger(true);
+        });
+    }
+  }
 
   componentDidMount() {
     // 1: Component is mounted off-screen
@@ -85,6 +173,23 @@ class Depo extends Component {
     });
   }
 
+  select = state => state.settings.country;
+
+  // handleChange = () => {
+  //   const previousValue = currentValue;
+  //   currentValue = this.select(store.getState());
+  //   // console.log(currentValue);
+  //   if (previousValue !== currentValue) {
+  //     console.log(
+  //       'Some deep nested property changed from',
+  //       previousValue,
+  //       'to',
+  //       currentValue,
+  //     );
+  //   }
+  // }
+
+  // unsubscribe = () => store.subscribe(this.handleChange());
 
   onFocus = (input, text) => {
     this.setState({
@@ -113,16 +218,30 @@ class Depo extends Component {
     }
   }
 
+  setDatePickerVisible = (value) => {
+    this.setState({
+      isDatePickerVisible: value,
+    });
+  }
+
+  setDatePicker2Visible = (value) => {
+    this.setState({
+      isDatePicker2Visible: value,
+    });
+  }
+
   onPrincipalChange = (text) => {
     this.props.principalChanged(number(text));
   }
 
-  onDateOpenChange = (text) => {
-    this.props.dateOpenChanged(text);
+  onDateOpenChange = (date) => {
+    this.setDatePickerVisible(false);
+    this.props.dateOpenChanged(initDate(date));
   }
 
-  onDateClosedChange = (text) => {
-    this.props.dateClosedChanged(text);
+  onDateClosedChange = (date) => {
+    this.setDatePicker2Visible(false);
+    this.props.dateClosedChanged(initDate(date));
   }
 
   onInterest1Change = (text) => {
@@ -149,12 +268,48 @@ class Depo extends Component {
     this.props.radioPressed(value);
   }
 
+  onTaxSelect = (value) => {
+    this.props.taxSelected(value);
+  }
+
+  onTaxRateSelect = (value) => {
+    this.props.taxRateSelected(value);
+  }
+
+  onCountryChange = (value) => {
+    this.props.countryChanged(value);
+  }
+
+  onCountryIpTrigger = (value) => {
+    this.props.countryIpTriggered(value);
+  }
+
   render() {
+    // console.log(store.getState());
+    // console.log(this.props.calculated);
+
+    const handleChange = () => {
+      const previousValue = currentValue;
+      currentValue = this.select(store.getState());
+      // console.log(currentValue);
+      if (previousValue !== currentValue) {
+        console.log(
+          'Some deep nested property changed from',
+          previousValue,
+          'to',
+          currentValue,
+        );
+      }
+    };
+    // const unsubscribe = store.subscribe(handleChange);
+    // unsubscribe();
+    handleChange();
+
+
     const {
       topImage,
       welcome,
       radioStyle,
-      inputDataStyle,
       pieContainer,
       pie,
       gauge,
@@ -172,8 +327,8 @@ class Depo extends Component {
     // const principal3 = principal3Selector(this.props.principal);
 
     const {
-      days1, srok, principal2, principal1, adjunctionAll, table,
-    } = this.props;
+      days1, srok, principal2, principal1, tax, adjunctionAll, table,
+    } = this.props.calculated;
 
     // const { days1, srok, payment, principal2, principal1, table } = calculate(
     //   Number(number(this.props.principal)),
@@ -230,23 +385,23 @@ class Depo extends Component {
               <CardSection>
                 <Image source={pic} style={topImage} />
                 <Text style={welcome}>
-                  {/* {!srok ? 'Проверьте правильность ввода:' : 'Введите информацию о депозите:'} */}
+                  {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
                   {!srok ? strings('welcome.error') : strings('welcome.go')}
                 </Text>
 
                 <RadioForm
                   style={radioStyle}
-              // ref="radioForm"
+                  // ref="radioForm"
                   radio_props={radio}
                   initial={this.props.radio}
                   formHorizontal
                   labelHorizontal
                   buttonColor="#757171"
                   selectedButtonColor="#525050"
-              // buttonInnerColor={'#e74c3c'}
-              // buttonOuterColor={'#757171'}
-              // buttonSize={15}
-              // buttonOuterSize={60}
+                  // buttonInnerColor={'#e74c3c'}
+                  // buttonOuterColor={'#757171'}
+                  // buttonSize={15}
+                  // buttonOuterSize={60}
                   labelColor="#757171"
                   selectedLabelColor="#525050"
                   animation
@@ -256,11 +411,11 @@ class Depo extends Component {
                 />
               </CardSection>
 
-              <View style={inputDataStyle}>
+              <TableSection>
                 <Input
-              // placeholder="введите сумму"
+                  // placeholder="введите сумму"
                   placeholder={strings('input.principal.placeholder')}
-              // label="Сумма вклада"
+                  // label="Сумма вклада"
                   label={`${strings('input.principal.label')}, ${radio[
                     this.props.radio
                   ].label.charAt(0)}`}
@@ -272,75 +427,39 @@ class Depo extends Component {
                 />
 
                 <InputDate
-              // label="Дата открытия вклада"
+                  // label="Дата открытия вклада"
                   label={strings('input.dateOpen.label')}
                   value={this.props.dateOpen}
-                  onRootPress={() => {
-                    this.setState({
-                      isDateTimePickerVisible: true,
-                    });
-                  }}
-                  onPress={() => {
-                    this.setState({
-                      isDateTimePickerVisible: true,
-                    });
-                  }}
+                  onRootPress={() => this.setDatePickerVisible(true)}
+                  onPress={() => this.setDatePickerVisible(true)}
                 />
-
                 <DateTimePicker
                   date={changeDate(this.props.dateOpen)}
-                  isVisible={this.state.isDateTimePickerVisible}
-                  onConfirm={(date) => {
-                    this.setState({
-                      isDateTimePickerVisible: false,
-                    });
-                    this.onDateOpenChange(initDate(date));
-                  }}
-              //
-                  onCancel={() => {
-                    this.setState({
-                      isDateTimePickerVisible: false,
-                    });
-                  }}
+                  isVisible={this.state.isDatePickerVisible}
+                  onConfirm={this.onDateOpenChange}
+                  onCancel={() => this.setDatePickerVisible(false)}
                   datePickerModeAndroid="spinner"
                 />
 
                 <InputDate
-              // label="Дата закрытия вклада"
+                  // label="Дата закрытия вклада"
                   label={strings('input.dateClosed.label')}
                   value={this.props.dateClosed}
-                  onRootPress={() => {
-                    this.setState({
-                      isDateTimePickerVisible2: true,
-                    });
-                  }}
-                  onPress={() => {
-                    this.setState({
-                      isDateTimePickerVisible2: true,
-                    });
-                  }}
+                  onRootPress={() => this.setDatePicker2Visible(true)}
+                  onPress={() => this.setDatePicker2Visible(true)}
                 />
-
                 <DateTimePicker
                   date={changeDate(this.props.dateClosed)}
-                  isVisible={this.state.isDateTimePickerVisible2}
-                  onConfirm={(date) => {
-                    this.setState({
-                      isDateTimePickerVisible2: false,
-                    });
-                    this.onDateClosedChange(initDate(date));
-                  }}
-                  onCancel={() => {
-                    this.setState({
-                      isDateTimePickerVisible2: false,
-                    });
-                  }}
+                  isVisible={this.state.isDatePicker2Visible}
+                  onConfirm={this.onDateClosedChange}
+                  onCancel={() => this.setDatePicker2Visible(false)}
                   datePickerModeAndroid="spinner"
                 />
+
                 <Input
-              // placeholder="введите ставку"
+                  // placeholder="введите ставку"
                   placeholder={strings('input.interest1.placeholder')}
-              // label="Процентная ставка"
+                  // label="Процентная ставка"
                   label={strings('input.interest1.label')}
                   onChangeText={this.onInterest1Change}
                   onBlur={() => this.onBlur('interest1', this.props.interest1)}
@@ -401,7 +520,28 @@ class Depo extends Component {
                     value={this.props.prinplus}
                   />
                 )}
-              </View>
+                {this.props.country !== 1 ? (
+                  <InputPicker
+                    label="Налогооблажение вклада"
+                    // label={strings('input.plusperiod.label')}
+                    // options={['да', 'нет']}
+                    options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
+                    selectedValue={this.props.taxCheck}
+                    onValueChange={this.onTaxSelect}
+                  />
+                ) : null}
+                { this.props.taxCheck === 0
+                  && this.props.country === 0 && (
+                  <InputPicker
+                    label="Ставка налога"
+                    // label={strings('input.plusperiod.label')}
+                    // options={['резидент РФ', 'нерезидент РФ']}
+                    options={[strings('settings.resident'), strings('settings.non-resident')]}
+                    selectedValue={this.props.taxRate}
+                    onValueChange={this.onTaxRateSelect}
+                  />
+                )}
+              </TableSection>
             </Card>
 
             {!srok || Number(number(this.props.principal)) === 0 ? null : (
@@ -410,26 +550,16 @@ class Depo extends Component {
                 <Header headerText={strings('result.header')} />
 
                 <ResultSrok
-              // label={`Срок депозита ${srok}`}
+                  // label={`Срок депозита ${srok}`}
                   label={`${strings('result.srok.srok')} ${srok}`}
                 />
 
-                {/* {isNaN(payment) || payment === Infinity ? null : (
-              <Result
-                //label="Ваша месячная выручка (в среднем)"
-                label={strings('result.payment')}
-                //resultData=
-                //{`${radio[this.props.radio].label.charAt(0)}${payment.toFixed(2)}`}
-                resultData={payment.toLocaleString(currentLocale, optionsN)}
-              />
-            )} */}
-
                 <Result
-              // label="Сумма вклада
+                  // label="Сумма вклада
                   label={`${strings('input.principal.label')}`}
-              // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
-              //   2
-              // )}`}
+                  // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
+                  //   2
+                  // )}`}
                   resultData={Number(number(this.props.principal)).toLocaleString(
                     currentLocale,
                     optionsN,
@@ -437,45 +567,46 @@ class Depo extends Component {
                   resultPieStyle={{
                     borderLeftWidth: 5,
                     borderColor: '#ddd',
-                    // color: '#ddd'
                   }}
                 />
 
                 {adjunctionAll > 0 ? (
                   <Result
-                // label="Сумма пополнений"
+                    // label="Сумма пополнений"
                     label={strings('result.adjunctionAll')}
                     resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
                     resultPieStyle={{
                       borderLeftWidth: 5,
                       borderColor: '#a2aaa4',
-                      // color: '#a2aaa4'
                     }}
                   />
                 ) : null}
 
                 <Result
-              // label="Начисленные проценты"
+                  // label="Начисленные проценты"
                   label={strings('result.principal2')}
-              // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
-              //   2
-              // )}`}
+                  // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
+                  //   2
+                  // )}`}
                   resultData={principal2.toLocaleString(currentLocale, optionsN)}
                   resultPieStyle={{
                     borderLeftWidth: 5,
                     borderColor: '#569e69',
-                    // color: '#569e69'
                   }}
                 />
 
-                {/* <Result
-              //label="Полная сумма на руки"
-              label={strings('result.principal1')}
-              // resultData={`${radio[this.props.radio].label.charAt(0)}${principal1.toFixed(
-              //   2
-              // )}`}
-              resultData={principal1.toLocaleString(currentLocale, optionsN)}
-            /> */}
+                {this.props.taxCheck === 0 && this.props.country !== 1
+                && <Result
+                  // label="Налоги"
+                  label={strings('result.taxes')}
+                  resultData={tax.toLocaleString(currentLocale, optionsN)}
+                  resultPieStyle={{
+                    borderLeftWidth: 5,
+                    borderColor: '#db2323',
+                  }}
+                />
+                }
+
                 {Number(number(this.props.principal)) !== 0 ? (
                   <CardSection>
                     <View style={pieContainer}>
@@ -495,12 +626,12 @@ class Depo extends Component {
                           radius={65}
                           innerRadius={59}
                           series={[
-                            Number(number(this.props.principal)) * 100 / principal1,
-                            adjunctionAll * 100 / principal1,
-                            principal2 * 100 / principal1,
+                            Number(number(this.props.principal)) * 100 / (principal1 + tax),
+                            adjunctionAll * 100 / (principal1 + tax),
+                            principal2 * 100 / (principal1 + tax),
+                            tax * 100 / (principal1 + tax),
                           ]}
-                      // colors={['#ddd', '#f00']}
-                          colors={['#ddd', '#a2aaa4', '#569e69']}
+                          colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
                           backgroundColor="#ddd"
                         />
                         <View style={gauge}>
@@ -519,7 +650,11 @@ class Depo extends Component {
               <Card>
                 {/* <Header headerText="Выписка со счёта" /> */}
                 <Header headerText={strings('table.header')} />
-                <Table currency={radio[this.props.radio].label} value={table} />
+                <Table
+                  currency={radio[this.props.radio].label}
+                  value={table}
+                  language={this.props.language}
+                />
               </Card>
             )}
           </ScrollView>
@@ -567,13 +702,6 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  inputDataStyle: {
-    flex: 1,
-    position: 'relative',
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
-  },
-
   pieContainer: {
     // alignItems: 'center',
     paddingLeft: 10,
@@ -614,19 +742,23 @@ Depo.propTypes = {
   plusperiod: PropTypes.number,
   prinplus: PropTypes.string,
   radio: PropTypes.number,
+  taxCheck: PropTypes.number,
+  taxRate: PropTypes.number,
+  language: PropTypes.number,
+  country: PropTypes.number,
+  countryIP: PropTypes.bool,
 
-  days1: PropTypes.number,
-  srok: PropTypes.string,
-  principal2: PropTypes.number,
-  principal1: PropTypes.number,
-  adjunctionAll: PropTypes.number,
-  table: PropTypes.object,
+  // доработать
+  // days1: PropTypes.number,
+  // srok: PropTypes.string,
+  // principal2: PropTypes.number,
+  // principal1: PropTypes.number,
+  // adjunctionAll: PropTypes.number,
+  // table: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   principal: state.form.principal,
-  // principal2: principal2Selector(state.form.principal),
-  // principal3: principal3Selector(state.form.principal),
   dateOpen: state.form.dateOpen,
   dateClosed: state.form.dateClosed,
   interest1: state.form.interest1,
@@ -635,22 +767,16 @@ const mapStateToProps = state => ({
   plusperiod: state.form.plusperiod,
   prinplus: state.form.prinplus,
   radio: state.form.radio,
+  taxCheck: state.form.taxCheck,
+  taxRate: state.form.taxRate,
+  language: state.settings.language,
+  country: state.settings.country,
+  countryIP: state.settings.countryIP,
 
-  days1: calculate(state)[0],
-  srok: calculate(state)[1],
-  principal2: calculate(state)[2],
-  principal1: calculate(state)[3],
-  adjunctionAll: calculate(state)[4],
-  table: calculate(state)[5],
-
-  // days1,
-  // srok,
-  // payment,
-  // principal2,
-  // principal1,
-  // table
+  calculated: calculate(state),
 });
-export default connect(mapStateToProps, {
+
+const mapDispatchToActions = {
   principalChanged,
   dateOpenChanged,
   dateClosedChanged,
@@ -660,4 +786,9 @@ export default connect(mapStateToProps, {
   plusperiodChanged,
   prinplusChanged,
   radioPressed,
-})(Depo);
+  taxSelected,
+  taxRateSelected,
+  countryChanged,
+  countryIpTriggered,
+};
+export default connect(mapStateToProps, mapDispatchToActions)(Depo);

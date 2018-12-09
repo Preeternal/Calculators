@@ -7,6 +7,7 @@
     }
   },
   "header": "Deposit calculator",
+  "headerCredit": "Credit calculator",
   "titleDeposit": "Deposit",
   "titleCredit": "Credit",
   "welcome": {
@@ -71,6 +72,7 @@
     },
     "payment": "Interest monthly calculation (on average)",
     "principal2": "Interest charges",
+    "taxes": "Taxes",
     "adjunctionAll": "Replenishments",
     "principal1": "Total amount on hands",
     "pie": "Total amount with interest"
@@ -89,5 +91,13 @@
   "picker": {
     "iosHeader": "Select One",
     "headerBackButtonText": "Back"
+  },
+  "settings": {
+    "settings": "Settings",
+    "localization": "Localization data",
+    "language": "Language",
+    "country": "Country",
+    "resident": "resident of the Russian Federation",
+    "non-resident": "non-resident of the Russian Federation"
   }
 }
