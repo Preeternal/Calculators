@@ -185,9 +185,9 @@ export const calculate = createSelector(
               totalinterest1 -= 0.195 * totalinterest1;
             } else if (country === 0 && interest2 > interestLimit) {
               // налог Россия
-              tax += ((interest2 - interestLimit) / interest2) * totalinterest2 * taxForRF;
+              tax += ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
               totalinterest1
-                -= ((interest2 - interestLimit) / interest2) * totalinterest2 * taxForRF;
+                -= ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
             }
           }
           // вклад + процент за последний месяц в цикле:
