@@ -147,8 +147,7 @@ android {
     }
 }
 
-dependencies {
-    implementation project(':react-native-device-info')
+dependencies {   
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-languages') 
     implementation fileTree(dir: "libs", include: ["*.jar"])    
