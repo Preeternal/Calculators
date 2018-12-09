@@ -5,17 +5,17 @@ import { strings } from '../../locales/i18n';
 import { initDate, number } from '.';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
 
-const getPrincipal = state => Number(number(state.form.principal));
-const dateOpen = state => state.form.dateOpen;
-const dateClosed = state => state.form.dateClosed;
-const getInterest1 = state => Number(number(state.form.interest1)) / 365 / 100;
-const getInterest2 = state => Number(number(state.form.interest2)) / 365 / 100;
-const getPlatez = state => state.form.platez;
-const getPlusperiod = state => state.form.plusperiod;
-const getPrinplus = state => Number(number(state.form.prinplus));
-const getRadio = state => state.form.radio;
-const getTaxCheck = state => state.form.taxCheck;
-const getTaxRate = state => state.form.taxRate;
+const getPrincipal = state => Number(number(state.depo.principal));
+const dateOpen = state => state.depo.dateOpen;
+const dateClosed = state => state.depo.dateClosed;
+const getInterest1 = state => Number(number(state.depo.interest1)) / 365 / 100;
+const getInterest2 = state => Number(number(state.depo.interest2)) / 365 / 100;
+const getPlatez = state => state.depo.platez;
+const getPlusperiod = state => state.depo.plusperiod;
+const getPrinplus = state => Number(number(state.depo.prinplus));
+const getRadio = state => state.depo.radio;
+const getTaxCheck = state => state.depo.taxCheck;
+const getTaxRate = state => state.depo.taxRate;
 const getCountry = state => state.settings.country;
 
 export const calculate = createSelector(
