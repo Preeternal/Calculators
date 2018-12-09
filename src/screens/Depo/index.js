@@ -45,7 +45,7 @@ import {
 import { strings, currentLocale } from '../../../locales/i18n';
 
 import {
-  initDate, changeDate, number, calculate,
+  initDate, number, calculate,
 } from '../../lib';
 
 import CustomHeader from '../Common/CustomHeader';
@@ -59,8 +59,8 @@ import CustomHeader from '../Common/CustomHeader';
 
 type Props = {
   principal: string,
-  dateOpen: string,
-  dateClosed: string,
+  dateOpen: Date,
+  dateClosed: Date,
   interest1: string,
   interest2: string,
   platez: number,
@@ -175,22 +175,6 @@ class Depo extends Component<Props, State> {
 
   select = state => state.settings.country;
 
-  // handleChange = () => {
-  //   const previousValue = currentValue;
-  //   currentValue = this.select(store.getState());
-  //   // console.log(currentValue);
-  //   if (previousValue !== currentValue) {
-  //     console.log(
-  //       'Some deep nested property changed from',
-  //       previousValue,
-  //       'to',
-  //       currentValue,
-  //     );
-  //   }
-  // }
-
-  // unsubscribe = () => store.subscribe(this.handleChange());
-
   onFocus = (input, text) => {
     this.setState({
       [`${input}Color`]: '#000000',
@@ -236,12 +220,12 @@ class Depo extends Component<Props, State> {
 
   onDateOpenChange = (date) => {
     this.setDatePickerVisible(false);
-    this.props.dateOpenChanged(initDate(date));
+    this.props.dateOpenChanged(date);
   }
 
   onDateClosedChange = (date) => {
     this.setDatePicker2Visible(false);
-    this.props.dateClosedChanged(initDate(date));
+    this.props.dateClosedChanged(date);
   }
 
   onInterest1Change = (text) => {
@@ -429,12 +413,12 @@ class Depo extends Component<Props, State> {
                 <InputDate
                   // label="Дата открытия вклада"
                   label={strings('input.dateOpen.label')}
-                  value={this.props.dateOpen}
+                  value={initDate(this.props.dateOpen)}
                   onRootPress={() => this.setDatePickerVisible(true)}
                   onPress={() => this.setDatePickerVisible(true)}
                 />
                 <DateTimePicker
-                  date={changeDate(this.props.dateOpen)}
+                  date={this.props.dateOpen}
                   isVisible={this.state.isDatePickerVisible}
                   onConfirm={this.onDateOpenChange}
                   onCancel={() => this.setDatePickerVisible(false)}
@@ -444,12 +428,12 @@ class Depo extends Component<Props, State> {
                 <InputDate
                   // label="Дата закрытия вклада"
                   label={strings('input.dateClosed.label')}
-                  value={this.props.dateClosed}
+                  value={initDate(this.props.dateClosed)}
                   onRootPress={() => this.setDatePicker2Visible(true)}
                   onPress={() => this.setDatePicker2Visible(true)}
                 />
                 <DateTimePicker
-                  date={changeDate(this.props.dateClosed)}
+                  date={this.props.dateClosed}
                   isVisible={this.state.isDatePicker2Visible}
                   onConfirm={this.onDateClosedChange}
                   onCancel={() => this.setDatePicker2Visible(false)}
@@ -734,8 +718,8 @@ const styles = {
 
 Depo.propTypes = {
   principal: PropTypes.string,
-  dateOpen: PropTypes.string,
-  dateClosed: PropTypes.string,
+  dateOpen: PropTypes.instanceOf(Date),
+  dateClosed: PropTypes.instanceOf(Date),
   interest1: PropTypes.string,
   interest2: PropTypes.string,
   platez: PropTypes.number,

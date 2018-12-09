@@ -20,14 +20,14 @@ export const principalChanged = (text: string | null): Action => ({
   payload: text,
 });
 
-export const dateOpenChanged = (text: string): Action => ({
+export const dateOpenChanged = (date: Date): Action => ({
   type: DATE_OPEN_CHANGED,
-  payload: text,
+  payload: date,
 });
 
-export const dateClosedChanged = (text: string): Action => ({
+export const dateClosedChanged = (date: Date): Action => ({
   type: DATE_CLOSED_CHANGED,
-  payload: text,
+  payload: date,
 });
 
 export const interest1Changed = (text: string): Action => ({
