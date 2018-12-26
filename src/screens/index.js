@@ -1,12 +1,9 @@
-import React from 'react';
-import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
-import { Icon } from 'native-base';
+import { createDrawerNavigator } from 'react-navigation';
 
 import Depo from './Depo';
 import Credit from './Credit';
 import Settings from './Settings';
 import DrawerScreen from './Common/DrawerScreen';
-import { strings } from '../../locales/i18n';
 
 const Navigator = createDrawerNavigator(
   {
@@ -15,7 +12,7 @@ const Navigator = createDrawerNavigator(
     Settings,
   },
   {
-    initialRouteName: 'Depo',
+    initialRouteName: 'Credit',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
     contentOptions: {

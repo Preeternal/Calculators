@@ -29,8 +29,9 @@ import {
 
 import {
   Input,
-  InputDate,
+  InputTextPicker,
   InputPicker,
+  InputDate,
   CardSection,
   Card,
   Header,
@@ -210,6 +211,24 @@ class Credit extends Component<Props, State> {
     }
   }
 
+  onFocusTextPicker = (input, text) => {
+    this.setState({
+      [`${input}Color`]: '#000000',
+    });
+    if (text === '0') {
+      this.props[`${input}Changed`]('');
+    }
+  }
+
+  onBlurTextPicker = (input, text) => {
+    this.setState({
+      [`${input}Color`]: '#525050',
+    });
+    if (text === '') {
+      this.props[`${input}Changed`]('0');
+    }
+  }
+
   setDatePickerVisible = (value) => {
     this.setState({
       isDatePickerVisible: value,
@@ -361,7 +380,7 @@ class Credit extends Component<Props, State> {
                 <Image source={pic} style={topImage} />
                 <Text style={welcome}>
                   {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
-                  {!srok ? strings('welcome.error') : strings('welcome.go')}
+                  {!srok ? strings('welcome.error') : strings('credit.go')}
                 </Text>
 
                 <RadioForm
@@ -390,8 +409,8 @@ class Credit extends Component<Props, State> {
                 <Input
                   // placeholder="введите сумму"
                   placeholder={strings('input.principal.placeholder')}
-                  // label="Сумма вклада"
-                  label={`${strings('input.principal.label')}, ${radio[
+                  // label="Сумма кредита"
+                  label={`${strings('credit.input.principal.label')}, ${radio[
                     this.props.radio
                   ].label.charAt(0)}`}
                   onChangeText={this.onPrincipalChange}
@@ -401,9 +420,21 @@ class Credit extends Component<Props, State> {
                   value={this.props.principal}
                 />
 
+                <Input
+                  // placeholder="годовая процентная ставка"
+                  placeholder={strings('input.interest1.placeholder')}
+                  // label="Процентная ставка"
+                  label={strings('credit.input.interest.label')}
+                  onChangeText={this.onInterest1Change}
+                  onBlur={() => this.onBlur('interest1', this.props.interest1)}
+                  onFocus={() => this.onFocus('interest1', this.props.interest1)}
+                  appInputStyle={{ color: this.state.interest1Color }}
+                  value={this.props.interest1}
+                />
+
                 <InputDate
-                  // label="Дата открытия вклада"
-                  label={strings('input.dateOpen.label')}
+                  // label="Дата выдачи кредита"
+                  label={strings('credit.input.dateOpen.label')}
                   value={initDate(this.props.dateOpen)}
                   onRootPress={() => this.setDatePickerVisible(true)}
                   onPress={() => this.setDatePickerVisible(true)}
@@ -416,106 +447,84 @@ class Credit extends Component<Props, State> {
                   datePickerModeAndroid="spinner"
                 />
 
-                <InputDate
-                  // label="Дата закрытия вклада"
-                  label={strings('input.dateClosed.label')}
-                  value={initDate(this.props.dateClosed)}
-                  onRootPress={() => this.setDatePicker2Visible(true)}
-                  onPress={() => this.setDatePicker2Visible(true)}
-                />
-                <DateTimePicker
-                  date={this.props.dateClosed}
-                  isVisible={this.state.isDatePicker2Visible}
-                  onConfirm={this.onDateClosedChange}
-                  onCancel={() => this.setDatePicker2Visible(false)}
-                  datePickerModeAndroid="spinner"
-                />
-
-                <Input
-                  // placeholder="введите ставку"
-                  placeholder={strings('input.interest1.placeholder')}
+                <InputTextPicker
+                  // placeholder="Срок кредита"
+                  placeholder={strings('credit.input.srok.placeholder')}
                   // label="Процентная ставка"
-                  label={strings('input.interest1.label')}
+                  label={strings('credit.input.srok.label')}
                   onChangeText={this.onInterest1Change}
-                  onBlur={() => this.onBlur('interest1', this.props.interest1)}
-                  onFocus={() => this.onFocus('interest1', this.props.interest1)}
+                  onBlur={() => this.onBlurTextPicker('interest1', this.props.interest1)}
+                  onFocus={() => this.onFocusTextPicker('interest1', this.props.interest1)}
                   appInputStyle={{ color: this.state.interest1Color }}
                   value={this.props.interest1}
-                />
-
-                {days1 > 0 ? (
-                  <Input
-                // placeholder="введите ставку"
-                    placeholder={strings('input.interest2.placeholder')}
-                // label="Процентная ставка при досрочном расторжении вклада (не полный месяц)"
-                    label={strings('input.interest2.label')}
-                    onChangeText={this.onInterest2Change}
-                    onBlur={() => this.onBlur('interest2', this.props.interest2)}
-                    onFocus={() => this.onFocus('interest2', this.props.interest2)}
-                    appInputStyle={{ color: this.state.interest2Color }}
-                    value={this.props.interest2}
-                  />
-                ) : null}
-
-                <InputPicker
-              // label="Капитализация процентов (ежемесячно)"
-                  label={strings('input.platez.label')}
-              // options={['да', 'нет']}
-                  options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
+                  // options={['месяцы', 'годы']}
+                  options={[strings('credit.input.srok.options.months'), strings('credit.input.srok.options.years')]}
                   selectedValue={this.props.platez}
                   onValueChange={this.onPlatezChange}
                 />
 
                 <InputPicker
-              // label="Пополнение депозита"
-                  label={strings('input.plusperiod.label')}
-              // options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
-                  options={[
-                    strings('input.plusperiod.options.no'),
-                    strings('input.plusperiod.options.monthly'),
-                    strings('input.plusperiod.options.quarterly'),
-                    strings('input.plusperiod.options.annually'),
-                  ]}
-                  selectedValue={this.props.plusperiod}
-                  onValueChange={this.onPlusperiodChange}
+                  // label="Вид платежей"
+                  label={strings('credit.input.platez.label')}
+                  // options={['Аннуитет', 'Единовременно', 'Дифференцировано']}
+                  options={[strings('credit.input.platez.options.annuity'), strings('credit.input.platez.options.lump'), strings('credit.input.platez.options.differentiated')]}
+                  selectedValue={this.props.platez}
+                  onValueChange={this.onPlatezChange}
                 />
 
-                {Number(this.props.plusperiod) === 0 ? null : (
-                  <Input
-                // label="На сумму"
-                    label={`${strings('input.prinplus.label')}, ${radio[
-                      this.props.radio
-                    ].label.charAt(0)}`}
-                // placeholder="введите сумму"
-                    placeholder={strings('input.prinplus.placeholder')}
-                    onChangeText={this.onPrinplusChange}
-                    onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
-                    onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
-                    appInputStyle={{ color: this.state.prinplusColor, height: 52 }}
-                    value={this.props.prinplus}
-                  />
-                )}
-                {this.props.country !== 1 ? (
-                  <InputPicker
-                    label="Налогооблажение вклада"
-                    // label={strings('input.plusperiod.label')}
-                    // options={['да', 'нет']}
-                    options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
-                    selectedValue={this.props.taxCheck}
-                    onValueChange={this.onTaxSelect}
-                  />
-                ) : null}
-                { this.props.taxCheck === 0
-                  && this.props.country === 0 && (
-                  <InputPicker
-                    label="Ставка налога"
-                    // label={strings('input.plusperiod.label')}
-                    // options={['резидент РФ', 'нерезидент РФ']}
-                    options={[strings('settings.resident'), strings('settings.non-resident')]}
-                    selectedValue={this.props.taxRate}
-                    onValueChange={this.onTaxRateSelect}
-                  />
-                )}
+                <InputTextPicker
+                  // placeholder="Единоразовая комиссия"
+                  placeholder={strings('credit.input.edinСom.placeholder')}
+                  // label="Процентная ставка"
+                  label={strings('credit.input.edinСom.label')}
+                  labelTextStyle={{ flex: 2.2 }}
+                  onChangeText={this.onInterest1Change}
+                  onBlur={() => this.onBlurTextPicker('interest1', this.props.interest1)}
+                  onFocus={() => this.onFocusTextPicker('interest1', this.props.interest1)}
+                  appInputStyle={{ color: this.state.interest1Color }}
+                  value={this.props.interest1}
+                  // options={['%', '₽руб']}
+                  options={['%', radio[this.props.radio].label.charAt(0)]}
+                  selectedValue={this.props.platez}
+                  onValueChange={this.onPlatezChange}
+                />
+
+                <Input
+                  // placeholder="введите %"
+                  placeholder={strings('credit.input.startCostCom.placeholder')}
+                  // label="Ежемесячная комиссия на нач. стоимость"
+                  label={strings('credit.input.startCostCom.label')}
+                  onChangeText={this.onPrincipalChange}
+                  onFocus={() => this.onFocus('principal', this.props.principal)}
+                  onBlur={() => this.onBlur('principal', this.props.principal)}
+                  appInputStyle={{ color: this.state.principalColor }}
+                  value={this.props.principal}
+                />
+
+                <Input
+                  // placeholder="введите %"
+                  placeholder={strings('credit.input.startCostCom.placeholder')}
+                  // label="Ежемесячная комиссия на остаток долга"
+                  label={strings('credit.input.finCostCom.label')}
+                  onChangeText={this.onPrincipalChange}
+                  onFocus={() => this.onFocus('principal', this.props.principal)}
+                  onBlur={() => this.onBlur('principal', this.props.principal)}
+                  appInputStyle={{ color: this.state.principalColor }}
+                  value={this.props.principal}
+                />
+
+                <Input
+                  // placeholder="введите %"
+                  placeholder={strings('credit.input.startCostCom.placeholder')}
+                  // label="Ежемесячная комиссия за ведение счёта"
+                  label={strings('credit.input.acCountCom.label')}
+                  onChangeText={this.onPrincipalChange}
+                  onFocus={() => this.onFocus('principal', this.props.principal)}
+                  onBlur={() => this.onBlur('principal', this.props.principal)}
+                  appInputStyle={{ color: this.state.principalColor }}
+                  value={this.props.principal}
+                />
+
               </TableSection>
             </Card>
 
@@ -524,12 +533,12 @@ class Credit extends Component<Props, State> {
                 {/* <Header headerText="Информация о выплатах" /> */}
                 <Header headerText={strings('result.header')} />
 
-                <ResultSrok
+                {/* <ResultSrok
                   // label={`Срок депозита ${srok}`}
                   label={`${strings('result.srok.srok')} ${srok}`}
-                />
+                /> */}
 
-                <Result
+                {/* <Result
                   // label="Сумма вклада
                   label={`${strings('input.principal.label')}`}
                   // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
@@ -543,9 +552,9 @@ class Credit extends Component<Props, State> {
                     borderLeftWidth: 5,
                     borderColor: '#ddd',
                   }}
-                />
+                /> */}
 
-                {adjunctionAll > 0 ? (
+                {/* {adjunctionAll > 0 ? (
                   <Result
                     // label="Сумма пополнений"
                     label={strings('result.adjunctionAll')}
@@ -580,9 +589,9 @@ class Credit extends Component<Props, State> {
                     borderColor: '#db2323',
                   }}
                 />
-                }
+                } */}
 
-                {Number(number(this.props.principal)) !== 0 ? (
+                {/* {Number(number(this.props.principal)) !== 0 ? (
                   <CardSection>
                     <View style={pieContainer}>
                       <View
@@ -591,9 +600,9 @@ class Credit extends Component<Props, State> {
                           justifyContent: 'center',
                         }}
                       >
-                        <Text>
-                          {/* Доходность */}
-                          {strings('result.pie')}
+                        <Text> */}
+                {/* Сумма вклада с процентами */}
+                {/* {strings('result.pie')}
                         </Text>
                       </View>
                       <View style={pie}>
@@ -617,7 +626,7 @@ class Credit extends Component<Props, State> {
                       </View>
                     </View>
                   </CardSection>
-                ) : null}
+                ) : null} */}
               </Card>
             )}
 
@@ -625,11 +634,11 @@ class Credit extends Component<Props, State> {
               <Card>
                 {/* <Header headerText="Выписка со счёта" /> */}
                 <Header headerText={strings('table.header')} />
-                <Table
+                {/* <Table
                   currency={radio[this.props.radio].label}
                   value={table}
                   language={this.props.language}
-                />
+                /> */}
               </Card>
             )}
           </ScrollView>

@@ -88,6 +88,52 @@
       "total amount"
     ]
   },
+  "credit": {
+    "go": "Enter information about the credit:",
+    "input": {
+      "principal": {
+        "placeholder": "enter amount",
+        "label": "Credit amount"
+      },
+      "interest": {
+        "placeholder": "enter the rate",
+        "label": "Annual interest rate"
+      },
+      "dateOpen": {
+        "label": "Loan issue date"
+      },
+      "srok": {
+        "placeholder": "credit term",
+        "label": "Loan terms,",
+        "options": {
+          "months": "months",
+          "years": "years"
+        }
+      },
+      "platez": {
+        "label": "Type of payment",
+        "options": {
+          "annuity": "Annuity - payments in equal installments",
+          "lump": "Lump sum - payment at the end of the term",
+          "differentiated": "Differentiated - decreasing parts"
+        }
+      },
+      "edinСom": {
+        "placeholder": "enter fee",
+        "label": "One-time fee,"
+      },
+      "startCostCom": {
+        "placeholder": "enter fee",
+        "label": "Monthly commission on the initial cost, %"
+      },
+      "finCostCom": {
+        "label": "Monthly commission on debt balance, %"
+      },
+      "acCountCom": {
+        "label": "Monthly commission on debt balance, %"
+      }
+    }
+  },
   "picker": {
     "iosHeader": "Select One",
     "headerBackButtonText": "Back"

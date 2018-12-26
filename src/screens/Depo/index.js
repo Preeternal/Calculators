@@ -601,7 +601,7 @@ class Depo extends Component<Props, State> {
                         }}
                       >
                         <Text>
-                          {/* Доходность */}
+                          {/* Сумма вклада с процентами */}
                           {strings('result.pie')}
                         </Text>
                       </View>
