@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import {
-  Text, View, Image, ScrollView, InteractionManager, ActivityIndicator,
+  Text, View, Image, ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
@@ -12,19 +12,18 @@ import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
 import {
-  principalChanged,
-  dateOpenChanged,
-  dateClosedChanged,
-  interest1Changed,
-  interest2Changed,
-  platezChanged,
-  plusperiodChanged,
-  prinplusChanged,
+  creditPrincipalChanged,
+  creditInterestChanged,
+  creditDateOpenChanged,
+  creditSrokValueChanged,
+  creditSrokOptionSelected,
+  creditPlatezSelected,
+  creditEdinComValueChanged,
+  creditEdinComOptionSelected,
+  creditStartCostComChanged,
+  creditFinCostComChanged,
+  creditAcCountComChanged,
   radioPressed,
-  taxSelected,
-  taxRateSelected,
-  countryChanged,
-  countryIpTriggered,
 } from '../../actions';
 
 import {
@@ -49,57 +48,48 @@ import {
 
 import CustomHeader from '../Common/CustomHeader';
 
-// import {
-//          principal2 as principal2Selector,
-//          principal3 as principal3Selector
-//        } from './src/lib/calculate';
-
-// const userLocaleCountryCode = DeviceInfo.getDeviceCountry();
-
 type Props = {
-  principal: string,
-  dateOpen: Date,
-  dateClosed: Date,
-  interest1: string,
-  interest2: string,
-  platez: number,
-  plusperiod: number,
-  prinplus: string,
+  creditPrincipal: string,
+  creditInterest: string,
+  creditDateOpen: Date,
+  creditSrok: string,
+  creditSrokOption: number,
+  creditPlatez: number,
+  creditEdinCom: string,
+  creditEdinComOption: number,
+  creditStartCostCom: string,
+  creditFinCostCom: string,
+  creditAcCountCom: string,
   radio: number,
-  taxCheck: number,
-  taxRate: number,
-  language: number,
-  country: number,
-  countryIP: boolean,
-  principalChanged: typeof principalChanged,
-  dateOpenChanged: typeof dateOpenChanged,
-  dateClosedChanged: typeof dateClosedChanged,
-  interest1Changed: typeof interest1Changed,
-  interest2Changed: typeof interest2Changed,
-  platezChanged: typeof platezChanged,
-  plusperiodChanged: typeof plusperiodChanged,
-  prinplusChanged: typeof prinplusChanged,
-  radioPressed: typeof radioPressed,
-  taxSelected: typeof taxSelected,
-  taxRateSelected: typeof taxRateSelected,
-  countryChanged: typeof countryChanged,
-  countryIpTriggered: typeof countryIpTriggered,
+  creditPrincipalChanged: typeof creditPrincipalChanged,
+  creditInterestChanged: typeof creditInterestChanged,
+  creditDateOpenChanged: typeof creditDateOpenChanged,
+  creditSrokValueChanged: typeof creditSrokValueChanged,
+  creditSrokOptionSelected: typeof creditSrokOptionSelected,
+  creditPlatezSelected: typeof creditPlatezSelected,
+  creditEdinComValueChanged: typeof creditEdinComValueChanged,
+  creditEdinComOptionSelected: typeof creditEdinComOptionSelected,
+  creditStartCostComChanged: typeof creditStartCostComChanged,
+  creditFinCostComChanged: typeof creditFinCostComChanged,
+  creditAcCountComChanged: typeof creditAcCountComChanged,
 
   calculated: typeof calculate,
   navigation: any
 };
 
 type State = {
-  didFinishInitialAnimation?: boolean,
-  principalColor?: string,
-  interest1Color?: string,
-  interest2Color?: string,
-  prinplusColor?: string,
+  creditPrincipalColor?: string,
+  creditInterestColor?: string,
+  creditSrokValueColor?: string,
+  creditEdinComColor?: string,
+  creditStartCostComColor?: string,
+  creditFinCostComColor?: string,
+  creditAcCountComColor?: string,
   isDatePickerVisible?: boolean,
-  isDatePicker2Visible?: boolean,
-  userCountryCode?: string,
 };
-const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
+
+const textColor = '#525050';
+const activeTextColor = '#000000';
 
 
 class Credit extends Component<Props, State> {
@@ -119,74 +109,20 @@ class Credit extends Component<Props, State> {
 
 
   state = {
-    didFinishInitialAnimation: false,
-    principalColor: '#525050',
-    interest1Color: '#525050',
-    interest2Color: '#525050',
-    prinplusColor: '#525050',
+    creditPrincipalColor: textColor,
+    creditInterestColor: textColor,
+    creditSrokValueColor: textColor,
+    creditEdinComColor: textColor,
+    creditStartCostComColor: textColor,
+    creditFinCostComColor: textColor,
+    creditAcCountComColor: textColor,
     isDatePickerVisible: false,
-    isDatePicker2Visible: false,
-    userCountryCode: currentLocale.substring(3),
   };
 
-  async componentWillMount() {
-    if (!this.props.countryIP) {
-      await fetch(url)
-        .then(response => response.json())
-        .then((responseJson) => {
-          this.setState({
-            userCountryCode: responseJson.country_code,
-          });
-          switch (this.state.userCountryCode) {
-            case 'RU':
-              this.onCountryChange(0);
-              break;
-            case 'UA':
-              this.onCountryChange(2);
-              break;
-            default:
-              this.onCountryChange(1);
-          }
-          this.onCountryIpTrigger(true);
-        });
-    }
-  }
-
-  componentDidMount() {
-    // 1: Component is mounted off-screen
-    InteractionManager.runAfterInteractions(() => {
-      // 2: Component is done animating
-      // 3: Start fetching the data
-      // this.props.dispatchDataFetchStart();
-      // 4: set didFinishInitialAnimation to false
-      // This will render the navigation bar and a list of players
-      this.setState({
-        didFinishInitialAnimation: true,
-      });
-    });
-  }
-
-  select = state => state.settings.country;
-
-  // handleChange = () => {
-  //   const previousValue = currentValue;
-  //   currentValue = this.select(store.getState());
-  //   // console.log(currentValue);
-  //   if (previousValue !== currentValue) {
-  //     console.log(
-  //       'Some deep nested property changed from',
-  //       previousValue,
-  //       'to',
-  //       currentValue,
-  //     );
-  //   }
-  // }
-
-  // unsubscribe = () => store.subscribe(this.handleChange());
 
   onFocus = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#000000',
+      [`${input}Color`]: activeTextColor,
     });
     if (text === '0' || text === '0,00') {
       this.props[`${input}Changed`]('');
@@ -197,7 +133,7 @@ class Credit extends Component<Props, State> {
 
   onBlur = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#525050',
+      [`${input}Color`]: textColor,
     });
     if (text === '') {
       this.props[`${input}Changed`]('0');
@@ -213,7 +149,7 @@ class Credit extends Component<Props, State> {
 
   onFocusTextPicker = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#000000',
+      [`${input}Color`]: activeTextColor,
     });
     if (text === '0') {
       this.props[`${input}Changed`]('');
@@ -222,7 +158,7 @@ class Credit extends Component<Props, State> {
 
   onBlurTextPicker = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#525050',
+      [`${input}Color`]: textColor,
     });
     if (text === '') {
       this.props[`${input}Changed`]('0');
@@ -235,71 +171,56 @@ class Credit extends Component<Props, State> {
     });
   }
 
-  setDatePicker2Visible = (value) => {
-    this.setState({
-      isDatePicker2Visible: value,
-    });
+  onCreditPrincipalChange = (text) => {
+    this.props.creditPrincipalChanged(number(text));
   }
 
-  onPrincipalChange = (text) => {
-    this.props.principalChanged(number(text));
+  onCreditInterestChange = (text) => {
+    this.props.creditInterestChanged(number(text));
   }
 
-  onDateOpenChange = (date) => {
+  onCreditDateOpenChange = (date) => {
     this.setDatePickerVisible(false);
-    this.props.dateOpenChanged(date);
+    this.props.creditDateOpenChanged(date);
   }
 
-  onDateClosedChange = (date) => {
-    this.setDatePicker2Visible(false);
-    this.props.dateClosedChanged(date);
+  onCreditSrokValueChange = (text) => {
+    this.props.creditSrokValueChanged(number(text));
   }
 
-  onInterest1Change = (text) => {
-    this.props.interest1Changed(number(text));
+  onCreditSrokOptionSelect = (option) => {
+    this.props.creditSrokOptionSelected(option);
   }
 
-  onInterest2Change = (text) => {
-    this.props.interest2Changed(number(text));
+  onCreditPlatezSelect = (option) => {
+    this.props.creditPlatezSelected(option);
   }
 
-  onPlatezChange = (text) => {
-    this.props.platezChanged(text);
+  onCreditEdinComValueChange = (text) => {
+    this.props.creditEdinComValueChanged(number(text));
   }
 
-  onPlusperiodChange = (text) => {
-    this.props.plusperiodChanged(text);
+  onCreditEdinComOptionSelect = (option) => {
+    this.props.creditEdinComOptionSelected(option);
   }
 
-  onPrinplusChange = (text) => {
-    this.props.prinplusChanged(number(text));
+  onCreditStartCostComChange = (text) => {
+    this.props.creditStartCostComChanged(number(text));
+  }
+
+  onCreditFinCostComChange = (text) => {
+    this.props.creditFinCostComChanged(number(text));
+  }
+
+  onCreditAcCountComChange = (text) => {
+    this.props.creditAcCountComChanged(number(text));
   }
 
   onRadioPress = (value) => {
     this.props.radioPressed(value);
   }
 
-  onTaxSelect = (value) => {
-    this.props.taxSelected(value);
-  }
-
-  onTaxRateSelect = (value) => {
-    this.props.taxRateSelected(value);
-  }
-
-  onCountryChange = (value) => {
-    this.props.countryChanged(value);
-  }
-
-  onCountryIpTrigger = (value) => {
-    this.props.countryIpTriggered(value);
-  }
-
   render() {
-    // console.log(store.getState());
-    // console.log(this.props.calculated);
-
-
     const {
       topImage,
       welcome,
@@ -361,184 +282,176 @@ class Credit extends Component<Props, State> {
       maximumFractionDigits: 2,
     };
 
-    // console.log(dateQ.toLocaleString(currentLocale, options));
-
-    // console.log(currentLocale);
-    // console.log(optionsN);
-    // const num = 23234324324234.324234234;
-    // console.log(num.toLocaleString(currentLocale, optionsN));
-
     return (
       <View style={{ flex: 1 }}>
         <CustomHeader title={strings('titleCredit')} drawerOpen={() => this.props.navigation.openDrawer()} />
-        { this.state.didFinishInitialAnimation ? (
-          <ScrollView style={{ flex: 1 }}>
-            <Card>
-              {/* <Header headerText="Депозитный калькулятор" /> */}
-              <Header headerText={strings('headerCredit')} />
-              <CardSection>
-                <Image source={pic} style={topImage} />
-                <Text style={welcome}>
-                  {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
-                  {!srok ? strings('welcome.error') : strings('credit.go')}
-                </Text>
+        <ScrollView style={{ flex: 1 }}>
+          <Card>
+            {/* <Header headerText="Депозитный калькулятор" /> */}
+            <Header headerText={strings('headerCredit')} />
+            <CardSection>
+              <Image source={pic} style={topImage} />
+              <Text style={welcome}>
+                {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
+                {!srok ? strings('welcome.error') : strings('credit.go')}
+              </Text>
 
-                <RadioForm
-                  style={radioStyle}
+              <RadioForm
+                style={radioStyle}
                   // ref="radioForm"
-                  radio_props={radio}
-                  initial={this.props.radio}
-                  formHorizontal
-                  labelHorizontal
-                  buttonColor="#757171"
-                  selectedButtonColor="#525050"
+                radio_props={radio}
+                initial={this.props.radio}
+                formHorizontal
+                labelHorizontal
+                buttonColor="#757171"
+                selectedButtonColor="#525050"
                   // buttonInnerColor={'#e74c3c'}
                   // buttonOuterColor={'#757171'}
                   // buttonSize={15}
                   // buttonOuterSize={60}
-                  labelColor="#757171"
-                  selectedLabelColor="#525050"
-                  animation
-                  onPress={(value) => {
-                    this.onRadioPress(value);
-                  }}
-                />
-              </CardSection>
+                labelColor="#757171"
+                selectedLabelColor="#525050"
+                animation
+                onPress={(value) => {
+                  this.onRadioPress(value);
+                }}
+              />
+            </CardSection>
 
-              <TableSection>
-                <Input
+            <TableSection>
+              <Input
                   // placeholder="введите сумму"
-                  placeholder={strings('input.principal.placeholder')}
+                placeholder={strings('input.principal.placeholder')}
                   // label="Сумма кредита"
-                  label={`${strings('credit.input.principal.label')}, ${radio[
-                    this.props.radio
-                  ].label.charAt(0)}`}
-                  onChangeText={this.onPrincipalChange}
-                  onFocus={() => this.onFocus('principal', this.props.principal)}
-                  onBlur={() => this.onBlur('principal', this.props.principal)}
-                  appInputStyle={{ color: this.state.principalColor }}
-                  value={this.props.principal}
-                />
+                label={`${strings('credit.input.principal.label')}, ${radio[
+                  this.props.radio
+                ].label.charAt(0)}`}
+                onChangeText={this.onCreditPrincipalChange}
+                onFocus={() => this.onFocus('creditPrincipal', this.props.creditPrincipal)}
+                onBlur={() => this.onBlur('creditPrincipal', this.props.creditPrincipal)}
+                appInputStyle={{ color: this.state.creditPrincipalColor }}
+                value={this.props.creditPrincipal}
+              />
 
-                <Input
+              <Input
                   // placeholder="годовая процентная ставка"
-                  placeholder={strings('input.interest1.placeholder')}
+                placeholder={strings('input.interest1.placeholder')}
                   // label="Процентная ставка"
-                  label={strings('credit.input.interest.label')}
-                  onChangeText={this.onInterest1Change}
-                  onBlur={() => this.onBlur('interest1', this.props.interest1)}
-                  onFocus={() => this.onFocus('interest1', this.props.interest1)}
-                  appInputStyle={{ color: this.state.interest1Color }}
-                  value={this.props.interest1}
-                />
+                label={strings('credit.input.interest.label')}
+                onChangeText={this.onCreditInterestChange}
+                onBlur={() => this.onBlur('creditInterest', this.props.creditInterest)}
+                onFocus={() => this.onFocus('creditInterest', this.props.creditInterest)}
+                appInputStyle={{ color: this.state.creditInterestColor }}
+                value={this.props.creditInterest}
+              />
 
-                <InputDate
+              <InputDate
                   // label="Дата выдачи кредита"
-                  label={strings('credit.input.dateOpen.label')}
-                  value={initDate(this.props.dateOpen)}
-                  onRootPress={() => this.setDatePickerVisible(true)}
-                  onPress={() => this.setDatePickerVisible(true)}
-                />
-                <DateTimePicker
-                  date={this.props.dateOpen}
-                  isVisible={this.state.isDatePickerVisible}
-                  onConfirm={this.onDateOpenChange}
-                  onCancel={() => this.setDatePickerVisible(false)}
-                  datePickerModeAndroid="spinner"
-                />
+                label={strings('credit.input.dateOpen.label')}
+                value={initDate(this.props.creditDateOpen)}
+                onRootPress={() => this.setDatePickerVisible(true)}
+                onPress={() => this.setDatePickerVisible(true)}
+              />
+              <DateTimePicker
+                date={this.props.creditDateOpen}
+                isVisible={this.state.isDatePickerVisible}
+                onConfirm={this.onCreditDateOpenChange}
+                onCancel={() => this.setDatePickerVisible(false)}
+                datePickerModeAndroid="spinner"
+              />
 
-                <InputTextPicker
+              <InputTextPicker
                   // placeholder="Срок кредита"
-                  placeholder={strings('credit.input.srok.placeholder')}
+                placeholder={strings('credit.input.srok.placeholder')}
                   // label="Процентная ставка"
-                  label={strings('credit.input.srok.label')}
-                  onChangeText={this.onInterest1Change}
-                  onBlur={() => this.onBlurTextPicker('interest1', this.props.interest1)}
-                  onFocus={() => this.onFocusTextPicker('interest1', this.props.interest1)}
-                  appInputStyle={{ color: this.state.interest1Color }}
-                  value={this.props.interest1}
+                label={strings('credit.input.srok.label')}
+                onChangeText={this.onCreditSrokValueChange}
+                onBlur={() => this.onBlurTextPicker('creditSrokValue', this.props.creditSrok)}
+                onFocus={() => this.onFocusTextPicker('creditSrokValue', this.props.creditSrok)}
+                appInputStyle={{ color: this.state.creditSrokValueColor }}
+                value={this.props.creditSrok}
                   // options={['месяцы', 'годы']}
-                  options={[strings('credit.input.srok.options.months'), strings('credit.input.srok.options.years')]}
-                  selectedValue={this.props.platez}
-                  onValueChange={this.onPlatezChange}
-                />
+                options={[strings('credit.input.srok.options.months'), strings('credit.input.srok.options.years')]}
+                selectedValue={this.props.creditSrokOption}
+                onValueChange={this.onCreditSrokOptionSelect}
+              />
 
-                <InputPicker
+              <InputPicker
                   // label="Вид платежей"
-                  label={strings('credit.input.platez.label')}
+                label={strings('credit.input.platez.label')}
                   // options={['Аннуитет', 'Единовременно', 'Дифференцировано']}
-                  options={[strings('credit.input.platez.options.annuity'), strings('credit.input.platez.options.lump'), strings('credit.input.platez.options.differentiated')]}
-                  selectedValue={this.props.platez}
-                  onValueChange={this.onPlatezChange}
-                />
+                options={[strings('credit.input.platez.options.annuity'), strings('credit.input.platez.options.lump'), strings('credit.input.platez.options.differentiated')]}
+                selectedValue={this.props.creditPlatez}
+                onValueChange={this.onCreditPlatezSelect}
+              />
 
-                <InputTextPicker
+              <InputTextPicker
                   // placeholder="Единоразовая комиссия"
-                  placeholder={strings('credit.input.edinСom.placeholder')}
+                placeholder={strings('credit.input.edinСom.placeholder')}
                   // label="Процентная ставка"
-                  label={strings('credit.input.edinСom.label')}
-                  labelTextStyle={{ flex: 2.2 }}
-                  onChangeText={this.onInterest1Change}
-                  onBlur={() => this.onBlurTextPicker('interest1', this.props.interest1)}
-                  onFocus={() => this.onFocusTextPicker('interest1', this.props.interest1)}
-                  appInputStyle={{ color: this.state.interest1Color }}
-                  value={this.props.interest1}
+                label={strings('credit.input.edinСom.label')}
+                labelTextStyle={{ flex: 2.2 }}
+                onChangeText={this.onCreditEdinComValueChange}
+                onBlur={() => this.onBlurTextPicker('creditEdinComValue', this.props.creditEdinCom)}
+                onFocus={() => this.onFocusTextPicker('creditEdinComValue', this.props.creditEdinCom)}
+                appInputStyle={{ color: this.state.creditEdinComColor }}
+                value={this.props.creditEdinCom}
                   // options={['%', '₽руб']}
-                  options={['%', radio[this.props.radio].label.charAt(0)]}
-                  selectedValue={this.props.platez}
-                  onValueChange={this.onPlatezChange}
-                />
+                options={['%', radio[this.props.radio].label.charAt(0)]}
+                selectedValue={this.props.creditEdinComOption}
+                onValueChange={this.onCreditEdinComOptionSelect}
+              />
 
-                <Input
+              <Input
                   // placeholder="введите %"
-                  placeholder={strings('credit.input.startCostCom.placeholder')}
+                placeholder={strings('credit.input.startCostCom.placeholder')}
                   // label="Ежемесячная комиссия на нач. стоимость"
-                  label={strings('credit.input.startCostCom.label')}
-                  onChangeText={this.onPrincipalChange}
-                  onFocus={() => this.onFocus('principal', this.props.principal)}
-                  onBlur={() => this.onBlur('principal', this.props.principal)}
-                  appInputStyle={{ color: this.state.principalColor }}
-                  value={this.props.principal}
-                />
+                label={strings('credit.input.startCostCom.label')}
+                onChangeText={this.onCreditStartCostComChange}
+                onFocus={() => this.onFocus('creditStartCostCom', this.props.creditStartCostCom)}
+                onBlur={() => this.onBlur('creditStartCostCom', this.props.creditStartCostCom)}
+                appInputStyle={{ color: this.state.creditStartCostComColor }}
+                value={this.props.creditStartCostCom}
+              />
 
-                <Input
+              <Input
                   // placeholder="введите %"
-                  placeholder={strings('credit.input.startCostCom.placeholder')}
+                placeholder={strings('credit.input.startCostCom.placeholder')}
                   // label="Ежемесячная комиссия на остаток долга"
-                  label={strings('credit.input.finCostCom.label')}
-                  onChangeText={this.onPrincipalChange}
-                  onFocus={() => this.onFocus('principal', this.props.principal)}
-                  onBlur={() => this.onBlur('principal', this.props.principal)}
-                  appInputStyle={{ color: this.state.principalColor }}
-                  value={this.props.principal}
-                />
+                label={strings('credit.input.finCostCom.label')}
+                onChangeText={this.onCreditFinCostComChange}
+                onFocus={() => this.onFocus('creditFinCostCom', this.props.creditFinCostCom)}
+                onBlur={() => this.onBlur('creditFinCostCom', this.props.creditFinCostCom)}
+                appInputStyle={{ color: this.state.creditFinCostComColor }}
+                value={this.props.creditFinCostCom}
+              />
 
-                <Input
+              <Input
                   // placeholder="введите %"
-                  placeholder={strings('credit.input.startCostCom.placeholder')}
+                placeholder={strings('credit.input.startCostCom.placeholder')}
                   // label="Ежемесячная комиссия за ведение счёта"
-                  label={strings('credit.input.acCountCom.label')}
-                  onChangeText={this.onPrincipalChange}
-                  onFocus={() => this.onFocus('principal', this.props.principal)}
-                  onBlur={() => this.onBlur('principal', this.props.principal)}
-                  appInputStyle={{ color: this.state.principalColor }}
-                  value={this.props.principal}
-                />
+                label={strings('credit.input.acCountCom.label')}
+                onChangeText={this.onCreditAcCountComChange}
+                onFocus={() => this.onFocus('creditAcCountCom', this.props.creditAcCountCom)}
+                onBlur={() => this.onBlur('creditAcCountCom', this.props.creditAcCountCom)}
+                appInputStyle={{ color: this.state.creditAcCountComColor }}
+                value={this.props.creditAcCountCom}
+              />
 
-              </TableSection>
-            </Card>
+            </TableSection>
+          </Card>
 
-            {!srok || Number(number(this.props.principal)) === 0 ? null : (
-              <Card>
-                {/* <Header headerText="Информация о выплатах" /> */}
-                <Header headerText={strings('result.header')} />
+          {!srok || Number(number(this.props.creditPrincipal)) === 0 ? null : (
+            <Card>
+              {/* <Header headerText="Информация о выплатах" /> */}
+              <Header headerText={strings('result.header')} />
 
-                {/* <ResultSrok
+              {/* <ResultSrok
                   // label={`Срок депозита ${srok}`}
                   label={`${strings('result.srok.srok')} ${srok}`}
                 /> */}
 
-                {/* <Result
+              {/* <Result
                   // label="Сумма вклада
                   label={`${strings('input.principal.label')}`}
                   // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
@@ -554,7 +467,7 @@ class Credit extends Component<Props, State> {
                   }}
                 /> */}
 
-                {/* {adjunctionAll > 0 ? (
+              {/* {adjunctionAll > 0 ? (
                   <Result
                     // label="Сумма пополнений"
                     label={strings('result.adjunctionAll')}
@@ -591,7 +504,7 @@ class Credit extends Component<Props, State> {
                 />
                 } */}
 
-                {/* {Number(number(this.props.principal)) !== 0 ? (
+              {/* {Number(number(this.props.principal)) !== 0 ? (
                   <CardSection>
                     <View style={pieContainer}>
                       <View
@@ -601,8 +514,8 @@ class Credit extends Component<Props, State> {
                         }}
                       >
                         <Text> */}
-                {/* Сумма вклада с процентами */}
-                {/* {strings('result.pie')}
+              {/* Сумма вклада с процентами */}
+              {/* {strings('result.pie')}
                         </Text>
                       </View>
                       <View style={pie}>
@@ -627,31 +540,21 @@ class Credit extends Component<Props, State> {
                     </View>
                   </CardSection>
                 ) : null} */}
-              </Card>
-            )}
+            </Card>
+          )}
 
-            {!srok || Number(number(this.props.principal)) === 0 ? null : (
-              <Card>
-                {/* <Header headerText="Выписка со счёта" /> */}
-                <Header headerText={strings('table.header')} />
-                {/* <Table
+          {!srok || Number(number(this.props.creditPrincipal)) === 0 ? null : (
+            <Card>
+              {/* <Header headerText="Выписка со счёта" /> */}
+              <Header headerText={strings('table.header')} />
+              {/* <Table
                   currency={radio[this.props.radio].label}
                   value={table}
                   language={this.props.language}
                 /> */}
-              </Card>
-            )}
-          </ScrollView>
-        ) : (
-          <View style={{
-            flex: 1,
-            justifyContent: 'center',
-          }}
-          >
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        )
-        }
+            </Card>
+          )}
+        </ScrollView>
       </View>
 
     );
@@ -659,40 +562,26 @@ class Credit extends Component<Props, State> {
 }
 
 const styles = {
-  // container: {
-  //
-  //     justifyContent: 'space-between',
-  //     alignItems: 'flex-start',
-  //     marginLeft: 10,
-  // },
   welcome: {
     fontSize: 17,
     margin: 10,
-    // alignSelf: 'center',
     textAlign: 'center',
   },
-  // instructions: {
-  //   color: '#333333',
-  //   marginBottom: 5,
-  // },
   topImage: {
     width: 193,
     height: 110,
     alignSelf: 'center',
   },
   radioStyle: {
-    // color: 'gray',
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   pieContainer: {
-    // alignItems: 'center',
     paddingLeft: 10,
     paddingRight: 5,
     flex: 2,
     flexDirection: 'row',
-    // paddingLeft: 70
   },
   pie: {
     flex: 1.1,
@@ -700,37 +589,30 @@ const styles = {
     paddingRight: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    // flexDirection: 'row',
   },
   gauge: {
     position: 'absolute',
-    // width: 100,
-    // height: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   gaugeText: {
     backgroundColor: 'transparent',
-    // color: '#000',
-    // fontSize: 18
   },
 };
 
 Credit.propTypes = {
-  principal: PropTypes.string,
-  dateOpen: PropTypes.instanceOf(Date),
-  dateClosed: PropTypes.instanceOf(Date),
-  interest1: PropTypes.string,
-  interest2: PropTypes.string,
-  platez: PropTypes.number,
-  plusperiod: PropTypes.number,
-  prinplus: PropTypes.string,
+  creditPrincipal: PropTypes.string,
+  creditInterest: PropTypes.string,
+  creditDateOpen: PropTypes.instanceOf(Date),
+  creditSrok: PropTypes.string,
+  creditSrokOption: PropTypes.number,
+  creditPlatez: PropTypes.number,
+  creditEdinCom: PropTypes.string,
+  creditEdinComOption: PropTypes.number,
+  creditStartCostCom: PropTypes.string,
+  creditFinCostCom: PropTypes.string,
+  creditAcCountCom: PropTypes.string,
   radio: PropTypes.number,
-  taxCheck: PropTypes.number,
-  taxRate: PropTypes.number,
-  language: PropTypes.number,
-  country: PropTypes.number,
-  countryIP: PropTypes.bool,
 
   // доработать
   // days1: PropTypes.number,
@@ -742,37 +624,34 @@ Credit.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  principal: state.depo.principal,
-  dateOpen: state.depo.dateOpen,
-  dateClosed: state.depo.dateClosed,
-  interest1: state.depo.interest1,
-  interest2: state.depo.interest2,
-  platez: state.depo.platez,
-  plusperiod: state.depo.plusperiod,
-  prinplus: state.depo.prinplus,
+  creditPrincipal: state.credit.creditPrincipal,
+  creditInterest: state.credit.creditInterest,
+  creditDateOpen: state.credit.creditDateOpen,
+  creditSrok: state.credit.creditSrok,
+  creditSrokOption: state.credit.creditSrokOption,
+  creditPlatez: state.credit.creditPlatez,
+  creditEdinCom: state.credit.creditEdinCom,
+  creditEdinComOption: state.credit.creditEdinComOption,
+  creditStartCostCom: state.credit.creditStartCostCom,
+  creditFinCostCom: state.credit.creditFinCostCom,
+  creditAcCountCom: state.credit.creditAcCountCom,
   radio: state.depo.radio,
-  taxCheck: state.depo.taxCheck,
-  taxRate: state.depo.taxRate,
-  language: state.settings.language,
-  country: state.settings.country,
-  countryIP: state.settings.countryIP,
 
   calculated: calculate(state),
 });
 
 const mapDispatchToActions = {
-  principalChanged,
-  dateOpenChanged,
-  dateClosedChanged,
-  interest1Changed,
-  interest2Changed,
-  platezChanged,
-  plusperiodChanged,
-  prinplusChanged,
+  creditPrincipalChanged,
+  creditInterestChanged,
+  creditDateOpenChanged,
+  creditSrokValueChanged,
+  creditSrokOptionSelected,
+  creditPlatezSelected,
+  creditEdinComValueChanged,
+  creditEdinComOptionSelected,
+  creditStartCostComChanged,
+  creditFinCostComChanged,
+  creditAcCountComChanged,
   radioPressed,
-  taxSelected,
-  taxRateSelected,
-  countryChanged,
-  countryIpTriggered,
 };
 export default connect(mapStateToProps, mapDispatchToActions)(Credit);

@@ -55,7 +55,7 @@ export const creditEdinComOptionSelected = (option: number): Action => ({
   payload: option,
 });
 
-export const creditStartComChanged = (value: string): Action => ({
+export const creditStartCostComChanged = (value: string): Action => ({
   type: CREDIT_START_COST_COM_CHANGED,
   payload: value,
 });
