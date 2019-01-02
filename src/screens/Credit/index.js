@@ -43,7 +43,7 @@ import {
 import { strings, currentLocale } from '../../../locales/i18n';
 
 import {
-  initDate, number, calculate,
+  initDate, number, creditCalculate,
 } from '../../lib';
 
 import CustomHeader from '../Common/CustomHeader';
@@ -72,8 +72,9 @@ type Props = {
   creditStartCostComChanged: typeof creditStartCostComChanged,
   creditFinCostComChanged: typeof creditFinCostComChanged,
   creditAcCountComChanged: typeof creditAcCountComChanged,
+  radioPressed: typeof radioPressed,
 
-  calculated: typeof calculate,
+  calculated: typeof creditCalculate,
   navigation: any
 };
 
@@ -242,7 +243,7 @@ class Credit extends Component<Props, State> {
     // const principal3 = principal3Selector(this.props.principal);
 
     const {
-      days1, srok, principal2, principal1, tax, adjunctionAll, table,
+      creditDateClosed,
     } = this.props.calculated;
 
     // const { days1, srok, payment, principal2, principal1, table } = calculate(
@@ -293,7 +294,7 @@ class Credit extends Component<Props, State> {
               <Image source={pic} style={topImage} />
               <Text style={welcome}>
                 {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
-                {!srok ? strings('welcome.error') : strings('credit.go')}
+                {!creditDateClosed ? strings('welcome.error') : strings('credit.go')}
               </Text>
 
               <RadioForm
@@ -441,15 +442,15 @@ class Credit extends Component<Props, State> {
             </TableSection>
           </Card>
 
-          {!srok || Number(number(this.props.creditPrincipal)) === 0 ? null : (
+          {creditDateClosed === initDate(this.props.creditDateOpen) || Number(number(this.props.creditPrincipal)) === 0 ? null : (
             <Card>
               {/* <Header headerText="Информация о выплатах" /> */}
-              <Header headerText={strings('result.header')} />
+              <Header headerText={strings('credit.result.header')} />
 
-              {/* <ResultSrok
+              <ResultSrok
                   // label={`Срок депозита ${srok}`}
-                  label={`${strings('result.srok.srok')} ${srok}`}
-                /> */}
+                label={`${strings('credit.result.dateClosed')} ${creditDateClosed}`}
+              />
 
               {/* <Result
                   // label="Сумма вклада
@@ -543,7 +544,7 @@ class Credit extends Component<Props, State> {
             </Card>
           )}
 
-          {!srok || Number(number(this.props.creditPrincipal)) === 0 ? null : (
+          {!creditDateClosed || Number(number(this.props.creditPrincipal)) === 0 ? null : (
             <Card>
               {/* <Header headerText="Выписка со счёта" /> */}
               <Header headerText={strings('table.header')} />
@@ -637,7 +638,7 @@ const mapStateToProps = state => ({
   creditAcCountCom: state.credit.creditAcCountCom,
   radio: state.depo.radio,
 
-  calculated: calculate(state),
+  calculated: creditCalculate(state),
 });
 
 const mapDispatchToActions = {

@@ -132,6 +132,17 @@
       "acCountCom": {
         "label": "Monthly commission on debt balance, %"
       }
+    },
+    "result": {
+      "header": "Payment Information",
+      "dateClosed": "Loan repayment date",
+
+      "payment": "Среднее значение начисленных процентов в месяц",
+      "principal2": "Начисленные проценты",
+      "taxes": "Налоги",
+      "adjunctionAll": "Сумма пополнений",
+      "principal1": "Полная сумма на руки",
+      "pie": "Сумма вклада с процентами"
     }
   },
   "picker": {
