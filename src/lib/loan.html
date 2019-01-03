@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Кредитный калькулятор</title>
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="CSS/excanvas.js"></script><![endif]-->
+<link href="CSS/calc.css" rel="stylesheet" type="text/css">
+<link href="CSS/dhtmlgoodies_calendar.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="CSS/jquery.jqplot.css" />
+<style type="text/css">
+.jqplot-data-label {font-size: 0.8em} 
+#tooltip1b {
+        font-size: 12px;
+        color: rgb(15%, 15%, 15%);
+        padding:2px;
+        background-color: rgba(95%, 95%, 95%, 0.8);
+ }
+</style>
+<script language="javascript" type="text/javascript" src="CSS/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="CSS/jquery.jqplot.js"></script>
+<script language="javascript" type="text/javascript" src="CSS/jqplot.pieRenderer.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+</script>
+<SCRIPT type="text/javascript" src="CSS/dhtmlgoodies_calendar.js"></script>
+<SCRIPT type="text/javascript" src="CSS/kredit_bo.js"></script>
+</head>
+<body>
+
+<p align="justify">Зачастую люди, которые берут кредит в банке сталкиваются с проблемой подсчёта так называемой переплаты по кредиту. На помощь прийдет кредитный калькулятор нашего сайта.  Кроме переплаты можно легко подсчитать сумму ежемесячного платежа, а также всю сумму, которую Вы отнесёте в банк в течении срока кредита.</p>
+<div align="justify">При помощи этого кредитного калькулятора можно оценить привлекательность трёх популярных кредитов: </div>
+<ul>
+<li>
+  <div align="justify"><em><strong>Аннуитет</strong></em> (ежемесячные платежи равными частями).</div>
+</li>
+<li>
+  <div align="justify">Кредита с <em><strong>единовременной выплатой процентов и тела кредита</strong></em> в конце срока кредитования.</div>
+</li>
+<li>
+  <div align="justify">Кредита с <em><strong>дифференцированными</strong></em> платежами (платежи уменьшающимися частями).</div>
+</li>
+</ul>
+<p align="justify">При выборе <em>график погашения кредита,</em> покажет ежемесячно: платёж по телу кредита, платёж по процентам, общий аннуитетный платёж, общий остаток долга (без учёта процентов), переплату.</p>
+<g:plusone href="http://banoka.ru/loan-calculator.html"></g:plusone>
+<br />
+<form name="loandata">
+  <table align="center" cellpadding="2" cellspacing="1">
+    <tr><td><div align="justify"><b>Информация о кредите:</b></div></td></tr>
+    <tr>
+      <td><div align="right">
+           <label>
+          <input type="radio" name="stoog" checked="checked" id="stoog1" value="$" onClick="calculate();">
+          $USD          </label>
+           <label>
+          <input type="radio" name="stoog" id="stoog2" value="&#8364;" onClick="calculate();">
+&#8364;EUR </label>
+           <label>
+		  <input type="radio" name="stoog" id="stoog3" value="руб" onClick="calculate();">
+		  руб          </label>
+          <label>
+          <input type="radio" name="stoog" id="stoog4" value="грн" onClick="calculate();">
+          грн          </label>
+        </div></td>
+      <td> 
+        <label>
+		<input type="radio" name="stoog" id="stoog5" value="" onClick="calculate();">
+          уе         </label>        </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div align="justify">Сумма кредита (любая сумма):</div></td>
+      <td bgcolor="#EAEAEA"><div align="center">
+        <input name="principal" type="text" id="principal"  value="1000" size="15" style="text-align:center">
+      </div></td>
+      <td><span id="absval1"></span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div align="justify">Годовая процентная ставка:</div></td>
+      <td bgcolor="#EAEAEA"><div align="center">
+        <input name="interest" type="text" id="interest" " value="10" size="15" style="text-align:center">
+      </div></td>
+      <td>%</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div align="justify">Дата выдачи кредита:</div></td>
+      <td bgcolor="#EAEAEA"><div align="center">
+        <input name="theDate2" type="text" id="theDate2" onChange="calculate();" size="15" maxlength="10" style="text-align:center">
+       
+      </div></td>
+      <td> <input type="button" value="Календарь" class="button" onclick="displayCalendar(document.forms['loandata'].theDate2,'dd.mm.yyyy',this)"></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div align="justify">Срок кредитования:</div></td>
+      <td bgcolor="#EAEAEA"><div align="center">
+        <input name="years" type="text" id="years" value="12" size="15" style="text-align:center">
+      </div></td>
+      <td>  <select id="terms" name="terms" class="inputbox" onchange="clearing(document.getElementById('years'));" title="срок кредита">
+   		        <option value=1 selected="selected">месяцы </option>
+   		        <option value=2 >годы</option>
+             </select></td>
+      <td>&nbsp;</td>
+    </tr><tr>
+      <td><div align="justify">Вид платежей:</div></td>
+      <td bgcolor="#EAEAEA">
+       	  <div align="center">
+       	    <select name="stavka" class="selected" id="stavka" title="выберите тип кредита" onchange="calculate();" style="text-align:center">
+       	      <option value=1 title="платежи равными частями"  selected="selected" style="text-align:left">Аннуитет</option>
+   	          <option value=2 title="выплата процентов и тела кредита в конце срока" style="text-align:left">Единовременно</option>
+   	          <option value=3 title="платежи уменьшающимися частями" style="text-align:left">Дифференцировано</option>
+            </select>
+          </div></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div align="justify">Единоразовая комиссия:</div></td>
+      <td bgcolor="#EAEAEA"><div align="center">
+        <input name="edincom" type="text" id="edincom" value="100" size="15" style="text-align:center" />
+        
+      </div></td>
+      <td><select id="av11" name="av11" class="inputbox" onchange="clearing(edincom);" >
+          </select></td>
+      <td>&nbsp; </td>
+    </tr>
+    <tr>
+      <td><div align="right" id="startcostcomd">
+        <div align="justify">Ежемесячная комиссия на нач. стоимость:</div>
+      </div></td>
+      <td bgcolor="#EAEAEA"><div align="center"><input name="startcostcom" type="text" id="startcostcom" value="0" size="15" style="text-align:center">
+      </div></td>
+      <td>%</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div align="right" id="fincostcomd">
+        <div align="justify">Ежемесячная комиссия на остаток долга:</div>
+      </div></td>
+      <td bgcolor="#EAEAEA"><div align="center"><input name="fincostcom" type="text" id="fincostcom" value="0" size="15" style="text-align:center">
+      </div></td>
+      <td>%</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div align="right" id="accountcomd">
+        <div align="justify">Ежемесячная комиссия за ведение счёта:</div>
+      </div></td>
+      <td bgcolor="#EAEAEA"><div align="center"><input name="accountcom" type="text" id="accountcom"  value ="0" size="15" style="text-align:center">
+      </div></td>
+      <td colspan="2"><span id="absval"></span>&nbsp;&nbsp;<div style="position:absolute;z-index:99;display:none;" id="tooltip1b"></div></td>
+    </tr>  
+    <tr>
+      <td colspan="2">
+        
+        <div align="center">
+          <input name="checkThis" type="checkbox" id="checkThis" checked>
+      выводить график погашения кредита</div></td>
+      <td colspan="2" rowspan="11"><span id="bar"></span></td>
+    </tr>
+    <tr><td><div align="right"></div></td>
+    
+      <td>        <div align="center">
+        <input type="button" value="Посчитать" class="button" onclick="calculate();" o>      
+      </div></td>
+    </tr>
+    
+    <tr>
+      <td><div align="justify"><b>Информация о платежах:</b></div></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+    <td><div align="justify">Дата погашения кредита:</div></td>
+    <td><div align="center"><span class="result" id="srok"></span></div></td>
+    </tr>
+  <tr>
+     <td><div align="justify">Эффективная (реальная) % ставка:</div></td>
+      <td><div align="center"><span class="result" id="realint"></span></div></td>
+    <tr><td><div align="justify"><span id="zacher"> Ваш ежемесячный платёж <span id="vsrednem"></span>: </span></div></td>
+      <td><div align="center"><span class="result" id="payment"></span></div></td>
+    </tr>
+    <tr>
+      <td><div align="justify">На оплату процентов:</div></td>
+      <td><div align="center"><span class="result" id="intpay"></span></div></td>
+    </tr>
+    <tr>
+      <td><div align="justify">Комиссионные платежи:</div></td>
+      <td><div align="center"><span class="result" id="compay"></span></div></td>
+    </tr>
+    <tr>
+      <td> <div align="justify">Сумма переплаты:</div></td>
+      <td><div align="center"><span class="result" id="totalinterest"></span></div></td>
+    </tr>
+    <tr>
+      <td> <div align="justify">Всего Вы заплатите:</div></td>
+      <td><div align="center"><span class="result" id="total"></span></div></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+ <span  id="podrobno"></span>
+</form>
+
+
+<p>
+  
+</p>
+</body>
+</html>
