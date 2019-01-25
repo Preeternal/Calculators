@@ -193,10 +193,11 @@ class Depo extends Component<Props, State> {
     if (text === '') {
       this.props[`${input}Changed`]('0');
     } else {
+      const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
       this.props[`${input}Changed`](
         Number(text).toLocaleString('ru-RU', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
+          minimumFractionDigits,
+          maximumFractionDigits: minimumFractionDigits,
         }),
       );
     }

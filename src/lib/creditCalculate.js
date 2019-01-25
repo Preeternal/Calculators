@@ -13,9 +13,12 @@ const getCreditSrokOption = state => state.credit.creditSrokOption;
 const getCreditPlatez = state => state.credit.creditPlatez;
 const getCreditEdinCom = state => Number(number(state.credit.creditEdinCom));
 const getCreditEdinComOption = state => state.credit.creditEdinComOption;
-const getСreditFinCostCom = state => Number(number(state.credit.creditFinCostCom));
-const getСreditAcCountCom = state => Number(number(state.credit.creditAcCountCom));
-const getRadio = state => state.depo.radio;
+const getCreditStartCostCom = state => Number(number(state.credit.creditStartCostCom));
+const getCreditFinCostCom = state => Number(number(state.credit.creditFinCostCom));
+const getCreditAcCountCom = state => Number(number(state.credit.creditAcCountCom));
+// const getRadio = state => state.depo.radio;
+
+const ceilMethod = value => Number(value.toFixed(2));
 
 export const creditCalculate = createSelector(
   [
@@ -27,203 +30,151 @@ export const creditCalculate = createSelector(
     getCreditPlatez,
     getCreditEdinCom,
     getCreditEdinComOption,
-    getСreditFinCostCom,
-    getСreditAcCountCom,
-    getRadio,
+    getCreditStartCostCom,
+    getCreditFinCostCom,
+    getCreditAcCountCom,
+    // getRadio,
   ],
   (
-    creditPrincipal: string,
-    creditInterest: string,
+    creditPrincipal: number,
+    creditInterest: number,
     creditDateOpen: Date,
-    creditSrok: string,
+    creditSrok: number,
     creditSrokOption: number,
     creditPlatez: number,
-    creditEdinCom: string,
+    creditEdinCom: number,
     creditEdinComOption: number,
-    creditStartCostCom: string,
-    creditFinCostCom: string,
-    creditAcCountCom: string,
-    radio: number,
+    creditStartCostCom: number,
+    creditFinCostCom: number,
+    creditAcCountCom: number,
+    // radio: number,
   ) => {
-    // const dOpen: Date = changeDate(dateOpen);
-    // const dClosed: Date = changeDate(dateClosed);
-    const creditDateClosed = initDate(
-      DateTime.fromJSDate(creditDateOpen)
-        .plus({
-          months: creditSrokOption === 0 ? Number(creditSrok) : Number(creditSrok) * 12,
-        })
-        .toJSDate(),
-    );
-    const oneMinute = 60 * 1000;
-    const oneHour = oneMinute * 60;
-    const oneDay = oneHour * 24;
-    // const taxForRF = taxRate === 0 ? 0.35 : 0.3;
-    // Ставка налога на процентные доходы по вкладам для лиц,
-    // являющихся налоговыми резидентами Российской Федерации
-    // и получающих такие доходы, составляет 35%;
-    // для нерезидентов (фактически находящихся на территории Российской
-    // Федерации менее 183 дней в календарном году) — 30%.
-    const interestLimit = radio === 2 ? (8 + 5) / 365 / 100 : 9 / 365 / 100;
+    const payments = creditSrokOption === 0 ? Number(creditSrok) : Number(creditSrok) * 12;
+    const edinCom = creditEdinComOption === 0 ? (creditPrincipal * creditEdinCom) / 100 : creditEdinCom;
+    const creditDateClosed = DateTime.fromJSDate(creditDateOpen)
+      .plus({
+        months: payments,
+      })
+      .toJSDate();
+    const startDate = DateTime.fromJSDate(creditDateOpen);
+    const endDate = DateTime.fromJSDate(creditDateClosed);
+    const days = endDate.diff(startDate, ['days']).as('days');
 
-    // const days = Math.round((dClosed.getTime() - dOpen.getTime()) / oneDay);
-    // const dni: string = daysString(days); // '', день, дня, дней
-    // const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed);
-    // const { days1, cf } = DaysAfterMonths;
-    // const dni1: string = daysString(days1); // '', день, дня, дней
+    const table: {
+      n: number[],
+      date: string[],
+      daysY: number[],
+      telo: number[],
+      procentFast: number[],
+      payMonths: number[],
+      vsego: number[],
+      principalA: number[],
+      pereplata: number[],
+    } = {
+      n: [], // №
+      date: [], // дата
+      daysY: [], // дни
+      telo: [], // погашение тела кредита
+      procentFast: [], // платеж по процентам
+      payMonths: [], // комиссионные платежи
+      vsego: [], // общая сумма платежа
+      principalA: [], // основной остаток долга
+      pereplata: [], // переплата
+    };
 
-    // const months = (dClosed.getFullYear() - dOpen.getFullYear()) * 12
-    //   + (dClosed.getMonth() + 1 - (dOpen.getMonth() + 1))
-    //   - cf;
-    // const mesyacyi: string = monthsString(months); // '',  месяц , месяца, месяцев
+    let vsego = 0; // итого к оплате
+    let monthlyAll; // Ваш ежемесячный платёж
+    let pereplata = 0; // Сумма переплаты
+    let comPayments; // комиссионные платежи
+    let interestPayments; // на оплату процентов
 
-    // const ili: string = strings('result.srok.ili');
+    let ostatok = creditPrincipal;
+    let payStart = 0;
+    let payFin = 0;
+    let payAccount = 0;
+    let payMonths = 0;
+    let daysY: number;
 
-    // const srok = (() => {
-    //   switch (true) {
-    //     case days <= 0:
-    //       return undefined;
-    //     case months === 0:
-    //       return `${days} ${dni}`;
-    //     case days1 === 0:
-    //       return `${days} ${dni} ${ili} ${months} ${mesyacyi}`;
-    //     default:
-    //       return `${days} ${dni}  ${ili} ${months} ${mesyacyi} ${days1} ${dni1}`;
-    //   }
-    // })();
+    let payProcent = 0;
+    let principalA = creditPrincipal;
 
-    // let totalinterest1 = 0;
-    // let tax = 0;
-    // let principal1 = principal;
-    // // const dateY = new Date();
-    // // const dateY1 = new Date();
-    // // dateY.setTime(dOpen.getTime());
-    // // dateY1.setTime(dOpen.getTime());
-    // let adjunction = 0; // пополнение в цикле
-    // let adjunctionAll = 0; // пополнение за весь срок
-    // let daysY: number;
-    // let totalinterest2 = 0;
-    // const payments = days1 !== 0 || months === 0 ? months + 1 : months;
-
-    // const table: {
-    //   n: number[],
-    //   date: string[],
-    //   totalinterest1: number[],
-    //   daysY: number[],
-    //   totalinterest2: number[],
-    //   principal1: number[],
-    // } = {
-    //   n: [], // №
-    //   date: [], // дата
-    //   totalinterest1: [], // начислено %
-    //   daysY: [], // дни
-    //   totalinterest2: [], // начислено % итого
-    //   principal1: [], // общая сумма
-    // };
-
-    // if (days > 0) {
-    //   for (let i = 0; i < payments; i++) {
-    //     if (i < months) {
-    //       if (plusperiod === 0) {
-    //         adjunction = 0; // пополнение
-    //       } else if (plusperiod === 1) {
-    //         if (i > 0) {
-    //           adjunction = prinplus;
-    //         } else {
-    //           adjunction = 0;
-    //         }
-    //       } else if (plusperiod === 2) {
-    //         if ((i + 1) / 3 === Math.floor((i + 1) / 3)) {
-    //           adjunction = prinplus;
-    //         } else {
-    //           adjunction = 0;
-    //         }
-    //       } else if (plusperiod === 3) {
-    //         if ((i + 1) / 12 === Math.floor((i + 1) / 12)) {
-    //           adjunction = prinplus;
-    //         } else {
-    //           adjunction = 0;
-    //         }
-    //       }
-    //       const endDate = DateTime.fromJSDate(dOpen).plus({ months: i + 1 });
-    //       const startDate = DateTime.fromJSDate(dOpen).plus({ months: i });
-    //       daysY = endDate.diff(startDate, ['days']).as('days');
-    //       // dateY.setMonth(dateY1.getMonth() + 1);
-    //       // daysY = Math.round((dateY.getTime() - dateY1.getTime()) / oneDay);
-    //       if (platez === 0) {
-    //         // начислено процентов
-    //         totalinterest1 = principal1 * interest1 * daysY;
-    //       } else if (platez === 1) {
-    //         // начислено процентов
-    //         totalinterest1 = (principal + adjunctionAll) * interest1 * daysY;
-    //       }
-    //       if (taxCheck === 0) {
-    //         if (country === 2) {
-    //           // налог Украина
-    //           tax += 0.195 * totalinterest1;
-    //           totalinterest1 -= 0.195 * totalinterest1;
-    //         } else if (country === 0 && interest1 > interestLimit) {
-    //           // налог Россия
-    //           tax += ((interest1 - interestLimit) / interest1) * totalinterest1 * taxForRF;
-    //           totalinterest1
-    //             -= ((interest1 - interestLimit) / interest1) * totalinterest1 * taxForRF;
-    //         }
-    //       }
-    //       // dateY1.setTime(dateY.getTime());
-    //       adjunctionAll += adjunction; // пополнение за весь срок
-    //       // вклад + процент за последний месяц в цикле:
-    //       principal1 = totalinterest1 + principal1 + adjunction;
-    //       // table.date.push(initDate(dateY)); // дата
-    //       table.date.push(initDate(endDate.toJSDate())); // дата
-    //       table.daysY.push(daysY); // дни
-    //     } else if (i === months || months === 0) {
-    //       if (platez === 0) {
-    //         // начислено процентов
-    //         totalinterest1 = principal1 * interest2 * days1;
-    //       } else if (platez === 1) {
-    //         // начислено процентов
-    //         totalinterest1 = (principal + adjunctionAll) * interest2 * days1;
-    //       }
-    //       if (taxCheck === 0) {
-    //         if (country === 2) {
-    //           // налог Украина
-    //           tax += 0.195 * totalinterest1;
-    //           totalinterest1 -= 0.195 * totalinterest1;
-    //         } else if (country === 0 && interest2 > interestLimit) {
-    //           // налог Россия
-    //           tax += ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
-    //           totalinterest1
-    //             -= ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
-    //         }
-    //       }
-    //       // вклад + процент за последний месяц в цикле:
-    //       principal1 = totalinterest1 + principal1;
-    //       table.date.push(initDate(dClosed)); // дата
-    //       table.daysY.push(days1); // дни
-    //     }
-    //     totalinterest2 += totalinterest1; // начислено процентов итого
-    //     table.n.push(i + 1); // №
-    //     table.totalinterest1.push(totalinterest1); // начислено %
-    //     table.totalinterest2.push(totalinterest2); // начислено % итого
-    //     // вклад + процент за последний месяц в цикле:
-    //     table.principal1.push(principal1);
-    //   }
-    // }
-
-    // месячная выручка (в среднем)
-    // const payment = (principal1 - principal - adjunctionAll) / months;
-
-    // Начисленные проценты
-    // const principal2 = principal1 - principal - adjunctionAll;
+    if (creditPrincipal > 0) {
+      // если ануитет
+      if (creditPlatez === 0) {
+        const x = (1 + (creditInterest * 365) / 12) ** payments;
+        // равный месячный платёж - аннуитет
+        const monthly = (creditPrincipal * x * creditInterest * 365) / 12 / (x - 1);
+        for (let i = 0; i < payments; i++) {
+          ostatok -= monthly - (ostatok * creditInterest * 365) / 12;
+          payStart = (creditPrincipal * creditStartCostCom) / 100;
+          payFin = (ostatok * creditFinCostCom) / 100;
+          payAccount = creditAcCountCom;
+          payMonths += payStart + payFin + payAccount;
+          const cycleStartDate = startDate.plus({ months: i });
+          const cycleEndDate = startDate.plus({ months: i + 1 });
+          daysY = cycleEndDate.diff(cycleStartDate, ['days']).as('days');
+          // месячный платёж по % = ОстатокСсуднойЗадолженности * месячная % ставка;
+          const procentFast = (principalA * creditInterest * 365) / 12;
+          // тело кредита = равный месячный платёж - месячный платёж по процентам
+          const telo = monthly - procentFast;
+          principalA -= telo; // остаток ссудной задолженности
+          vsego += monthly + payStart + payFin + payAccount; // итого к оплате
+          pereplata += procentFast + payStart + payFin + payAccount;
+          table.n.push(i + 1); // №
+          table.date.push(initDate(cycleEndDate.toJSDate())); // дата
+          table.daysY.push(daysY); // дни
+          table.telo.push(telo); // тело кредита
+          table.procentFast.push(procentFast); // месячный платёж по процентам
+          table.payMonths.push(payStart + payFin + payAccount); // комиссионные платежи
+          table.vsego.push(vsego); // общая сумма платежа
+          // остаток ссудной задолженности
+          table.principalA.push(Math.abs(ceilMethod(principalA)));
+          table.pereplata.push(pereplata); // переплата
+        }
+        monthlyAll = vsego / payments; // Ваш ежемесячный платёж
+        vsego += edinCom; // итого к оплате
+        pereplata = vsego - creditPrincipal; // Сумма переплаты
+        comPayments = payMonths + edinCom; // комиссионные платежи
+        interestPayments = pereplata - comPayments; // на оплату процентов
+      } else if (creditPlatez === 1) {
+        // переплата =  процентная ставка * сумма кредита * месяцы
+        pereplata = creditInterest * creditPrincipal * days + edinCom;
+        vsego = pereplata + creditPrincipal; // итого к оплате
+        comPayments = creditEdinCom;
+        interestPayments = pereplata - comPayments;
+      } else if (creditPlatez === 2) {
+        const telo = creditPrincipal / payments;
+        for (let i = 0; i < payments; i++) {
+          const cycleStartDate = startDate.plus({ months: i });
+          const cycleEndDate = startDate.plus({ months: i + 1 });
+          daysY = cycleEndDate.diff(cycleStartDate, ['days']).as('days');
+          const procentFast = principalA * creditInterest * daysY;
+          const monthly = telo + procentFast;
+          payStart += (creditPrincipal * creditStartCostCom) / 100;
+          ostatok -= telo;
+          payFin += (ostatok * creditFinCostCom) / 100;
+          payAccount += creditAcCountCom;
+          payProcent += procentFast;
+          vsego += monthly; // итого к оплате
+          principalA -= telo;
+        }
+        payMonths = payStart + payFin + payAccount;
+        pereplata = payProcent + payMonths + edinCom; // Сумма переплаты
+        vsego = vsego + payMonths + edinCom; // итого к оплате
+        monthlyAll = vsego / payments; // Ваш ежемесячный платёж
+        comPayments = payMonths + edinCom; // комиссионные платежи
+        interestPayments = pereplata - comPayments;
+      }
+    }
 
     return {
       creditDateClosed,
-      // days1,
-      // srok,
-      // principal2,
-      // principal1,
-      // tax,
-      // adjunctionAll,
-      // table,
+      monthlyAll, // Ваш ежемесячный платёж
+      vsego, // итого к оплате
+      pereplata, // Сумма переплаты
+      comPayments, // комиссионные платежи
+      interestPayments, // на оплату процентов
+      table,
     };
   },
 );

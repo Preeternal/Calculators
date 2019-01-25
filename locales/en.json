@@ -130,12 +130,18 @@
         "label": "Monthly commission on debt balance, %"
       },
       "acCountCom": {
-        "label": "Monthly commission on debt balance, %"
+        "label": "Monthly commission on debt balance,"
       }
     },
     "result": {
       "header": "Payment Information",
       "dateClosed": "Loan repayment date",
+      "monthlyAll_0": "Your monthly payment",
+      "monthlyAll_2": "Your average monthly payment",
+      "interestPayments": "To pay interest",
+      "comPayments": "Commission payments",
+      "pereplata": "Overpayment amount",
+      "vsego": "Total for payment",
 
       "payment": "Среднее значение начисленных процентов в месяц",
       "principal2": "Начисленные проценты",
@@ -143,6 +149,20 @@
       "adjunctionAll": "Сумма пополнений",
       "principal1": "Полная сумма на руки",
       "pie": "Сумма вклада с процентами"
+    },
+    "table": {
+      "header": "Credit account statement",
+      "tableHead": [
+        "№",
+        "payment date",
+        "days",
+        "repayment of the loan body",
+        "interest payment",
+        "commission payments",
+        "total amount of payment",
+        "principal debt",
+        "overpayment"
+      ]
     }
   },
   "picker": {
