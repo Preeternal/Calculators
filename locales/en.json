@@ -151,7 +151,7 @@
       "pie": "Сумма вклада с процентами"
     },
     "table": {
-      "header": "Credit account statement",
+      "header": "Loan repayment schedule",
       "tableHead": [
         "№",
         "payment date",
@@ -162,7 +162,8 @@
         "total amount of payment",
         "principal debt",
         "overpayment"
-      ]
+      ],
+      "total": "total:"
     }
   },
   "picker": {

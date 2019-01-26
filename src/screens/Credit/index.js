@@ -352,10 +352,6 @@ class Credit extends Component<Props, State> {
                 labelHorizontal
                 buttonColor="#757171"
                 selectedButtonColor="#525050"
-                  // buttonInnerColor={'#e74c3c'}
-                  // buttonOuterColor={'#757171'}
-                  // buttonSize={15}
-                  // buttonOuterSize={60}
                 labelColor="#757171"
                 selectedLabelColor="#525050"
                 animation
@@ -493,7 +489,7 @@ class Credit extends Component<Props, State> {
             </TableSection>
           </Card>
 
-          {creditDateClosed === initDate(this.props.creditDateOpen) || Number(number(this.props.creditPrincipal)) === 0 ? null : (
+          {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0 && (
             <Card>
               {/* Информация о платежах */}
               <Header headerText={strings('credit.result.header')} />
@@ -648,7 +644,8 @@ class Credit extends Component<Props, State> {
             </Card>
           )}
 
-          {!creditDateClosed || Number(number(this.props.creditPrincipal)) === 0 ? null : (
+          {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
+          && this.props.creditPlatez !== 1 && (
             <ScrollView horizontal onScroll={this.handleScroll}>
               <Card>
                 {/* <Header headerText="Выписка со счёта" /> */}

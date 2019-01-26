@@ -36,7 +36,7 @@ const INITIAL_STATE: State = {
   creditDateOpen: new Date(),
   creditSrok: '12',
   creditSrokOption: 0,
-  creditPlatez: 0,
+  creditPlatez: 2,
   creditEdinCom: '0',
   creditEdinComOption: 0,
   creditStartCostCom: '0',

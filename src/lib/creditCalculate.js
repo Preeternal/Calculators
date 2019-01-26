@@ -50,7 +50,8 @@ export const creditCalculate = createSelector(
     // radio: number,
   ) => {
     const payments = creditSrokOption === 0 ? Number(creditSrok) : Number(creditSrok) * 12;
-    const edinCom = creditEdinComOption === 0 ? (creditPrincipal * creditEdinCom) / 100 : creditEdinCom;
+    const edinCom = creditEdinComOption === 0
+      ? (creditPrincipal * creditEdinCom) / 100 : creditEdinCom;
     const creditDateClosed = DateTime.fromJSDate(creditDateOpen)
       .plus({
         months: payments,
@@ -67,9 +68,14 @@ export const creditCalculate = createSelector(
       telo: number[],
       procentFast: number[],
       payMonths: number[],
-      vsego: number[],
+      monthlyA: number[],
       principalA: number[],
       pereplata: number[],
+      principal: number,
+      interestPayments: number,
+      comPayments: number,
+      vsego: number,
+      pereplataA: number,
     } = {
       n: [], // №
       date: [], // дата
@@ -77,13 +83,19 @@ export const creditCalculate = createSelector(
       telo: [], // погашение тела кредита
       procentFast: [], // платеж по процентам
       payMonths: [], // комиссионные платежи
-      vsego: [], // общая сумма платежа
+      monthlyA: [], // общая сумма платежа в месяц
       principalA: [], // основной остаток долга
-      pereplata: [], // переплата
+      pereplata: [], // переплата,
+      principal: creditPrincipal,
+      interestPayments: 0,
+      comPayments: 0,
+      vsego: 0,
+      pereplataA: 0,
     };
 
     let vsego = 0; // итого к оплате
-    let monthlyAll; // Ваш ежемесячный платёж
+    let monthlyA = 0; // итого к оплате в месяц
+    let monthlyAll; // Ваш ежемесячный платёж (средний если не аннуитет)
     let pereplata = 0; // Сумма переплаты
     let comPayments; // комиссионные платежи
     let interestPayments; // на оплату процентов
@@ -118,6 +130,7 @@ export const creditCalculate = createSelector(
           // тело кредита = равный месячный платёж - месячный платёж по процентам
           const telo = monthly - procentFast;
           principalA -= telo; // остаток ссудной задолженности
+          monthlyA = monthly + payStart + payFin + payAccount; // итого к оплате в месяц
           vsego += monthly + payStart + payFin + payAccount; // итого к оплате
           pereplata += procentFast + payStart + payFin + payAccount;
           table.n.push(i + 1); // №
@@ -126,16 +139,20 @@ export const creditCalculate = createSelector(
           table.telo.push(telo); // тело кредита
           table.procentFast.push(procentFast); // месячный платёж по процентам
           table.payMonths.push(payStart + payFin + payAccount); // комиссионные платежи
-          table.vsego.push(vsego); // общая сумма платежа
+          table.monthlyA.push(monthlyA); // общая сумма платежа в месяц
           // остаток ссудной задолженности
           table.principalA.push(Math.abs(ceilMethod(principalA)));
           table.pereplata.push(pereplata); // переплата
         }
         monthlyAll = vsego / payments; // Ваш ежемесячный платёж
         vsego += edinCom; // итого к оплате
+        table.vsego = vsego;
         pereplata = vsego - creditPrincipal; // Сумма переплаты
+        table.pereplataA = pereplata;
         comPayments = payMonths + edinCom; // комиссионные платежи
+        table.comPayments = comPayments;
         interestPayments = pereplata - comPayments; // на оплату процентов
+        table.interestPayments = interestPayments;
       } else if (creditPlatez === 1) {
         // переплата =  процентная ставка * сумма кредита * месяцы
         pereplata = creditInterest * creditPrincipal * days + edinCom;
@@ -149,21 +166,37 @@ export const creditCalculate = createSelector(
           const cycleEndDate = startDate.plus({ months: i + 1 });
           daysY = cycleEndDate.diff(cycleStartDate, ['days']).as('days');
           const procentFast = principalA * creditInterest * daysY;
-          const monthly = telo + procentFast;
-          payStart += (creditPrincipal * creditStartCostCom) / 100;
+          // const monthly = telo + procentFast;
+          payStart = (creditPrincipal * creditStartCostCom) / 100;
           ostatok -= telo;
-          payFin += (ostatok * creditFinCostCom) / 100;
-          payAccount += creditAcCountCom;
+          payFin = (ostatok * creditFinCostCom) / 100;
+          payAccount = creditAcCountCom;
+          payMonths += payStart + payFin + payAccount;
           payProcent += procentFast;
-          vsego += monthly; // итого к оплате
+          monthlyA = telo + procentFast + payStart + payFin + payAccount; // итого к оплате в месяц
+          vsego += telo + procentFast + payStart + payFin + payAccount; // итого к оплате
           principalA -= telo;
+          pereplata += procentFast + payStart + payFin + payAccount;
+          table.n.push(i + 1); // №
+          table.date.push(initDate(cycleEndDate.toJSDate())); // дата
+          table.daysY.push(daysY); // дни
+          table.telo.push(telo); // тело кредита
+          table.procentFast.push(procentFast); // месячный платёж по процентам
+          table.payMonths.push(payStart + payFin + payAccount); // комиссионные платежи
+          table.monthlyA.push(monthlyA); // общая сумма платежа
+          // остаток ссудной задолженности
+          table.principalA.push(Math.abs(ceilMethod(principalA)));
+          table.pereplata.push(pereplata); // переплата
         }
-        payMonths = payStart + payFin + payAccount;
         pereplata = payProcent + payMonths + edinCom; // Сумма переплаты
-        vsego = vsego + payMonths + edinCom; // итого к оплате
+        table.pereplataA = pereplata;
+        vsego += edinCom; // итого к оплате
+        table.vsego = vsego;
         monthlyAll = vsego / payments; // Ваш ежемесячный платёж
         comPayments = payMonths + edinCom; // комиссионные платежи
+        table.comPayments = comPayments;
         interestPayments = pereplata - comPayments;
+        table.interestPayments = interestPayments;
       }
     }
 

@@ -29,7 +29,8 @@ const CreditTable = (props) => {
   const tableHead = strings('credit.table.tableHead');
   const row = rows => rows.map((value, index) => (
     <View
-      key={parseInt(index.toString(), 10) + parseInt(value[6], 10)}
+      // eslint-disable-next-line react/no-array-index-key
+      key={index + value[3] + value[6]}
       style={[styles.renderStyle, { width: props.width }]}
     >
       <View style={styles.col1Style}>
@@ -69,7 +70,7 @@ const CreditTable = (props) => {
     props.value.telo,
     props.value.procentFast,
     props.value.payMonths,
-    props.value.vsego,
+    props.value.monthlyA,
     props.value.principalA,
     props.value.pereplata,
   ]);
@@ -143,6 +144,43 @@ const CreditTable = (props) => {
         </View>
       </View>
       {rows}
+      <View style={[headerStyle, { width: props.width }]}>
+        <View style={{ flex: 0.3, borderRightWidth: 1, borderColor: '#f1f1f1' }} />
+        <View style={{ flex: 1, borderRightWidth: 1, borderColor: '#f1f1f1' }}>
+          <Text style={textStyle}>{strings('credit.table.total')}</Text>
+        </View>
+        <View style={col3Style} />
+        <View style={col4Style}>
+          <Text style={textStyle}>
+            {props.value.principal.toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        <View style={col5Style}>
+          <Text style={textStyle}>
+            {props.value.interestPayments.toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        <View style={col6Style}>
+          <Text style={textStyle}>
+            {props.value.comPayments.toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        <View style={col7Style}>
+          <Text style={textStyle}>
+            {props.value.vsego.toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        <View style={col8Style}>
+          <Text style={textStyle}>
+           -
+          </Text>
+        </View>
+        <View style={col9Style}>
+          <Text style={textStyle}>
+            {props.value.pereplataA.toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };
