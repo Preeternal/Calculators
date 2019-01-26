@@ -1,10 +1,6 @@
 import React from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  Platform,
-  // TouchableOpacity,
+  View, Text, TextInput, Platform,
 } from 'react-native';
 import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
@@ -35,17 +31,10 @@ const InputTextPicker = ({
     arrowIosStyle,
   } = styles;
 
-  let textInput = null;
-
-  const handleClick = () => {
-    textInput.focus();
-  };
-
   return (
     <View style={containerStyle}>
       <View style={labelStyle}>
         <Text style={[componentLabelTextStyle, labelTextStyle]}>{label}</Text>
-        {/* </TouchableOpacity> */}
         {Platform.OS === 'android' && <View style={{ paddingLeft: 1.5 }} />}
         <Picker
           selectedValue={selectedValue}
@@ -71,7 +60,6 @@ const InputTextPicker = ({
         </Picker>
       </View>
       <View style={inputStyle}>
-        {/* <TouchableOpacity onPress={handleClick}> */}
         <TextInput
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
@@ -85,9 +73,6 @@ const InputTextPicker = ({
           onBlur={onBlur}
           keyboardType="numeric"
           underlineColorAndroid="transparent"
-          ref={(input) => {
-            textInput = input;
-          }}
         />
       </View>
     </View>

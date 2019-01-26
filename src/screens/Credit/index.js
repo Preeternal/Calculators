@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import {
-  Text, View, Image, ScrollView, Dimensions,
+  Text, View, Image, ScrollView, Dimensions, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
@@ -89,7 +89,8 @@ type State = {
   creditAcCountComColor?: string,
   isDatePickerVisible?: boolean,
   detailsHeaderMargin?: number,
-  width?: number
+  width?: number,
+  commission?: boolean
 };
 
 const textColor = '#525050';
@@ -122,6 +123,7 @@ class Credit extends Component<Props, State> {
     isDatePickerVisible: false,
     detailsHeaderMargin: 0,
     width: 1.5 * Dimensions.get('window').width,
+    commission: false,
   };
 
   componentDidMount() {
@@ -245,6 +247,13 @@ class Credit extends Component<Props, State> {
     this.props.radioPressed(value);
   }
 
+  onCommissionTouch = () => {
+    this.setState({
+      commission: !this.state.commission,
+    });
+    console.log(this.state.commission);
+  }
+
   handleScroll = (event: Object) => {
     if (Dimensions.get('window').width < Dimensions.get('window').height) {
       if (event.nativeEvent.layoutMeasurement.width + event.nativeEvent.contentOffset.x
@@ -270,17 +279,10 @@ class Credit extends Component<Props, State> {
       pie,
       gauge,
       gaugeText,
-      // instructions
     } = styles;
     const pic = {
       uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg',
     };
-    // const { principal,
-    //   //principal2,
-    //   //principal3
-    // } = this.props;
-    // const principal2 = principal2Selector(this.props.principal);
-    // const principal3 = principal3Selector(this.props.principal);
 
     const {
       creditDateClosed,
@@ -291,17 +293,6 @@ class Credit extends Component<Props, State> {
       interestPayments, // на оплату процентов
       table,
     } = this.props.calculated;
-
-    // const { days1, srok, payment, principal2, principal1, table } = calculate(
-    //   Number(number(this.props.principal)),
-    //   this.props.dateOpen,
-    //   this.props.dateClosed,
-    //   Number(number(this.props.interest1)) / 365 / 100,
-    //   Number(number(this.props.interest2)) / 365 / 100,
-    //   this.props.platez,
-    //   this.props.plusperiod,
-    //   Number(number(this.props.prinplus))
-    // );
 
     const radio = [
       {
@@ -428,6 +419,22 @@ class Credit extends Component<Props, State> {
                 onValueChange={this.onCreditPlatezSelect}
               />
 
+              <CardSection addStyle={{ backgroundColor: '#f1f1f1' }}>
+                <TouchableOpacity
+                  style={{ justifyContent: 'center', flexDirection: 'row' }}
+                  onPress={this.onCommissionTouch}
+                >
+                  <Text>
+                    {`${strings('credit.result.comPayments')}  `}
+                  </Text>
+                  <Icon
+                    name={!this.state.commission ? 'md-arrow-dropdown' : 'md-arrow-dropup'}
+                    style={{ fontSize: 20, color: '#525050' }}
+                  />
+                </TouchableOpacity>
+              </CardSection>
+
+              { this.state.commission && (
               <InputTextPicker
                   // placeholder="Единоразовая комиссия"
                 placeholder={strings('credit.input.edinСom.placeholder')}
@@ -444,7 +451,8 @@ class Credit extends Component<Props, State> {
                 selectedValue={this.props.creditEdinComOption}
                 onValueChange={this.onCreditEdinComOptionSelect}
               />
-              { this.props.creditPlatez !== 1 && (
+              )}
+              { this.props.creditPlatez !== 1 && this.state.commission && (
               <View>
                 <Input
                   // placeholder="введите %"
@@ -485,11 +493,13 @@ class Credit extends Component<Props, State> {
                 />
               </View>
               )}
+              {/* )} */}
 
             </TableSection>
           </Card>
 
-          {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0 && (
+          {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
+            && (
             <Card>
               {/* Информация о платежах */}
               <Header headerText={strings('credit.result.header')} />
@@ -555,94 +565,44 @@ class Credit extends Component<Props, State> {
               </View>
               )}
 
-              <Result
-                // итого к оплате
-                label={strings('credit.result.vsego')}
-                resultData={(Number(vsego)).toLocaleString(
-                  currentLocale,
-                  optionsN,
-                )}
-                resultPieStyle={{
-                  borderLeftWidth: 1,
-                  borderColor: '#ddd',
-                }}
-              />
-
-              {/* {adjunctionAll > 0 ? (
-                  <Result
-                    // label="Сумма пополнений"
-                    label={strings('result.adjunctionAll')}
-                    resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
-                    resultPieStyle={{
-                      borderLeftWidth: 5,
-                      borderColor: '#a2aaa4',
+              {Number(number(this.props.creditPrincipal)) !== 0 && (
+              <CardSection>
+                <View style={pieContainer}>
+                  <View
+                    style={{
+                      flex: 1.9,
+                      justifyContent: 'center',
                     }}
-                  />
-                ) : null}
-
-                <Result
-                  // label="Начисленные проценты"
-                  label={strings('result.principal2')}
-                  // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
-                  //   2
-                  // )}`}
-                  resultData={principal2.toLocaleString(currentLocale, optionsN)}
-                  resultPieStyle={{
-                    borderLeftWidth: 5,
-                    borderColor: '#569e69',
-                  }}
-                />
-
-                {this.props.taxCheck === 0 && this.props.country !== 1
-                && <Result
-                  // label="Налоги"
-                  label={strings('result.taxes')}
-                  resultData={tax.toLocaleString(currentLocale, optionsN)}
-                  resultPieStyle={{
-                    borderLeftWidth: 5,
-                    borderColor: '#db2323',
-                  }}
-                />
-                } */}
-
-              {/* {Number(number(this.props.principal)) !== 0 ? (
-                  <CardSection>
-                    <View style={pieContainer}>
-                      <View
-                        style={{
-                          flex: 1.9,
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Text> */}
-              {/* Сумма вклада с процентами */}
-              {/* {strings('result.pie')}
-                        </Text>
-                      </View>
-                      <View style={pie}>
-                        <Pie
-                          radius={65}
-                          innerRadius={59}
-                          series={[
-                            Number(number(this.props.principal)) * 100 / (principal1 + tax),
-                            adjunctionAll * 100 / (principal1 + tax),
-                            principal2 * 100 / (principal1 + tax),
-                            tax * 100 / (principal1 + tax),
-                          ]}
-                          colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
-                          backgroundColor="#ddd"
-                        />
-                        <View style={gauge}>
-                          <Text style={gaugeText}>
-                            {principal1.toLocaleString(currentLocale, optionsN)}
-                          </Text>
-                        </View>
-                      </View>
+                  >
+                    <Text>
+                      {/* итого к оплате */}
+                      {strings('credit.result.vsego')}
+                    </Text>
+                  </View>
+                  <View style={pie}>
+                    <Pie
+                      radius={65}
+                      innerRadius={59}
+                      series={[
+                        Number(number(this.props.creditPrincipal)) * 100 / vsego,
+                        interestPayments * 100 / vsego,
+                        // principal2 * 100 / (principal1 + tax),
+                        // tax * 100 / (principal1 + tax),
+                      ]}
+                      colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
+                      backgroundColor="#ddd"
+                    />
+                    <View style={gauge}>
+                      <Text style={gaugeText}>
+                        {vsego.toLocaleString(currentLocale, optionsN)}
+                      </Text>
                     </View>
-                  </CardSection>
-                ) : null} */}
+                  </View>
+                </View>
+              </CardSection>
+              )}
             </Card>
-          )}
+            )}
 
           {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
           && this.props.creditPlatez !== 1 && (
@@ -729,14 +689,6 @@ Credit.propTypes = {
   creditAcCountCom: PropTypes.string,
   radio: PropTypes.number,
   language: PropTypes.number,
-
-  // доработать
-  // days1: PropTypes.number,
-  // srok: PropTypes.string,
-  // principal2: PropTypes.number,
-  // principal1: PropTypes.number,
-  // adjunctionAll: PropTypes.number,
-  // table: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

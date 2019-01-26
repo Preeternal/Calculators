@@ -48,9 +48,11 @@ const CreditTable = (props) => {
       <View style={styles.col5Style}>
         <Text style={styles.textStyle}>{value[4].toLocaleString(currentLocale, options)}</Text>
       </View>
+      {props.value.comPayments > 0 && (
       <View style={styles.col6Style}>
         <Text style={styles.textStyle}>{value[5].toLocaleString(currentLocale, options)}</Text>
       </View>
+      )}
       <View style={styles.col7Style}>
         <Text style={styles.textStyle}>{value[6].toLocaleString(currentLocale, options)}</Text>
       </View>
@@ -106,6 +108,7 @@ const CreditTable = (props) => {
             }`}
           </Text>
         </View>
+        {props.value.comPayments > 0 && (
         <View style={col6Style}>
           <Text style={textStyle}>
             {`${tableHead[5]}, ${
@@ -115,6 +118,7 @@ const CreditTable = (props) => {
             }`}
           </Text>
         </View>
+        )}
         <View style={col7Style}>
           <Text style={textStyle}>
             {`${tableHead[6]}, ${
@@ -160,11 +164,13 @@ const CreditTable = (props) => {
             {props.value.interestPayments.toLocaleString(currentLocale, options)}
           </Text>
         </View>
+        {props.value.comPayments > 0 && (
         <View style={col6Style}>
           <Text style={textStyle}>
             {props.value.comPayments.toLocaleString(currentLocale, options)}
           </Text>
         </View>
+        )}
         <View style={col7Style}>
           <Text style={textStyle}>
             {props.value.vsego.toLocaleString(currentLocale, options)}

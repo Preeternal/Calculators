@@ -1,9 +1,7 @@
 // @flow
 import { createSelector } from 'reselect';
 import { DateTime } from 'luxon';
-import { strings } from '../../locales/i18n';
 import { initDate, number } from '.';
-import { daysString, monthsString, daysAfterMonths } from './calculates';
 
 const getCreditPrincipal = state => Number(number(state.credit.creditPrincipal));
 const getCreditInterest = state => Number(number(state.credit.creditInterest)) / 365 / 100;
@@ -166,7 +164,6 @@ export const creditCalculate = createSelector(
           const cycleEndDate = startDate.plus({ months: i + 1 });
           daysY = cycleEndDate.diff(cycleStartDate, ['days']).as('days');
           const procentFast = principalA * creditInterest * daysY;
-          // const monthly = telo + procentFast;
           payStart = (creditPrincipal * creditStartCostCom) / 100;
           ostatok -= telo;
           payFin = (ostatok * creditFinCostCom) / 100;
