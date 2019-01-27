@@ -348,7 +348,7 @@ class Credit extends Component<Props, State> {
       <View style={{ flex: 1 }}>
         <CustomHeader title={strings('titleCredit')} drawerOpen={() => this.props.navigation.openDrawer()} />
         { this.state.didFinishInitialAnimation ? (
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView style={{ flex: 1 }}>           
             <Card>
               {/* <Header headerText="Депозитный калькулятор" /> */}
               <Header headerText={strings('headerCredit')} />

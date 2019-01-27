@@ -33,6 +33,7 @@ const InputPicker = ({
           textStyle={{
             color: '#525050',
             fontSize: Platform.OS === 'ios' ? 13 : 15,
+            numberOfLines: 1,
           }}
           // mode='dropdown'
           options={options}
