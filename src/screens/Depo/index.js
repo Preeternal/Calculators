@@ -27,7 +27,7 @@ import {
   countryIpTriggered,
 } from '../../actions';
 
-import store from '../../store';
+// import store from '../../store';
 
 import {
   Input,
@@ -105,8 +105,6 @@ type State = {
 const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
 
 
-let currentValue;
-
 class Depo extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -175,7 +173,7 @@ class Depo extends Component<Props, State> {
     });
   }
 
-  select = state => state.settings.country;
+  // select = state => state.settings.country;
 
   onFocus = (input, text) => {
     this.setState({
@@ -272,25 +270,26 @@ class Depo extends Component<Props, State> {
   }
 
   render() {
-    // console.log(store.getState());
-    // console.log(this.props.calculated);
+    // // console.log(store.getState());
+    // // console.log(this.props.calculated);
+    // let currentValue;
 
-    const handleChange = () => {
-      const previousValue = currentValue;
-      currentValue = this.select(store.getState());
-      // console.log(currentValue);
-      if (previousValue !== currentValue) {
-        console.log(
-          'Some deep nested property changed from',
-          previousValue,
-          'to',
-          currentValue,
-        );
-      }
-    };
-    // const unsubscribe = store.subscribe(handleChange);
-    // unsubscribe();
-    handleChange();
+    // const handleChange = () => {
+    //   const previousValue = currentValue;
+    //   currentValue = this.select(store.getState());
+    //   // console.log(currentValue);
+    //   if (previousValue !== currentValue) {
+    //     console.log(
+    //       'Some deep nested property changed from',
+    //       previousValue,
+    //       'to',
+    //       currentValue,
+    //     );
+    //   }
+    // };
+    // // const unsubscribe = store.subscribe(handleChange);
+    // // unsubscribe();
+    // handleChange();
 
 
     const {

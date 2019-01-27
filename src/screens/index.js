@@ -12,7 +12,7 @@ const Navigator = createDrawerNavigator(
     Settings,
   },
   {
-    initialRouteName: 'Credit',
+    initialRouteName: 'Depo',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
     contentOptions: {
