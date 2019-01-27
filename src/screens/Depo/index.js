@@ -490,11 +490,11 @@ class Depo extends Component<Props, State> {
 
                 {Number(this.props.plusperiod) === 0 ? null : (
                   <Input
-                // label="На сумму"
+                    // label="На сумму"
                     label={`${strings('input.prinplus.label')}, ${radio[
                       this.props.radio
                     ].label.charAt(0)}`}
-                // placeholder="введите сумму"
+                    // placeholder="введите сумму"
                     placeholder={strings('input.prinplus.placeholder')}
                     onChangeText={this.onPrinplusChange}
                     onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
@@ -505,8 +505,8 @@ class Depo extends Component<Props, State> {
                 )}
                 {this.props.country !== 1 ? (
                   <InputPicker
-                    label="Налогооблажение вклада"
-                    // label={strings('input.plusperiod.label')}
+                    // label="Налогооблажение вклада"
+                    label={strings('input.taxation')}
                     // options={['да', 'нет']}
                     options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
                     selectedValue={this.props.taxCheck}
@@ -516,8 +516,8 @@ class Depo extends Component<Props, State> {
                 { this.props.taxCheck === 0
                   && this.props.country === 0 && (
                   <InputPicker
-                    label="Ставка налога"
-                    // label={strings('input.plusperiod.label')}
+                    // label="Ставка налога"
+                    label={strings('input.taxRate')}
                     // options={['резидент РФ', 'нерезидент РФ']}
                     options={[strings('settings.resident'), strings('settings.non-resident')]}
                     selectedValue={this.props.taxRate}

@@ -11,7 +11,7 @@ type State = {
 };
 
 const pickerValue = (locale: string) => {
-  if (locale === 'ru-RU') {
+  if (locale.substring(0, 2) === 'ru') {
     return 0;
   }
   return 1;

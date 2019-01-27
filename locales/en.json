@@ -52,7 +52,9 @@
     "prinplus": {
       "label": "By amount",
       "placeholder": "enter amount"
-    }
+    },
+    "taxation": "Deposit taxation",
+    "taxRate": "Tax rate"
   },
   "result": {
     "header": "Payment Information",
