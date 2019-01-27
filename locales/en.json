@@ -131,7 +131,8 @@
       },
       "acCountCom": {
         "label": "Monthly commission on debt balance,"
-      }
+      },
+      "alertCom": "This kind of commission in reality is much lower!"
     },
     "result": {
       "header": "Payment Information",

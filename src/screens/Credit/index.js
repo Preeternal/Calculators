@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import {
-  Text, View, Image, ScrollView, Dimensions, TouchableOpacity,
+  Text, View, Image, ScrollView, Dimensions, TouchableOpacity, Alert,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
@@ -47,6 +47,8 @@ import {
 } from '../../lib';
 
 import CustomHeader from '../Common/CustomHeader';
+
+import images from '../../images';
 
 type Props = {
   creditPrincipal: string,
@@ -128,9 +130,11 @@ class Credit extends Component<Props, State> {
 
   componentDidMount() {
     this.getOrientation();
-    Dimensions.addEventListener('change', () => {
-      this.getOrientation();
-    });
+    Dimensions.addEventListener('change', this.getOrientation);
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change', this.getOrientation);
   }
 
   getOrientation = () => {
@@ -232,15 +236,31 @@ class Credit extends Component<Props, State> {
   }
 
   onCreditStartCostComChange = (text) => {
+    this.checkComValue(text);
     this.props.creditStartCostComChanged(number(text));
   }
 
   onCreditFinCostComChange = (text) => {
+    this.checkComValue(text);
     this.props.creditFinCostComChanged(number(text));
   }
 
   onCreditAcCountComChange = (text) => {
+    this.checkComValue(text);
     this.props.creditAcCountComChanged(number(text));
+  }
+
+  checkComValue = (value) => {
+    if (Number(value) > 1) {
+      Alert.alert(
+        'Banoka',
+        strings('credit.input.alertCom'),
+        [
+          { text: 'OK' },
+        ],
+        { cancelable: false },
+      );
+    }
   }
 
   onRadioPress = (value) => {
@@ -248,10 +268,9 @@ class Credit extends Component<Props, State> {
   }
 
   onCommissionTouch = () => {
-    this.setState({
-      commission: !this.state.commission,
-    });
-    console.log(this.state.commission);
+    this.setState(prevState => ({
+      commission: !prevState.commission,
+    }));
   }
 
   handleScroll = (event: Object) => {
@@ -280,9 +299,6 @@ class Credit extends Component<Props, State> {
       gauge,
       gaugeText,
     } = styles;
-    const pic = {
-      uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg',
-    };
 
     const {
       creditDateClosed,
@@ -328,7 +344,7 @@ class Credit extends Component<Props, State> {
             {/* <Header headerText="Депозитный калькулятор" /> */}
             <Header headerText={strings('headerCredit')} />
             <CardSection>
-              <Image source={pic} style={topImage} />
+              <Image source={images.logo} style={topImage} />
               <Text style={welcome}>
                 {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
                 {!creditDateClosed ? strings('welcome.error') : strings('credit.go')}
@@ -512,12 +528,12 @@ class Credit extends Component<Props, State> {
               && (<Result
                 // Ваш ежемесячный платёж
                 label={this.props.creditPlatez === 2 ? strings('credit.result.monthlyAll_2') : strings('credit.result.monthlyAll_0')}
-                resultData={(Number(monthlyAll)).toLocaleString(
+                resultData={monthlyAll.toLocaleString(
                   currentLocale,
                   optionsN,
                 )}
                 resultPieStyle={{
-                  borderLeftWidth: 1,
+                  borderLeftWidth: 5,
                   borderColor: '#ddd',
                 }}
               />)
@@ -531,8 +547,8 @@ class Credit extends Component<Props, State> {
                   optionsN,
                 )}
                 resultPieStyle={{
-                  borderLeftWidth: 1,
-                  borderColor: '#ddd',
+                  borderLeftWidth: 5,
+                  borderColor: '#a2aaa4',
                 }}
               />
 
@@ -541,25 +557,29 @@ class Credit extends Component<Props, State> {
                 <Result
                 // Комиссионные платежи
                   label={strings('credit.result.comPayments')}
-                  resultData={(Number(comPayments)).toLocaleString(
+                  resultData={comPayments.toLocaleString(
                     currentLocale,
                     optionsN,
                   )}
                   resultPieStyle={{
-                    borderLeftWidth: 1,
-                    borderColor: '#ddd',
+                    borderLeftWidth: 5,
+                    borderColor: '#569e69',
                   }}
                 />
                 <Result
                 // Сумма переплаты
                   label={strings('credit.result.pereplata')}
-                  resultData={(Number(pereplata)).toLocaleString(
+                  resultData={pereplata.toLocaleString(
                     currentLocale,
                     optionsN,
                   )}
+                  labelPieStyle={{
+                    borderRightWidth: 2.7,
+                    borderColor: '#a2aaa4',
+                  }}
                   resultPieStyle={{
-                    borderLeftWidth: 1,
-                    borderColor: '#ddd',
+                    borderLeftWidth: 2.3,
+                    borderColor: '#569e69',
                   }}
                 />
               </View>
@@ -586,10 +606,9 @@ class Credit extends Component<Props, State> {
                       series={[
                         Number(number(this.props.creditPrincipal)) * 100 / vsego,
                         interestPayments * 100 / vsego,
-                        // principal2 * 100 / (principal1 + tax),
-                        // tax * 100 / (principal1 + tax),
+                        comPayments * 100 / vsego,
                       ]}
-                      colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
+                      colors={['#ddd', '#a2aaa4', '#569e69']}
                       backgroundColor="#ddd"
                     />
                     <View style={gauge}>

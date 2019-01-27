@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Result = ({ label, resultData, resultPieStyle }) => {
+const Result = ({
+  label, resultData, labelPieStyle, resultPieStyle,
+}) => {
   const {
     containerStyle, labelStyle, labelTextStyle, resultStyle, resultDataStyle,
   } = styles;
 
   return (
     <View style={containerStyle}>
-      <View style={labelStyle}>
+      <View style={[labelStyle, labelPieStyle]}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={[resultStyle, resultPieStyle]}>

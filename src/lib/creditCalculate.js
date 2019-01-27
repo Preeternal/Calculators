@@ -48,8 +48,7 @@ export const creditCalculate = createSelector(
     // radio: number,
   ) => {
     const payments = creditSrokOption === 0 ? Number(creditSrok) : Number(creditSrok) * 12;
-    const edinCom = creditEdinComOption === 0
-      ? (creditPrincipal * creditEdinCom) / 100 : creditEdinCom;
+    const edinCom = creditEdinComOption === 0 ? (creditPrincipal * creditEdinCom) / 100 : creditEdinCom;
     const creditDateClosed = DateTime.fromJSDate(creditDateOpen)
       .plus({
         months: payments,
@@ -155,7 +154,7 @@ export const creditCalculate = createSelector(
         // переплата =  процентная ставка * сумма кредита * месяцы
         pereplata = creditInterest * creditPrincipal * days + edinCom;
         vsego = pereplata + creditPrincipal; // итого к оплате
-        comPayments = creditEdinCom;
+        comPayments = edinCom;
         interestPayments = pereplata - comPayments;
       } else if (creditPlatez === 2) {
         const telo = creditPrincipal / payments;

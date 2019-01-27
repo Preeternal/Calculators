@@ -50,6 +50,8 @@ import {
 
 import CustomHeader from '../Common/CustomHeader';
 
+import images from '../../images';
+
 // import {
 //          principal2 as principal2Selector,
 //          principal3 as principal3Selector
@@ -301,9 +303,6 @@ class Depo extends Component<Props, State> {
       gaugeText,
       // instructions
     } = styles;
-    const pic = {
-      uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg',
-    };
     // const { principal,
     //   //principal2,
     //   //principal3
@@ -368,7 +367,7 @@ class Depo extends Component<Props, State> {
               {/* <Header headerText="Депозитный калькулятор" /> */}
               <Header headerText={strings('header')} />
               <CardSection>
-                <Image source={pic} style={topImage} />
+                <Image source={images.logo} style={topImage} />
                 <Text style={welcome}>
                   {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
                   {!srok ? strings('welcome.error') : strings('welcome.go')}
