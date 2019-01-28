@@ -129,7 +129,7 @@ class Credit extends Component<Props, State> {
     isDatePickerVisible: false,
     detailsHeaderMargin: 0,
     width: 1.5 * Dimensions.get('window').width,
-    pickerWidth: Dimensions.get('window').width / 3,
+    pickerWidth: Dimensions.get('window').width / 2.9,
     commission: false,
   };
 
@@ -151,12 +151,12 @@ class Credit extends Component<Props, State> {
     if (Dimensions.get('window').width < Dimensions.get('window').height) {
       this.setState({
         width: 1.5 * Dimensions.get('window').width,
-        pickerWidth: Dimensions.get('window').width / 3,
+        pickerWidth: Dimensions.get('window').width / 2.9,
       });
     } else {
       this.setState({
         width: Dimensions.get('window').width - 10,
-        pickerWidth: Dimensions.get('window').width / 3,
+        pickerWidth: Dimensions.get('window').width / 2.9,
         detailsHeaderMargin: 0,
       });
     }
