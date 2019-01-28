@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import {
+ View, Text, Platform, Dimensions 
+} from 'react-native';
 import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
 
 const InputPicker = ({
-  label, selectedValue, onValueChange, options,
+  label, selectedValue, onValueChange, options, pickerWidth,
 }) => {
   const {
     containerStyle,
@@ -32,17 +34,16 @@ const InputPicker = ({
           // headerStyle={{ color: '#525050' }}
           textStyle={{
             color: '#525050',
-            fontSize: Platform.OS === 'ios' ? 13 : 15,            
+            fontSize: Platform.OS === 'ios' ? 13 : 15,
           }}
           // mode='dropdown'
           options={options}
-          style={pickerStyle}
+          style={Platform.OS === 'android' ? pickerStyle : { flex: 1, width: pickerWidth || Dimensions.get('window').width / 2.8 }}
           // headerStyle={{ backgroundColor: '#b95dd3' }}
           iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
-          
         >
           {options.map((item, index) => (
-            <Picker.Item label={item} value={index} key={item}/>
+            <Picker.Item label={item} value={index} key={item} />
           ))}
         </Picker>
       </View>
@@ -76,8 +77,6 @@ const styles = {
   },
   pickerStyle: {
     flex: 1,
-    width: 130,
-    // height: 10,
   },
   arrowIosStyle: {
     color: '#5c251c',

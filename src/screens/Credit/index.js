@@ -94,6 +94,7 @@ type State = {
   isDatePickerVisible?: boolean,
   detailsHeaderMargin?: number,
   width?: number,
+  pickerWidth?: number,
   commission?: boolean
 };
 
@@ -128,6 +129,7 @@ class Credit extends Component<Props, State> {
     isDatePickerVisible: false,
     detailsHeaderMargin: 0,
     width: 1.5 * Dimensions.get('window').width,
+    pickerWidth: Dimensions.get('window').width / 3,
     commission: false,
   };
 
@@ -149,10 +151,12 @@ class Credit extends Component<Props, State> {
     if (Dimensions.get('window').width < Dimensions.get('window').height) {
       this.setState({
         width: 1.5 * Dimensions.get('window').width,
+        pickerWidth: Dimensions.get('window').width / 3,
       });
     } else {
       this.setState({
         width: Dimensions.get('window').width - 10,
+        pickerWidth: Dimensions.get('window').width / 3,
         detailsHeaderMargin: 0,
       });
     }
@@ -440,6 +444,7 @@ class Credit extends Component<Props, State> {
                   label={strings('credit.input.platez.label')}
                   // options={['Аннуитет', 'Единовременно', 'Дифференцировано']}
                   options={[strings('credit.input.platez.options.annuity'), strings('credit.input.platez.options.lump'), strings('credit.input.platez.options.differentiated')]}
+                  pickerWidth={this.state.pickerWidth}
                   selectedValue={this.props.creditPlatez}
                   onValueChange={this.onCreditPlatezSelect}
                 />
