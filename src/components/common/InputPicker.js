@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- View, Text, Platform, Dimensions 
+  View, Text, Platform, Dimensions,
 } from 'react-native';
 import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
