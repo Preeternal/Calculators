@@ -52,7 +52,9 @@
     "prinplus": {
       "label": "By amount",
       "placeholder": "enter amount"
-    }
+    },
+    "taxation": "Deposit taxation",
+    "taxRate": "Tax rate"
   },
   "result": {
     "header": "Payment Information",
@@ -87,6 +89,85 @@
       "accrued % total",
       "total amount"
     ]
+  },
+  "credit": {
+    "go": "Enter information about the credit:",
+    "input": {
+      "principal": {
+        "placeholder": "enter amount",
+        "label": "Credit amount"
+      },
+      "interest": {
+        "placeholder": "enter the rate",
+        "label": "Annual interest rate"
+      },
+      "dateOpen": {
+        "label": "Loan issue date"
+      },
+      "srok": {
+        "placeholder": "credit term",
+        "label": "Loan terms,",
+        "options": {
+          "months": "months",
+          "years": "years"
+        }
+      },
+      "platez": {
+        "label": "Type of payment",
+        "options": {
+          "annuity": "Annuity - payments in equal installments",
+          "lump": "Lump sum - payment at the end of the term",
+          "differentiated": "Differentiated - decreasing parts"
+        }
+      },
+      "edinСom": {
+        "placeholder": "enter fee",
+        "label": "One-time fee,"
+      },
+      "startCostCom": {
+        "placeholder": "enter fee",
+        "label": "Monthly commission on the initial cost, %"
+      },
+      "finCostCom": {
+        "label": "Monthly commission on debt balance, %"
+      },
+      "acCountCom": {
+        "label": "Monthly commission on debt balance,"
+      },
+      "alertCom": "This kind of commission in reality is much lower!"
+    },
+    "result": {
+      "header": "Payment Information",
+      "dateClosed": "Loan repayment date",
+      "monthlyAll_0": "Your monthly payment",
+      "monthlyAll_2": "Your average monthly payment",
+      "interestPayments": "To pay interest",
+      "comPayments": "Commission payments",
+      "pereplata": "Overpayment amount",
+      "vsego": "Total for payment",
+
+      "payment": "Среднее значение начисленных процентов в месяц",
+      "principal2": "Начисленные проценты",
+      "taxes": "Налоги",
+      "adjunctionAll": "Сумма пополнений",
+      "principal1": "Полная сумма на руки",
+      "pie": "Сумма вклада с процентами"
+    },
+    "table": {
+      "header": "Loan repayment schedule",
+      "tableHead": [
+        "№",
+        "payment date",
+        "days",
+        "repayment of the loan body",
+        "interest payment",
+        "commission payments",
+        "total amount of payment",
+        "principal debt",
+        "overpayment"
+      ],
+      "total": "total:"
+    }
   },
   "picker": {
     "iosHeader": "Select One",

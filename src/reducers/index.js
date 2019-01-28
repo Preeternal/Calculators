@@ -1,9 +1,11 @@
 // @flow
 import { combineReducers } from 'redux';
-import FormReducer from './FormReducer';
+import DepoReducer from './DepoReducer';
+import CreditReducer from './CreditReducer';
 import SettingsReducer from './SettingsReducer';
 
 export default combineReducers({
-  form: FormReducer,
+  depo: DepoReducer,
+  credit: CreditReducer,
   settings: SettingsReducer,
 });

@@ -22,7 +22,7 @@ const nextYear = (d: Date) => {
   const year = d.getFullYear();
   const month = d.getMonth();
   const day = d.getDate();
-  return new Date(year + 1, month, day);
+  return new Date(year + 1, month, day, 12);
 };
 
 const radioValue = (locale: string) => {

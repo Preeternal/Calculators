@@ -15,7 +15,7 @@
   "dependencies": {
     "i18n-js": "^3.1.0",
     "luxon": "^1.8.1",
-    "native-base": "^2.8.1",
+    "native-base": "https://github.com/GeekyAnts/NativeBase.git",
     "number-to-locale-string": "^1.2.0",
     "prop-types": "^15.6.2",
     "react": "16.6.0-alpha.8af6728",

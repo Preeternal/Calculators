@@ -1,18 +1,32 @@
 import React from 'react';
 import {
-  View, Text, Platform, Dimensions,
+  View, Text, TextInput, Platform,
 } from 'react-native';
 import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
 
-const InputPicker = ({
-  label, selectedValue, onValueChange, options, pickerWidth,
+const InputTextPicker = ({
+  label,
+  selectedValue,
+  onValueChange,
+  options,
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry,
+  onSelectionChange,
+  onSubmitEditing,
+  onFocus,
+  onBlur,
+  labelTextStyle,
+  appInputStyle,
 }) => {
   const {
     containerStyle,
     labelStyle,
-    labelTextStyle,
+    componentLabelTextStyle,
     inputStyle,
+    inputTextStyle,
     pickerStyle,
     arrowIosStyle,
   } = styles;
@@ -20,14 +34,12 @@ const InputPicker = ({
   return (
     <View style={containerStyle}>
       <View style={labelStyle}>
-        <Text style={labelTextStyle}>{label}</Text>
-      </View>
-      <View style={inputStyle}>
-        {Platform.OS === 'android' && <View style={{ paddingLeft: 10 }} />}
+        <Text style={[componentLabelTextStyle, labelTextStyle]}>{label}</Text>
+        {Platform.OS === 'android' && <View style={{ paddingLeft: 1.5 }} />}
         <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
-          // itemStyle={{ width: 50 }}
+          // itemStyle={{ color: '#525050' }}
           itemTextStyle={{ color: '#525050' }}
           iosHeader={strings('picker.iosHeader')}
           headerBackButtonText={strings('picker.headerBackButtonText')}
@@ -38,7 +50,7 @@ const InputPicker = ({
           }}
           // mode='dropdown'
           options={options}
-          style={Platform.OS === 'android' ? pickerStyle : { flex: 1, width: pickerWidth || Dimensions.get('window').width / 2.8 }}
+          style={pickerStyle}
           // headerStyle={{ backgroundColor: '#b95dd3' }}
           iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
         >
@@ -46,6 +58,22 @@ const InputPicker = ({
             <Picker.Item label={item} value={index} key={item} />
           ))}
         </Picker>
+      </View>
+      <View style={inputStyle}>
+        <TextInput
+          secureTextEntry={secureTextEntry}
+          placeholder={placeholder}
+          // autoCorrect={false}
+          style={[inputTextStyle, appInputStyle]}
+          value={value}
+          onChangeText={onChangeText}
+          onSelectionChange={onSelectionChange}
+          onSubmitEditing={onSubmitEditing}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          keyboardType="numeric"
+          underlineColorAndroid="transparent"
+        />
       </View>
     </View>
   );
@@ -64,19 +92,28 @@ const styles = {
     flex: 1.9,
     borderRightWidth: 1,
     borderColor: '#ddd',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    flexDirection: 'row',
+    // justifyContent: 'flex-start',
   },
-  labelTextStyle: {
+  componentLabelTextStyle: {
     paddingLeft: 10,
     paddingRight: 5,
+    alignSelf: 'center',
+    flex: 1,
   },
   inputStyle: {
     flex: 1.1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
-  pickerStyle: {
+  inputTextStyle: {
+    paddingLeft: 10,
+    paddingRight: 5,
     flex: 1,
+  },
+  pickerStyle: {
+    flex: 0.9,
   },
   arrowIosStyle: {
     color: '#5c251c',
@@ -86,4 +123,4 @@ const styles = {
   },
 };
 
-export { InputPicker };
+export { InputTextPicker };

@@ -27,7 +27,7 @@ import {
   countryIpTriggered,
 } from '../../actions';
 
-import store from '../../store';
+// import store from '../../store';
 
 import {
   Input,
@@ -49,6 +49,8 @@ import {
 } from '../../lib';
 
 import CustomHeader from '../Common/CustomHeader';
+
+import images from '../../images';
 
 // import {
 //          principal2 as principal2Selector,
@@ -102,8 +104,6 @@ type State = {
 };
 const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
 
-
-let currentValue;
 
 class Depo extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => {
@@ -173,7 +173,7 @@ class Depo extends Component<Props, State> {
     });
   }
 
-  select = state => state.settings.country;
+  // select = state => state.settings.country;
 
   onFocus = (input, text) => {
     this.setState({
@@ -193,10 +193,11 @@ class Depo extends Component<Props, State> {
     if (text === '') {
       this.props[`${input}Changed`]('0');
     } else {
+      const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
       this.props[`${input}Changed`](
         Number(text).toLocaleString('ru-RU', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
+          minimumFractionDigits,
+          maximumFractionDigits: minimumFractionDigits,
         }),
       );
     }
@@ -269,25 +270,26 @@ class Depo extends Component<Props, State> {
   }
 
   render() {
-    // console.log(store.getState());
-    // console.log(this.props.calculated);
+    // // console.log(store.getState());
+    // // console.log(this.props.calculated);
+    // let currentValue;
 
-    const handleChange = () => {
-      const previousValue = currentValue;
-      currentValue = this.select(store.getState());
-      // console.log(currentValue);
-      if (previousValue !== currentValue) {
-        console.log(
-          'Some deep nested property changed from',
-          previousValue,
-          'to',
-          currentValue,
-        );
-      }
-    };
-    // const unsubscribe = store.subscribe(handleChange);
-    // unsubscribe();
-    handleChange();
+    // const handleChange = () => {
+    //   const previousValue = currentValue;
+    //   currentValue = this.select(store.getState());
+    //   // console.log(currentValue);
+    //   if (previousValue !== currentValue) {
+    //     console.log(
+    //       'Some deep nested property changed from',
+    //       previousValue,
+    //       'to',
+    //       currentValue,
+    //     );
+    //   }
+    // };
+    // // const unsubscribe = store.subscribe(handleChange);
+    // // unsubscribe();
+    // handleChange();
 
 
     const {
@@ -300,9 +302,6 @@ class Depo extends Component<Props, State> {
       gaugeText,
       // instructions
     } = styles;
-    const pic = {
-      uri: 'http://banoka.ru/images/bank/08-01-17_money8.jpg',
-    };
     // const { principal,
     //   //principal2,
     //   //principal3
@@ -367,7 +366,7 @@ class Depo extends Component<Props, State> {
               {/* <Header headerText="Депозитный калькулятор" /> */}
               <Header headerText={strings('header')} />
               <CardSection>
-                <Image source={pic} style={topImage} />
+                <Image source={images.logo} style={topImage} />
                 <Text style={welcome}>
                   {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
                   {!srok ? strings('welcome.error') : strings('welcome.go')}
@@ -491,11 +490,11 @@ class Depo extends Component<Props, State> {
 
                 {Number(this.props.plusperiod) === 0 ? null : (
                   <Input
-                // label="На сумму"
+                    // label="На сумму"
                     label={`${strings('input.prinplus.label')}, ${radio[
                       this.props.radio
                     ].label.charAt(0)}`}
-                // placeholder="введите сумму"
+                    // placeholder="введите сумму"
                     placeholder={strings('input.prinplus.placeholder')}
                     onChangeText={this.onPrinplusChange}
                     onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
@@ -506,8 +505,8 @@ class Depo extends Component<Props, State> {
                 )}
                 {this.props.country !== 1 ? (
                   <InputPicker
-                    label="Налогооблажение вклада"
-                    // label={strings('input.plusperiod.label')}
+                    // label="Налогооблажение вклада"
+                    label={strings('input.taxation')}
                     // options={['да', 'нет']}
                     options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
                     selectedValue={this.props.taxCheck}
@@ -517,8 +516,8 @@ class Depo extends Component<Props, State> {
                 { this.props.taxCheck === 0
                   && this.props.country === 0 && (
                   <InputPicker
-                    label="Ставка налога"
-                    // label={strings('input.plusperiod.label')}
+                    // label="Ставка налога"
+                    label={strings('input.taxRate')}
                     // options={['резидент РФ', 'нерезидент РФ']}
                     options={[strings('settings.resident'), strings('settings.non-resident')]}
                     selectedValue={this.props.taxRate}
@@ -601,7 +600,7 @@ class Depo extends Component<Props, State> {
                         }}
                       >
                         <Text>
-                          {/* Доходность */}
+                          {/* Сумма вклада с процентами */}
                           {strings('result.pie')}
                         </Text>
                       </View>
@@ -742,17 +741,17 @@ Depo.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  principal: state.form.principal,
-  dateOpen: state.form.dateOpen,
-  dateClosed: state.form.dateClosed,
-  interest1: state.form.interest1,
-  interest2: state.form.interest2,
-  platez: state.form.platez,
-  plusperiod: state.form.plusperiod,
-  prinplus: state.form.prinplus,
-  radio: state.form.radio,
-  taxCheck: state.form.taxCheck,
-  taxRate: state.form.taxRate,
+  principal: state.depo.principal,
+  dateOpen: state.depo.dateOpen,
+  dateClosed: state.depo.dateClosed,
+  interest1: state.depo.interest1,
+  interest2: state.depo.interest2,
+  platez: state.depo.platez,
+  plusperiod: state.depo.plusperiod,
+  prinplus: state.depo.prinplus,
+  radio: state.depo.radio,
+  taxCheck: state.depo.taxCheck,
+  taxRate: state.depo.taxRate,
   language: state.settings.language,
   country: state.settings.country,
   countryIP: state.settings.countryIP,
