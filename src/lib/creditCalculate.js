@@ -135,7 +135,7 @@ export const creditCalculate = createSelector(
           table.daysY.push(daysY); // дни
           table.telo.push(telo); // тело кредита
           table.procentFast.push(procentFast); // месячный платёж по процентам
-          table.payMonths.push(payStart + payFin + payAccount); // комиссионные платежи
+          table.payMonths.push(Math.abs(payStart + payFin + payAccount)); // комиссионные платежи
           table.monthlyA.push(monthlyA); // общая сумма платежа в месяц
           // остаток ссудной задолженности
           table.principalA.push(Math.abs(ceilMethod(principalA)));
@@ -178,7 +178,7 @@ export const creditCalculate = createSelector(
           table.daysY.push(daysY); // дни
           table.telo.push(telo); // тело кредита
           table.procentFast.push(procentFast); // месячный платёж по процентам
-          table.payMonths.push(payStart + payFin + payAccount); // комиссионные платежи
+          table.payMonths.push(Math.abs(payStart + payFin + payAccount)); // комиссионные платежи
           table.monthlyA.push(monthlyA); // общая сумма платежа
           // остаток ссудной задолженности
           table.principalA.push(Math.abs(ceilMethod(principalA)));

@@ -1,5 +1,5 @@
-// flow-typed signature: 03d357611ad08df0d1587876c0affeb7
-// flow-typed version: 0729e77d3a/react-navigation_v2.x.x/flow_>=v0.60.x
+// flow-typed signature: b2bc08d27563408c62c035fef1caf007
+// flow-typed version: a04a34281b/react-navigation_v2.x.x/flow_>=v0.60.x
 
 // @flow
 
@@ -625,7 +625,7 @@ declare module 'react-navigation' {
     State: NavigationState,
     Options: {},
     Props: {}
-  > = React$ComponentType<{
+  > = React$StatelessFunctionalComponent<{
     ...Props,
     ...NavigationContainerProps<State, Options>,
   }> &

@@ -1,5 +1,5 @@
-// flow-typed signature: 855bc23e8daf5469ec4b0700036ba2cc
-// flow-typed version: eb142c4eb3/luxon_v1.x.x/flow_>=v0.32.0
+// flow-typed signature: 98aac267a1c929bb396ab26f7f42130d
+// flow-typed version: d4fed0d928/luxon_v1.x.x/flow_>=v0.32.0
 
 // @flow
 
@@ -418,6 +418,10 @@ declare module "luxon" {
     static fromJSDate(date: Date, options?: DateTimeFromOptions): DateTime;
     static fromMillis(
       millseconds: number,
+      options?: DateTimeFromOptions
+    ): DateTime;
+    static fromSeconds(
+      seconds: number,
       options?: DateTimeFromOptions
     ): DateTime;
     static fromRFC2822(text: string, options?: DateTimeFromOptions): DateTime;
