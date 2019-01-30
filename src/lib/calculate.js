@@ -17,6 +17,7 @@ const getRadio = state => state.depo.radio;
 const getTaxCheck = state => state.depo.taxCheck;
 const getTaxRate = state => state.depo.taxRate;
 const getCountry = state => state.settings.country;
+const getLanguage = state => state.settings.language;
 
 export const calculate = createSelector(
   [
@@ -32,6 +33,7 @@ export const calculate = createSelector(
     getTaxCheck,
     getTaxRate,
     getCountry,
+    getLanguage,
   ],
   (
     principal: number,
@@ -46,6 +48,7 @@ export const calculate = createSelector(
     taxCheck: number,
     taxRate: number,
     country: number,
+    language: number,
   ) => {
     // const dOpen: Date = changeDate(dateOpen);
     // const dClosed: Date = changeDate(dateClosed);
@@ -74,7 +77,7 @@ export const calculate = createSelector(
     const ili: string = strings('result.srok.ili');
 
     const srok = (() => {
-      switch (true) {
+      switch (language !== undefined) {
         case days <= 0:
           return undefined;
         case months === 0:
