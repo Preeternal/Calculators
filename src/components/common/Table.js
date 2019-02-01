@@ -9,7 +9,8 @@ const options = {
 };
 
 const row = rows => rows.map((value, index) => (
-  <View key={parseInt(index.toString(), 10) + parseInt(value[4], 10)} style={styles.renderStyle}>
+  // eslint-disable-next-line react/no-array-index-key
+  <View key={index + value[4]} style={styles.renderStyle}>
     <View style={styles.col1Style}>
       <Text style={styles.textStyle}>{value[0]}</Text>
     </View>
