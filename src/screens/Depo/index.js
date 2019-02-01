@@ -195,7 +195,7 @@ class Depo extends Component<Props, State> {
     } else {
       const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
       this.props[`${input}Changed`](
-        Number(text).toLocaleString('ru-RU', {
+        Number(number(text)).toLocaleString('ru-RU', {
           minimumFractionDigits,
           maximumFractionDigits: minimumFractionDigits,
         }),
@@ -527,7 +527,7 @@ class Depo extends Component<Props, State> {
               </TableSection>
             </Card>
 
-            {!srok || Number(number(this.props.principal)) === 0 ? null : (
+            {srok && Number(number(this.props.principal)) !== 0 && (
               <Card>
                 {/* <Header headerText="Информация о выплатах" /> */}
                 <Header headerText={strings('result.header')} />
@@ -590,7 +590,7 @@ class Depo extends Component<Props, State> {
                 />
                 }
 
-                {Number(number(this.props.principal)) !== 0 ? (
+                {Number(number(this.props.principal)) !== 0 && (
                   <CardSection>
                     <View style={pieContainer}>
                       <View
@@ -625,11 +625,11 @@ class Depo extends Component<Props, State> {
                       </View>
                     </View>
                   </CardSection>
-                ) : null}
+                )}
               </Card>
             )}
 
-            {!srok || Number(number(this.props.principal)) === 0 ? null : (
+            {srok && Number(number(this.props.principal)) !== 0 && (
               <Card>
                 {/* <Header headerText="Выписка со счёта" /> */}
                 <Header headerText={strings('table.header')} />

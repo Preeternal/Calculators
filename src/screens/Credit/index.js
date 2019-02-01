@@ -360,7 +360,7 @@ class Credit extends Component<Props, State> {
                 <Image source={images.logo} style={topImage} />
                 <Text style={welcome}>
                   {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
-                  {!creditDateClosed ? strings('welcome.error') : strings('credit.go')}
+                  {!Number(this.props.creditSrok) ? strings('welcome.error') : strings('credit.go')}
                 </Text>
 
                 <RadioForm

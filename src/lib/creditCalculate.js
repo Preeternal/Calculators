@@ -1,4 +1,3 @@
-// @flow
 import { createSelector } from 'reselect';
 import { DateTime } from 'luxon';
 import { initDate, number } from '.';
