@@ -228,7 +228,7 @@ class Credit extends Component<Props, State> {
   }
 
   onCreditSrokValueChange = (text) => {
-    this.props.creditSrokValueChanged(number(text));
+    this.props.creditSrokValueChanged(Math.ceil(Number(number(text))).toString());
   }
 
   onCreditSrokOptionSelect = (option) => {
