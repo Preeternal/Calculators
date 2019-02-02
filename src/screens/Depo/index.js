@@ -44,6 +44,8 @@ import {
 
 import { strings, currentLocale } from '../../../locales/i18n';
 
+import config from '../../../config';
+
 import {
   initDate, number, calculate,
 } from '../../lib';
@@ -102,8 +104,6 @@ type State = {
   isDatePicker2Visible?: boolean,
   userCountryCode?: string,
 };
-const url = 'http://api.ipstack.com/check?access_key=525447ceaa9c889bedee144cb8d463b2&format=1';
-
 
 class Depo extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => {
@@ -138,7 +138,7 @@ class Depo extends Component<Props, State> {
 
   async componentWillMount() {
     if (!this.props.countryIP) {
-      await fetch(url)
+      await fetch(config.ipUrl)
         .then(response => response.json())
         .then((responseJson) => {
           this.setState({

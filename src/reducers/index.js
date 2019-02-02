@@ -1,4 +1,3 @@
-// @flow
 import { combineReducers } from 'redux';
 import DepoReducer from './DepoReducer';
 import CreditReducer from './CreditReducer';
