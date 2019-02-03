@@ -180,5 +180,10 @@
     "country": "Country",
     "resident": "resident of the Russian Federation",
     "non-resident": "non-resident of the Russian Federation"
+  },
+  "help": {
+    "header": "Help",
+    "eula": "Privacy Policy",
+    "guarantees": "Duties and guarantees"
   }
 }

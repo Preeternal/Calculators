@@ -44,6 +44,11 @@ class Settings extends Component {
         key: 'Credit',
       });
       this.props.navigation.dispatch(setCreditLabel);
+      const setHelpLabel = NavigationActions.setParams({
+        params: { DLabel: strings('help.header') },
+        key: 'Help',
+      });
+      this.props.navigation.dispatch(setHelpLabel);
     }
   }
 
