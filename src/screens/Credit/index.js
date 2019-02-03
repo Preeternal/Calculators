@@ -130,7 +130,7 @@ class Credit extends Component<Props, State> {
     detailsHeaderMargin: 0,
     width: 1.5 * Dimensions.get('window').width,
     pickerWidth: Dimensions.get('window').width / 2.9,
-    commission: false,
+    commission: !!this.props.calculated.comPayments,
   };
 
   componentDidMount() {
