@@ -47,7 +47,10 @@ export const creditCalculate = createSelector(
     // radio: number,
   ) => {
     const payments = creditSrokOption === 0 ? Number(creditSrok) : Number(creditSrok) * 12;
-    const edinCom = creditEdinComOption === 0 ? (creditPrincipal * creditEdinCom) / 100 : creditEdinCom;
+    // prettier-ignore
+    const edinCom = creditEdinComOption === 0
+      ? (creditPrincipal * creditEdinCom) / 100
+      : creditEdinCom;
     const creditDateClosed = DateTime.fromJSDate(creditDateOpen)
       .plus({
         months: payments,

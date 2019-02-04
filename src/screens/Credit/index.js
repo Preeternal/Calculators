@@ -258,7 +258,6 @@ class Credit extends Component<Props, State> {
   }
 
   onCreditAcCountComChange = (text) => {
-    this.checkComValue(text);
     this.props.creditAcCountComChanged(number(text));
   }
 

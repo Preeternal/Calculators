@@ -20,7 +20,7 @@ export default class extends PureComponent {
   };
 
   render() {
-    const { welcome } = styles;
+    const { main, bold } = styles;
     return (
       <View style={{ flex: 1 }}>
         <CustomHeader
@@ -29,10 +29,32 @@ export default class extends PureComponent {
         />
         <ScrollView style={{ flex: 1 }}>
           <Card>
-            {/* <Header headerText="Депозитный калькулятор" /> */}
+            <Header headerText={strings('help.definitions')} />
+            <CardSection>
+              <Text style={[bold, { marginTop: 10 }]}>{strings('help.paymentType.header')}</Text>
+              <Text style={main}>
+                {strings('help.paymentType.text')}
+                {'\n'}
+                {strings('help.paymentType.text2')}
+              </Text>
+              <Text style={bold}>{strings('help.edinCom.header')}</Text>
+              <Text style={main}>{strings('help.edinCom.text')}</Text>
+              <Text style={bold}>{strings('help.startCostCom.header')}</Text>
+              <Text style={main}>{strings('help.startCostCom.text')}</Text>
+              <Text style={bold}>{strings('help.finCostCom.header')}</Text>
+              <Text style={main}>{strings('help.finCostCom.text')}</Text>
+              <Text style={bold}>{strings('help.acCountCom.header')}</Text>
+              <Text style={main}>{strings('help.acCountCom.text')}</Text>
+              <Text style={bold}>{strings('help.payment.header')}</Text>
+              <Text style={main}>{strings('help.payment.text')}</Text>
+              <Text style={bold}>{strings('help.overpayment.header')}</Text>
+              <Text style={main}>{strings('help.overpayment.text')}</Text>
+            </CardSection>
+          </Card>
+          <Card>
             <Header headerText={strings('help.eula')} />
             <CardSection>
-              <Text style={welcome}>
+              <Text style={main}>
                 Использование Приложения означает безоговорочное согласие пользователя с настоящей
                 Политикой и указанными в ней условиями обработки его персональной информации и
                 подтверждает, что, давая такое согласие, он действует свободно, своей волей и в
@@ -50,12 +72,10 @@ export default class extends PureComponent {
             </CardSection>
           </Card>
           <Card>
-            {/* <Header headerText="Депозитный калькулятор" /> */}
             <Header headerText={strings('help.guarantees')} />
             <CardSection>
-              <Text style={welcome}>
-                {/* eslint-disable-next-line react/no-unescaped-entities */}
-                Приложение предоставляется на условиях "КАК ЕСТЬ", без каких либо явных или
+              <Text style={main}>
+                Приложение предоставляется на условиях `КАК ЕСТЬ`, без каких либо явных или
                 подразумеваемых гарантий. Правообладатель не предоставляет никаких гарантий в
                 отношении безошибочной и бесперебойной работы приложения, соответствия содержимого
                 приложения конкретным целям пользователя.
@@ -69,8 +89,13 @@ export default class extends PureComponent {
 }
 
 const styles = {
-  welcome: {
+  main: {
     margin: 10,
     textAlign: 'justify',
+  },
+  bold: {
+    marginLeft: 10,
+    marginRight: 10,
+    fontWeight: 'bold',
   },
 };
