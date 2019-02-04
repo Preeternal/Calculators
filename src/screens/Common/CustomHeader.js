@@ -13,6 +13,7 @@ const CustomHeader = props => (
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       elevation: 2,
+      paddingLeft: 12,
     }}
   >
     <Left>

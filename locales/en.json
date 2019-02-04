@@ -81,14 +81,7 @@
   },
   "table": {
     "header": "Account statement",
-    "tableHead": [
-      "№",
-      "date",
-      "% current month",
-      "days",
-      "accrued % total",
-      "total amount"
-    ]
+    "tableHead": ["№", "date", "% current month", "days", "accrued % total", "total amount"]
   },
   "credit": {
     "go": "Enter information about the credit:",
@@ -184,6 +177,36 @@
   "help": {
     "header": "Help",
     "eula": "Privacy Policy",
-    "guarantees": "Duties and guarantees"
+    "guarantees": "Duties and guarantees",
+    "definitions": "Definitions",
+    "paymentType": {
+      "header": "Type of payment. Annuity or a classic loan.",
+      "text": "Classic loan -  differentiated method of monthly loan repayment. At the same time, payments to repay the loan body are the same throughout the entire loan period. And interest payments are reduced from month to month, respectively. Therefore, the monthly payment every month also decreases. This type of lending is most beneficial to the client.",
+      "text2": "The annuity allows you to repay the loan in equal monthly installments. In this case, payments on the body of the loan from month to month increase. Since in this case, the loan body is paid more slowly, the overpayment on the annuity is greater than with a differentiated type of payment. Equal monthly payments on the annuity are possible only with a zero interest rate on the balance of the debt."
+    },
+    "edinCom": {
+      "header": "One-time fee",
+      "text": " Charged by a financial institution one-time when issuing a loan with a fixed amount or as a percentage of the loan amount. Affects the increase in real (effective) annual interest rate. Please note: this is not a down payment. Here the definition 'a gift to bank'  is more appropriate."
+    },
+    "startCostCom": {
+      "header": "Monthly commission on the initial cost",
+      "text": "Charged every month, the value - a fixed percentage of the initial cost. Affects the increase in real (effective) annual interest rate."
+    },
+    "finCostCom": {
+      "header": "Monthly commission on debt balance",
+      "text": "Charged every month, the value is a fixed percentage of the outstanding loan debt. Influences the increase in the real (effective) annual interest rate, but to a lesser extent than the monthly commission on the initial cost."
+    },
+    "acCountCom": {
+      "header": "Monthly fee for account maintenance",
+      "text": "Charged every month. The value of this commission is usually fixed with a certain amount. Affects the increase in real (effective) annual interest rate. Provides a fee for servicing your credit account."
+    },
+    "payment": {
+      "header": "Monthly payment",
+      "text": "The amount of the monthly loan payment. The value is shown 'on average' if the monthly payment is not the same throughout the loan period. Annuity type of payments provides for the same monthly loan payment, however, you may have noticed that the monthly commission on the balance of the debt makes the monthly annuity payment not the same. "
+    },
+    "overpayment": {
+      "header": "Overpayment",
+      "text": "The difference between all payments that you pay to the bank and the amount of the loan. Characterizes the cost of the loan. In other words, this is the money that you have to give later, minus this money, which the bank gives you now. In total, you pay the amount of all the money that you carry to the bank."
+    }
   }
 }
