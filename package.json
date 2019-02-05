@@ -20,6 +20,7 @@
     "prop-types": "^15.6.2",
     "react": "16.6.3",
     "react-native": "0.58.3",
+    "react-native-iap": "^2.4.0-beta12",
     "react-native-languages": "^3.0.0",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-pie": "^0.5.0",
