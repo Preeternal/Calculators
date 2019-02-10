@@ -667,7 +667,6 @@ const styles = {
   welcome: {
     fontSize: 17,
     margin: 10,
-    // alignSelf: 'center',
     textAlign: 'center',
   },
   // instructions: {
