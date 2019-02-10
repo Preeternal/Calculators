@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 
 import {
   Header, Body, Title, Left, Icon, Right,
@@ -20,7 +21,9 @@ const CustomHeader = props => (
       <Icon name="ios-menu" style={{ color: 'white' }} onPress={() => props.drawerOpen()} />
     </Left>
     <Body>
-      <Title style={{ color: 'white' }}>{props.title}</Title>
+      <Title style={{ color: 'white', width: 0.3 * Dimensions.get('window').width }}>
+        {props.title}
+      </Title>
     </Body>
     <Right />
   </Header>

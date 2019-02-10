@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Text, View, Image, ScrollView, Dimensions, TouchableOpacity, Alert, InteractionManager,
   ActivityIndicator,
@@ -348,7 +348,7 @@ class Credit extends Component<Props, State> {
     };
 
     return (
-      <View style={{ flex: 1 }}>
+      <Fragment>
         <CustomHeader title={strings('titleCredit')} drawerOpen={() => this.props.navigation.openDrawer()} />
         { this.state.didFinishInitialAnimation ? (
           <ScrollView style={{ flex: 1 }}>
@@ -637,7 +637,7 @@ class Credit extends Component<Props, State> {
             )}
 
             {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
-          && this.props.creditPlatez !== 1 && (
+          && this.props.creditPlatez !== 1 && table && (
             <ScrollView horizontal onScroll={this.handleScroll}>
               <Card>
                 {/* <Header headerText="Выписка со счёта" /> */}
@@ -668,11 +668,11 @@ class Credit extends Component<Props, State> {
             justifyContent: 'center',
           }}
           >
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color={textColor} />
           </View>
         )
         }
-      </View>
+      </Fragment>
 
     );
   }

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Text, View, Image, ScrollView, InteractionManager, ActivityIndicator,
 } from 'react-native';
@@ -27,8 +27,6 @@ import {
   countryIpTriggered,
 } from '../../actions';
 
-// import store from '../../store';
-
 import {
   Input,
   InputDate,
@@ -53,13 +51,6 @@ import {
 import CustomHeader from '../Common/CustomHeader';
 
 import images from '../../images';
-
-// import {
-//          principal2 as principal2Selector,
-//          principal3 as principal3Selector
-//        } from './src/lib/calculate';
-
-// const userLocaleCountryCode = DeviceInfo.getDeviceCountry();
 
 type Props = {
   principal: string,
@@ -94,6 +85,9 @@ type Props = {
   navigation: any
 };
 
+const textColor = '#525050';
+const activeTextColor = '#000000';
+
 type State = {
   didFinishInitialAnimation?: boolean,
   principalColor?: string,
@@ -121,22 +115,41 @@ class Depo extends Component<Props, State> {
     };
   };
 
-  // static navigationOptions = {
-  //   headerTitle: strings('titleDeposit'),
-  // };
-
   state = {
     didFinishInitialAnimation: false,
-    principalColor: '#525050',
-    interest1Color: '#525050',
-    interest2Color: '#525050',
-    prinplusColor: '#525050',
+    principalColor: textColor,
+    interest1Color: textColor,
+    interest2Color: textColor,
+    prinplusColor: textColor,
     isDatePickerVisible: false,
     isDatePicker2Visible: false,
     userCountryCode: currentLocale.substring(3),
   };
 
-  async componentWillMount() {
+  // async componentWillMount() {
+  //   if (!this.props.countryIP) {
+  //     await fetch(config.ipUrl)
+  //       .then(response => response.json())
+  //       .then((responseJson) => {
+  //         this.setState({
+  //           userCountryCode: responseJson.country_code,
+  //         });
+  //         switch (this.state.userCountryCode) {
+  //           case 'RU':
+  //             this.onCountryChange(0);
+  //             break;
+  //           case 'UA':
+  //             this.onCountryChange(2);
+  //             break;
+  //           default:
+  //             this.onCountryChange(1);
+  //         }
+  //         this.onCountryIpTrigger(true);
+  //       });
+  //   }
+  // }
+
+  async componentDidMount() {
     if (!this.props.countryIP) {
       await fetch(config.ipUrl)
         .then(response => response.json())
@@ -157,9 +170,6 @@ class Depo extends Component<Props, State> {
           this.onCountryIpTrigger(true);
         });
     }
-  }
-
-  componentDidMount() {
     // 1: Component is mounted off-screen
     InteractionManager.runAfterInteractions(() => {
       // 2: Component is done animating
@@ -173,11 +183,9 @@ class Depo extends Component<Props, State> {
     });
   }
 
-  // select = state => state.settings.country;
-
   onFocus = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#000000',
+      [`${input}Color`]: activeTextColor,
     });
     if (text === '0' || text === '0,00') {
       this.props[`${input}Changed`]('');
@@ -188,7 +196,7 @@ class Depo extends Component<Props, State> {
 
   onBlur = (input, text) => {
     this.setState({
-      [`${input}Color`]: '#525050',
+      [`${input}Color`]: textColor,
     });
     if (text === '') {
       this.props[`${input}Changed`]('0');
@@ -270,28 +278,6 @@ class Depo extends Component<Props, State> {
   }
 
   render() {
-    // // console.log(store.getState());
-    // // console.log(this.props.calculated);
-    // let currentValue;
-
-    // const handleChange = () => {
-    //   const previousValue = currentValue;
-    //   currentValue = this.select(store.getState());
-    //   // console.log(currentValue);
-    //   if (previousValue !== currentValue) {
-    //     console.log(
-    //       'Some deep nested property changed from',
-    //       previousValue,
-    //       'to',
-    //       currentValue,
-    //     );
-    //   }
-    // };
-    // // const unsubscribe = store.subscribe(handleChange);
-    // // unsubscribe();
-    // handleChange();
-
-
     const {
       topImage,
       welcome,
@@ -300,29 +286,11 @@ class Depo extends Component<Props, State> {
       pie,
       gauge,
       gaugeText,
-      // instructions
     } = styles;
-    // const { principal,
-    //   //principal2,
-    //   //principal3
-    // } = this.props;
-    // const principal2 = principal2Selector(this.props.principal);
-    // const principal3 = principal3Selector(this.props.principal);
 
     const {
       days1, srok, principal2, principal1, tax, adjunctionAll, table,
     } = this.props.calculated;
-
-    // const { days1, srok, payment, principal2, principal1, table } = calculate(
-    //   Number(number(this.props.principal)),
-    //   this.props.dateOpen,
-    //   this.props.dateClosed,
-    //   Number(number(this.props.interest1)) / 365 / 100,
-    //   Number(number(this.props.interest2)) / 365 / 100,
-    //   this.props.platez,
-    //   this.props.plusperiod,
-    //   Number(number(this.props.prinplus))
-    // );
 
     const radio = [
       {
@@ -350,15 +318,8 @@ class Depo extends Component<Props, State> {
       maximumFractionDigits: 2,
     };
 
-    // console.log(dateQ.toLocaleString(currentLocale, options));
-
-    // console.log(currentLocale);
-    // console.log(optionsN);
-    // const num = 23234324324234.324234234;
-    // console.log(num.toLocaleString(currentLocale, optionsN));
-
     return (
-      <View style={{ flex: 1 }}>
+      <Fragment>
         <CustomHeader title={strings('titleDeposit')} drawerOpen={() => this.props.navigation.openDrawer()} />
         { this.state.didFinishInitialAnimation ? (
           <ScrollView style={{ flex: 1 }}>
@@ -528,57 +489,57 @@ class Depo extends Component<Props, State> {
             </Card>
 
             {srok && Number(number(this.props.principal)) !== 0 && (
-              <Card>
-                {/* <Header headerText="Информация о выплатах" /> */}
-                <Header headerText={strings('result.header')} />
+            <Card>
+              {/* <Header headerText="Информация о выплатах" /> */}
+              <Header headerText={strings('result.header')} />
 
-                <ResultSrok
+              <ResultSrok
                   // label={`Срок депозита ${srok}`}
-                  label={`${strings('result.srok.srok')} ${srok}`}
-                />
+                label={`${strings('result.srok.srok')} ${srok}`}
+              />
 
-                <Result
+              <Result
                   // label="Сумма вклада
-                  label={`${strings('input.principal.label')}`}
+                label={`${strings('input.principal.label')}`}
                   // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
                   //   2
                   // )}`}
-                  resultData={Number(number(this.props.principal)).toLocaleString(
-                    currentLocale,
-                    optionsN,
-                  )}
-                  resultPieStyle={{
-                    borderLeftWidth: 5,
-                    borderColor: '#ddd',
-                  }}
-                />
+                resultData={Number(number(this.props.principal)).toLocaleString(
+                  currentLocale,
+                  optionsN,
+                )}
+                resultPieStyle={{
+                  borderLeftWidth: 5,
+                  borderColor: '#ddd',
+                }}
+              />
 
-                {adjunctionAll > 0 ? (
-                  <Result
-                    // label="Сумма пополнений"
-                    label={strings('result.adjunctionAll')}
-                    resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
-                    resultPieStyle={{
-                      borderLeftWidth: 5,
-                      borderColor: '#a2aaa4',
-                    }}
-                  />
-                ) : null}
-
+              {adjunctionAll > 0 ? (
                 <Result
+                    // label="Сумма пополнений"
+                  label={strings('result.adjunctionAll')}
+                  resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
+                  resultPieStyle={{
+                    borderLeftWidth: 5,
+                    borderColor: '#a2aaa4',
+                  }}
+                />
+              ) : null}
+
+              <Result
                   // label="Начисленные проценты"
-                  label={strings('result.principal2')}
+                label={strings('result.principal2')}
                   // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
                   //   2
                   // )}`}
-                  resultData={principal2.toLocaleString(currentLocale, optionsN)}
-                  resultPieStyle={{
-                    borderLeftWidth: 5,
-                    borderColor: '#569e69',
-                  }}
-                />
+                resultData={principal2.toLocaleString(currentLocale, optionsN)}
+                resultPieStyle={{
+                  borderLeftWidth: 5,
+                  borderColor: '#569e69',
+                }}
+              />
 
-                {this.props.taxCheck === 0 && this.props.country !== 1
+              {this.props.taxCheck === 0 && this.props.country !== 1
                 && <Result
                   // label="Налоги"
                   label={strings('result.taxes')}
@@ -590,55 +551,55 @@ class Depo extends Component<Props, State> {
                 />
                 }
 
-                {Number(number(this.props.principal)) !== 0 && (
-                  <CardSection>
-                    <View style={pieContainer}>
-                      <View
-                        style={{
-                          flex: 1.9,
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Text>
-                          {/* Сумма вклада с процентами */}
-                          {strings('result.pie')}
-                        </Text>
-                      </View>
-                      <View style={pie}>
-                        <Pie
-                          radius={65}
-                          innerRadius={59}
-                          series={[
-                            Number(number(this.props.principal)) * 100 / (principal1 + tax),
-                            adjunctionAll * 100 / (principal1 + tax),
-                            principal2 * 100 / (principal1 + tax),
-                            tax * 100 / (principal1 + tax),
-                          ]}
-                          colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
-                          backgroundColor="#ddd"
-                        />
-                        <View style={gauge}>
-                          <Text style={gaugeText}>
-                            {principal1.toLocaleString(currentLocale, optionsN)}
-                          </Text>
-                        </View>
-                      </View>
+              {Number(number(this.props.principal)) !== 0 && (
+              <CardSection>
+                <View style={pieContainer}>
+                  <View
+                    style={{
+                      flex: 1.9,
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Text>
+                      {/* Сумма вклада с процентами */}
+                      {strings('result.pie')}
+                    </Text>
+                  </View>
+                  <View style={pie}>
+                    <Pie
+                      radius={65}
+                      innerRadius={59}
+                      series={[
+                        Number(number(this.props.principal)) * 100 / (principal1 + tax),
+                        adjunctionAll * 100 / (principal1 + tax),
+                        principal2 * 100 / (principal1 + tax),
+                        tax * 100 / (principal1 + tax),
+                      ]}
+                      colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
+                      backgroundColor="#ddd"
+                    />
+                    <View style={gauge}>
+                      <Text style={gaugeText}>
+                        {principal1.toLocaleString(currentLocale, optionsN)}
+                      </Text>
                     </View>
-                  </CardSection>
-                )}
-              </Card>
+                  </View>
+                </View>
+              </CardSection>
+              )}
+            </Card>
             )}
 
-            {srok && Number(number(this.props.principal)) !== 0 && (
-              <Card>
-                {/* <Header headerText="Выписка со счёта" /> */}
-                <Header headerText={strings('table.header')} />
-                <Table
-                  currency={radio[this.props.radio].label}
-                  value={table}
-                  language={this.props.language}
-                />
-              </Card>
+            {srok && Number(number(this.props.principal)) !== 0 && table && (
+            <Card>
+              {/* <Header headerText="Выписка со счёта" /> */}
+              <Header headerText={strings('table.header')} />
+              <Table
+                currency={radio[this.props.radio].label}
+                value={table}
+                language={this.props.language}
+              />
+            </Card>
             )}
           </ScrollView>
         ) : (
@@ -647,50 +608,37 @@ class Depo extends Component<Props, State> {
             justifyContent: 'center',
           }}
           >
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color={textColor} />
           </View>
         )
         }
-      </View>
+      </Fragment>
 
     );
   }
 }
 
 const styles = {
-  // container: {
-  //
-  //     justifyContent: 'space-between',
-  //     alignItems: 'flex-start',
-  //     marginLeft: 10,
-  // },
   welcome: {
     fontSize: 17,
     margin: 10,
     textAlign: 'center',
   },
-  // instructions: {
-  //   color: '#333333',
-  //   marginBottom: 5,
-  // },
   topImage: {
     width: 193,
     height: 110,
     alignSelf: 'center',
   },
   radioStyle: {
-    // color: 'gray',
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   pieContainer: {
-    // alignItems: 'center',
     paddingLeft: 10,
     paddingRight: 5,
     flex: 2,
     flexDirection: 'row',
-    // paddingLeft: 70
   },
   pie: {
     flex: 1.1,
@@ -698,19 +646,14 @@ const styles = {
     paddingRight: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    // flexDirection: 'row',
   },
   gauge: {
     position: 'absolute',
-    // width: 100,
-    // height: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   gaugeText: {
     backgroundColor: 'transparent',
-    // color: '#000',
-    // fontSize: 18
   },
 };
 

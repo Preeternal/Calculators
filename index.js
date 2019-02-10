@@ -3,12 +3,12 @@ import { Provider } from 'react-redux';
 import { AppRegistry } from 'react-native';
 
 import store from './src/store';
-import Navigator from './src/screens';
+import App from './src/screens';
 import { name as appName } from './app';
 
 const Start = () => (
   <Provider store={store}>
-    <Navigator />
+    <App />
   </Provider>
 );
 
