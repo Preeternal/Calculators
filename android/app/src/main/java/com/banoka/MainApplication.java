@@ -3,6 +3,7 @@ package com.banoka;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.dooboolab.RNIap.RNIapPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactcommunity.rnlanguages.RNLanguagesPackage;
 import com.facebook.react.ReactNativeHost;
@@ -23,7 +24,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new VectorIconsPackage(), new RNLanguagesPackage());
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNIapPackage(), new VectorIconsPackage(), new RNLanguagesPackage());
     }
 
     @Override

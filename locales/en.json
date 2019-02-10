@@ -172,7 +172,12 @@
     "language": "Language",
     "country": "Country",
     "resident": "resident of the Russian Federation",
-    "non-resident": "non-resident of the Russian Federation"
+    "non-resident": "non-resident of the Russian Federation",
+    "donat": {
+      "header": "Support the project",
+      "for": "for",
+      "thanks": "Thank you for the support!"
+    }
   },
   "help": {
     "header": "Help",
@@ -206,7 +211,7 @@
     },
     "overpayment": {
       "header": "Overpayment",
-      "text": "The difference between all payments that you pay to the bank and the amount of the loan. Characterizes the cost of the loan. In other words, this is the money that you have to give later, minus this money, which the bank gives you now. In total, you pay the amount of all the money that you carry to the bank."
+      "text": "The difference between all payments that you pay to the bank and the amount of the loan. Characterizes the cost of the loan. In other words, this is the money that you have to give later, minus this money, which the bank gives you now."
     }
   }
 }
