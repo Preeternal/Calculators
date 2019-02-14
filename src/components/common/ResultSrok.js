@@ -9,9 +9,6 @@ const ResultSrok = ({ label }) => {
       <View style={labelStyle}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
-      {/* <View style={resultStyle}>
-        <Text style={resultDataStyle}>{resultData}</Text>
-      </View> */}
     </View>
   );
 };
@@ -35,24 +32,6 @@ const styles = {
     textAlign: 'center',
     lineHeight: 15,
   },
-  // resultStyle: {
-  //   flex: 1,
-  //   //textDecorationLine: 'underline',
-  //   height: 52,
-  //   borderColor: 'gray',
-  //   //borderWidth: 1,
-  //   borderRightWidth: 1,
-  //   borderLeftWidth: 0.5,
-  //   borderTopWidth: 0.7,
-  //   borderBottomWidth: 0.7,
-  //   justifyContent: 'center'
-  // },
-  // resultDataStyle: {
-  //   fontSize: 15,
-  //   //color: '#525050',
-  //   paddingLeft: 10,
-  //   paddingRight: 5,
-  // }
 };
 
 export { ResultSrok };
