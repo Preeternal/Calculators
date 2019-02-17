@@ -56,6 +56,7 @@ class Settings extends Component {
       // console.log(availableProducts);
     } catch (err) {
       console.warn(err.code, err.message);
+      // throw new Error('Ошибка');
     }
   }
 
@@ -81,12 +82,24 @@ class Settings extends Component {
         key: 'Help',
       });
       this.props.navigation.dispatch(setHelpLabel);
+      // const screens = ['Depo', 'Credit', 'Help', 'Settings'];
+      // screens.forEach(this.resetScreens);
     }
   }
 
   componentWillUnmount() {
     RNIap.endConnection();
   }
+
+  // resetScreens = (screen) => {
+  //   const action = NavigationActions.navigate({
+  //     routeName: screen,
+  //     params: {},
+  //     // action: NavigationActions.init(),
+  //     action: this.forceUpdate(),
+  //   });
+  //   this.props.navigation.dispatch(action);
+  // };
 
   buyItem = async (sku) => {
     // console.info(`buyItem: ${sku}`);
@@ -111,6 +124,7 @@ class Settings extends Component {
       // });
     }
   };
+
 
   onLanguageChange = (value) => {
     this.props.languageChanged(value);
