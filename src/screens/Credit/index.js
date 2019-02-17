@@ -525,7 +525,8 @@ class Credit extends Component<Props, State> {
             </TableSection>
           </Card>
 
-          {Number(this.props.creditSrok) > 0 && !!creditDateClosed && Number(number(this.props.creditPrincipal)) !== 0
+          {Number(this.props.creditSrok) > 0 && !!creditDateClosed
+            && Number(number(this.props.creditPrincipal)) !== 0
             && (
             <Card>
               {/* Информация о платежах */}
