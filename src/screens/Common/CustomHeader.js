@@ -19,7 +19,7 @@ const CustomHeader = props => (
   >
     <Left>
       <Button transparent onPress={() => props.drawerOpen()}>
-        <Icon name="ios-menu" style={{ color: 'white' }} />
+        <Icon name="ios-menu" style={{ fontSize: 30, color: 'white' }} />
       </Button>
     </Left>
     <Body>
