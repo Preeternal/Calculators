@@ -116,7 +116,6 @@ const styles = {
     backgroundColor: '#f1f1f1',
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'stretch',
   },
   renderStyle: {

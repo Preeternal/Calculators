@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Text, View, Image, ScrollView, Dimensions, TouchableOpacity, Alert, InteractionManager,
   ActivityIndicator,
@@ -79,7 +79,7 @@ type Props = {
   radioPressed: typeof radioPressed,
 
   calculated: typeof creditCalculate,
-  navigation: any
+  navigation: any,
 };
 
 type State = {
@@ -348,126 +348,127 @@ class Credit extends Component<Props, State> {
     };
 
     return (
-      <View style={{ flex: 1 }}>
+      <Fragment>
         <CustomHeader title={strings('titleCredit')} drawerOpen={() => this.props.navigation.openDrawer()} />
-        { this.state.didFinishInitialAnimation ? (
-          <ScrollView style={{ flex: 1 }}>
-            <Card>
-              {/* <Header headerText="Депозитный калькулятор" /> */}
-              <Header headerText={strings('headerCredit')} />
-              <CardSection>
-                <Image source={images.logo} style={topImage} />
-                <Text style={welcome}>
-                  {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
-                  {!Number(this.props.creditSrok) ? strings('welcome.error') : strings('credit.go')}
-                </Text>
+        {/* { this.state.didFinishInitialAnimation ? ( */}
+        <ScrollView key={this.props.language} style={{ flex: 1 }}>
+          <Card>
+            {/* <Header headerText="Депозитный калькулятор" /> */}
+            <Header headerText={strings('headerCredit')} />
+            <CardSection>
+              <Image source={images.logo} style={topImage} />
+              <Text style={welcome}>
+                {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
+                {!Number(this.props.creditSrok) ? strings('welcome.error') : strings('credit.go')}
+              </Text>
 
-                <RadioForm
-                  style={radioStyle}
+              <RadioForm
+                style={radioStyle}
                   // ref="radioForm"
-                  radio_props={radio}
-                  initial={this.props.radio}
-                  formHorizontal
-                  labelHorizontal
-                  buttonColor="#757171"
-                  selectedButtonColor="#525050"
-                  labelColor="#757171"
-                  selectedLabelColor="#525050"
-                  animation
-                  onPress={(value) => {
-                    this.onRadioPress(value);
+                radio_props={radio}
+                initial={this.props.radio}
+                formHorizontal
+                labelHorizontal
+                buttonColor="#757171"
+                selectedButtonColor="#525050"
+                labelColor="#757171"
+                selectedLabelColor="#525050"
+                animation
+                onPress={(value) => {
+                  this.onRadioPress(value);
+                }}
+              />
+            </CardSection>
+
+            <TableSection>
+              <Input
+                  // placeholder="введите сумму"
+                placeholder={strings('input.principal.placeholder')}
+                  // label="Сумма кредита"
+                label={`${strings('credit.input.principal.label')}, ${radio[
+                  this.props.radio
+                ].label.charAt(0)}`}
+                onChangeText={this.onCreditPrincipalChange}
+                onFocus={() => this.onFocus('creditPrincipal', this.props.creditPrincipal)}
+                onBlur={() => this.onBlur('creditPrincipal', this.props.creditPrincipal)}
+                appInputStyle={{ color: this.state.creditPrincipalColor }}
+                value={this.props.creditPrincipal}
+              />
+
+              <Input
+                  // placeholder="годовая процентная ставка"
+                placeholder={strings('input.interest1.placeholder')}
+                  // label="Процентная ставка"
+                label={strings('credit.input.interest.label')}
+                onChangeText={this.onCreditInterestChange}
+                onBlur={() => this.onBlur('creditInterest', this.props.creditInterest)}
+                onFocus={() => this.onFocus('creditInterest', this.props.creditInterest)}
+                appInputStyle={{ color: this.state.creditInterestColor }}
+                value={this.props.creditInterest}
+              />
+
+              <InputDate
+                  // label="Дата выдачи кредита"
+                label={strings('credit.input.dateOpen.label')}
+                value={initDate(this.props.creditDateOpen)}
+                onRootPress={() => this.setDatePickerVisible(true)}
+                onPress={() => this.setDatePickerVisible(true)}
+              />
+              <DateTimePicker
+                date={this.props.creditDateOpen}
+                isVisible={this.state.isDatePickerVisible}
+                onConfirm={this.onCreditDateOpenChange}
+                onCancel={() => this.setDatePickerVisible(false)}
+                datePickerModeAndroid="spinner"
+              />
+
+              <InputTextPicker
+                  // placeholder="Срок кредита"
+                placeholder={strings('credit.input.srok.placeholder')}
+                  // label="Процентная ставка"
+                label={strings('credit.input.srok.label')}
+                onChangeText={this.onCreditSrokValueChange}
+                onBlur={() => this.onBlurTextPicker('creditSrokValue', this.props.creditSrok)}
+                onFocus={() => this.onFocusTextPicker('creditSrokValue', this.props.creditSrok)}
+                appInputStyle={{ color: this.state.creditSrokValueColor }}
+                value={this.props.creditSrok}
+                  // options={['месяцы', 'годы']}
+                options={[strings('credit.input.srok.options.months'), strings('credit.input.srok.options.years')]}
+                selectedValue={this.props.creditSrokOption}
+                onValueChange={this.onCreditSrokOptionSelect}
+              />
+
+              <InputPicker
+                  // label="Вид платежей"
+                label={strings('credit.input.platez.label')}
+                  // options={['Аннуитет', 'Единовременно', 'Дифференцировано']}
+                options={[strings('credit.input.platez.options.annuity'), strings('credit.input.platez.options.lump'), strings('credit.input.platez.options.differentiated')]}
+                pickerWidth={this.state.pickerWidth}
+                selectedValue={this.props.creditPlatez}
+                onValueChange={this.onCreditPlatezSelect}
+              />
+
+              <CardSection addStyle={{ backgroundColor: '#f1f1f1', justifyContent: 'center' }}>
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row', flex: 1, justifyContent: 'center',
                   }}
-                />
+                  onPress={this.onCommissionTouch}
+                >
+                  <Text>
+                    {`${strings('credit.result.comPayments')}  `}
+                  </Text>
+                  <Icon
+                    name={!this.state.commission ? 'md-arrow-dropdown' : 'md-arrow-dropup'}
+                    style={{ fontSize: 20, color: '#525050' }}
+                  />
+                </TouchableOpacity>
               </CardSection>
 
-              <TableSection>
-                <Input
-                  // placeholder="введите сумму"
-                  placeholder={strings('input.principal.placeholder')}
-                  // label="Сумма кредита"
-                  label={`${strings('credit.input.principal.label')}, ${radio[
-                    this.props.radio
-                  ].label.charAt(0)}`}
-                  onChangeText={this.onCreditPrincipalChange}
-                  onFocus={() => this.onFocus('creditPrincipal', this.props.creditPrincipal)}
-                  onBlur={() => this.onBlur('creditPrincipal', this.props.creditPrincipal)}
-                  appInputStyle={{ color: this.state.creditPrincipalColor }}
-                  value={this.props.creditPrincipal}
-                />
-
-                <Input
-                  // placeholder="годовая процентная ставка"
-                  placeholder={strings('input.interest1.placeholder')}
-                  // label="Процентная ставка"
-                  label={strings('credit.input.interest.label')}
-                  onChangeText={this.onCreditInterestChange}
-                  onBlur={() => this.onBlur('creditInterest', this.props.creditInterest)}
-                  onFocus={() => this.onFocus('creditInterest', this.props.creditInterest)}
-                  appInputStyle={{ color: this.state.creditInterestColor }}
-                  value={this.props.creditInterest}
-                />
-
-                <InputDate
-                  // label="Дата выдачи кредита"
-                  label={strings('credit.input.dateOpen.label')}
-                  value={initDate(this.props.creditDateOpen)}
-                  onRootPress={() => this.setDatePickerVisible(true)}
-                  onPress={() => this.setDatePickerVisible(true)}
-                />
-                <DateTimePicker
-                  date={this.props.creditDateOpen}
-                  isVisible={this.state.isDatePickerVisible}
-                  onConfirm={this.onCreditDateOpenChange}
-                  onCancel={() => this.setDatePickerVisible(false)}
-                  datePickerModeAndroid="spinner"
-                />
-
-                <InputTextPicker
-                  // placeholder="Срок кредита"
-                  placeholder={strings('credit.input.srok.placeholder')}
-                  // label="Процентная ставка"
-                  label={strings('credit.input.srok.label')}
-                  onChangeText={this.onCreditSrokValueChange}
-                  onBlur={() => this.onBlurTextPicker('creditSrokValue', this.props.creditSrok)}
-                  onFocus={() => this.onFocusTextPicker('creditSrokValue', this.props.creditSrok)}
-                  appInputStyle={{ color: this.state.creditSrokValueColor }}
-                  value={this.props.creditSrok}
-                  // options={['месяцы', 'годы']}
-                  options={[strings('credit.input.srok.options.months'), strings('credit.input.srok.options.years')]}
-                  selectedValue={this.props.creditSrokOption}
-                  onValueChange={this.onCreditSrokOptionSelect}
-                />
-
-                <InputPicker
-                  // label="Вид платежей"
-                  label={strings('credit.input.platez.label')}
-                  // options={['Аннуитет', 'Единовременно', 'Дифференцировано']}
-                  options={[strings('credit.input.platez.options.annuity'), strings('credit.input.platez.options.lump'), strings('credit.input.platez.options.differentiated')]}
-                  pickerWidth={this.state.pickerWidth}
-                  selectedValue={this.props.creditPlatez}
-                  onValueChange={this.onCreditPlatezSelect}
-                />
-
-                <CardSection addStyle={{ backgroundColor: '#f1f1f1' }}>
-                  <TouchableOpacity
-                    style={{ justifyContent: 'center', flexDirection: 'row' }}
-                    onPress={this.onCommissionTouch}
-                  >
-                    <Text>
-                      {`${strings('credit.result.comPayments')}  `}
-                    </Text>
-                    <Icon
-                      name={!this.state.commission ? 'md-arrow-dropdown' : 'md-arrow-dropup'}
-                      style={{ fontSize: 20, color: '#525050' }}
-                    />
-                  </TouchableOpacity>
-                </CardSection>
-
-                { this.state.commission && (
+              { this.state.commission && (
                 <InputTextPicker
                   // placeholder="Единоразовая комиссия"
                   placeholder={strings('credit.input.edinСom.placeholder')}
-                  // label="Процентная ставка"
                   label={strings('credit.input.edinСom.label')}
                   labelTextStyle={{ flex: 2.2 }}
                   onChangeText={this.onCreditEdinComValueChange}
@@ -480,13 +481,12 @@ class Credit extends Component<Props, State> {
                   selectedValue={this.props.creditEdinComOption}
                   onValueChange={this.onCreditEdinComOptionSelect}
                 />
-                )}
-                { this.props.creditPlatez !== 1 && this.state.commission && (
+              )}
+              { this.props.creditPlatez !== 1 && this.state.commission && (
                 <View>
                   <Input
-                  // placeholder="введите %"
                     placeholder={strings('credit.input.startCostCom.placeholder')}
-                  // label="Ежемесячная комиссия на нач. стоимость"
+                    // label="Ежемесячная комиссия на нач. стоимость"
                     label={strings('credit.input.startCostCom.label')}
                     onChangeText={this.onCreditStartCostComChange}
                     onFocus={() => this.onFocus('creditStartCostCom', this.props.creditStartCostCom)}
@@ -496,7 +496,6 @@ class Credit extends Component<Props, State> {
                   />
 
                   <Input
-                    // placeholder="введите %"
                     placeholder={strings('credit.input.startCostCom.placeholder')}
                     // label="Ежемесячная комиссия на остаток долга"
                     label={strings('credit.input.finCostCom.label')}
@@ -508,7 +507,6 @@ class Credit extends Component<Props, State> {
                   />
 
                   <Input
-                    // placeholder="введите %"
                     placeholder={strings('credit.input.startCostCom.placeholder')}
                     // label="Ежемесячная комиссия за ведение счёта"
                     label={`${strings('credit.input.acCountCom.label')} ${radio[
@@ -521,13 +519,14 @@ class Credit extends Component<Props, State> {
                     value={this.props.creditAcCountCom}
                   />
                 </View>
-                )}
-                {/* )} */}
+              )}
+              {/* )} */}
 
-              </TableSection>
-            </Card>
+            </TableSection>
+          </Card>
 
-            {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
+          {Number(this.props.creditSrok) > 0 && !!creditDateClosed
+            && Number(number(this.props.creditPrincipal)) !== 0
             && (
             <Card>
               {/* Информация о платежах */}
@@ -634,9 +633,10 @@ class Credit extends Component<Props, State> {
               </CardSection>
               )}
             </Card>
+
             )}
 
-            {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
+          {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
           && this.props.creditPlatez !== 1 && (
             <ScrollView horizontal onScroll={this.handleScroll}>
               <Card>
@@ -652,27 +652,29 @@ class Credit extends Component<Props, State> {
                   }
                   innerStyle={{ width: Dimensions.get('window').width - 10, marginLeft: this.state.detailsHeaderMargin }}
                 />
-                <CreditTable
-                  currency={radio[this.props.radio].label}
-                  value={table}
-                  language={this.props.language}
-                  width={this.state.width}
-                />
+                { this.state.didFinishInitialAnimation ? (
+                  <CreditTable
+                    currency={radio[this.props.radio].label}
+                    value={table}
+                    language={this.props.language}
+                    width={this.state.width}
+                  />
+                ) : (
+                  <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                  }}
+                  >
+                    <ActivityIndicator size="large" color={textColor} />
+                  </View>
+                )
+        }
               </Card>
             </ScrollView>
-            )}
-          </ScrollView>
-        ) : (
-          <View style={{
-            flex: 1,
-            justifyContent: 'center',
-          }}
-          >
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        )
-        }
-      </View>
+          )}
+        </ScrollView>
+
+      </Fragment>
 
     );
   }

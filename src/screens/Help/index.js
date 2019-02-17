@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Text, View, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
 import { strings } from '../../../locales/i18n';
@@ -7,7 +8,7 @@ import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 import { CardSection, Card, Header } from '../../components/common';
 
-export default class extends PureComponent {
+class Help extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
@@ -22,7 +23,7 @@ export default class extends PureComponent {
   render() {
     const { main, bold } = styles;
     return (
-      <View style={{ flex: 1 }}>
+      <View key={this.props.language} style={{ flex: 1 }}>
         <CustomHeader
           title={strings('help.header')}
           drawerOpen={() => this.props.navigation.openDrawer()}
@@ -99,3 +100,8 @@ const styles = {
     fontWeight: 'bold',
   },
 };
+
+const mapStateToProps = state => ({
+  language: state.settings.language,
+});
+export default connect(mapStateToProps)(Help);

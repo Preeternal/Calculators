@@ -1,7 +1,8 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 
 import {
-  Header, Body, Title, Left, Icon, Right,
+  Header, Body, Title, Left, Icon, Right, Button,
 } from 'native-base';
 
 const CustomHeader = props => (
@@ -13,14 +14,27 @@ const CustomHeader = props => (
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       elevation: 2,
-      paddingLeft: 12,
+      // paddingLeft: 12,
     }}
   >
     <Left>
-      <Icon name="ios-menu" style={{ color: 'white' }} onPress={() => props.drawerOpen()} />
+      <Button transparent onPress={() => props.drawerOpen()}>
+        <Icon name="ios-menu" style={{ fontSize: 30, color: 'white' }} />
+      </Button>
     </Left>
     <Body>
-      <Title style={{ color: 'white' }}>{props.title}</Title>
+      <Title
+        style={{
+          color: 'white',
+          width:
+            Dimensions.get('window').width < Dimensions.get('window').height
+              ? 0.3 * Dimensions.get('window').width
+              : 0.2 * Dimensions.get('window').width,
+          textAlign: 'left',
+        }}
+      >
+        {props.title}
+      </Title>
     </Body>
     <Right />
   </Header>

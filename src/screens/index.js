@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator, createAppContainer } from 'react-navigation';
 
 import Depo from './Depo';
 import Credit from './Credit';
@@ -17,6 +17,8 @@ const Navigator = createDrawerNavigator(
     initialRouteName: 'Depo',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
+    // drawerBackgroundColor: 'transparent',
+    // unmountInactiveRoutes: true,
     contentOptions: {
       activeTintColor: '#000000',
       inactiveTintColor: '#525050',
@@ -88,4 +90,6 @@ const Navigator = createDrawerNavigator(
 //   },
 // );
 
-export default Navigator;
+const App = createAppContainer(Navigator);
+
+export default App;
