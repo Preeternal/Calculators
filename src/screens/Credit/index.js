@@ -363,6 +363,7 @@ class Credit extends Component<Props, State> {
               </Text>
 
               <RadioForm
+                key={this.props.radio}
                 style={radioStyle}
                   // ref="radioForm"
                 radio_props={radio}
