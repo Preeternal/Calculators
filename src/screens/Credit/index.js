@@ -469,7 +469,9 @@ class Credit extends Component<Props, State> {
               { this.state.commission && (
                 <InputTextPicker
                   // placeholder="Единоразовая комиссия"
-                  placeholder={strings('credit.input.edinСom.placeholder')}
+                  placeholder={!this.props.creditEdinComOption
+                    ? strings('credit.input.startCostCom.placeholder')
+                    : strings('input.principal.placeholder')}
                   label={strings('credit.input.edinСom.label')}
                   labelTextStyle={{ flex: 2.2 }}
                   onChangeText={this.onCreditEdinComValueChange}
@@ -508,7 +510,7 @@ class Credit extends Component<Props, State> {
                   />
 
                   <Input
-                    placeholder={strings('credit.input.startCostCom.placeholder')}
+                    placeholder={strings('input.principal.placeholder')}
                     // label="Ежемесячная комиссия за ведение счёта"
                     label={`${strings('credit.input.acCountCom.label')} ${radio[
                       this.props.radio
