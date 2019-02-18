@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
+import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
@@ -25,6 +26,7 @@ import {
   taxRateSelected,
   countryChanged,
   countryIpTriggered,
+  languageChanged,
 } from '../../actions';
 
 import {
@@ -80,6 +82,7 @@ type Props = {
   taxRateSelected: typeof taxRateSelected,
   countryChanged: typeof countryChanged,
   countryIpTriggered: typeof countryIpTriggered,
+  languageChanged: typeof languageChanged,
 
   calculated: typeof calculate,
   navigation: any
@@ -97,6 +100,13 @@ type State = {
   isDatePickerVisible?: boolean,
   isDatePicker2Visible?: boolean,
   userCountryCode?: string,
+};
+
+const pickerValue = (locale: string) => {
+  if (locale.substring(0, 2) === 'ru') {
+    return 0;
+  }
+  return 1;
 };
 
 class Depo extends Component<Props, State> {
@@ -181,7 +191,13 @@ class Depo extends Component<Props, State> {
         didFinishInitialAnimation: true,
       });
     });
+
+    this.handleLanguageChange();
   }
+
+  handleLanguageChange = () => {
+    this.props.languageChanged(pickerValue(i18n.currentLocale()));
+  };
 
   onFocus = (input, text) => {
     this.setState({
@@ -718,5 +734,6 @@ const mapDispatchToActions = {
   taxRateSelected,
   countryChanged,
   countryIpTriggered,
+  languageChanged,
 };
 export default connect(mapStateToProps, mapDispatchToActions)(Depo);
