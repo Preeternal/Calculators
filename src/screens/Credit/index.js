@@ -300,6 +300,8 @@ class Credit extends Component<Props, State> {
     }
   }
 
+  scrollView: any;
+
   render() {
     const {
       topImage,
@@ -641,20 +643,31 @@ class Credit extends Component<Props, State> {
 
           {Number(this.props.creditSrok) > 0 && Number(number(this.props.creditPrincipal)) !== 0
           && this.props.creditPlatez !== 1 && (
-            <ScrollView horizontal onScroll={this.handleScroll}>
+            <ScrollView
+              horizontal
+              onScroll={this.handleScroll}
+              ref={(scrollView) => { this.scrollView = scrollView; }}
+            >
               <Card>
-                {/* <Header headerText="Выписка со счёта" /> */}
-                <Header
-                  headerText={
-                    // eslint-disable-next-line no-nested-ternary
-                    Dimensions.get('window').width < Dimensions.get('window').height
-                      ? this.state.detailsHeaderMargin === 0
-                        ? `${strings('credit.table.header')} >>`
-                        : `<< ${strings('credit.table.header')}`
-                      : strings('credit.table.header')
-                  }
-                  innerStyle={{ width: Dimensions.get('window').width - 10, marginLeft: this.state.detailsHeaderMargin }}
-                />
+                <TouchableOpacity
+                  onPress={() => (this.state.detailsHeaderMargin === 0
+                    ? this.scrollView.scrollToEnd({ animated: true })
+                    : this.scrollView.scrollTo({ x: 0, y: 0, animated: true }))
+                }
+                >
+                  {/* <Header headerText="Выписка со счёта" /> */}
+                  <Header
+                    headerText={
+                      // eslint-disable-next-line no-nested-ternary
+                      Dimensions.get('window').width < Dimensions.get('window').height
+                        ? this.state.detailsHeaderMargin === 0
+                          ? `${strings('credit.table.header')} >>`
+                          : `<< ${strings('credit.table.header')}`
+                        : strings('credit.table.header')
+                    }
+                    innerStyle={{ width: Dimensions.get('window').width - 10, marginLeft: this.state.detailsHeaderMargin }}
+                  />
+                </TouchableOpacity>
                 { this.state.didFinishInitialAnimation ? (
                   <CreditTable
                     currency={radio[this.props.radio].label}
