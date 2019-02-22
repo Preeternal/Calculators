@@ -136,49 +136,30 @@ class Depo extends Component<Props, State> {
     userCountryCode: currentLocale.substring(3),
   };
 
-  // async componentWillMount() {
-  //   if (!this.props.countryIP) {
-  //     await fetch(config.ipUrl)
-  //       .then(response => response.json())
-  //       .then((responseJson) => {
-  //         this.setState({
-  //           userCountryCode: responseJson.country_code,
-  //         });
-  //         switch (this.state.userCountryCode) {
-  //           case 'RU':
-  //             this.onCountryChange(0);
-  //             break;
-  //           case 'UA':
-  //             this.onCountryChange(2);
-  //             break;
-  //           default:
-  //             this.onCountryChange(1);
-  //         }
-  //         this.onCountryIpTrigger(true);
-  //       });
-  //   }
-  // }
-
   async componentDidMount() {
     if (!this.props.countryIP) {
-      await fetch(config.ipUrl)
-        .then(response => response.json())
-        .then((responseJson) => {
-          this.setState({
-            userCountryCode: responseJson.country_code,
+      try {
+        await fetch(config.ipUrl)
+          .then(response => response.json())
+          .then((responseJson) => {
+            this.setState({
+              userCountryCode: responseJson.country_code,
+            });
+            switch (this.state.userCountryCode) {
+              case 'RU':
+                this.onCountryChange(0);
+                break;
+              case 'UA':
+                this.onCountryChange(2);
+                break;
+              default:
+                this.onCountryChange(1);
+            }
+            this.onCountryIpTrigger(true);
           });
-          switch (this.state.userCountryCode) {
-            case 'RU':
-              this.onCountryChange(0);
-              break;
-            case 'UA':
-              this.onCountryChange(2);
-              break;
-            default:
-              this.onCountryChange(1);
-          }
-          this.onCountryIpTrigger(true);
-        });
+      } catch (err) {
+        console.warn(err.code, err.message);
+      }
     }
     // 1: Component is mounted off-screen
     InteractionManager.runAfterInteractions(() => {
