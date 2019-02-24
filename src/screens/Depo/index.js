@@ -319,7 +319,7 @@ class Depo extends Component<Props, State> {
       <Fragment>
         <CustomHeader title={strings('titleDeposit')} drawerOpen={() => this.props.navigation.openDrawer()} />
         {/* { this.state.didFinishInitialAnimation ? ( */}
-        <ScrollView key={this.props.language} style={{ flex: 1 }}>
+        <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
           <Card>
             {/* <Header headerText="Депозитный калькулятор" /> */}
             <Header headerText={strings('header')} />
