@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import {
   Header, Body, Title, Left, Icon, Right, Button,
@@ -7,6 +7,7 @@ import {
 
 const CustomHeader = props => (
   <Header
+    key={props.navigation.state.params ? props.navigation.state.params.DLabel : 'header'}
     androidStatusBarColor="#757171"
     style={{
       backgroundColor: '#525050',
@@ -14,7 +15,6 @@ const CustomHeader = props => (
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       elevation: 2,
-      // paddingLeft: 12,
     }}
   >
     <Left>
@@ -26,10 +26,6 @@ const CustomHeader = props => (
       <Title
         style={{
           color: 'white',
-          width:
-            Dimensions.get('window').width < Dimensions.get('window').height
-              ? 0.3 * Dimensions.get('window').width
-              : 0.2 * Dimensions.get('window').width,
           textAlign: 'left',
         }}
       >
@@ -40,4 +36,4 @@ const CustomHeader = props => (
   </Header>
 );
 
-export default CustomHeader;
+export default withNavigation(CustomHeader);
