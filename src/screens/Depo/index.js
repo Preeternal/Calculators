@@ -317,19 +317,11 @@ class Depo extends Component<Props, State> {
       maximumFractionDigits: 2,
     };
 
-    // console.log(this.props.navigation.state.params ? this.props.navigation.state.params.DLabel : 'depo');
-    // eslint-disable-next-line no-nested-ternary
-    // console.log(this.props.navigation.state.params
-    //   ? this.props.isFocused
-    //     ? 'depo' : `${this.props.language}${this.props.country}`
-    //   : 'depo');
-
     return (
       <Fragment>
         <CustomHeader title={strings('titleDeposit')} drawerOpen={() => this.props.navigation.openDrawer()} />
         { this.state.didFinishInitialAnimation ? (
           <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
-            {/* <ScrollView key={!this.props.isFocused ? `${this.props.language}${this.props.country}` : 'depo'} style={{ flex: 1 }}> */}
             <Card>
               {/* <Header headerText="Депозитный калькулятор" /> */}
               <Header headerText={strings('header')} />

@@ -80,7 +80,6 @@ type Props = {
 
   calculated: typeof creditCalculate,
   navigation: any,
-  isFocused: boolean,
 };
 
 type State = {
@@ -667,23 +666,12 @@ class Credit extends Component<Props, State> {
                     innerStyle={{ width: Dimensions.get('window').width - 10, marginLeft: this.state.detailsHeaderMargin }}
                   />
                 </TouchableOpacity>
-                {/* { this.state.didFinishInitialAnimation ? ( */}
-                  <CreditTable
-                    currency={radio[this.props.radio].label}
-                    value={table}
-                    language={this.props.language}
-                    width={this.state.width}
-                  />
-                {/* ) : (
-                  <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                  }}
-                  >
-                    <ActivityIndicator size="large" color={textColor} />
-                  </View>
-                )
-        } */}
+                <CreditTable
+                  currency={radio[this.props.radio].label}
+                  value={table}
+                  language={this.props.language}
+                  width={this.state.width}
+                />
               </Card>
             </ScrollView>
             )}
