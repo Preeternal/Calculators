@@ -16,4 +16,4 @@ const Start = () => (
   </Provider>
 );
 
-AppRegistry.registerComponent(appName, () => Start)
+AppRegistry.registerComponent(appName, () => Start);
