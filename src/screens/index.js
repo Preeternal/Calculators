@@ -1,10 +1,15 @@
 import { createDrawerNavigator, createAppContainer } from 'react-navigation';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import RNLanguages from 'react-native-languages';
+import i18n from 'i18n-js';
 
 import Depo from './Depo';
 import Credit from './Credit';
 import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
+import { languageChanged } from '../actions';
 
 const Navigator = createDrawerNavigator(
   {
@@ -90,6 +95,40 @@ const Navigator = createDrawerNavigator(
 //   },
 // );
 
-const App = createAppContainer(Navigator);
+const AppContainer = createAppContainer(Navigator);
 
-export default App;
+class App extends Component {
+  componentDidMount() {
+    RNLanguages.addEventListener('change', this.handleLanguageChange);
+  }
+
+  componentWillUnmount() {
+    RNLanguages.removeEventListener('change', this.handleLanguageChange);
+  }
+
+  handleLanguageChange = ({ language }) => {
+    i18n.locale = language;
+    if (this.props.language !== this.pickerValue(i18n.currentLocale())) {
+      this.props.languageChanged(this.pickerValue(i18n.currentLocale()));
+    }
+  };
+
+  pickerValue = (locale) => {
+    if (locale.substring(0, 2) === 'ru') {
+      return 0;
+    }
+    return 1;
+  };
+
+  render() {
+    return <AppContainer />;
+  }
+}
+
+const mapStateToProps = state => ({ language: state.settings.language });
+const mapDispatchToActions = { languageChanged };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToActions,
+)(App);

@@ -4,7 +4,7 @@ import { initDate, number } from '.';
 
 const getCreditPrincipal = state => Number(number(state.credit.creditPrincipal));
 const getCreditInterest = state => Number(number(state.credit.creditInterest)) / 365 / 100;
-const getCreditDateOpen = state => state.credit.creditDateOpen;
+const getCreditDateOpen = state => new Date(state.credit.creditDateOpen);
 const getCreditSrok = state => Number(number(state.credit.creditSrok));
 const getCreditSrokOption = state => state.credit.creditSrokOption;
 const getCreditPlatez = state => state.credit.creditPlatez;

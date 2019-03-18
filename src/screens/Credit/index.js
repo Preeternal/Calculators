@@ -54,7 +54,7 @@ import images from '../../images';
 type Props = {
   creditPrincipal: string,
   creditInterest: string,
-  creditDateOpen: Date,
+  creditDateOpen: number,
   creditSrok: string,
   creditSrokOption: number,
   creditPlatez: number,
@@ -223,7 +223,7 @@ class Credit extends Component<Props, State> {
 
   onCreditDateOpenChange = (date) => {
     this.setDatePickerVisible(false);
-    this.props.creditDateOpenChanged(date);
+    this.props.creditDateOpenChanged(date.valueOf());
   }
 
   onCreditSrokValueChange = (text) => {
@@ -351,7 +351,7 @@ class Credit extends Component<Props, State> {
     return (
       <Fragment>
         <CustomHeader title={strings('titleCredit')} drawerOpen={() => this.props.navigation.openDrawer()} />
-        { this.state.didFinishInitialAnimation ? (
+        {/* { this.state.didFinishInitialAnimation ? ( */}
           <ScrollView key={this.props.language} style={{ flex: 1 }}>
             <Card>
               {/* <Header headerText="Депозитный калькулятор" /> */}
@@ -412,12 +412,12 @@ class Credit extends Component<Props, State> {
                 <InputDate
                   // label="Дата выдачи кредита"
                   label={strings('credit.input.dateOpen.label')}
-                  value={initDate(this.props.creditDateOpen)}
+                  value={initDate(new Date(this.props.creditDateOpen))}
                   onRootPress={() => this.setDatePickerVisible(true)}
                   onPress={() => this.setDatePickerVisible(true)}
                 />
                 <DateTimePicker
-                  date={this.props.creditDateOpen}
+                  date={new Date(this.props.creditDateOpen)}
                   isVisible={this.state.isDatePickerVisible}
                   onConfirm={this.onCreditDateOpenChange}
                   onCancel={() => this.setDatePickerVisible(false)}
@@ -676,7 +676,7 @@ class Credit extends Component<Props, State> {
             </ScrollView>
             )}
           </ScrollView>
-        ) : (
+        {/* ) : (
           <View style={{
             flex: 1,
             justifyContent: 'center',
@@ -684,7 +684,7 @@ class Credit extends Component<Props, State> {
           >
             <ActivityIndicator size="large" color={textColor} />
           </View>
-        )}
+        )} */}
       </Fragment>
 
     );
@@ -733,7 +733,7 @@ const styles = {
 Credit.propTypes = {
   creditPrincipal: PropTypes.string,
   creditInterest: PropTypes.string,
-  creditDateOpen: PropTypes.instanceOf(Date),
+  creditDateOpen: PropTypes.number, // instanceOf(Date),
   creditSrok: PropTypes.string,
   creditSrokOption: PropTypes.number,
   creditPlatez: PropTypes.number,

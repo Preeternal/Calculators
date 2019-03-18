@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import {
   Text, View, Image, ScrollView, InteractionManager, ActivityIndicator,
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -26,7 +27,6 @@ import {
   taxRateSelected,
   countryChanged,
   countryIpTriggered,
-  languageChanged,
 } from '../../actions';
 
 import {
@@ -56,8 +56,8 @@ import images from '../../images';
 
 type Props = {
   principal: string,
-  dateOpen: Date,
-  dateClosed: Date,
+  dateOpen: number,
+  dateClosed: number,
   interest1: string,
   interest2: string,
   platez: number,
@@ -69,20 +69,19 @@ type Props = {
   language: number,
   country: number,
   countryIP: boolean,
-  principalChanged: typeof principalChanged,
-  dateOpenChanged: typeof dateOpenChanged,
-  dateClosedChanged: typeof dateClosedChanged,
-  interest1Changed: typeof interest1Changed,
-  interest2Changed: typeof interest2Changed,
-  platezChanged: typeof platezChanged,
-  plusperiodChanged: typeof plusperiodChanged,
-  prinplusChanged: typeof prinplusChanged,
-  radioPressed: typeof radioPressed,
-  taxSelected: typeof taxSelected,
-  taxRateSelected: typeof taxRateSelected,
-  countryChanged: typeof countryChanged,
-  countryIpTriggered: typeof countryIpTriggered,
-  languageChanged: typeof languageChanged,
+  principalChanged: Function,
+  dateOpenChanged: Function,
+  dateClosedChanged: Function,
+  interest1Changed: Function,
+  interest2Changed: Function,
+  platezChanged: Function,
+  plusperiodChanged: Function,
+  prinplusChanged: Function,
+  radioPressed: Function,
+  taxSelected: Function,
+  taxRateSelected: Function,
+  countryChanged: Function,
+  countryIpTriggered: Function,
 
   calculated: typeof calculate,
   navigation: any,
@@ -178,7 +177,23 @@ class Depo extends Component<Props, State> {
 
   handleLanguageChange = () => {
     if (this.props.language !== pickerValue(i18n.currentLocale())) {
-      this.props.languageChanged(pickerValue(i18n.currentLocale()));
+      i18n.locale = this.props.language === 0 ? 'ru' : 'en';
+      this.props.navigation.setParams({ DLabel: strings('header') });
+      const setCreditLabel = NavigationActions.setParams({
+        params: { DLabel: strings('headerCredit') },
+        key: 'Credit',
+      });
+      this.props.navigation.dispatch(setCreditLabel);
+      const setSettingsLabel = NavigationActions.setParams({
+        params: { DLabel: strings('settings.settings') },
+        key: 'Settings',
+      });
+      this.props.navigation.dispatch(setSettingsLabel);
+      const setHelpLabel = NavigationActions.setParams({
+        params: { DLabel: strings('help.header') },
+        key: 'Help',
+      });
+      this.props.navigation.dispatch(setHelpLabel);
     }
   };
 
@@ -228,12 +243,12 @@ class Depo extends Component<Props, State> {
 
   onDateOpenChange = (date) => {
     this.setDatePickerVisible(false);
-    this.props.dateOpenChanged(date);
+    this.props.dateOpenChanged(date.valueOf());
   }
 
   onDateClosedChange = (date) => {
     this.setDatePicker2Visible(false);
-    this.props.dateClosedChanged(date);
+    this.props.dateClosedChanged(date.valueOf());
   }
 
   onInterest1Change = (text) => {
@@ -320,7 +335,7 @@ class Depo extends Component<Props, State> {
     return (
       <Fragment>
         <CustomHeader title={strings('titleDeposit')} drawerOpen={() => this.props.navigation.openDrawer()} />
-        { this.state.didFinishInitialAnimation ? (
+        {/* { this.state.didFinishInitialAnimation ? ( */}
           <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
             <Card>
               {/* <Header headerText="Депозитный калькулятор" /> */}
@@ -373,12 +388,12 @@ class Depo extends Component<Props, State> {
                 <InputDate
                   // label="Дата открытия вклада"
                   label={strings('input.dateOpen.label')}
-                  value={initDate(this.props.dateOpen)}
+                  value={initDate(new Date(this.props.dateOpen))}
                   onRootPress={() => this.setDatePickerVisible(true)}
                   onPress={() => this.setDatePickerVisible(true)}
                 />
                 <DateTimePicker
-                  date={this.props.dateOpen}
+                  date={new Date(this.props.dateOpen)}
                   isVisible={this.state.isDatePickerVisible}
                   onConfirm={this.onDateOpenChange}
                   onCancel={() => this.setDatePickerVisible(false)}
@@ -388,12 +403,12 @@ class Depo extends Component<Props, State> {
                 <InputDate
                   // label="Дата закрытия вклада"
                   label={strings('input.dateClosed.label')}
-                  value={initDate(this.props.dateClosed)}
+                  value={initDate(new Date(this.props.dateClosed))}
                   onRootPress={() => this.setDatePicker2Visible(true)}
                   onPress={() => this.setDatePicker2Visible(true)}
                 />
                 <DateTimePicker
-                  date={this.props.dateClosed}
+                  date={new Date(this.props.dateClosed)}
                   isVisible={this.state.isDatePicker2Visible}
                   onConfirm={this.onDateClosedChange}
                   onCancel={() => this.setDatePicker2Visible(false)}
@@ -602,7 +617,7 @@ class Depo extends Component<Props, State> {
             </Card>
             )}
           </ScrollView>
-        ) : (
+        {/* ) : (
           <View style={{
             flex: 1,
             justifyContent: 'center',
@@ -610,7 +625,7 @@ class Depo extends Component<Props, State> {
           >
             <ActivityIndicator size="large" color={textColor} />
           </View>
-        )}
+        )} */}
       </Fragment>
     );
   }
@@ -657,8 +672,8 @@ const styles = {
 
 Depo.propTypes = {
   principal: PropTypes.string,
-  dateOpen: PropTypes.instanceOf(Date),
-  dateClosed: PropTypes.instanceOf(Date),
+  dateOpen: PropTypes.number, // instanceOf(Date),
+  dateClosed: PropTypes.number, // instanceOf(Date),
   interest1: PropTypes.string,
   interest2: PropTypes.string,
   platez: PropTypes.number,
@@ -713,6 +728,5 @@ const mapDispatchToActions = {
   taxRateSelected,
   countryChanged,
   countryIpTriggered,
-  languageChanged,
 };
 export default connect(mapStateToProps, mapDispatchToActions)(Depo);

@@ -1,7 +1,6 @@
 // @flow
-
 import { LANGUAGE_CHANGED, COUNTRY_CHANGED, COUNTRY_IP_TRIGGERED } from '../actions/types';
-import type { Action } from '../actions/types';
+import type { SettingsActionsTypes as Action } from '../actions/types';
 import { currentLocale } from '../../locales/i18n';
 
 type State = {

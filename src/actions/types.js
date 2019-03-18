@@ -13,10 +13,10 @@ export const RADIO_PRESSED = 'radio_pressed'; // common action
 export const TAX_SELECTED = 'tax_selected';
 export const TAX_RATE_SELECTED = 'tax_rate_selected';
 
-type DepoActionsTypes =
-  | { type: 'principal_changed', payload: string | null } // должно быть только string. проверить
-  | { type: 'date_open_changed', payload: Date }
-  | { type: 'date_closed_changed', payload: Date }
+export type DepoActionsTypes =
+  | { type: 'principal_changed', payload: string }
+  | { type: 'date_open_changed', payload: number }
+  | { type: 'date_closed_changed', payload: number }
   | { type: 'interest1_changed', payload: string }
   | { type: 'interest2_changed', payload: string }
   | { type: 'platez_changed', payload: number }
@@ -39,10 +39,10 @@ export const CREDIT_START_COST_COM_CHANGED = 'credit_start_cost_com_changed';
 export const CREDIT_FIN_COST_COM_CHANGED = 'credit_fin_cost_com_changed';
 export const CREDIT_AC_COUNT_COM_CHANGED = 'credit_ac_count_com_changed';
 
-type CreditActionsTypes =
+export type CreditActionsTypes =
   | { type: 'credit_principal_changed', payload: string }
   | { type: 'credit_interest_changed', payload: string }
-  | { type: 'credit_date_open_changed', payload: Date }
+  | { type: 'credit_date_open_changed', payload: number }
   | { type: 'credit_srok_value_changed', payload: string }
   | { type: 'credit_srok_option_selected', payload: number }
   | { type: 'credit_platez_selected', payload: number }
@@ -57,7 +57,7 @@ export const LANGUAGE_CHANGED = 'language_changed';
 export const COUNTRY_CHANGED = 'country_changed';
 export const COUNTRY_IP_TRIGGERED = 'country_ip_triggered';
 
-type SettingsActionsTypes =
+export type SettingsActionsTypes =
   | { type: 'language_changed', payload: number }
   | { type: 'country_changed', payload: number }
   | { type: 'country_ip_triggered', payload: boolean };

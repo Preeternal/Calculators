@@ -14,12 +14,12 @@ import {
   CREDIT_AC_COUNT_COM_CHANGED,
 } from '../actions/types';
 
-import type { Action } from '../actions/types';
+import type { CreditActionsTypes as Action } from '../actions/types';
 
 type State = {
   +creditPrincipal: string,
   +creditInterest: string,
-  +creditDateOpen: Date,
+  +creditDateOpen: number,
   +creditSrok: string,
   +creditSrokOption: number,
   +creditPlatez: number,
@@ -33,7 +33,7 @@ type State = {
 const INITIAL_STATE: State = {
   creditPrincipal: (1000).toLocaleString('ru-RU'),
   creditInterest: '10',
-  creditDateOpen: new Date(),
+  creditDateOpen: new Date().valueOf(),
   creditSrok: '12',
   creditSrokOption: 0,
   creditPlatez: 0,
