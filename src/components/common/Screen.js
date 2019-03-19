@@ -8,9 +8,7 @@ const Screen = () => <Image source={images.screen} style={styles.containerStyle}
 const styles = {
   containerStyle: {
     flex: 1,
-    // flexDirection: 'column',
     alignSelf: 'center',
-    // justifyContent: 'center',
   },
 };
 
