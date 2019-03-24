@@ -1,33 +1,19 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { AppRegistry } from 'react-native';
-import RNLanguages from 'react-native-languages';
-import i18n from 'i18n-js';
 
-import store from './src/store';
+import { store, persistor } from './src/store';
 import App from './src/screens';
 import { name as appName } from './app';
+import { Screen } from './src/components/common';
 
-class Start extends PureComponent {
-  componentDidMount() {
-    RNLanguages.addEventListener('change', this.handleLanguageChange);
-  }
-
-  componentWillUnmount() {
-    RNLanguages.removeEventListener('change', this.handleLanguageChange);
-  }
-
-  handleLanguageChange = ({ language }) => {
-    i18n.locale = language;
-  };
-
-  render() {
-    return (
-      <Provider store={store}>
-        <App />
-      </Provider>
-    );
-  }
-}
+const Start = () => (
+  <Provider store={store}>
+    <PersistGate loading={<Screen />} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>
+);
 
 AppRegistry.registerComponent(appName, () => Start);

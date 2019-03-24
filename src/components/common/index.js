@@ -11,3 +11,4 @@ export * from './Result';
 export * from './ResultSrok';
 export * from './Table';
 export * from './CreditTable';
+export * from './Screen';

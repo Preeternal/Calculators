@@ -5,8 +5,8 @@ import { initDate, number } from '.';
 import { daysString, monthsString, daysAfterMonths } from './calculates';
 
 const getPrincipal = state => Number(number(state.depo.principal));
-const dateOpen = state => state.depo.dateOpen;
-const dateClosed = state => state.depo.dateClosed;
+const dateOpen = state => new Date(state.depo.dateOpen);
+const dateClosed = state => new Date(state.depo.dateClosed);
 const getInterest1 = state => Number(number(state.depo.interest1)) / 365 / 100;
 const getInterest2 = state => Number(number(state.depo.interest2)) / 365 / 100;
 const getPlatez = state => state.depo.platez;

@@ -31,7 +31,7 @@ export function numbers(name, params) {
   return i18n.l(name, params);
 }
 
-export const currentLocale = i18n.currentLocale();
+export const currentLocale: string = i18n.currentLocale();
 
 // if (currentLocale.indexOf('ru') === 0) {
 //   require('moment/locale/ru.js'); // eslint-disable-line global-require

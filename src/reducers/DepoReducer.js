@@ -14,7 +14,7 @@ import {
   TAX_RATE_SELECTED,
 } from '../actions/types';
 
-import type { Action } from '../actions/types';
+import type { DepoActionsTypes as Action } from '../actions/types';
 
 import { currentLocale } from '../../locales/i18n';
 
@@ -33,9 +33,9 @@ const radioValue = (locale: string) => {
 };
 
 type State = {
-  +principal: string | null,
-  +dateOpen: Date,
-  +dateClosed: Date,
+  +principal: string,
+  +dateOpen: number,
+  +dateClosed: number,
   +interest1: string,
   +interest2: string,
   +platez: number,
@@ -47,8 +47,8 @@ type State = {
 
 const INITIAL_STATE: State = {
   principal: (1000).toLocaleString('ru-RU'),
-  dateOpen: new Date(),
-  dateClosed: nextYear(new Date()),
+  dateOpen: new Date().valueOf(),
+  dateClosed: nextYear(new Date()).valueOf(),
   interest1: '10',
   interest2: '0',
   platez: 0,

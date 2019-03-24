@@ -15,17 +15,17 @@ import {
 
 import type { Action } from './types';
 
-export const principalChanged = (text: string | null): Action => ({
+export const principalChanged = (text: string): Action => ({
   type: PRINCIPAL_CHANGED,
   payload: text,
 });
 
-export const dateOpenChanged = (date: Date): Action => ({
+export const dateOpenChanged = (date: number): Action => ({
   type: DATE_OPEN_CHANGED,
   payload: date,
 });
 
-export const dateClosedChanged = (date: Date): Action => ({
+export const dateClosedChanged = (date: number): Action => ({
   type: DATE_CLOSED_CHANGED,
   payload: date,
 });

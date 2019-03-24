@@ -25,7 +25,7 @@ export const creditInterestChanged = (text: string): Action => ({
   payload: text,
 });
 
-export const creditDateOpenChanged = (date: Date): Action => ({
+export const creditDateOpenChanged = (date: number): Action => ({
   type: CREDIT_DATE_OPEN_CHANGED,
   payload: date,
 });
