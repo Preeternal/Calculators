@@ -613,7 +613,7 @@ class Credit extends Component<Props, State> {
                         </Text>
                       </View>
                       <View style={pie}>
-                        {/* <Pie
+                        <Pie
                           radius={65}
                           innerRadius={59}
                           series={[
@@ -623,7 +623,7 @@ class Credit extends Component<Props, State> {
                           ]}
                           colors={['#ddd', '#a2aaa4', '#569e69']}
                           backgroundColor="#ddd"
-                        /> */}
+                        />
                         <View style={gauge}>
                           <Text style={gaugeText}>
                             {vsego.toLocaleString(currentLocale, optionsN)}
