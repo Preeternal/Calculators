@@ -114,7 +114,9 @@ export const creditCalculate = createSelector(
       if (creditPlatez === 0) {
         const x = (1 + (creditInterest * 365) / 12) ** payments;
         // равный месячный платёж - аннуитет
-        const monthly = (creditPrincipal * x * creditInterest * 365) / 12 / (x - 1);
+        const monthly = creditInterest === 0
+          ? creditPrincipal / payments
+          : (creditPrincipal * x * creditInterest * 365) / 12 / (x - 1);
         for (let i = 0; i < payments; i++) {
           ostatok -= monthly - (ostatok * creditInterest * 365) / 12;
           payStart = (creditPrincipal * creditStartCostCom) / 100;
