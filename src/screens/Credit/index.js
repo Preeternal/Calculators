@@ -220,8 +220,7 @@ class Credit extends Component<Props, State> {
   };
 
   onCreditInterestChange = (text) => {
-    this.props.creditInterestChanged(text === '' ? '0' : number(text));
-    console.log(number('0'));
+    this.props.creditInterestChanged(number(text));
   };
 
   onCreditDateOpenChange = (date) => {
