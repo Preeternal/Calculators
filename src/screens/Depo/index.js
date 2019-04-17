@@ -377,8 +377,9 @@ class Depo extends Component<Props, State> {
                 // placeholder="введите сумму"
                 placeholder={strings('input.principal.placeholder')}
                 // label="Сумма вклада"
-                label={`${strings('input.principal.label')}, 
-                ${radio[this.props.radio].label.charAt(0)}`}
+                label={`${strings('input.principal.label')}, ${radio[this.props.radio].label.charAt(
+                  0,
+                )}`}
                 onChangeText={this.onPrincipalChange}
                 onFocus={() => this.onFocus('principal', this.props.principal)}
                 onBlur={() => this.onBlur('principal', this.props.principal)}
