@@ -283,7 +283,7 @@ class Credit extends Component<Props, State> {
   handleScroll = (event: Object) => {
     if (Dimensions.get('window').width < Dimensions.get('window').height) {
       if (
-        event.nativeEvent.layoutMeasurement.width + event.nativeEvent.contentOffset.x
+        event.nativeEvent.layoutMeasurement.width + event.nativeEvent.contentOffset.x + 0.0001
         >= event.nativeEvent.contentSize.width
       ) {
         this.setState({
