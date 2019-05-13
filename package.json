@@ -13,12 +13,15 @@
     "flow coverage": "flow coverage"
   },
   "dependencies": {
+    "apollo-boost": "^0.3.1",
+    "graphql": "^14.3.0",
     "i18n-js": "^3.1.0",
     "luxon": "^1.11.2",
     "native-base": "https://github.com/GeekyAnts/NativeBase.git",
     "number-to-locale-string": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "16.6.3",
+    "react-apollo": "^2.5.5",
     "react-native": "0.58.3",
     "react-native-gesture-handler": "^1.0.15",
     "react-native-iap": "^2.4.1",

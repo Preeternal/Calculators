@@ -17,6 +17,8 @@ import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
+import { gql } from 'apollo-boost';
+import { graphql } from 'react-apollo';
 
 import {
   principalChanged,
@@ -92,6 +94,28 @@ type Props = {
 
 const textColor = '#525050';
 const activeTextColor = '#000000';
+
+const getUsers = gql`
+  query {
+    users {
+      id
+      name
+    }
+  }
+`;
+
+const UserComponent = graphql(getUsers)((props) => {
+  const { error, users } = props.data;
+  console.log(props);
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+  if (users) {
+    return <Text>{users[2].name}</Text>;
+  }
+
+  return <Text>Loading...</Text>;
+});
 
 type State = {
   didFinishInitialAnimation?: boolean,
@@ -172,6 +196,16 @@ class Depo extends Component<Props, State> {
     // });
 
     setTimeout(this.handleLanguageChange, 10);
+
+    // client
+    //   .query({
+    //     query: getUsers,
+    //   })
+    //   .then((response) => {
+    //     response.data.users.forEach((user) => {
+    //       console.log(user.name);
+    //     });
+    //   });
   }
 
   handleLanguageChange = () => {
@@ -348,6 +382,7 @@ class Depo extends Component<Props, State> {
                 {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
                 {!srok ? strings('welcome.error') : strings('welcome.go')}
               </Text>
+              <UserComponent />
 
               <RadioForm
                 key={this.props.radio}
