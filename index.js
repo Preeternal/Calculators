@@ -12,6 +12,7 @@ import { Screen } from './src/components/common';
 
 const client = new ApolloBoost({
   uri: 'https://stark-taiga-75186.herokuapp.com/',
+  // uri: 'http://127.0.0.1:4000',
 });
 
 const Start = () => (
