@@ -17,7 +17,7 @@ import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
-import { gql } from 'apollo-boost';
+import ApolloBoost, { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
 
 import {
@@ -95,11 +95,18 @@ type Props = {
 const textColor = '#525050';
 const activeTextColor = '#000000';
 
+const client = new ApolloBoost({
+  uri: 'https://stark-taiga-75186.herokuapp.com/',
+  // uri: 'http://127.0.0.1:4000',
+});
+
 const getUsers = gql`
   query {
     users {
       id
       name
+      email
+      password
     }
   }
 `;
@@ -197,15 +204,15 @@ class Depo extends Component<Props, State> {
 
     setTimeout(this.handleLanguageChange, 10);
 
-    // client
-    //   .query({
-    //     query: getUsers,
-    //   })
-    //   .then((response) => {
-    //     response.data.users.forEach((user) => {
-    //       console.log(user.name);
-    //     });
-    //   });
+    client
+      .query({
+        query: getUsers,
+      })
+      .then((response) => {
+        response.data.users.forEach((user) => {
+          console.log(user.name);
+        });
+      });
   }
 
   handleLanguageChange = () => {
