@@ -134,30 +134,29 @@ class Depo extends Component<Props, State> {
     userCountryCode: currentLocale.substring(3),
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     if (!this.props.countryIP) {
-      try {
-        await fetch(config.ipUrl)
-          .then(response => response.json())
-          .then((responseJson) => {
-            this.setState({
-              userCountryCode: responseJson.country_code,
-            });
-            switch (this.state.userCountryCode) {
-              case 'RU':
-                this.onCountryChange(0);
-                break;
-              case 'UA':
-                this.onCountryChange(2);
-                break;
-              default:
-                this.onCountryChange(1);
-            }
-            this.onCountryIpTrigger(true);
+      fetch(config.ipUrl)
+        .then(response => response.json())
+        .then((responseJson) => {
+          this.setState({
+            userCountryCode: responseJson.country_code,
           });
-      } catch (err) {
-        console.warn(err.code, err.message);
-      }
+          switch (this.state.userCountryCode) {
+            case 'RU':
+              this.onCountryChange(0);
+              break;
+            case 'UA':
+              this.onCountryChange(2);
+              break;
+            default:
+              this.onCountryChange(1);
+          }
+          this.onCountryIpTrigger(true);
+        })
+        .catch((error) => {
+          console.warn(`There has been a problem with your fetch operation: ${error.message}`);
+        });
     }
     // // 1: Component is mounted off-screen
     // InteractionManager.runAfterInteractions(() => {
