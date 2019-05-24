@@ -96,29 +96,31 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 const client = new ApolloBoost({
-  uri: 'https://stark-taiga-75186.herokuapp.com/',
+  uri: 'https://aqueous-reef-98968.herokuapp.com/',
   // uri: 'http://127.0.0.1:4000',
 });
 
-const getUsers = gql`
+const getCurrencies = gql`
   query {
-    users {
-      id
+    currencies {
       name
-      email
-      password
+      nameEng
+      charCode
+      value
+      nominal
+      updatedAt
     }
   }
 `;
 
-const UserComponent = graphql(getUsers)((props) => {
-  const { error, users } = props.data;
+const UserComponent = graphql(getCurrencies)((props) => {
+  const { error, currencies } = props.data;
   console.log(props);
   if (error) {
     return <Text>{error.message}</Text>;
   }
-  if (users) {
-    return <Text>{users[2].name}</Text>;
+  if (currencies) {
+    return <Text>{currencies[2].name}</Text>;
   }
 
   return <Text>Loading...</Text>;
@@ -206,11 +208,11 @@ class Depo extends Component<Props, State> {
 
     client
       .query({
-        query: getUsers,
+        query: getCurrencies,
       })
       .then((response) => {
-        response.data.users.forEach((user) => {
-          console.log(user.name);
+        response.data.currencies.forEach((currency) => {
+          console.log(currency.name);
         });
       });
   }
