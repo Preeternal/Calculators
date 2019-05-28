@@ -17,8 +17,10 @@ import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
-import ApolloBoost, { gql } from 'apollo-boost';
+import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
+
+import client from '../../client';
 
 import {
   principalChanged,
@@ -94,11 +96,6 @@ type Props = {
 
 const textColor = '#525050';
 const activeTextColor = '#000000';
-
-const client = new ApolloBoost({
-  uri: 'https://aqueous-reef-98968.herokuapp.com/',
-  // uri: 'http://127.0.0.1:4000',
-});
 
 const getCurrencies = gql`
   query {
