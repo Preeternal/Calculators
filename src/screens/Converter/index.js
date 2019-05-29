@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import {
-  Text, View, Image, ScrollView,
+  Text, View, Image, ScrollView, FlatList,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
@@ -95,6 +95,7 @@ const activeTextColor = '#000000';
 const getCurrencies = gql`
   query {
     currencies {
+      id
       name
       nameEng
       charCode
@@ -112,25 +113,24 @@ const CurrencyComponent = graphql(getCurrencies)((props) => {
     return <Text>{error.message}</Text>;
   }
   if (currencies) {
-    currencies.forEach(currency => <Text>{currency.name}</Text>);
-    // const rows = currencies.forEach(currency => (
-    //   <Text>{currency.name}</Text>
-    //   // <Input
-    //   //   // placeholder="введите сумму"
-    //   //   placeholder={currency.name}
-    //   //   // label="Сумма вклада"
-    //   //   label={strings('input.principal.label')}
-    //   //   // onChangeText={this.onPrincipalChange}
-    //   //   // onFocus={() => this.onFocus('principal', this.props.principal)}
-    //   //   // onBlur={() => this.onBlur('principal', this.props.principal)}
-    //   //   // appInputStyle={{ color: this.state.principalColor }}
-    //   //   // value={this.props.principal}
-    //   // />
-    // ));
-    // return <View>{rows}</View>;
-    // return <Text>{currencies[2].name}</Text>;
+    return (<FlatList
+      data={currencies}
+      renderItem={({ item }) => (
+        <Input
+          key={item.charCode}
+          placeholder={item.name}
+          // label="Сумма вклада"
+          label={item.charCode}
+          // onChangeText={this.onPrincipalChange}
+          // onFocus={() => this.onFocus('principal', this.props.principal)}
+          // onBlur={() => this.onBlur('principal', this.props.principal)}
+          // appInputStyle={{ color: this.state.principalColor }}
+          // value={currency.value.toString()}
+        />
+      )}
+      keyExtractor={(item, index) => item + index}
+    />);
   }
-
   return <Text>Loading...</Text>;
 });
 
@@ -165,7 +165,6 @@ class Converter extends Component<Props, State> {
   };
 
   state = {
-    // didFinishInitialAnimation: false,
     principalColor: textColor,
     interest1Color: textColor,
     interest2Color: textColor,
@@ -200,19 +199,6 @@ class Converter extends Component<Props, State> {
         console.warn(err.code, err.message);
       }
     }
-    // // 1: Component is mounted off-screen
-    // InteractionManager.runAfterInteractions(() => {
-    //   // 2: Component is done animating
-    //   // 3: Start fetching the data
-    //   // this.props.dispatchDataFetchStart();
-    //   // 4: set didFinishInitialAnimation to false
-    //   // This will render the navigation bar and a list of players
-    //   this.setState({
-    //     didFinishInitialAnimation: true,
-    //   });
-    // });
-
-    setTimeout(this.handleLanguageChange, 10);
 
     client
       .query({
@@ -225,121 +211,6 @@ class Converter extends Component<Props, State> {
       });
   }
 
-  handleLanguageChange = () => {
-    if (this.props.language !== pickerValue(i18n.currentLocale())) {
-      i18n.locale = this.props.language === 0 ? 'ru' : 'en';
-      this.props.navigation.setParams({ DLabel: strings('header') });
-      const setCreditLabel = NavigationActions.setParams({
-        params: { DLabel: strings('headerCredit') },
-        key: 'Credit',
-      });
-      this.props.navigation.dispatch(setCreditLabel);
-      const setSettingsLabel = NavigationActions.setParams({
-        params: { DLabel: strings('settings.settings') },
-        key: 'Settings',
-      });
-      this.props.navigation.dispatch(setSettingsLabel);
-      const setHelpLabel = NavigationActions.setParams({
-        params: { DLabel: strings('help.header') },
-        key: 'Help',
-      });
-      this.props.navigation.dispatch(setHelpLabel);
-    }
-  };
-
-  onFocus = (input, text) => {
-    this.setState({
-      [`${input}Color`]: activeTextColor,
-    });
-    if (text === '0' || text === '0,00') {
-      this.props[`${input}Changed`]('');
-    } else {
-      this.props[`${input}Changed`](number(text));
-    }
-  };
-
-  onBlur = (input, text) => {
-    this.setState({
-      [`${input}Color`]: textColor,
-    });
-    if (text === '') {
-      this.props[`${input}Changed`]('0');
-    } else {
-      const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
-      this.props[`${input}Changed`](
-        Number(number(text)).toLocaleString('ru-RU', {
-          minimumFractionDigits,
-          maximumFractionDigits: minimumFractionDigits,
-        }),
-      );
-    }
-  };
-
-  setDatePickerVisible = (value) => {
-    this.setState({
-      isDatePickerVisible: value,
-    });
-  };
-
-  setDatePicker2Visible = (value) => {
-    this.setState({
-      isDatePicker2Visible: value,
-    });
-  };
-
-  onPrincipalChange = (text) => {
-    this.props.principalChanged(number(text));
-  };
-
-  onDateOpenChange = (date) => {
-    this.setDatePickerVisible(false);
-    this.props.dateOpenChanged(date.valueOf());
-  };
-
-  onDateClosedChange = (date) => {
-    this.setDatePicker2Visible(false);
-    this.props.dateClosedChanged(date.valueOf());
-  };
-
-  onInterest1Change = (text) => {
-    this.props.interest1Changed(number(text));
-  };
-
-  onInterest2Change = (text) => {
-    this.props.interest2Changed(number(text));
-  };
-
-  onPlatezChange = (text) => {
-    this.props.platezChanged(text);
-  };
-
-  onPlusperiodChange = (text) => {
-    this.props.plusperiodChanged(text);
-  };
-
-  onPrinplusChange = (text) => {
-    this.props.prinplusChanged(number(text));
-  };
-
-  onRadioPress = (value) => {
-    this.props.radioPressed(value);
-  };
-
-  onTaxSelect = (value) => {
-    this.props.taxSelected(value);
-  };
-
-  onTaxRateSelect = (value) => {
-    this.props.taxRateSelected(value);
-  };
-
-  onCountryChange = (value) => {
-    this.props.countryChanged(value);
-  };
-
-  onCountryIpTrigger = (value) => {
-    this.props.countryIpTriggered(value);
-  };
 
   render() {
     const {
@@ -356,28 +227,11 @@ class Converter extends Component<Props, State> {
       table,
     } = this.props.calculated;
 
-    const radio = [
-      {
-        label: '$usd ',
-        index: 'USD',
-        value: 0,
-      },
-      {
-        label: '€eur ',
-        index: 'EUR',
-        value: 1,
-      },
-      {
-        label: '₽руб',
-        index: 'RUB',
-        value: 2,
-      },
-    ];
 
     const optionsN = {
       style: 'currency',
       currencyDisplay: 'symbol',
-      currency: radio[this.props.radio].index,
+      // currency: radio[this.props.radio].index,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     };
@@ -388,29 +242,16 @@ class Converter extends Component<Props, State> {
           title={strings('converter.title')}
           drawerOpen={() => this.props.navigation.openDrawer()}
         />
-        {/* { this.state.didFinishInitialAnimation ? ( */}
         <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
           <Card>
             {/* <Header headerText="Конвертер валют" /> */}
             <Header headerText={strings('converter.header')} />
-            <CardSection>
-              <CurrencyComponent />
-            </CardSection>
+            {/* <CardSection>
+
+            </CardSection> */}
 
             <TableSection>
-              <Input
-                // placeholder="введите сумму"
-                placeholder={strings('input.principal.placeholder')}
-                // label="Сумма вклада"
-                label={`${strings('input.principal.label')}, ${radio[this.props.radio].label.charAt(
-                  0,
-                )}`}
-                onChangeText={this.onPrincipalChange}
-                onFocus={() => this.onFocus('principal', this.props.principal)}
-                onBlur={() => this.onBlur('principal', this.props.principal)}
-                appInputStyle={{ color: this.state.principalColor }}
-                value={this.props.principal}
-              />
+              <CurrencyComponent />
             </TableSection>
           </Card>
         </ScrollView>
@@ -474,13 +315,6 @@ Converter.propTypes = {
   country: PropTypes.number,
   countryIP: PropTypes.bool,
 
-  // доработать
-  // days1: PropTypes.number,
-  // srok: PropTypes.string,
-  // principal2: PropTypes.number,
-  // principal1: PropTypes.number,
-  // adjunctionAll: PropTypes.number,
-  // table: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
