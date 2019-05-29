@@ -6,6 +6,7 @@ import i18n from 'i18n-js';
 
 import Depo from './Depo';
 import Credit from './Credit';
+import Converter from './Converter';
 import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
@@ -15,11 +16,12 @@ const Navigator = createDrawerNavigator(
   {
     Depo,
     Credit,
+    Converter,
     Settings,
     Help,
   },
   {
-    initialRouteName: 'Depo',
+    initialRouteName: 'Converter',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
     // drawerBackgroundColor: 'transparent',

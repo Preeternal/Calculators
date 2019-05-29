@@ -17,10 +17,6 @@ import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
-import { gql } from 'apollo-boost';
-import { graphql } from 'react-apollo';
-
-import client from '../../client';
 
 import {
   principalChanged,
@@ -96,32 +92,6 @@ type Props = {
 
 const textColor = '#525050';
 const activeTextColor = '#000000';
-
-const getCurrencies = gql`
-  query {
-    currencies {
-      name
-      nameEng
-      charCode
-      value
-      nominal
-      updatedAt
-    }
-  }
-`;
-
-const UserComponent = graphql(getCurrencies)((props) => {
-  const { error, currencies } = props.data;
-  console.log(props);
-  if (error) {
-    return <Text>{error.message}</Text>;
-  }
-  if (currencies) {
-    return <Text>{currencies[2].name}</Text>;
-  }
-
-  return <Text>Loading...</Text>;
-});
 
 type State = {
   didFinishInitialAnimation?: boolean,
@@ -202,16 +172,6 @@ class Depo extends Component<Props, State> {
     // });
 
     setTimeout(this.handleLanguageChange, 10);
-
-    client
-      .query({
-        query: getCurrencies,
-      })
-      .then((response) => {
-        response.data.currencies.forEach((currency) => {
-          console.log(currency.name);
-        });
-      });
   }
 
   handleLanguageChange = () => {
@@ -388,7 +348,6 @@ class Depo extends Component<Props, State> {
                 {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
                 {!srok ? strings('welcome.error') : strings('welcome.go')}
               </Text>
-              <UserComponent />
 
               <RadioForm
                 key={this.props.radio}

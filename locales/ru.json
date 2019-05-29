@@ -166,6 +166,10 @@
     "iosHeader": "Выбрать",
     "headerBackButtonText": "Назад"
   },
+  "converter": {
+    "title": "Конвертер",
+    "header": "Конвертер валют"
+  },
   "settings": {
     "settings": "Настройки",
     "localization": "Локальные данные",

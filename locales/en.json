@@ -165,6 +165,10 @@
     "iosHeader": "Select One",
     "headerBackButtonText": "Back"
   },
+  "converter": {
+    "title": "Converter",
+    "header": "Currency Converter"
+  },
   "settings": {
     "settings": "Settings",
     "localization": "Localization data",
