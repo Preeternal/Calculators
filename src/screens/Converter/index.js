@@ -1,7 +1,11 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import {
-  Text, View, Image, ScrollView, FlatList,
+  // Text,
+  View,
+  Image,
+  ScrollView,
+  FlatList,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
@@ -10,7 +14,10 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
-import { Icon } from 'native-base';
+import {
+  Icon, Content, List, ListItem, Left, Body, Right, Thumbnail, Text,
+} from 'native-base';
+
 import 'number-to-locale-string';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
@@ -34,7 +41,7 @@ import {
 } from '../../actions';
 
 import {
-  Input,
+  CurrencyInput,
   InputDate,
   InputPicker,
   CardSection,
@@ -117,7 +124,17 @@ const CurrencyComponent = graphql(getCurrencies)((props) => {
       <FlatList
         data={currencies}
         renderItem={({ item }) => (
-          <Input
+          // <ListItem>
+          //   <Left>
+          //     <Text>{item.charCode}</Text>
+          //   </Left>
+          //   <Right>
+          //     <Text>{item.value}</Text>
+          //     <Text note>{item.name}</Text>
+          //   </Right>
+          // </ListItem>
+
+          <CurrencyInput
             key={item.charCode}
             placeholder={item.name}
             // label="Сумма вклада"
@@ -247,8 +264,13 @@ class Converter extends Component<Props, State> {
             {/* <Header headerText="Конвертер валют" /> */}
             <Header headerText={strings('converter.header')} />
             {/* <CardSection>
-
             </CardSection> */}
+
+            {/* <Content>
+              <List>
+                <CurrencyComponent />
+              </List>
+            </Content> */}
 
             <TableSection>
               <CurrencyComponent />
