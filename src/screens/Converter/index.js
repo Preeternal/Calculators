@@ -139,11 +139,12 @@ const CurrencyComponent = graphql(getCurrencies)((props) => {
             placeholder={item.name}
             // label="Сумма вклада"
             label={item.charCode}
+            name={item.name}
             // onChangeText={this.onPrincipalChange}
             // onFocus={() => this.onFocus('principal', this.props.principal)}
             // onBlur={() => this.onBlur('principal', this.props.principal)}
             // appInputStyle={{ color: this.state.principalColor }}
-            // value={currency.value.toString()}
+            value={`${item.value}`}
           />
         )}
         keyExtractor={(item, index) => item + index}

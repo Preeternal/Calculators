@@ -6,6 +6,7 @@ import {
 const CurrencyInput = ({
   label,
   value,
+  name,
   onChangeText,
   placeholder,
   secureTextEntry,
@@ -32,23 +33,26 @@ const CurrencyInput = ({
           <Text style={labelTextStyle}>{label}</Text>
         </View>
         <View style={inputStyle}>
-          <TextInput
-            secureTextEntry={secureTextEntry}
-            placeholder={placeholder}
-            // autoCorrect={false}
-            style={[inputTextStyle, appInputStyle]}
-            value={value}
-            onChangeText={onChangeText}
-            onSelectionChange={onSelectionChange}
-            onSubmitEditing={onSubmitEditing}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            keyboardType="numeric"
-            underlineColorAndroid="transparent"
-            ref={(input) => {
-              textInput = input;
-            }}
-          />
+          <View style={{ alignItems: 'flex-end' }}>
+            <TextInput
+              secureTextEntry={secureTextEntry}
+              placeholder={placeholder}
+              // autoCorrect={false}
+              style={[inputTextStyle, appInputStyle]}
+              value={value}
+              onChangeText={onChangeText}
+              onSelectionChange={onSelectionChange}
+              onSubmitEditing={onSubmitEditing}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              keyboardType="numeric"
+              underlineColorAndroid="transparent"
+              ref={(input) => {
+                textInput = input;
+              }}
+            />
+            <Text style={{ alignSelf: 'flex-end' }}>{name}</Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -65,22 +69,23 @@ const styles = {
     flexDirection: 'row',
   },
   labelStyle: {
-    flex: 1.9,
+    flex: 1,
     borderRightWidth: 1,
     borderColor: '#ddd',
     justifyContent: 'center',
   },
   labelTextStyle: {
     paddingLeft: 10,
-    paddingRight: 5,
+    paddingRight: 10,
   },
   inputStyle: {
-    flex: 1.1,
+    flex: 3,
     justifyContent: 'center',
   },
   inputTextStyle: {
     paddingLeft: 10,
-    paddingRight: 5,
+    // paddingRight: 10,
+    alignSelf: 'flex-end',
   },
 };
 
