@@ -14,10 +14,14 @@ const CurrencyInput = ({
   onSubmitEditing,
   onFocus,
   onBlur,
-  appInputStyle,
 }) => {
   const {
-    containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle,
+    containerStyle,
+    labelStyle,
+    labelTextStyle,
+    inputStyle,
+    inputTextStyle,
+    nameStyle,
   } = styles;
 
   let textInput = null;
@@ -33,26 +37,24 @@ const CurrencyInput = ({
           <Text style={labelTextStyle}>{label}</Text>
         </View>
         <View style={inputStyle}>
-          <View style={{ alignItems: 'flex-end' }}>
-            <TextInput
-              secureTextEntry={secureTextEntry}
-              placeholder={placeholder}
-              // autoCorrect={false}
-              style={[inputTextStyle, appInputStyle]}
-              value={value}
-              onChangeText={onChangeText}
-              onSelectionChange={onSelectionChange}
-              onSubmitEditing={onSubmitEditing}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              keyboardType="numeric"
-              underlineColorAndroid="transparent"
-              ref={(input) => {
-                textInput = input;
-              }}
-            />
-            <Text style={{ alignSelf: 'flex-end' }}>{name}</Text>
-          </View>
+          <TextInput
+            secureTextEntry={secureTextEntry}
+            placeholder={placeholder}
+            // autoCorrect={false}
+            style={inputTextStyle}
+            value={value}
+            onChangeText={onChangeText}
+            onSelectionChange={onSelectionChange}
+            onSubmitEditing={onSubmitEditing}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            keyboardType="numeric"
+            underlineColorAndroid="transparent"
+            ref={(input) => {
+              textInput = input;
+            }}
+          />
+          <Text style={nameStyle}>{name}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -70,8 +72,8 @@ const styles = {
   },
   labelStyle: {
     flex: 1,
-    borderRightWidth: 1,
-    borderColor: '#ddd',
+    // borderRightWidth: 1,
+    // borderColor: '#ddd',
     justifyContent: 'center',
   },
   labelTextStyle: {
@@ -81,12 +83,13 @@ const styles = {
   inputStyle: {
     flex: 3,
     justifyContent: 'center',
+    alignItems: 'flex-end',
   },
   inputTextStyle: {
     paddingLeft: 10,
-    // paddingRight: 10,
-    alignSelf: 'flex-end',
+    paddingRight: 10,
   },
+  nameStyle: { paddingRight: 10, paddingBottom: 10, fontSize: 10 },
 };
 
 export { CurrencyInput };

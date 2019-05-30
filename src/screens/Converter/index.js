@@ -120,31 +120,36 @@ const CurrencyComponent = graphql(getCurrencies)((props) => {
     return <Text>{error.message}</Text>;
   }
   if (currencies) {
+    console.log(currentLocale);
     return (
       <FlatList
-        data={currencies}
+        data={[
+          {
+            charCode: 'RUB',
+            id: '1',
+            name: 'Российский рубль',
+            nameEng: 'Russian ruble',
+            nominal: 1,
+            updatedAt: '2019-05-30T11:02:01.574Z',
+            value: 1,
+            __typename: 'Currency',
+          },
+          ...currencies,
+        ]}
         renderItem={({ item }) => (
-          // <ListItem>
-          //   <Left>
-          //     <Text>{item.charCode}</Text>
-          //   </Left>
-          //   <Right>
-          //     <Text>{item.value}</Text>
-          //     <Text note>{item.name}</Text>
-          //   </Right>
-          // </ListItem>
-
           <CurrencyInput
             key={item.charCode}
-            placeholder={item.name}
+            // placeholder={item.name}
             // label="Сумма вклада"
             label={item.charCode}
-            name={item.name}
+            name={`${item.nominal} ${
+              currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
+            }`}
             // onChangeText={this.onPrincipalChange}
             // onFocus={() => this.onFocus('principal', this.props.principal)}
             // onBlur={() => this.onBlur('principal', this.props.principal)}
             // appInputStyle={{ color: this.state.principalColor }}
-            value={`${item.value}`}
+            value={`${item.value / item.nominal}`}
           />
         )}
         keyExtractor={(item, index) => item + index}
