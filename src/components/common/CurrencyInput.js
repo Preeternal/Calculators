@@ -1,7 +1,21 @@
+// @flow
 import React from 'react';
 import {
   TextInput, View, Text, TouchableOpacity,
 } from 'react-native';
+
+type CurrencyType = {
+  label: string,
+  value: string,
+  name: string,
+  onChangeText: Function,
+  placeholder: string,
+  secureTextEntry: boolean,
+  onSelectionChange: Function,
+  onSubmitEditing: Function,
+  onFocus: Function,
+  onBlur: Function,
+};
 
 const CurrencyInput = ({
   label,
@@ -14,7 +28,7 @@ const CurrencyInput = ({
   onSubmitEditing,
   onFocus,
   onBlur,
-}) => {
+}: CurrencyType) => {
   const {
     containerStyle,
     labelStyle,
