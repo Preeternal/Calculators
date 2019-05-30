@@ -113,23 +113,25 @@ const CurrencyComponent = graphql(getCurrencies)((props) => {
     return <Text>{error.message}</Text>;
   }
   if (currencies) {
-    return (<FlatList
-      data={currencies}
-      renderItem={({ item }) => (
-        <Input
-          key={item.charCode}
-          placeholder={item.name}
-          // label="Сумма вклада"
-          label={item.charCode}
-          // onChangeText={this.onPrincipalChange}
-          // onFocus={() => this.onFocus('principal', this.props.principal)}
-          // onBlur={() => this.onBlur('principal', this.props.principal)}
-          // appInputStyle={{ color: this.state.principalColor }}
-          // value={currency.value.toString()}
-        />
-      )}
-      keyExtractor={(item, index) => item + index}
-    />);
+    return (
+      <FlatList
+        data={currencies}
+        renderItem={({ item }) => (
+          <Input
+            key={item.charCode}
+            placeholder={item.name}
+            // label="Сумма вклада"
+            label={item.charCode}
+            // onChangeText={this.onPrincipalChange}
+            // onFocus={() => this.onFocus('principal', this.props.principal)}
+            // onBlur={() => this.onBlur('principal', this.props.principal)}
+            // appInputStyle={{ color: this.state.principalColor }}
+            // value={currency.value.toString()}
+          />
+        )}
+        keyExtractor={(item, index) => item + index}
+      />
+    );
   }
   return <Text>Loading...</Text>;
 });
@@ -211,7 +213,6 @@ class Converter extends Component<Props, State> {
       });
   }
 
-
   render() {
     const {
       topImage, welcome, radioStyle, pieContainer, pie, gauge, gaugeText,
@@ -226,7 +227,6 @@ class Converter extends Component<Props, State> {
       adjunctionAll,
       table,
     } = this.props.calculated;
-
 
     const optionsN = {
       style: 'currency',
@@ -314,7 +314,6 @@ Converter.propTypes = {
   language: PropTypes.number,
   country: PropTypes.number,
   countryIP: PropTypes.bool,
-
 };
 
 const mapStateToProps = state => ({
