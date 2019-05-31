@@ -38,10 +38,10 @@ const CurrencyInput = ({
     nameStyle,
   } = styles;
 
-  let textInput = null;
+  const textInput = React.createRef();
 
   function handleClick() {
-    textInput.focus();
+    if (textInput.current) textInput.current.focus();
   }
 
   return (
@@ -64,9 +64,7 @@ const CurrencyInput = ({
             onBlur={onBlur}
             keyboardType="numeric"
             underlineColorAndroid="transparent"
-            ref={(input) => {
-              textInput = input;
-            }}
+            ref={textInput}
           />
           <Text style={nameStyle}>{name}</Text>
         </View>
