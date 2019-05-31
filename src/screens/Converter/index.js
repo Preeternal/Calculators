@@ -23,6 +23,7 @@ import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
 
 import client from '../../client';
+import CurrencyComponent from './CurrencyComponent';
 
 import {
   principalChanged,
@@ -113,51 +114,51 @@ const getCurrencies = gql`
   }
 `;
 
-const CurrencyComponent = graphql(getCurrencies)((props) => {
-  const { error, currencies } = props.data;
-  // console.log(props);
-  if (error) {
-    return <Text>{error.message}</Text>;
-  }
-  if (currencies) {
-    console.log(currentLocale);
-    return (
-      <FlatList
-        data={[
-          {
-            charCode: 'RUB',
-            id: '1',
-            name: 'Российский рубль',
-            nameEng: 'Russian ruble',
-            nominal: 1,
-            updatedAt: '2019-05-30T11:02:01.574Z',
-            value: 1,
-            __typename: 'Currency',
-          },
-          ...currencies,
-        ]}
-        renderItem={({ item }) => (
-          <CurrencyInput
-            key={item.charCode}
-            // placeholder={item.name}
-            // label="Сумма вклада"
-            label={item.charCode}
-            name={`${item.nominal} ${
-              currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
-            }`}
-            // onChangeText={this.onPrincipalChange}
-            // onFocus={() => this.onFocus('principal', this.props.principal)}
-            // onBlur={() => this.onBlur('principal', this.props.principal)}
-            // appInputStyle={{ color: this.state.principalColor }}
-            value={`${item.value / item.nominal}`}
-          />
-        )}
-        keyExtractor={(item, index) => item + index}
-      />
-    );
-  }
-  return <Text>Loading...</Text>;
-});
+// const CurrencyComponent = graphql(getCurrencies)((props) => {
+//   const { error, currencies } = props.data;
+//   // console.log(props);
+//   if (error) {
+//     return <Text>{error.message}</Text>;
+//   }
+//   if (currencies) {
+//     console.log(currentLocale);
+//     return (
+//       <FlatList
+//         data={[
+//           {
+//             charCode: 'RUB',
+//             id: '1',
+//             name: 'Российский рубль',
+//             nameEng: 'Russian ruble',
+//             nominal: 1,
+//             updatedAt: '2019-05-30T11:02:01.574Z',
+//             value: 1,
+//             __typename: 'Currency',
+//           },
+//           ...currencies,
+//         ]}
+//         renderItem={({ item }) => (
+//           <CurrencyInput
+//             key={item.charCode}
+//             // placeholder={item.name}
+//             // label="Сумма вклада"
+//             label={item.charCode}
+//             name={`${item.nominal} ${
+//               currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
+//             }`}
+//             // onChangeText={this.onPrincipalChange}
+//             // onFocus={() => this.onFocus('principal', this.props.principal)}
+//             // onBlur={() => this.onBlur('principal', this.props.principal)}
+//             // appInputStyle={{ color: this.state.principalColor }}
+//             value={`${item.value / item.nominal}`}
+//           />
+//         )}
+//         keyExtractor={(item, index) => item + index}
+//       />
+//     );
+//   }
+//   return <Text>Loading...</Text>;
+// });
 
 type State = {
   didFinishInitialAnimation?: boolean,
