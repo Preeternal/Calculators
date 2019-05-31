@@ -101,7 +101,7 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 10,
   },
-  nameStyle: { paddingRight: 10, paddingBottom: 10, fontSize: 10 },
+  nameStyle: { paddingRight: 10, paddingBottom: 10, fontSize: 13 },
 };
 
 export { CurrencyInput };

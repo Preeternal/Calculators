@@ -4,6 +4,7 @@ import { Text, FlatList } from 'react-native';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
 
+import client from '../../client';
 import { CurrencyInput } from '../../components/common';
 import { currentLocale } from '../../../locales/i18n';
 
@@ -11,20 +12,39 @@ type Props = {
   data: Object,
 };
 
-// eslint-disable-next-line react/prefer-stateless-function
-class CurrencyComponent extends Component<Props> {
-  onChangeCurrency = () => {
-    console.log('Changed!');
+type State = {
+  currencies: Array<Object>,
+};
+
+class CurrencyComponent extends Component<Props, State> {
+  state = { currencies: [] };
+
+  componentDidMount() {
+    // console.log(this.props);
+    // if (this.props.data.currencies) this.setState({ currencies: this.props.data });
+    client
+      .query({
+        query: getCurrencies,
+      })
+      .then((response) => {
+        this.setState({ currencies: response.data.currencies });
+      });
+  }
+
+  onChangeCurrency = (data) => {
+    console.log(data);
+    // this.setState({ currencies: [
+    //   ...this.state.currencies
+    // ] });
   };
 
   render() {
-    console.log(this.props);
     const { error, currencies, loading } = this.props.data;
     if (error) {
       return <Text>{error.message}</Text>;
     }
     if (currencies) {
-      console.log(currentLocale);
+      console.log(this.state.currencies);
       return (
         <FlatList
           data={[
@@ -38,11 +58,11 @@ class CurrencyComponent extends Component<Props> {
               value: 1,
               __typename: 'Currency',
             },
-            ...currencies,
+            ...this.state.currencies,
           ]}
           renderItem={({ item }) => (
             <CurrencyInput
-              key={item.charCode}
+              // key={item.charCode}
               // placeholder={item.name}
               // label="Сумма вклада"
               label={item.charCode}
@@ -56,7 +76,7 @@ class CurrencyComponent extends Component<Props> {
               value={`${item.value / item.nominal}`}
             />
           )}
-          keyExtractor={(item, index) => item + index}
+          keyExtractor={item => item.charCode}
         />
       );
     }
