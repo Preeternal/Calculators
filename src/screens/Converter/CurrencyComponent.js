@@ -27,15 +27,47 @@ class CurrencyComponent extends Component<Props, State> {
         query: getCurrencies,
       })
       .then((response) => {
-        this.setState({ currencies: response.data.currencies });
+        const currenciesWithInputField = response.data.currencies.map((currency) => {
+          const curr = { ...currency };
+          curr.input = curr.value / curr.nominal;
+          return curr;
+        });
+        this.setState({
+          currencies: [
+            {
+              charCode: 'RUB',
+              id: '1',
+              input: 1,
+              name: 'Российский рубль',
+              nameEng: 'Russian ruble',
+              nominal: 1,
+              updatedAt: '2019-05-30T11:02:01.574Z',
+              value: 1,
+              __typename: 'Currency',
+            },
+            ...currenciesWithInputField,
+          ],
+        });
       });
   }
 
-  onChangeCurrency = (data) => {
-    console.log(data);
-    // this.setState({ currencies: [
-    //   ...this.state.currencies
-    // ] });
+  onChangeCurrency = (index, input) => {
+    // console.log(index);
+    // console.log(input);
+    this.setState((prevState) => {
+      const currencies = [...prevState.currencies];
+      currencies[index].input = input;
+      const divider = input / currencies[index].value / currencies[index].nominal;
+      console.log(divider);
+      const currenciesWithDivider = currencies.map((currency) => {
+        const curr = { ...currency };
+        curr.input = (curr.value / curr.nominal) * divider;
+        return curr;
+      });
+      return {
+        currencies: currenciesWithDivider,
+      };
+    });
   };
 
   render() {
@@ -48,19 +80,19 @@ class CurrencyComponent extends Component<Props, State> {
       return (
         <FlatList
           data={[
-            {
-              charCode: 'RUB',
-              id: '1',
-              name: 'Российский рубль',
-              nameEng: 'Russian ruble',
-              nominal: 1,
-              updatedAt: '2019-05-30T11:02:01.574Z',
-              value: 1,
-              __typename: 'Currency',
-            },
+            // {
+            //   charCode: 'RUB',
+            //   id: '1',
+            //   name: 'Российский рубль',
+            //   nameEng: 'Russian ruble',
+            //   nominal: 1,
+            //   updatedAt: '2019-05-30T11:02:01.574Z',
+            //   value: 1,
+            //   __typename: 'Currency',
+            // },
             ...this.state.currencies,
           ]}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <CurrencyInput
               // key={item.charCode}
               // placeholder={item.name}
@@ -69,11 +101,13 @@ class CurrencyComponent extends Component<Props, State> {
               name={`${item.nominal} ${
                 currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
               }`}
-              onChangeText={this.onChangeCurrency}
+              onChangeText={(input) => {
+                this.onChangeCurrency(index, input);
+              }}
               // onFocus={() => this.onFocus('principal', this.props.principal)}
               // onBlur={() => this.onBlur('principal', this.props.principal)}
               // appInputStyle={{ color: this.state.principalColor }}
-              value={`${item.value / item.nominal}`}
+              value={`${item.input}`}
             />
           )}
           keyExtractor={item => item.charCode}
