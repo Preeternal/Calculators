@@ -232,7 +232,7 @@ class Converter extends Component<Props, State> {
       })
       .then((response) => {
         response.data.currencies.forEach((currency) => {
-          console.log(currency.name);
+          // console.log(currency.name);
         });
       });
   }

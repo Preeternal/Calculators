@@ -29,7 +29,10 @@ class CurrencyComponent extends Component<Props, State> {
       .then((response) => {
         const currenciesWithInputField = response.data.currencies.map((currency) => {
           const curr = { ...currency };
-          curr.input = curr.value / curr.nominal;
+          curr.input = curr.nominal / curr.value; // 10/24 = 0.41 grn for rub
+          // 10 - 24 р
+          // х - 1
+          // х = 10/24 = 0.41
           return curr;
         });
         this.setState({
@@ -52,16 +55,16 @@ class CurrencyComponent extends Component<Props, State> {
   }
 
   onChangeCurrency = (index, input) => {
-    // console.log(index);
-    // console.log(input);
     this.setState((prevState) => {
       const currencies = [...prevState.currencies];
-      currencies[index].input = input;
-      const divider = input / currencies[index].value / currencies[index].nominal;
-      console.log(divider);
-      const currenciesWithDivider = currencies.map((currency) => {
+      const divider = input / currencies[index].nominal / currencies[index].value;
+      const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
-        curr.input = (curr.value / curr.nominal) * divider;
+        if (ind === index) {
+          curr.input = input;
+        } else {
+          curr.input = (curr.nominal / curr.value) * divider;
+        }
         return curr;
       });
       return {
