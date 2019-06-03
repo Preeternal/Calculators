@@ -54,7 +54,7 @@ class CurrencyComponent extends Component<Props, State> {
   onChangeCurrency = (index, input) => {
     this.setState((prevState) => {
       const currencies = [...prevState.currencies];
-      const divider = input / currencies[index].nominal / currencies[index].value;
+      // const divider = input / currencies[index].nominal / currencies[index].value;
       // rub 65/ 1 / 1  = 65
       // usd 1 / 1 / 65.384 = 0.01529
       // uah 243.33 / 10 / 24.33 = 1
@@ -62,7 +62,7 @@ class CurrencyComponent extends Component<Props, State> {
       console.log(input);
       console.log(currencies[index].nominal);
       console.log(currencies[index].value);
-      console.log(divider);
+      // console.log(divider);
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
         if (ind === index) {
@@ -75,7 +75,7 @@ class CurrencyComponent extends Component<Props, State> {
           //   curr.input = curr.nominal / curr.value / divider;
           // }
 
-          curr.input = curr.nominal * input;
+          curr.input = (input * curr.nominal) / curr.value;
 
           // rub (1 / 1) / 0.01529
           // usd (1 / 65.384) /  65
