@@ -7,6 +7,7 @@ import { graphql } from 'react-apollo';
 import client from '../../client';
 import { CurrencyInput } from '../../components/common';
 import { currentLocale } from '../../../locales/i18n';
+import { number } from '../../lib';
 
 type Props = {
   data: Object,
@@ -54,35 +55,13 @@ class CurrencyComponent extends Component<Props, State> {
   onChangeCurrency = (index, input) => {
     this.setState((prevState) => {
       const currencies = [...prevState.currencies];
-      // const divider = input / currencies[index].nominal / currencies[index].value;
-      // rub 65/ 1 / 1  = 65
-      // usd 1 / 1 / 65.384 = 0.01529
-      // uah 243.33 / 10 / 24.33 = 1
-
-      console.log(input);
-      console.log(currencies[index].nominal);
-      console.log(currencies[index].value);
-      // console.log(divider);
+      const divider = input / (currencies[index].nominal / currencies[index].value);
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
         if (ind === index) {
           curr.input = input;
         } else {
-          // eslint-disable-next-line no-lonely-if
-          // if (currencies[index].charCode === 'RUB') {
-          //   curr.input = (curr.nominal / curr.value) * divider;
-          // } else {
-          //   curr.input = curr.nominal / curr.value / divider;
-          // }
-
-          curr.input = (input * curr.nominal) / curr.value;
-
-          // rub (1 / 1) / 0.01529
-          // usd (1 / 65.384) /  65
-          // uah
-
-          // rub (1 / 1) * 0.01529
-          // usd (1 / 65.384) * 65
+          curr.input = (curr.nominal / curr.value) * divider;
         }
         return curr;
       });
