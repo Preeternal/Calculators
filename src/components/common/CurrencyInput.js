@@ -54,7 +54,7 @@ const CurrencyInput = ({
           <TextInput
             secureTextEntry={secureTextEntry}
             placeholder={placeholder}
-            // autoCorrect={false}
+            selectTextOnFocus
             style={inputTextStyle}
             value={value}
             onChangeText={onChangeText}

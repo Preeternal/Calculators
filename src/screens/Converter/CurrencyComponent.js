@@ -30,9 +30,6 @@ class CurrencyComponent extends Component<Props, State> {
         const currenciesWithInputField = response.data.currencies.map((currency) => {
           const curr = { ...currency };
           curr.input = curr.nominal / curr.value; // 10/24 = 0.41 grn for rub
-          // 10 - 24 р
-          // х - 1
-          // х = 10/24 = 0.41
           return curr;
         });
         this.setState({
@@ -58,12 +55,34 @@ class CurrencyComponent extends Component<Props, State> {
     this.setState((prevState) => {
       const currencies = [...prevState.currencies];
       const divider = input / currencies[index].nominal / currencies[index].value;
+      // rub 65/ 1 / 1  = 65
+      // usd 1 / 1 / 65.384 = 0.01529
+      // uah 243.33 / 10 / 24.33 = 1
+
+      console.log(input);
+      console.log(currencies[index].nominal);
+      console.log(currencies[index].value);
+      console.log(divider);
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
         if (ind === index) {
           curr.input = input;
         } else {
-          curr.input = (curr.nominal / curr.value) * divider;
+          // eslint-disable-next-line no-lonely-if
+          // if (currencies[index].charCode === 'RUB') {
+          //   curr.input = (curr.nominal / curr.value) * divider;
+          // } else {
+          //   curr.input = curr.nominal / curr.value / divider;
+          // }
+
+          curr.input = curr.nominal * input;
+
+          // rub (1 / 1) / 0.01529
+          // usd (1 / 65.384) /  65
+          // uah
+
+          // rub (1 / 1) * 0.01529
+          // usd (1 / 65.384) * 65
         }
         return curr;
       });
@@ -82,24 +101,10 @@ class CurrencyComponent extends Component<Props, State> {
       console.log(this.state.currencies);
       return (
         <FlatList
-          data={[
-            // {
-            //   charCode: 'RUB',
-            //   id: '1',
-            //   name: 'Российский рубль',
-            //   nameEng: 'Russian ruble',
-            //   nominal: 1,
-            //   updatedAt: '2019-05-30T11:02:01.574Z',
-            //   value: 1,
-            //   __typename: 'Currency',
-            // },
-            ...this.state.currencies,
-          ]}
+          data={[...this.state.currencies]}
           renderItem={({ item, index }) => (
             <CurrencyInput
-              // key={item.charCode}
               // placeholder={item.name}
-              // label="Сумма вклада"
               label={item.charCode}
               name={`${item.nominal} ${
                 currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
