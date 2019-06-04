@@ -9,16 +9,23 @@ import { CurrencyInput } from '../../components/common';
 import { currentLocale } from '../../../locales/i18n';
 import { number } from '../../lib';
 
+const textColor = '#525050';
+const activeTextColor = '#000000';
+
 type Props = {
   data: Object,
 };
 
 type State = {
   currencies: Array<Object>,
+  inputStyle: Array<String>,
 };
 
 class CurrencyComponent extends Component<Props, State> {
-  state = { currencies: [] };
+  state = {
+    currencies: [],
+    inputStyle: [],
+  };
 
   componentDidMount() {
     // console.log(this.props);
@@ -30,7 +37,7 @@ class CurrencyComponent extends Component<Props, State> {
       .then((response) => {
         const currenciesWithInputField = response.data.currencies.map((currency) => {
           const curr = { ...currency };
-          curr.input = curr.nominal / curr.value; // 10/24 = 0.41 grn for rub
+          curr.input = curr.nominal / curr.value;
           return curr;
         });
         this.setState({
@@ -48,18 +55,19 @@ class CurrencyComponent extends Component<Props, State> {
             },
             ...currenciesWithInputField,
           ],
+          inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
         });
       });
   }
 
-  onChangeCurrency = (index, input) => {
+  onChangeCurrency = (index, input: string) => {
     this.setState((prevState) => {
       const currencies = [...prevState.currencies];
-      const divider = input / (currencies[index].nominal / currencies[index].value);
+      const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
         if (ind === index) {
-          curr.input = input;
+          curr.input = number(input);
         } else {
           curr.input = (curr.nominal / curr.value) * divider;
         }
@@ -71,7 +79,36 @@ class CurrencyComponent extends Component<Props, State> {
     });
   };
 
+  // onFocus = (input, text) => {
+  //   this.setState({
+  //     [`${input}Color`]: activeTextColor,
+  //   });
+  //   // if (text === '0' || text === '0,00') {
+  //   //   this.props[`${input}Changed`]('');
+  //   // } else {
+  //   //   this.props[`${input}Changed`](number(text));
+  //   // }
+  // };
+
+  // onBlur = (input, text) => {
+  //   this.setState({
+  //     [`${input}Color`]: textColor,
+  //   });
+  //   if (text === '') {
+  //     this.props[`${input}Changed`]('0');
+  //   } else {
+  //     const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
+  //     this.props[`${input}Changed`](
+  //       Number(number(text)).toLocaleString('ru-RU', {
+  //         minimumFractionDigits,
+  //         maximumFractionDigits: minimumFractionDigits,
+  //       }),
+  //     );
+  //   }
+  // };
+
   render() {
+    console.log(this.state.inputStyle);
     const { error, currencies, loading } = this.props.data;
     if (error) {
       return <Text>{error.message}</Text>;

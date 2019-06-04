@@ -15,6 +15,7 @@ type CurrencyType = {
   onSubmitEditing: Function,
   onFocus: Function,
   onBlur: Function,
+  appInputStyle: Object,
 };
 
 const CurrencyInput = ({
@@ -28,6 +29,7 @@ const CurrencyInput = ({
   onSubmitEditing,
   onFocus,
   onBlur,
+  appInputStyle,
 }: CurrencyType) => {
   const {
     containerStyle,
@@ -55,7 +57,7 @@ const CurrencyInput = ({
             secureTextEntry={secureTextEntry}
             placeholder={placeholder}
             selectTextOnFocus
-            style={inputTextStyle}
+            style={[inputTextStyle, appInputStyle]}
             value={value}
             onChangeText={onChangeText}
             onSelectionChange={onSelectionChange}
