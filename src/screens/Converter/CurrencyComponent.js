@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Text, FlatList } from 'react-native';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
+import 'number-to-locale-string';
 
 import client from '../../client';
 import { CurrencyInput } from '../../components/common';
@@ -67,7 +68,7 @@ class CurrencyComponent extends Component<Props, State> {
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
         if (ind === index) {
-          curr.input = number(input);
+          curr.input = Number(number(input));
         } else {
           curr.input = (curr.nominal / curr.value) * divider;
         }
@@ -81,9 +82,14 @@ class CurrencyComponent extends Component<Props, State> {
 
   onFocus = (index) => {
     this.setState((prevState) => {
+      const currencies = [...prevState.currencies];
+      if (currencies[index].input === 0 || currencies[index].input === '0,00') {
+        currencies[index].input = '';
+      }
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, activeTextColor);
       return {
+        currencies,
         inputStyle,
       };
     });
@@ -97,9 +103,20 @@ class CurrencyComponent extends Component<Props, State> {
 
   onBlur = (index) => {
     this.setState((prevState) => {
+      const currencies = [...prevState.currencies];
+      if (currencies[index].input === '') {
+        currencies[index].input = 0;
+      } else {
+        const minimumFractionDigits = Math.ceil(Number(currencies[index].input)) !== Number(currencies[index].input) ? 2 : 0;
+        currencies[index].input = Number(number(`${currencies[index].input}`)).toLocaleString('ru-RU', {
+          minimumFractionDigits,
+          maximumFractionDigits: minimumFractionDigits,
+        });
+      }
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, textColor);
       return {
+        currencies,
         inputStyle,
       };
     });
@@ -138,7 +155,6 @@ class CurrencyComponent extends Component<Props, State> {
                 this.onChangeCurrency(index, input);
               }}
               onFocus={() => this.onFocus(index)}
-              // onFocus={() => this.onFocus('principal', this.props.principal)}
               onBlur={() => this.onBlur(index)}
               appInputStyle={{ color: this.state.inputStyle[index] }}
               value={`${item.input}`}
