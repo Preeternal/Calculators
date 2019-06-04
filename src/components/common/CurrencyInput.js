@@ -86,8 +86,6 @@ const styles = {
   },
   labelStyle: {
     flex: 1,
-    // borderRightWidth: 1,
-    // borderColor: '#ddd',
     justifyContent: 'center',
   },
   labelTextStyle: {

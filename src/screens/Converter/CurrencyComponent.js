@@ -18,7 +18,7 @@ type Props = {
 
 type State = {
   currencies: Array<Object>,
-  inputStyle: Array<String>,
+  inputStyle: Array<string>,
 };
 
 class CurrencyComponent extends Component<Props, State> {
@@ -79,33 +79,42 @@ class CurrencyComponent extends Component<Props, State> {
     });
   };
 
-  // onFocus = (input, text) => {
-  //   this.setState({
-  //     [`${input}Color`]: activeTextColor,
-  //   });
-  //   // if (text === '0' || text === '0,00') {
-  //   //   this.props[`${input}Changed`]('');
-  //   // } else {
-  //   //   this.props[`${input}Changed`](number(text));
-  //   // }
-  // };
+  onFocus = (index) => {
+    this.setState((prevState) => {
+      const inputStyle = [...prevState.inputStyle];
+      inputStyle.splice(index, 1, activeTextColor);
+      return {
+        inputStyle,
+      };
+    });
+    // }
+    // if (text === '0' || text === '0,00') {
+    //   this.props[`${input}Changed`]('');
+    // } else {
+    //   this.props[`${input}Changed`](number(text));
+    // }
+  };
 
-  // onBlur = (input, text) => {
-  //   this.setState({
-  //     [`${input}Color`]: textColor,
-  //   });
-  //   if (text === '') {
-  //     this.props[`${input}Changed`]('0');
-  //   } else {
-  //     const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
-  //     this.props[`${input}Changed`](
-  //       Number(number(text)).toLocaleString('ru-RU', {
-  //         minimumFractionDigits,
-  //         maximumFractionDigits: minimumFractionDigits,
-  //       }),
-  //     );
-  //   }
-  // };
+  onBlur = (index) => {
+    this.setState((prevState) => {
+      const inputStyle = [...prevState.inputStyle];
+      inputStyle.splice(index, 1, textColor);
+      return {
+        inputStyle,
+      };
+    });
+    // if (text === '') {
+    //   this.props[`${input}Changed`]('0');
+    // } else {
+    //   const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
+    //   this.props[`${input}Changed`](
+    //     Number(number(text)).toLocaleString('ru-RU', {
+    //       minimumFractionDigits,
+    //       maximumFractionDigits: minimumFractionDigits,
+    //     }),
+    //   );
+    // }
+  };
 
   render() {
     console.log(this.state.inputStyle);
@@ -114,7 +123,7 @@ class CurrencyComponent extends Component<Props, State> {
       return <Text>{error.message}</Text>;
     }
     if (currencies) {
-      console.log(this.state.currencies);
+      // console.log(this.state.currencies);
       return (
         <FlatList
           data={[...this.state.currencies]}
@@ -128,9 +137,10 @@ class CurrencyComponent extends Component<Props, State> {
               onChangeText={(input) => {
                 this.onChangeCurrency(index, input);
               }}
+              onFocus={() => this.onFocus(index)}
               // onFocus={() => this.onFocus('principal', this.props.principal)}
-              // onBlur={() => this.onBlur('principal', this.props.principal)}
-              // appInputStyle={{ color: this.state.principalColor }}
+              onBlur={() => this.onBlur(index)}
+              appInputStyle={{ color: this.state.inputStyle[index] }}
               value={`${item.input}`}
             />
           )}
