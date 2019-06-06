@@ -38,7 +38,7 @@ class CurrencyComponent extends Component<Props, State> {
       .then((response) => {
         const currenciesWithInputField = response.data.currencies.map((currency) => {
           const curr = { ...currency };
-          curr.input = curr.nominal / curr.value;
+          curr.input = this.getLocalInput(curr.nominal / curr.value);
           return curr;
         });
         this.setState({
@@ -68,10 +68,10 @@ class CurrencyComponent extends Component<Props, State> {
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
         if (ind === index) {
-          curr.input = Number(number(input));
-          // curr.input = `${number(input)}`;
+          // curr.input = Number(number(input));
+          curr.input = `${number(input)}`;
         } else {
-          curr.input = (curr.nominal / curr.value) * divider;
+          curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
         }
         return curr;
       });
@@ -160,7 +160,7 @@ class CurrencyComponent extends Component<Props, State> {
               onFocus={() => this.onFocus(index)}
               onBlur={() => this.onBlur(index)}
               appInputStyle={{ color: this.state.inputStyle[index] }}
-              value={this.getLocalInput(item.input)}
+              value={`${item.input}`}
             />
           )}
           keyExtractor={item => item.charCode}
