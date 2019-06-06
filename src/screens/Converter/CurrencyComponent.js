@@ -69,6 +69,7 @@ class CurrencyComponent extends Component<Props, State> {
         const curr = { ...currency };
         if (ind === index) {
           curr.input = Number(number(input));
+          // curr.input = `${number(input)}`;
         } else {
           curr.input = (curr.nominal / curr.value) * divider;
         }
@@ -107,11 +108,7 @@ class CurrencyComponent extends Component<Props, State> {
       if (currencies[index].input === '') {
         currencies[index].input = 0;
       } else {
-        const minimumFractionDigits = Math.ceil(Number(currencies[index].input)) !== Number(currencies[index].input) ? 2 : 0;
-        currencies[index].input = Number(number(`${currencies[index].input}`)).toLocaleString('ru-RU', {
-          minimumFractionDigits,
-          maximumFractionDigits: minimumFractionDigits,
-        });
+        currencies[index].input = this.getLocalInput(currencies[index].input);
       }
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, textColor);
@@ -133,14 +130,20 @@ class CurrencyComponent extends Component<Props, State> {
     // }
   };
 
+  getLocalInput = (input) => {
+    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
+    return Number(number(`${input}`)).toLocaleString('ru-RU', {
+      minimumFractionDigits,
+      maximumFractionDigits: minimumFractionDigits,
+    });
+  };
+
   render() {
-    console.log(this.state.inputStyle);
     const { error, currencies, loading } = this.props.data;
     if (error) {
       return <Text>{error.message}</Text>;
     }
     if (currencies) {
-      // console.log(this.state.currencies);
       return (
         <FlatList
           data={[...this.state.currencies]}
@@ -157,7 +160,7 @@ class CurrencyComponent extends Component<Props, State> {
               onFocus={() => this.onFocus(index)}
               onBlur={() => this.onBlur(index)}
               appInputStyle={{ color: this.state.inputStyle[index] }}
-              value={`${item.input}`}
+              value={this.getLocalInput(item.input)}
             />
           )}
           keyExtractor={item => item.charCode}
