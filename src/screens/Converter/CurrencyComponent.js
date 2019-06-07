@@ -29,8 +29,6 @@ class CurrencyComponent extends Component<Props, State> {
   };
 
   componentDidMount() {
-    // console.log(this.props);
-    // if (this.props.data.currencies) this.setState({ currencies: this.props.data });
     client
       .query({
         query: getCurrencies,
@@ -41,6 +39,12 @@ class CurrencyComponent extends Component<Props, State> {
           curr.input = this.getLocalInput(curr.nominal / curr.value);
           return curr;
         });
+        const preset = ['UAH', 'USD', 'EUR'];
+        const filter = currenciesWithInputField.filter(
+          // currency => currency.charCode === 'USD' || currency.charCode === 'EUR',
+          currency => preset.includes(currency.charCode),
+        );
+        console.log(filter);
         this.setState({
           currencies: [
             {
@@ -68,8 +72,7 @@ class CurrencyComponent extends Component<Props, State> {
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
         if (ind === index) {
-          // curr.input = Number(number(input));
-          curr.input = `${number(input)}`;
+          curr.input = number(input);
         } else {
           curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
         }
