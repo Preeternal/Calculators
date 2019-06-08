@@ -19,12 +19,16 @@ type Props = {
 
 type State = {
   currencies: Array<Object>,
+  preset: Array<string>,
+  presetCurrencies: Array<Object>,
   inputStyle: Array<string>,
 };
 
 class CurrencyComponent extends Component<Props, State> {
   state = {
     currencies: [],
+    preset: ['UAH', 'RUB', 'USD', 'EUR'],
+    presetCurrencies: [],
     inputStyle: [],
   };
 
@@ -39,12 +43,6 @@ class CurrencyComponent extends Component<Props, State> {
           curr.input = this.getLocalInput(curr.nominal / curr.value);
           return curr;
         });
-        const preset = ['UAH', 'USD', 'EUR'];
-        const filter = currenciesWithInputField.filter(
-          // currency => currency.charCode === 'USD' || currency.charCode === 'EUR',
-          currency => preset.includes(currency.charCode),
-        );
-        console.log(filter);
         this.setState({
           currencies: [
             {
@@ -61,6 +59,14 @@ class CurrencyComponent extends Component<Props, State> {
             ...currenciesWithInputField,
           ],
           inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
+        });
+        const filter = this.state.currencies.filter(currency => this.state.preset.includes(currency.charCode));
+        filter.sort(
+          (a, b) => this.state.preset.indexOf(a.charCode) - this.state.preset.indexOf(b.charCode),
+        );
+        // console.log(filter);
+        this.setState({
+          presetCurrencies: [...filter],
         });
       });
   }
@@ -149,7 +155,7 @@ class CurrencyComponent extends Component<Props, State> {
     if (currencies) {
       return (
         <FlatList
-          data={[...this.state.currencies]}
+          data={[...this.state.presetCurrencies]}
           renderItem={({ item, index }) => (
             <CurrencyInput
               // placeholder={item.name}
