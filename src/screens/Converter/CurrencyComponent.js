@@ -1,8 +1,10 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Text, FlatList } from 'react-native';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
+import ActionButton from 'react-native-action-button';
+import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
 import client from '../../client';
@@ -27,7 +29,7 @@ type State = {
 class CurrencyComponent extends Component<Props, State> {
   state = {
     currencies: [],
-    preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY'],
+    preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
     presetCurrencies: [],
     inputStyle: [],
   };
@@ -154,26 +156,60 @@ class CurrencyComponent extends Component<Props, State> {
     }
     if (currencies) {
       return (
-        <FlatList
-          data={[...this.state.presetCurrencies]}
-          renderItem={({ item, index }) => (
-            <CurrencyInput
-              // placeholder={item.name}
-              label={item.charCode}
-              name={`${item.nominal} ${
-                currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
-              }`}
-              onChangeText={(input) => {
-                this.onChangeCurrency(index, input);
-              }}
-              onFocus={() => this.onFocus(index)}
-              onBlur={() => this.onBlur(index)}
-              appInputStyle={{ color: this.state.inputStyle[index] }}
-              value={`${item.input}`}
-            />
-          )}
-          keyExtractor={item => item.charCode}
-        />
+        <Fragment>
+          <FlatList
+            data={[...this.state.presetCurrencies]}
+            renderItem={({ item, index }) => (
+              <CurrencyInput
+                // placeholder={item.name}
+                label={item.charCode}
+                name={`${item.nominal} ${
+                  currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
+                }`}
+                onChangeText={(input) => {
+                  this.onChangeCurrency(index, input);
+                }}
+                onFocus={() => this.onFocus(index)}
+                onBlur={() => this.onBlur(index)}
+                appInputStyle={{ color: this.state.inputStyle[index] }}
+                value={`${item.input}`}
+              />
+            )}
+            keyExtractor={item => item.charCode}
+          />
+          <ActionButton
+            buttonColor="rgba(231,76,60,1)"
+            // verticalOrientation="up"
+            position="center"
+            // offsetX={70}
+            offsetY={10}
+            // style={{
+            //   // position: 'absolute',
+            //   // bottom: 16,
+            //   // right: 16,
+            //   // alignItems: 'center',
+            //   // justifyContent: 'center',
+            //   // width: 56,
+            //   // height: 56,
+            //   // // backgroundColor: ORANGE,
+            //   // borderRadius: 30,
+            // }}
+          >
+            <ActionButton.Item
+              buttonColor="#9b59b6"
+              title="New Task"
+              onPress={() => console.log('notes tapped!')}
+            >
+              <Icon name="md-create" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor="#3498db" title="Notifications" onPress={() => {}}>
+              <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
+              <Icon name="md-done-all" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+          </ActionButton>
+        </Fragment>
       );
     }
     if (loading) return <Text>Loading...</Text>;
@@ -196,3 +232,11 @@ const getCurrencies = gql`
 `;
 
 export default graphql(getCurrencies)(CurrencyComponent);
+
+const styles = {
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
+};
