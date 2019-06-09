@@ -27,7 +27,7 @@ type State = {
 class CurrencyComponent extends Component<Props, State> {
   state = {
     currencies: [],
-    preset: ['UAH', 'RUB', 'USD', 'EUR'],
+    preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY'],
     presetCurrencies: [],
     inputStyle: [],
   };
@@ -64,16 +64,16 @@ class CurrencyComponent extends Component<Props, State> {
         filter.sort(
           (a, b) => this.state.preset.indexOf(a.charCode) - this.state.preset.indexOf(b.charCode),
         );
-        // console.log(filter);
         this.setState({
           presetCurrencies: [...filter],
         });
+        console.log(this.state.currencies);
       });
   }
 
   onChangeCurrency = (index, input: string) => {
     this.setState((prevState) => {
-      const currencies = [...prevState.currencies];
+      const currencies = [...prevState.presetCurrencies];
       const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
       const currenciesWithDivider = currencies.map((currency, ind) => {
         const curr = { ...currency };
@@ -85,21 +85,21 @@ class CurrencyComponent extends Component<Props, State> {
         return curr;
       });
       return {
-        currencies: currenciesWithDivider,
+        presetCurrencies: currenciesWithDivider,
       };
     });
   };
 
   onFocus = (index) => {
     this.setState((prevState) => {
-      const currencies = [...prevState.currencies];
+      const currencies = [...prevState.presetCurrencies];
       if (currencies[index].input === 0 || currencies[index].input === '0,00') {
         currencies[index].input = '';
       }
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, activeTextColor);
       return {
-        currencies,
+        presetCurrencies: currencies,
         inputStyle,
       };
     });
@@ -113,7 +113,7 @@ class CurrencyComponent extends Component<Props, State> {
 
   onBlur = (index) => {
     this.setState((prevState) => {
-      const currencies = [...prevState.currencies];
+      const currencies = [...prevState.presetCurrencies];
       if (currencies[index].input === '') {
         currencies[index].input = 0;
       } else {
@@ -122,7 +122,7 @@ class CurrencyComponent extends Component<Props, State> {
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, textColor);
       return {
-        currencies,
+        presetCurrencies: currencies,
         inputStyle,
       };
     });
