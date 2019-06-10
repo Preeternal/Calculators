@@ -7,7 +7,7 @@ import {
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
-import { Icon } from 'native-base';
+// import { Icon } from 'native-base';
 import i18n from 'i18n-js';
 
 import Depo from './Depo';
@@ -18,7 +18,7 @@ import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
-import { strings } from '../../locales/i18n';
+// import { strings } from '../../locales/i18n';
 
 const ConverterStack = createStackNavigator(
   {
