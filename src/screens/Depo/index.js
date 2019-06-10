@@ -87,7 +87,7 @@ type Props = {
   countryIpTriggered: Function,
 
   calculated: typeof calculate,
-  navigation: any,
+  navigation: Function,
 };
 
 const textColor = '#525050';

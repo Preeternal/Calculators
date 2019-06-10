@@ -17,6 +17,7 @@ const activeTextColor = '#000000';
 
 type Props = {
   data: Object,
+  navigation: Function,
 };
 
 type State = {
@@ -27,12 +28,23 @@ type State = {
 };
 
 class CurrencyComponent extends Component<Props, State> {
-  state = {
-    currencies: [],
-    preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
-    presetCurrencies: [],
-    inputStyle: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      currencies: [],
+      preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
+      presetCurrencies: [],
+      inputStyle: [],
+    };
+    const { navigation } = this.props;
+    console.log(navigation);
+  }
+  // state = {
+  //   currencies: [],
+  //   preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
+  //   presetCurrencies: [],
+  //   inputStyle: [],
+  // };
 
   componentDidMount() {
     client
@@ -209,7 +221,12 @@ class CurrencyComponent extends Component<Props, State> {
               <Icon name="md-done-all" style={styles.actionButtonIcon} />
             </ActionButton.Item>
           </ActionButton>
-          <TouchableOpacity onPress={() => {}} style={styles.button}>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('AddCurrency');
+            }}
+            style={styles.button}
+          >
             <Icon name="md-add" style={styles.actionButtonIcon} />
           </TouchableOpacity>
         </Fragment>

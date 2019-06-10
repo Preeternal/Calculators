@@ -190,15 +190,30 @@ class Converter extends Component<Props, State> {
     };
   };
 
-  state = {
-    principalColor: textColor,
-    interest1Color: textColor,
-    interest2Color: textColor,
-    prinplusColor: textColor,
-    isDatePickerVisible: false,
-    isDatePicker2Visible: false,
-    userCountryCode: currentLocale.substring(3),
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      principalColor: textColor,
+      interest1Color: textColor,
+      interest2Color: textColor,
+      prinplusColor: textColor,
+      isDatePickerVisible: false,
+      isDatePicker2Visible: false,
+      userCountryCode: currentLocale.substring(3),
+    };
+    const { navigation } = this.props;
+    console.log(navigation);
+  }
+
+  // state = {
+  //   principalColor: textColor,
+  //   interest1Color: textColor,
+  //   interest2Color: textColor,
+  //   prinplusColor: textColor,
+  //   isDatePickerVisible: false,
+  //   isDatePicker2Visible: false,
+  //   userCountryCode: currentLocale.substring(3),
+  // };
 
   async componentDidMount() {
     if (!this.props.countryIP) {
@@ -280,7 +295,7 @@ class Converter extends Component<Props, State> {
             </Content> */}
 
             <TableSection>
-              <CurrencyComponent />
+              <CurrencyComponent navigation={this.props.navigation} />
             </TableSection>
           </Card>
         </ScrollView>

@@ -2,6 +2,7 @@ import { createDrawerNavigator, createStackNavigator, createAppContainer } from 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
+import { Icon } from 'native-base';
 import i18n from 'i18n-js';
 
 import Depo from './Depo';
@@ -12,6 +13,7 @@ import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
+import { strings } from '../../locales/i18n';
 
 const ConverterStack = createStackNavigator(
   {
@@ -28,7 +30,16 @@ const Navigator = createDrawerNavigator(
   {
     Depo,
     Credit,
-    ConverterStack,
+    ConverterStack: {
+      screen: ConverterStack,
+      navigationOptions: {
+        title: strings('converter.header'), // drawer label initialization
+        // drawerLabel: params && params.DLabel,
+        drawerIcon: ({ tintColor }) => (
+          <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
+        ),
+      },
+    },
     Settings,
     Help,
   },
