@@ -1,4 +1,4 @@
-import { createDrawerNavigator, createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
@@ -7,21 +7,33 @@ import i18n from 'i18n-js';
 import Depo from './Depo';
 import Credit from './Credit';
 import Converter from './Converter';
+import AddCurrency from './Converter/AddCurrency';
 import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
 
+const ConverterStack = createStackNavigator(
+  {
+    Converter,
+    AddCurrency,
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  },
+);
+
 const Navigator = createDrawerNavigator(
   {
     Depo,
     Credit,
-    Converter,
+    ConverterStack,
     Settings,
     Help,
   },
   {
-    initialRouteName: 'Converter',
+    initialRouteName: 'ConverterStack',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
     // drawerBackgroundColor: 'transparent',

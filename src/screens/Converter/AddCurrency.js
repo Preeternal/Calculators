@@ -26,7 +26,7 @@ type State = {
   inputStyle: Array<string>,
 };
 
-class CurrencyComponent extends Component<Props, State> {
+class AddCurrency extends Component<Props, State> {
   state = {
     currencies: [],
     preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
@@ -234,7 +234,7 @@ const getCurrencies = gql`
   }
 `;
 
-export default graphql(getCurrencies)(CurrencyComponent);
+export default graphql(getCurrencies)(AddCurrency);
 
 const styles = {
   actionButtonIcon: {
