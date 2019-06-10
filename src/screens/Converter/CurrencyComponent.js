@@ -63,10 +63,9 @@ class CurrencyComponent extends Component<Props, State> {
           ],
           inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
         });
-        const filter = this.state.currencies.filter(currency => this.state.preset.includes(currency.charCode));
-        filter.sort(
-          (a, b) => this.state.preset.indexOf(a.charCode) - this.state.preset.indexOf(b.charCode),
-        );
+        const { currencies, preset } = this.state;
+        const filter = currencies.filter(currency => preset.includes(currency.charCode));
+        filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
         this.setState({
           presetCurrencies: [...filter],
         });
@@ -198,7 +197,7 @@ class CurrencyComponent extends Component<Props, State> {
             <ActionButton.Item
               buttonColor="#9b59b6"
               title="New Task"
-              onPress={() => console.log('notes tapped!')}
+              // onPress={() => console.log('notes tapped!')}
             >
               <Icon name="md-create" style={styles.actionButtonIcon} />
             </ActionButton.Item>

@@ -155,6 +155,7 @@ class Depo extends Component<Props, State> {
           this.onCountryIpTrigger(true);
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.warn(`There has been a problem with your fetch operation: ${error.message}`);
         });
     }
