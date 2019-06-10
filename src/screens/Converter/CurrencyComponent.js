@@ -28,23 +28,12 @@ type State = {
 };
 
 class CurrencyComponent extends Component<Props, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currencies: [],
-      preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
-      presetCurrencies: [],
-      inputStyle: [],
-    };
-    const { navigation } = this.props;
-    console.log(navigation);
-  }
-  // state = {
-  //   currencies: [],
-  //   preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
-  //   presetCurrencies: [],
-  //   inputStyle: [],
-  // };
+  state = {
+    currencies: [],
+    preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
+    presetCurrencies: [],
+    inputStyle: [],
+  };
 
   componentDidMount() {
     client
@@ -81,7 +70,6 @@ class CurrencyComponent extends Component<Props, State> {
         this.setState({
           presetCurrencies: [...filter],
         });
-        console.log(this.state.currencies);
       });
   }
 
