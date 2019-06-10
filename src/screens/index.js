@@ -1,4 +1,9 @@
-import { createDrawerNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
+import {
+  createDrawerNavigator,
+  createStackNavigator,
+  createAppContainer,
+  getActiveChildNavigationOptions,
+} from 'react-navigation';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
@@ -32,14 +37,21 @@ const Navigator = createDrawerNavigator(
     Credit,
     ConverterStack: {
       screen: ConverterStack,
-      navigationOptions: {
-        title: strings('converter.header'), // drawer label initialization
-        // drawerLabel: params && params.DLabel,
-        drawerIcon: ({ tintColor }) => (
-          <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
-        ),
-      },
+      // navigationOptions: {
+      //   title: strings('converter.header'), // drawer label initialization
+      //   drawerLabel: navigation.state.params && navigation.state.params.DLabel,
+      //   drawerIcon: ({ tintColor }) => (
+      //     <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
+      //   ),
+      // },
+      navigationOptions: ({ navigation, screenProps }) => ({
+        // you can put fallback values before here, eg: a default tabBarLabel
+        ...getActiveChildNavigationOptions(navigation, screenProps),
+        // put other navigationOptions that you don't want the active child to
+        // be able to override here!
+      }),
     },
+    // Converter,
     Settings,
     Help,
   },

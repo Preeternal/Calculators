@@ -183,6 +183,11 @@ class Depo extends Component<Props, State> {
         key: 'Credit',
       });
       this.props.navigation.dispatch(setCreditLabel);
+      const setConverterLabel = NavigationActions.setParams({
+        params: { DLabel: strings('converter.header') },
+        key: 'ConverterStack',
+      });
+      this.props.navigation.dispatch(setConverterLabel);
       const setSettingsLabel = NavigationActions.setParams({
         params: { DLabel: strings('settings.settings') },
         key: 'Settings',

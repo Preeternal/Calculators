@@ -77,6 +77,11 @@ class Settings extends Component {
         key: 'Credit',
       });
       this.props.navigation.dispatch(setCreditLabel);
+      const setConverterLabel = NavigationActions.setParams({
+        params: { DLabel: strings('converter.header') },
+        key: 'ConverterStack',
+      });
+      this.props.navigation.dispatch(setConverterLabel);
       const setHelpLabel = NavigationActions.setParams({
         params: { DLabel: strings('help.header') },
         key: 'Help',
