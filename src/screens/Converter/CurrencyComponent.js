@@ -182,17 +182,6 @@ class CurrencyComponent extends Component<Props, State> {
             position="center"
             // offsetX={70}
             offsetY={10}
-            // style={{
-            //   // position: 'absolute',
-            //   // bottom: 16,
-            //   // right: 16,
-            //   // alignItems: 'center',
-            //   // justifyContent: 'center',
-            //   // width: 56,
-            //   // height: 56,
-            //   // // backgroundColor: ORANGE,
-            //   // borderRadius: 30,
-            // }}
           >
             <ActionButton.Item
               buttonColor="#9b59b6"
