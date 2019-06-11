@@ -205,41 +205,21 @@ class Converter extends Component<Props, State> {
             </TableSection>
           </Card>
         </ScrollView>
-        <View style={{ minHeight: 32 }}>
-          <Text>
-            Последнее обновление
-            {/* {this.state.currencies[2].updatedAt} */}
-          </Text>
-        </View>
-        {/* <ActionButton
-          buttonColor="rgba(231,76,60,1)"
-          // verticalOrientation="up"
-          position="center"
-          // offsetX={70}
-          offsetY={10}
-        >
-          <ActionButton.Item
-            buttonColor="#9b59b6"
-            title="New Task"
-            // onPress={() => console.log('notes tapped!')}
-          >
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor="#3498db" title="Notifications" onPress={() => {}}>
-            <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
-            <Icon name="md-done-all" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton> */}
-        <TouchableOpacity
-          onPress={() => {
-            this.props.navigation.navigate('AddCurrency');
-          }}
-          style={styles.button}
-        >
-          <Icon name="md-add" style={styles.actionButtonIcon} />
-        </TouchableOpacity>
+        {this.state.currencies[1] && (
+          <Fragment>
+            <View style={{ minHeight: 32 }}>
+              <Text>{` Последнее обновление ${this.state.currencies[1].updatedAt}`}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate('AddCurrency');
+              }}
+              style={styles.button}
+            >
+              <Icon name="md-add" style={styles.actionButtonIcon} />
+            </TouchableOpacity>
+          </Fragment>
+        )}
       </Fragment>
     );
   }
@@ -284,3 +264,25 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(Converter);
+
+// {/* <ActionButton
+//   buttonColor="rgba(231,76,60,1)"
+//   // verticalOrientation="up"
+//   position="center"
+//   // offsetX={70}
+//   offsetY={10}
+// >
+//   <ActionButton.Item
+//     buttonColor="#9b59b6"
+//     title="New Task"
+//     // onPress={() => console.log('notes tapped!')}
+//   >
+//     <Icon name="md-create" style={styles.actionButtonIcon} />
+//   </ActionButton.Item>
+//   <ActionButton.Item buttonColor="#3498db" title="Notifications" onPress={() => {}}>
+//     <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
+//   </ActionButton.Item>
+//   <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
+//     <Icon name="md-done-all" style={styles.actionButtonIcon} />
+//   </ActionButton.Item>
+// </ActionButton> */}

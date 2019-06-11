@@ -3,7 +3,6 @@ import React, { Component, Fragment } from 'react';
 import { Text, FlatList, TouchableOpacity } from 'react-native';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
-import ActionButton from 'react-native-action-button';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
@@ -69,7 +68,6 @@ class AddCurrency extends Component<Props, State> {
         this.setState({
           presetCurrencies: [...filter],
         });
-        console.log(this.state.currencies);
       });
   }
 
@@ -177,38 +175,6 @@ class AddCurrency extends Component<Props, State> {
             )}
             keyExtractor={item => item.charCode}
           />
-          <ActionButton
-            buttonColor="rgba(231,76,60,1)"
-            // verticalOrientation="up"
-            position="center"
-            // offsetX={70}
-            offsetY={10}
-            // style={{
-            //   // position: 'absolute',
-            //   // bottom: 16,
-            //   // right: 16,
-            //   // alignItems: 'center',
-            //   // justifyContent: 'center',
-            //   // width: 56,
-            //   // height: 56,
-            //   // // backgroundColor: ORANGE,
-            //   // borderRadius: 30,
-            // }}
-          >
-            <ActionButton.Item
-              buttonColor="#9b59b6"
-              title="New Task"
-              onPress={() => console.log('notes tapped!')}
-            >
-              <Icon name="md-create" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor="#3498db" title="Notifications" onPress={() => {}}>
-              <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
-              <Icon name="md-done-all" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-          </ActionButton>
           <TouchableOpacity onPress={() => {}} style={styles.button}>
             <Icon name="md-add" style={styles.actionButtonIcon} />
           </TouchableOpacity>
