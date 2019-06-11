@@ -204,14 +204,12 @@ class Converter extends Component<Props, State> {
                       value={`${item.input}`}
                     />
                   )}
-                  ListFooterComponent={() => <View style={{ minHeight: 72 }} />}
                   keyExtractor={item => item.charCode}
                 />
-
                 {/* <CurrencyComponent navigation={this.props.navigation} /> */}
               </TableSection>
-
             </Card>
+            <View style={{ minHeight: 32 }} />
           </ScrollView>
         ) : (
           <View
@@ -225,8 +223,10 @@ class Converter extends Component<Props, State> {
         )}
         {this.state.currencies[1] && (
           <Fragment>
-            <View style={{ minHeight: 32 }}>
-              <Text>{` Последнее обновление ${this.state.currencies[1].updatedAt}`}</Text>
+            <View style={styles.footerView}>
+              <Text style={styles.footerText}>
+                {` ${strings('converter.lastUpdate')} ${this.state.currencies[1].updatedAt}`}
+              </Text>
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -273,6 +273,19 @@ const styles = {
     height: 56,
     backgroundColor: 'rgba(231,76,60,1)',
     borderRadius: 30,
+  },
+  footerView: {
+    minHeight: 32,
+    backgroundColor: '#525050',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+    position: 'relative',
+  },
+  footerText: {
+    fontSize: 14,
+    color: '#ffffff',
   },
 };
 
