@@ -1,7 +1,12 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import {
-  ScrollView, FlatList, TouchableOpacity, View, Text,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+  View,
+  Text,
+  ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
@@ -175,36 +180,49 @@ class Converter extends Component<Props, State> {
           title={strings('converter.title')}
           drawerOpen={() => this.props.navigation.openDrawer()}
         />
-        <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
-          <Card>
-            <Header headerText={strings('converter.header')} />
-            <TableSection>
-              <FlatList
-                data={[...this.state.presetCurrencies]}
-                renderItem={({ item, index }) => (
-                  <CurrencyInput
-                    // placeholder={item.name}
-                    label={item.charCode}
-                    name={`${item.nominal} ${
-                      currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
-                    }`}
-                    onChangeText={(input) => {
-                      this.onChangeCurrency(index, input);
-                    }}
-                    onFocus={() => this.onFocus(index)}
-                    onBlur={() => this.onBlur(index)}
-                    appInputStyle={{ color: this.state.inputStyle[index] }}
-                    value={`${item.input}`}
-                  />
-                )}
-                ListFooterComponent={() => <View style={{ minHeight: 72 }} />}
-                keyExtractor={item => item.charCode}
-              />
+        {this.state.currencies[1] ? (
+          <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
+            <Card>
+              <Header headerText={strings('converter.header')} />
 
-              {/* <CurrencyComponent navigation={this.props.navigation} /> */}
-            </TableSection>
-          </Card>
-        </ScrollView>
+              <TableSection>
+                <FlatList
+                  data={[...this.state.presetCurrencies]}
+                  renderItem={({ item, index }) => (
+                    <CurrencyInput
+                      // placeholder={item.name}
+                      label={item.charCode}
+                      name={`${item.nominal} ${
+                        currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
+                      }`}
+                      onChangeText={(input) => {
+                        this.onChangeCurrency(index, input);
+                      }}
+                      onFocus={() => this.onFocus(index)}
+                      onBlur={() => this.onBlur(index)}
+                      appInputStyle={{ color: this.state.inputStyle[index] }}
+                      value={`${item.input}`}
+                    />
+                  )}
+                  ListFooterComponent={() => <View style={{ minHeight: 72 }} />}
+                  keyExtractor={item => item.charCode}
+                />
+
+                {/* <CurrencyComponent navigation={this.props.navigation} /> */}
+              </TableSection>
+
+            </Card>
+          </ScrollView>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+            }}
+          >
+            <ActivityIndicator size="large" color={textColor} />
+          </View>
+        )}
         {this.state.currencies[1] && (
           <Fragment>
             <View style={{ minHeight: 32 }}>
