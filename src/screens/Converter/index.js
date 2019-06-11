@@ -1,13 +1,12 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import {
-  ScrollView, FlatList, TouchableOpacity, View,
+  ScrollView, FlatList, TouchableOpacity, View, Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 import { gql } from 'apollo-boost';
 // import { graphql } from 'react-apollo';
-import ActionButton from 'react-native-action-button';
 import 'number-to-locale-string';
 
 // import CurrencyComponent from './CurrencyComponent';
@@ -198,42 +197,49 @@ class Converter extends Component<Props, State> {
                     value={`${item.input}`}
                   />
                 )}
+                ListFooterComponent={() => <View style={{ minHeight: 32 }} />}
                 keyExtractor={item => item.charCode}
               />
-              <View style={{ minHeight: 72 }} />
-              <ActionButton
-                buttonColor="rgba(231,76,60,1)"
-                // verticalOrientation="up"
-                position="center"
-                // offsetX={70}
-                offsetY={10}
-              >
-                <ActionButton.Item
-                  buttonColor="#9b59b6"
-                  title="New Task"
-                  // onPress={() => console.log('notes tapped!')}
-                >
-                  <Icon name="md-create" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-                <ActionButton.Item buttonColor="#3498db" title="Notifications" onPress={() => {}}>
-                  <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-                <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
-                  <Icon name="md-done-all" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-              </ActionButton>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate('AddCurrency');
-                }}
-                style={styles.button}
-              >
-                <Icon name="md-add" style={styles.actionButtonIcon} />
-              </TouchableOpacity>
+
               {/* <CurrencyComponent navigation={this.props.navigation} /> */}
             </TableSection>
           </Card>
         </ScrollView>
+        <View style={{ minHeight: 32 }}>
+          <Text>
+            Последнее обновление
+            {/* {this.state.currencies[2].updatedAt} */}
+          </Text>
+        </View>
+        {/* <ActionButton
+          buttonColor="rgba(231,76,60,1)"
+          // verticalOrientation="up"
+          position="center"
+          // offsetX={70}
+          offsetY={10}
+        >
+          <ActionButton.Item
+            buttonColor="#9b59b6"
+            title="New Task"
+            // onPress={() => console.log('notes tapped!')}
+          >
+            <Icon name="md-create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor="#3498db" title="Notifications" onPress={() => {}}>
+            <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
+            <Icon name="md-done-all" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton> */}
+        <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.navigate('AddCurrency');
+          }}
+          style={styles.button}
+        >
+          <Icon name="md-add" style={styles.actionButtonIcon} />
+        </TouchableOpacity>
       </Fragment>
     );
   }
