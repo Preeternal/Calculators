@@ -3,7 +3,6 @@ import React, { Component, Fragment } from 'react';
 import { Text, FlatList, TouchableOpacity } from 'react-native';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
-import ActionButton from 'react-native-action-button';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
@@ -176,7 +175,7 @@ class CurrencyComponent extends Component<Props, State> {
             )}
             keyExtractor={item => item.charCode}
           />
-          <ActionButton
+          {/* <ActionButton
             buttonColor="rgba(231,76,60,1)"
             // verticalOrientation="up"
             position="center"
@@ -196,7 +195,7 @@ class CurrencyComponent extends Component<Props, State> {
             <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
               <Icon name="md-done-all" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-          </ActionButton>
+          </ActionButton> */}
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate('AddCurrency');
