@@ -197,7 +197,7 @@ class Converter extends Component<Props, State> {
                     value={`${item.input}`}
                   />
                 )}
-                ListFooterComponent={() => <View style={{ minHeight: 32 }} />}
+                ListFooterComponent={() => <View style={{ minHeight: 72 }} />}
                 keyExtractor={item => item.charCode}
               />
 
