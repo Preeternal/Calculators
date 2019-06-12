@@ -22,6 +22,7 @@ import {
 import { strings, currentLocale } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 import { number } from '../../lib';
+import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../../actions';
 
 const textColor = '#525050';
 const activeTextColor = '#000000';
@@ -29,14 +30,15 @@ const activeTextColor = '#000000';
 type Props = {
   language: number,
   country: number,
-  // data: Object,
   navigation: Function,
+  preset: Array<string>,
+  currencies: Array<Object>,
+  presetCurrencies: Array<Object>,
+  currenciesChanged: Function,
+  presetCurrenciesChanged: Function,
 };
 
 type State = {
-  currencies: Array<Object>,
-  preset: Array<string>,
-  presetCurrencies: Array<Object>,
   inputStyle: Array<string>,
   userCountryCode?: string,
 };
@@ -54,9 +56,6 @@ class Converter extends Component<Props, State> {
   };
 
   state = {
-    currencies: [],
-    preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
-    presetCurrencies: [],
     inputStyle: [],
   };
 
@@ -71,65 +70,70 @@ class Converter extends Component<Props, State> {
           curr.input = this.getLocalInput(curr.nominal / curr.value);
           return curr;
         });
-        this.setState({
-          currencies: [
-            {
-              charCode: 'RUB',
-              id: '1',
-              input: 1,
-              name: 'Российский рубль',
-              nameEng: 'Russian ruble',
-              nominal: 1,
-              updatedAt: '2019-05-30T11:02:01.574Z',
-              value: 1,
-              __typename: 'Currency',
-            },
-            ...currenciesWithInputField,
-          ],
-          inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
-        });
-        const { currencies, preset } = this.state;
+        this.onCurrencyChange([
+          {
+            charCode: 'RUB',
+            id: '1',
+            input: 1,
+            name: 'Российский рубль',
+            nameEng: 'Russian ruble',
+            nominal: 1,
+            updatedAt: '2019-05-30T11:02:01.574Z',
+            value: 1,
+            __typename: 'Currency',
+          },
+          ...currenciesWithInputField,
+        ]);
+        const { preset, currencies } = this.props;
+        // const currencies = [...this.props.currencies];
         const filter = currencies.filter(currency => preset.includes(currency.charCode));
         filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-        this.setState({
-          presetCurrencies: [...filter],
-        });
+        this.onPresetCurrencyChange(filter);
       });
   }
 
+  onCurrencyChange = (array) => {
+    this.props.currenciesChanged(array);
+  };
+
+  onPresetCurrencyChange = (array) => {
+    this.props.presetCurrenciesChanged(array);
+  };
+
   onChangeCurrency = (index, input: string) => {
-    this.setState((prevState) => {
-      const currencies = [...prevState.presetCurrencies];
-      const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
-      const currenciesWithDivider = currencies.map((currency, ind) => {
-        const curr = { ...currency };
-        if (ind === index) {
-          curr.input = number(input);
-        } else {
-          curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
-        }
-        return curr;
-      });
-      return {
-        presetCurrencies: currenciesWithDivider,
-      };
+    const currencies = [...this.props.presetCurrencies];
+    const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
+    const currenciesWithDivider = currencies.map((currency, ind) => {
+      const curr = { ...currency };
+      if (ind === index) {
+        curr.input = number(input);
+      } else {
+        curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
+      }
+      return curr;
     });
+    this.onPresetCurrencyChange(currenciesWithDivider);
   };
 
   onFocus = (index) => {
-    this.setState((prevState) => {
-      const currencies = [...prevState.presetCurrencies];
-      if (currencies[index].input === 0 || currencies[index].input === '0,00') {
-        currencies[index].input = '';
-      }
-      const inputStyle = [...prevState.inputStyle];
-      inputStyle.splice(index, 1, activeTextColor);
-      return {
-        presetCurrencies: currencies,
-        inputStyle,
-      };
-    });
+    // this.setState((prevState) => {
+    //   const currencies = [...prevState.presetCurrencies];
+    //   if (currencies[index].input === 0 || currencies[index].input === '0,00') {
+    //     currencies[index].input = '';
+    //   }
+    //   const inputStyle = [...prevState.inputStyle];
+    //   inputStyle.splice(index, 1, activeTextColor);
+    //   return {
+    //     presetCurrencies: currencies,
+    //     inputStyle,
+    //   };
+    // });
     // }
+    const currencies = [...this.props.presetCurrencies];
+    if (currencies[index].input === 0 || currencies[index].input === '0,00') {
+      currencies[index].input = '';
+    }
+
     // if (text === '0' || text === '0,00') {
     //   this.props[`${input}Changed`]('');
     // } else {
@@ -138,20 +142,20 @@ class Converter extends Component<Props, State> {
   };
 
   onBlur = (index) => {
-    this.setState((prevState) => {
-      const currencies = [...prevState.presetCurrencies];
-      if (currencies[index].input === '') {
-        currencies[index].input = 0;
-      } else {
-        currencies[index].input = this.getLocalInput(currencies[index].input);
-      }
-      const inputStyle = [...prevState.inputStyle];
-      inputStyle.splice(index, 1, textColor);
-      return {
-        presetCurrencies: currencies,
-        inputStyle,
-      };
-    });
+    // this.setState((prevState) => {
+    //   const currencies = [...prevState.presetCurrencies];
+    //   if (currencies[index].input === '') {
+    //     currencies[index].input = 0;
+    //   } else {
+    //     currencies[index].input = this.getLocalInput(currencies[index].input);
+    //   }
+    //   const inputStyle = [...prevState.inputStyle];
+    //   inputStyle.splice(index, 1, textColor);
+    //   return {
+    //     presetCurrencies: currencies,
+    //     inputStyle,
+    //   };
+    // });
     // if (text === '') {
     //   this.props[`${input}Changed`]('0');
     // } else {
@@ -180,14 +184,13 @@ class Converter extends Component<Props, State> {
           title={strings('converter.title')}
           drawerOpen={() => this.props.navigation.openDrawer()}
         />
-        {this.state.currencies[1] ? (
+        {this.props.currencies[1] ? (
           <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
             <Card>
               <Header headerText={strings('converter.header')} />
-
               <TableSection>
                 <FlatList
-                  data={[...this.state.presetCurrencies]}
+                  data={[...this.props.presetCurrencies]}
                   renderItem={({ item, index }) => (
                     <CurrencyInput
                       // placeholder={item.name}
@@ -221,11 +224,11 @@ class Converter extends Component<Props, State> {
             <ActivityIndicator size="large" color={textColor} />
           </View>
         )}
-        {this.state.currencies[1] && (
+        {this.props.currencies[1] && (
           <Fragment>
             <View style={styles.footerView}>
               <Text style={styles.footerText}>
-                {` ${strings('converter.lastUpdate')} ${this.state.currencies[1].updatedAt}`}
+                {` ${strings('converter.lastUpdate')} ${this.props.currencies[1].updatedAt}`}
               </Text>
             </View>
             <TouchableOpacity
@@ -292,9 +295,21 @@ const styles = {
 const mapStateToProps = state => ({
   language: state.settings.language,
   country: state.settings.country,
+  preset: state.converter.preset,
+  currencies: state.converter.currencies,
+  presetCurrencies: state.converter.presetCurrencies,
 });
 
-export default connect(mapStateToProps)(Converter);
+const mapDispatchToActions = {
+  presetChanged,
+  currenciesChanged,
+  presetCurrenciesChanged,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToActions,
+)(Converter);
 
 // {/* <ActionButton
 //   buttonColor="rgba(231,76,60,1)"

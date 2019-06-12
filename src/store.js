@@ -12,7 +12,7 @@ const persistConfig = {
   // stateReconciler: autoMergeLevel2,
   // stateReconciler: hardSet,
   // blacklist: ['depo', 'credit'],
-  whitelist: ['settings'],
+  whitelist: ['converter', 'settings'],
   // debug: true,
 };
 
