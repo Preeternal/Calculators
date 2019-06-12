@@ -85,7 +85,6 @@ class Converter extends Component<Props, State> {
           ...currenciesWithInputField,
         ]);
         const { preset, currencies } = this.props;
-        // const currencies = [...this.props.currencies];
         const filter = currencies.filter(currency => preset.includes(currency.charCode));
         filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
         this.onPresetCurrencyChange(filter);
@@ -116,57 +115,39 @@ class Converter extends Component<Props, State> {
   };
 
   onFocus = (index) => {
-    // this.setState((prevState) => {
-    //   const currencies = [...prevState.presetCurrencies];
-    //   if (currencies[index].input === 0 || currencies[index].input === '0,00') {
-    //     currencies[index].input = '';
-    //   }
-    //   const inputStyle = [...prevState.inputStyle];
-    //   inputStyle.splice(index, 1, activeTextColor);
-    //   return {
-    //     presetCurrencies: currencies,
-    //     inputStyle,
-    //   };
-    // });
-    // }
+    this.setState((prevState) => {
+      const inputStyle = [...prevState.inputStyle];
+      inputStyle.splice(index, 1, activeTextColor);
+      return {
+        inputStyle,
+      };
+    });
     const currencies = [...this.props.presetCurrencies];
-    if (currencies[index].input === 0 || currencies[index].input === '0,00') {
+    if (
+      currencies[index].input === 0
+      || currencies[index].input === '0,00'
+      || currencies[index].input === '0'
+    ) {
       currencies[index].input = '';
+      this.onPresetCurrencyChange(currencies);
     }
-
-    // if (text === '0' || text === '0,00') {
-    //   this.props[`${input}Changed`]('');
-    // } else {
-    //   this.props[`${input}Changed`](number(text));
-    // }
   };
 
   onBlur = (index) => {
-    // this.setState((prevState) => {
-    //   const currencies = [...prevState.presetCurrencies];
-    //   if (currencies[index].input === '') {
-    //     currencies[index].input = 0;
-    //   } else {
-    //     currencies[index].input = this.getLocalInput(currencies[index].input);
-    //   }
-    //   const inputStyle = [...prevState.inputStyle];
-    //   inputStyle.splice(index, 1, textColor);
-    //   return {
-    //     presetCurrencies: currencies,
-    //     inputStyle,
-    //   };
-    // });
-    // if (text === '') {
-    //   this.props[`${input}Changed`]('0');
-    // } else {
-    //   const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
-    //   this.props[`${input}Changed`](
-    //     Number(number(text)).toLocaleString('ru-RU', {
-    //       minimumFractionDigits,
-    //       maximumFractionDigits: minimumFractionDigits,
-    //     }),
-    //   );
-    // }
+    this.setState((prevState) => {
+      const inputStyle = [...prevState.inputStyle];
+      inputStyle.splice(index, 1, textColor);
+      return {
+        inputStyle,
+      };
+    });
+    const currencies = [...this.props.presetCurrencies];
+    if (currencies[index].input === '') {
+      currencies[index].input = 0;
+    } else {
+      currencies[index].input = this.getLocalInput(currencies[index].input);
+    }
+    this.onPresetCurrencyChange(currencies);
   };
 
   getLocalInput = (input) => {
