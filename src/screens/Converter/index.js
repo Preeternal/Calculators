@@ -7,6 +7,7 @@ import {
   View,
   Text,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
@@ -89,7 +90,18 @@ class Converter extends Component<Props, State> {
         filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
         this.onPresetCurrencyChange(filter);
       });
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  keyboardDidShow = () => {};
+
+  keyboardDidHide = () => {};
 
   onCurrencyChange = (array) => {
     this.props.currenciesChanged(array);
