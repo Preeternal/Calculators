@@ -42,6 +42,7 @@ type Props = {
 type State = {
   inputStyle: Array<string>,
   userCountryCode?: string,
+  keyboard: boolean
 };
 
 class Converter extends Component<Props, State> {
@@ -58,6 +59,7 @@ class Converter extends Component<Props, State> {
 
   state = {
     inputStyle: [],
+    keyboard: false,
   };
 
   componentDidMount() {
@@ -90,18 +92,26 @@ class Converter extends Component<Props, State> {
         filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
         this.onPresetCurrencyChange(filter);
       });
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    Keyboard.removeListener('keyboardDidShow');
+    Keyboard.removeListener('keyboardDidHide');
   }
 
-  keyboardDidShow = () => {};
+  keyboardDidShow = () => {
+    this.setState({
+      keyboard: true,
+    });
+  }
 
-  keyboardDidHide = () => {};
+  keyboardDidHide = () => {
+    this.setState({
+      keyboard: false,
+    });
+  };
 
   onCurrencyChange = (array) => {
     this.props.currenciesChanged(array);
@@ -217,7 +227,7 @@ class Converter extends Component<Props, State> {
             <ActivityIndicator size="large" color={textColor} />
           </View>
         )}
-        {this.props.currencies[1] && (
+        {this.props.currencies[1] && !this.state.keyboard && (
           <Fragment>
             <View style={styles.footerView}>
               <Text style={styles.footerText}>
