@@ -87,6 +87,9 @@ class Converter extends Component<Props, State> {
           },
           ...currenciesWithInputField,
         ]);
+        this.setState({
+          inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
+        });
         const { preset, currencies } = this.props;
         const filter = currencies.filter(currency => preset.includes(currency.charCode));
         filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
@@ -228,21 +231,21 @@ class Converter extends Component<Props, State> {
           </View>
         )}
         {this.props.currencies[1] && !this.state.keyboard && (
-          <Fragment>
-            <View style={styles.footerView}>
-              <Text style={styles.footerText}>
-                {` ${strings('converter.lastUpdate')} ${this.props.currencies[1].updatedAt}`}
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate('AddCurrency');
-              }}
-              style={styles.button}
-            >
-              <Icon name="md-add" style={styles.actionButtonIcon} />
-            </TouchableOpacity>
-          </Fragment>
+        <Fragment>
+          <View style={styles.footerView}>
+            <Text style={styles.footerText}>
+              {` ${strings('converter.lastUpdate')} ${this.props.currencies[1].updatedAt}`}
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('AddCurrency');
+            }}
+            style={styles.button}
+          >
+            <Icon name="md-add" style={styles.actionButtonIcon} />
+          </TouchableOpacity>
+        </Fragment>
         )}
       </Fragment>
     );
