@@ -86,13 +86,26 @@ class Converter extends Component<Props, State> {
           },
           ...currenciesWithInputField,
         ]);
+        const { preset, currencies, presetCurrencies } = this.props;
+        const filter = currencies.filter(currency => preset.includes(currency.charCode));
+        filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
+        let filteR = [...filter];
+        if (presetCurrencies[0].input !== filter[0].input) {
+          const divider = Number(number(presetCurrencies[0].input)) / (filter[0].nominal / filter[0].value);
+          filteR = filter.map((currency, ind) => {
+            const curr = { ...currency };
+            if (ind === 0) {
+              curr.input = number(presetCurrencies[0].input);
+            } else {
+              curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
+            }
+            return curr;
+          });
+        }
+        this.onPresetCurrencyChange(filteR);
         this.setState({
           inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
         });
-        const { preset, currencies } = this.props;
-        const filter = currencies.filter(currency => preset.includes(currency.charCode));
-        filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-        this.onPresetCurrencyChange(filter);
       });
   }
 
