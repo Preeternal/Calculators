@@ -41,7 +41,7 @@ type Props = {
 type State = {
   inputStyle: Array<string>,
   userCountryCode?: string,
-  keyboard: boolean
+  keyboard: boolean,
 };
 
 class Converter extends Component<Props, State> {
@@ -226,21 +226,21 @@ class Converter extends Component<Props, State> {
           </View>
         )}
         {this.props.currencies[1] && !this.state.keyboard && (
-        <Fragment>
-          <View style={styles.footerView}>
-            <Text style={styles.footerText}>
-              {` ${strings('converter.lastUpdate')} ${this.props.currencies[1].updatedAt}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('AddCurrency');
-            }}
-            style={styles.button}
-          >
-            <Icon name="md-add" style={styles.actionButtonIcon} />
-          </TouchableOpacity>
-        </Fragment>
+          <Fragment>
+            <View style={styles.footerView}>
+              <Text style={styles.footerText}>
+                {` ${strings('converter.lastUpdate')} ${this.props.currencies[1].updatedAt}`}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate('AddCurrency');
+              }}
+              style={styles.button}
+            >
+              <Icon name="md-add" style={styles.actionButtonIcon} />
+            </TouchableOpacity>
+          </Fragment>
         )}
       </Fragment>
     );
