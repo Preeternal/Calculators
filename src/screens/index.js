@@ -135,7 +135,12 @@ const Navigator = createDrawerNavigator(
 
 const AppContainer = createAppContainer(Navigator);
 
-class App extends Component {
+type Props = {
+  language: string,
+  languageChanged: Function,
+};
+
+class App extends Component<Props> {
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
   }
