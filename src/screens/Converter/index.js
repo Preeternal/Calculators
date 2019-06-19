@@ -8,6 +8,7 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
+// import type { NavigationProp } from 'react-navigation';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 import { gql } from 'apollo-boost';
