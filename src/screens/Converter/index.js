@@ -89,20 +89,7 @@ class Converter extends Component<Props, State> {
         const { preset, currencies, presetCurrencies } = this.props;
         const filter = currencies.filter(currency => preset.includes(currency.charCode));
         filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-        let filteR = [...filter];
-        if (presetCurrencies[0].input !== filter[0].input) {
-          const divider = Number(number(presetCurrencies[0].input)) / (filter[0].nominal / filter[0].value);
-          filteR = filter.map((currency, ind) => {
-            const curr = { ...currency };
-            if (ind === 0) {
-              curr.input = number(presetCurrencies[0].input);
-            } else {
-              curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
-            }
-            return curr;
-          });
-        }
-        this.onPresetCurrencyChange(filteR);
+        this.onChangeCurrency(0, presetCurrencies[0].input, filter);
         this.setState({
           inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
         });
@@ -117,8 +104,8 @@ class Converter extends Component<Props, State> {
     this.props.presetCurrenciesChanged(array);
   };
 
-  onChangeCurrency = (index, input: string) => {
-    const currencies = [...this.props.presetCurrencies];
+  onChangeCurrency = (index, input: string, presetCurrencies) => {
+    const currencies = [...presetCurrencies];
     const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
     const currenciesWithDivider = currencies.map((currency, ind) => {
       const curr = { ...currency };
@@ -200,7 +187,7 @@ class Converter extends Component<Props, State> {
                         currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
                       }`}
                       onChangeText={(input) => {
-                        this.onChangeCurrency(index, input);
+                        this.onChangeCurrency(index, input, this.props.presetCurrencies);
                       }}
                       onFocus={() => this.onFocus(index)}
                       onBlur={() => this.onBlur(index)}
