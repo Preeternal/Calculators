@@ -7,8 +7,9 @@ import {
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
-// import { Icon } from 'native-base';
 import i18n from 'i18n-js';
+import { gql } from 'apollo-boost';
+import 'number-to-locale-string';
 
 import Depo from './Depo';
 import Credit from './Credit';
@@ -17,8 +18,9 @@ import AddCurrency from './Converter/AddCurrency';
 import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
-import { languageChanged } from '../actions';
-// import { strings } from '../../locales/i18n';
+import { languageChanged, currenciesChanged } from '../actions';
+import client from '../client';
+import { number } from '../lib';
 
 const ConverterStack = createStackNavigator(
   {
@@ -56,6 +58,7 @@ const Navigator = createDrawerNavigator(
     Help,
   },
   {
+    // initialRouteName: 'Depo',
     initialRouteName: 'ConverterStack',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
@@ -92,10 +95,10 @@ const Navigator = createDrawerNavigator(
 //     navigationOptions: {
 //       drawerLabel: strings('headerCredit'),
 //       drawerIcon: ({ tintColor }) => (
-//         <Icon name="md-download" style={{ fontSize: 24, color: tintColor }} />
-//       ),
-//     },
-//   },
+//     import 'number-to-locale-string';ad" style={{ fontSize: 24, color: tintColor }} />
+//     import 'number-to-locale-string';
+//     import 'number-to-locale-string';
+//   },import 'number-to-locale-string';
 // );
 
 // const SettingsStack = createStackNavigator(
@@ -142,6 +145,31 @@ type Props = {
 class App extends Component<Props> {
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
+    client
+      .query({
+        query: getCurrencies,
+      })
+      .then((response) => {
+        const currenciesWithInputField = response.data.currencies.map((currency) => {
+          const curr = { ...currency };
+          curr.input = this.getLocalInput(curr.nominal / curr.value);
+          return curr;
+        });
+        this.onCurrencyChange([
+          {
+            charCode: 'RUB',
+            id: '1',
+            input: 1,
+            name: 'Российский рубль',
+            nameEng: 'Russian ruble',
+            nominal: 1,
+            updatedAt: '2019-05-30T11:02:01.574Z',
+            value: 1,
+            __typename: 'Currency',
+          },
+          ...currenciesWithInputField,
+        ]);
+      });
   }
 
   componentWillUnmount() {
@@ -162,15 +190,44 @@ class App extends Component<Props> {
     return 1;
   };
 
+  onCurrencyChange = (array) => {
+    this.props.currenciesChanged(array);
+  };
+
+  getLocalInput = (input) => {
+    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
+    return Number(number(`${input}`)).toLocaleString('ru-RU', {
+      minimumFractionDigits,
+      maximumFractionDigits: minimumFractionDigits,
+    });
+  };
+
   render() {
     return <AppContainer />;
   }
 }
 
-const mapStateToProps = state => ({ language: state.settings.language });
-const mapDispatchToActions = { languageChanged };
+const mapStateToProps = state => ({
+  language: state.settings.language,
+  currencies: state.converter.currencies,
+});
+const mapDispatchToActions = { languageChanged, currenciesChanged };
 
 export default connect(
   mapStateToProps,
   mapDispatchToActions,
 )(App);
+
+const getCurrencies = gql`
+  query {
+    currencies {
+      id
+      name
+      nameEng
+      charCode
+      value
+      nominal
+      updatedAt
+    }
+  }
+`;

@@ -62,42 +62,43 @@ class Converter extends Component<Props, State> {
   };
 
   componentDidMount() {
-    client
-      .query({
-        query: getCurrencies,
-      })
-      .then((response) => {
-        const currenciesWithInputField = response.data.currencies.map((currency) => {
-          const curr = { ...currency };
-          curr.input = this.getLocalInput(curr.nominal / curr.value);
-          return curr;
-        });
-        this.onCurrencyChange([
-          {
-            charCode: 'RUB',
-            id: '1',
-            input: 1,
-            name: 'Российский рубль',
-            nameEng: 'Russian ruble',
-            nominal: 1,
-            updatedAt: '2019-05-30T11:02:01.574Z',
-            value: 1,
-            __typename: 'Currency',
-          },
-          ...currenciesWithInputField,
-        ]);
-        const { preset, currencies, presetCurrencies } = this.props;
-        const filter = currencies.filter(currency => preset.includes(currency.charCode));
-        filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-        if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
-          this.onPresetCurrencyChange(filter);
-        } else if (presetCurrencies[0].input !== filter[0].input) {
-          this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
-        }
-        this.setState({
-          inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
-        });
-      });
+    // client
+    //   .query({
+    //     query: getCurrencies,
+    //   })
+    //   .then((response) => {
+    //     const currenciesWithInputField = response.data.currencies.map((currency) => {
+    //       const curr = { ...currency };
+    //       curr.input = this.getLocalInput(curr.nominal / curr.value);
+    //       return curr;
+    //     });
+    //     this.onCurrencyChange([
+    //       {
+    //         charCode: 'RUB',
+    //         id: '1',
+    //         input: 1,
+    //         name: 'Российский рубль',
+    //         nameEng: 'Russian ruble',
+    //         nominal: 1,
+    //         updatedAt: '2019-05-30T11:02:01.574Z',
+    //         value: 1,
+    //         __typename: 'Currency',
+    //       },
+    //       ...currenciesWithInputField,
+    //     ]);
+    const { preset, currencies, presetCurrencies } = this.props;
+    const filter = currencies.filter(currency => preset.includes(currency.charCode));
+    filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
+    if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
+      this.onPresetCurrencyChange(filter);
+    } else if (presetCurrencies[0].input !== filter[0].input) {
+      this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
+    }
+    this.setState({
+      // inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
+      inputStyle: Array(presetCurrencies.length).fill(textColor),
+    });
+    // });
   }
 
   onCurrencyChange = (array) => {
