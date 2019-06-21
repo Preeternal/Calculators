@@ -89,7 +89,11 @@ class Converter extends Component<Props, State> {
         const { preset, currencies, presetCurrencies } = this.props;
         const filter = currencies.filter(currency => preset.includes(currency.charCode));
         filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-        this.onChangeCurrency(0, presetCurrencies[0].input, filter);
+        if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
+          this.onPresetCurrencyChange(filter);
+        } else if (presetCurrencies[0].input !== filter[0].input) {
+          this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
+        }
         this.setState({
           inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
         });
@@ -104,7 +108,7 @@ class Converter extends Component<Props, State> {
     this.props.presetCurrenciesChanged(array);
   };
 
-  onChangeCurrency = (index, input: string, presetCurrencies) => {
+  onPresetCurrencyChangeWithDivider = (index, input: string, presetCurrencies) => {
     const currencies = [...presetCurrencies];
     const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
     const currenciesWithDivider = currencies.map((currency, ind) => {
@@ -187,7 +191,11 @@ class Converter extends Component<Props, State> {
                         currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
                       }`}
                       onChangeText={(input) => {
-                        this.onChangeCurrency(index, input, this.props.presetCurrencies);
+                        this.onPresetCurrencyChangeWithDivider(
+                          index,
+                          input,
+                          this.props.presetCurrencies,
+                        );
                       }}
                       onFocus={() => this.onFocus(index)}
                       onBlur={() => this.onBlur(index)}
