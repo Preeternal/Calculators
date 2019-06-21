@@ -177,7 +177,6 @@ class Converter extends Component<Props, State> {
                   )}
                   keyExtractor={item => item.charCode}
                 />
-                {/* <CurrencyComponent navigation={this.props.navigation} /> */}
               </TableSection>
             </Card>
             <View style={{ minHeight: 32 }} />
