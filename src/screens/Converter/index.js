@@ -10,12 +10,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
-import { gql } from 'apollo-boost';
-// import { graphql } from 'react-apollo';
 import 'number-to-locale-string';
 
-// import CurrencyComponent from './CurrencyComponent';
-import client from '../../client';
 import {
   Card, Header, TableSection, CurrencyInput,
 } from '../../components/common';
@@ -62,30 +58,6 @@ class Converter extends Component<Props, State> {
   };
 
   componentDidMount() {
-    // client
-    //   .query({
-    //     query: getCurrencies,
-    //   })
-    //   .then((response) => {
-    //     const currenciesWithInputField = response.data.currencies.map((currency) => {
-    //       const curr = { ...currency };
-    //       curr.input = this.getLocalInput(curr.nominal / curr.value);
-    //       return curr;
-    //     });
-    //     this.onCurrencyChange([
-    //       {
-    //         charCode: 'RUB',
-    //         id: '1',
-    //         input: 1,
-    //         name: 'Российский рубль',
-    //         nameEng: 'Russian ruble',
-    //         nominal: 1,
-    //         updatedAt: '2019-05-30T11:02:01.574Z',
-    //         value: 1,
-    //         __typename: 'Currency',
-    //       },
-    //       ...currenciesWithInputField,
-    //     ]);
     const { preset, currencies, presetCurrencies } = this.props;
     const filter = currencies.filter(currency => preset.includes(currency.charCode));
     filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
@@ -98,7 +70,6 @@ class Converter extends Component<Props, State> {
       // inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
       inputStyle: Array(presetCurrencies.length).fill(textColor),
     });
-    // });
   }
 
   onCurrencyChange = (array) => {
@@ -243,20 +214,6 @@ class Converter extends Component<Props, State> {
   }
 }
 
-const getCurrencies = gql`
-  query {
-    currencies {
-      id
-      name
-      nameEng
-      charCode
-      value
-      nominal
-      updatedAt
-    }
-  }
-`;
-
 const styles = {
   actionButtonIcon: {
     fontSize: 25,
@@ -307,25 +264,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToActions,
 )(Converter);
-
-// {/* <ActionButton
-//   buttonColor="rgba(231,76,60,1)"
-//   // verticalOrientation="up"
-//   position="center"
-//   // offsetX={70}
-//   offsetY={10}
-// >
-//   <ActionButton.Item
-//     buttonColor="#9b59b6"
-//     title="New Task"
-//     // onPress={() => console.log('notes tapped!')}
-//   >
-//     <Icon name="md-create" style={styles.actionButtonIcon} />
-//   </ActionButton.Item>
-//   <ActionButton.Item buttonColor="#3498db" title="Notifications" onPress={() => {}}>
-//     <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-//   </ActionButton.Item>
-//   <ActionButton.Item buttonColor="#1abc9c" title="All Tasks" onPress={() => {}}>
-//     <Icon name="md-done-all" style={styles.actionButtonIcon} />
-//   </ActionButton.Item>
-// </ActionButton> */}
