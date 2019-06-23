@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
-import { CurrencyInput } from '../../components/common';
+import { CurrencyAdditional } from '../../components/common';
 import { currentLocale } from '../../../locales/i18n';
 import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../../actions';
 
@@ -26,12 +26,11 @@ class AddCurrency extends Component<Props, State> {
         <FlatList
           data={[...this.props.presetCurrencies]}
           renderItem={({ item, index }) => (
-            <CurrencyInput
+            <CurrencyAdditional
               // placeholder={item.name}
               label={item.charCode}
-              name={`${item.nominal} ${
-                currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
-              }`}
+              name={currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng}
+              // onPress
               // onChangeText={(input) => {
               //   this.onChangeCurrency(index, input);
               // }}
