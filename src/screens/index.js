@@ -29,7 +29,8 @@ const ConverterStack = createStackNavigator(
   },
   {
     mode: 'modal',
-    headerMode: 'none',
+    // headerMode: 'none',
+    headerMode: 'float',
   },
 );
 

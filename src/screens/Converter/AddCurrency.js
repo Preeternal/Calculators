@@ -1,21 +1,62 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/common';
-import { currentLocale } from '../../../locales/i18n';
+import { strings, currentLocale } from '../../../locales/i18n';
 import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../../actions';
 
 type Props = {
   // preset: Array<string>,
   // currencies: Array<Object>,
   presetCurrencies: Array<Object>,
+  // navigation: Function,
 };
 
 type State = {};
 
+const styles = {
+  headerText: {
+    color: '#ffffff',
+    fontSize: 18,
+  },
+  button: {
+    marginRight: 15,
+  },
+  actionButtonIcon: {
+    fontSize: 25,
+    height: 22,
+    color: 'white',
+  },
+};
+
 class AddCurrency extends Component<Props, State> {
+  static navigationOptions = props => ({
+    headerTitle: <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>,
+    headerStyle: {
+      // backgroundColor: '#f4511e',
+      backgroundColor: '#525050',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
+    headerRight: (
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          props.navigation.goBack();
+        }}
+      >
+        <Icon type="MaterialIcons" name="done" style={styles.actionButtonIcon} />
+        {/* md-checkmark */}
+      </TouchableOpacity>
+    ),
+  });
+
   state = {};
 
   componentDidMount() {}
@@ -63,22 +104,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToActions,
 )(AddCurrency);
-
-// const styles = {
-//   actionButtonIcon: {
-//     fontSize: 20,
-//     height: 22,
-//     color: 'white',
-//   },
-//   button: {
-//     position: 'absolute',
-//     bottom: 16,
-//     right: 16,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     width: 56,
-//     height: 56,
-//     backgroundColor: 'rgba(231,76,60,1)',
-//     borderRadius: 30,
-//   },
-// };

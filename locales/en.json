@@ -168,7 +168,8 @@
   "converter": {
     "title": "Converter",
     "header": "Currency Converter",
-    "lastUpdate": "Last update"
+    "lastUpdate": "Last update",
+    "addCurrency": "Add currency"
   },
   "settings": {
     "settings": "Settings",

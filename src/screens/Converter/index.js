@@ -44,6 +44,7 @@ class Converter extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
+      header: null,
       title: strings('converter.header'), // drawer label initialization
       drawerLabel: params && params.DLabel,
       drawerIcon: ({ tintColor }) => (

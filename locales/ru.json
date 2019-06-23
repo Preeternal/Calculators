@@ -169,7 +169,8 @@
   "converter": {
     "title": "Конвертер",
     "header": "Конвертер валют",
-    "lastUpdate": "Последнее обновление"
+    "lastUpdate": "Последнее обновление",
+    "addCurrency": "Добавление валюты"
   },
   "settings": {
     "settings": "Настройки",
