@@ -43,7 +43,15 @@ class AddCurrency extends Component<Props, State> {
     headerTitleStyle: {
       fontWeight: 'bold',
     },
-    headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
+    headerLeft: (
+      <Icon
+        name="arrow-left"
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
+    ),
+    // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
     headerRight: (
       <TouchableOpacity
         style={styles.button}
