@@ -37,6 +37,7 @@ const styles = {
 
 class AddCurrency extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => ({
+    drawerLockMode: 'locked-closed',
     headerTitle: <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>,
     headerStyle: {
       // backgroundColor: '#f4511e',
