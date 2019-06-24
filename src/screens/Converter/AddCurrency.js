@@ -45,7 +45,7 @@ class AddCurrency extends Component<Props, State> {
     },
     headerLeft: (
       <Icon
-        name="arrow-left"
+        name="md-close"
         onPress={() => {
           navigation.goBack();
         }}
