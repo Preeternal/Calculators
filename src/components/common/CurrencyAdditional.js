@@ -3,24 +3,24 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 type CurrencyType = {
-  label: string,
   name: string,
+  char: string,
   onPress: Function,
 };
 
-const CurrencyAdditional = ({ label, name, onPress }: CurrencyType) => {
+const CurrencyAdditional = ({ name, char, onPress }: CurrencyType) => {
   const {
-    containerStyle, labelStyle, labelTextStyle, inputStyle, nameStyle,
+    containerStyle, nameStyle, nameTextStyle, charStyle, charTextStyle,
   } = styles;
 
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={containerStyle}>
-        <View style={labelStyle}>
-          <Text style={labelTextStyle}>{label}</Text>
+        <View style={nameStyle}>
+          <Text style={nameTextStyle}>{name}</Text>
         </View>
-        <View style={inputStyle}>
-          <Text style={nameStyle}>{name}</Text>
+        <View style={charStyle}>
+          <Text style={charTextStyle}>{char}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -36,20 +36,23 @@ const styles = {
     minHeight: 52,
     flexDirection: 'row',
   },
-  labelStyle: {
+  nameStyle: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  nameTextStyle: {
+    paddingLeft: 10,
+    fontSize: 13,
+  },
+  charStyle: {
     flex: 1,
     justifyContent: 'center',
   },
-  labelTextStyle: {
+  charTextStyle: {
     paddingLeft: 10,
     paddingRight: 10,
   },
-  inputStyle: {
-    flex: 3,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  nameStyle: { paddingRight: 10, paddingBottom: 10, fontSize: 13 },
 };
 
 export { CurrencyAdditional };

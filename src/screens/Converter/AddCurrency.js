@@ -74,17 +74,10 @@ class AddCurrency extends Component<Props, State> {
           data={[...this.state.additionalCurrencies]}
           renderItem={({ item, index }) => (
             <CurrencyAdditional
-              // placeholder={item.name}
-              label={item.charCode}
               name={currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng}
+              char={item.charCode}
               // onPress
-              // onChangeText={(input) => {
-              //   this.onChangeCurrency(index, input);
-              // }}
-              // onFocus={() => this.onFocus(index)}
-              // onBlur={() => this.onBlur(index)}
               // appInputStyle={{ color: this.state.inputStyle[index] }}
-              value={`${item.input}`}
             />
           )}
           keyExtractor={item => item.charCode}
