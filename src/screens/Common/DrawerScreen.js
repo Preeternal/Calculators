@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Image,
   SafeAreaView,
+  // StatusBar,
   // View, Text,
 } from 'react-native';
 import {
@@ -15,6 +16,7 @@ import images from '../../images';
 const DrawerScreen = props => (
   <Container>
     <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'always', horizontal: 'never' }}>
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#757171" /> */}
       <Header androidStatusBarColor="#757171" style={styles.drawerHeader}>
         <Body>
           <Image resizeMode="cover" style={styles.drawerImage} source={images.logo} />

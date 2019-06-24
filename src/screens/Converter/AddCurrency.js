@@ -33,7 +33,7 @@ const styles = {
 };
 
 class AddCurrency extends Component<Props, State> {
-  static navigationOptions = props => ({
+  static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>,
     headerStyle: {
       // backgroundColor: '#f4511e',
@@ -48,7 +48,7 @@ class AddCurrency extends Component<Props, State> {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          props.navigation.goBack();
+          navigation.goBack();
         }}
       >
         <Icon type="MaterialIcons" name="done" style={styles.actionButtonIcon} />
