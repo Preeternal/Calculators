@@ -45,6 +45,9 @@ class Converter extends Component<Props, State> {
     const { params } = navigation.state;
     return {
       header: null,
+      headerStyle: {
+        backgroundColor: '#525050',
+      },
       title: strings('converter.header'), // drawer label initialization
       drawerLabel: params && params.DLabel,
       drawerIcon: ({ tintColor }) => (
