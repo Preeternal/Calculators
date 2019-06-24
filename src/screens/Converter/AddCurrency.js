@@ -53,12 +53,7 @@ class AddCurrency extends Component<Props, State> {
           navigation.goBack();
         }}
       >
-        <Icon
-          name="md-close"
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
+        <Icon name="md-close" style={styles.actionButtonIcon} />
       </TouchableOpacity>
     ),
     // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
