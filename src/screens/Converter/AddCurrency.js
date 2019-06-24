@@ -11,7 +11,7 @@ import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../..
 type Props = {
   preset: Array<string>,
   currencies: Array<Object>,
-  presetCurrencies: Array<Object>,
+  // presetCurrencies: Array<Object>,
   // navigation: Function,
 };
 
@@ -76,7 +76,7 @@ class AddCurrency extends Component<Props, State> {
             <CurrencyAdditional
               name={currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng}
               char={item.charCode}
-              // onPress
+              onPress={() => {}}
               // appInputStyle={{ color: this.state.inputStyle[index] }}
             />
           )}
