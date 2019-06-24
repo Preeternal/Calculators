@@ -9,13 +9,13 @@ import { strings, currentLocale } from '../../../locales/i18n';
 import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../../actions';
 
 type Props = {
-  // preset: Array<string>,
-  // currencies: Array<Object>,
+  preset: Array<string>,
+  currencies: Array<Object>,
   presetCurrencies: Array<Object>,
   // navigation: Function,
 };
 
-type State = {};
+type State = { additionalCurrencies: Array<Object> };
 
 const styles = {
   headerText: {
@@ -57,15 +57,21 @@ class AddCurrency extends Component<Props, State> {
     ),
   });
 
-  state = {};
+  state = { additionalCurrencies: [] };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { preset, currencies } = this.props;
+    const filter = currencies.filter(currency => !preset.includes(currency.charCode));
+    this.setState({
+      additionalCurrencies: [...filter],
+    });
+  }
 
   render() {
     return (
       <Fragment>
         <FlatList
-          data={[...this.props.presetCurrencies]}
+          data={[...this.state.additionalCurrencies]}
           renderItem={({ item, index }) => (
             <CurrencyAdditional
               // placeholder={item.name}
