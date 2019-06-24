@@ -12,5 +12,3 @@ export * from './ResultSrok';
 export * from './Table';
 export * from './CreditTable';
 export * from './Screen';
-export * from './CurrencyInput';
-export * from './CurrencyAdditional';

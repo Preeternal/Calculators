@@ -4,7 +4,7 @@ import { FlatList, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
-import { CurrencyAdditional } from '../../components/common';
+import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
 import { strings, currentLocale } from '../../../locales/i18n';
 import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../../actions';
 

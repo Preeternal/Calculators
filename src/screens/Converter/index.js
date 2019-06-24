@@ -12,9 +12,8 @@ import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
-import {
-  Card, Header, TableSection, CurrencyInput,
-} from '../../components/common';
+import { Card, Header, TableSection } from '../../components/common';
+import { CurrencyInput } from '../../components/converter/CurrencyInput';
 import { strings, currentLocale } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 import { number } from '../../lib';
