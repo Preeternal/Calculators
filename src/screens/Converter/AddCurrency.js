@@ -22,8 +22,11 @@ const styles = {
     color: '#ffffff',
     fontSize: 18,
   },
-  button: {
+  rightButton: {
     marginRight: 15,
+  },
+  leftButton: {
+    marginLeft: 15,
   },
   actionButtonIcon: {
     fontSize: 25,
@@ -44,17 +47,24 @@ class AddCurrency extends Component<Props, State> {
       fontWeight: 'bold',
     },
     headerLeft: (
-      <Icon
-        name="md-close"
+      <TouchableOpacity
+        style={styles.leftButton}
         onPress={() => {
           navigation.goBack();
         }}
-      />
+      >
+        <Icon
+          name="md-close"
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      </TouchableOpacity>
     ),
     // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
     headerRight: (
       <TouchableOpacity
-        style={styles.button}
+        style={styles.rightButton}
         onPress={() => {
           navigation.goBack();
         }}
