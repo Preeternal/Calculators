@@ -480,7 +480,7 @@ class Credit extends Component<Props, State> {
                       : strings('input.principal.placeholder')
                   }
                   label={strings('credit.input.edinСom.label')}
-                  labelTextStyle={{ flex: 2.2 }}
+                  labelTextStyle={{ flex: 2.5 }}
                   onChangeText={this.onCreditEdinComValueChange}
                   onBlur={() => this.onBlur('creditEdinComValue', this.props.creditEdinCom)}
                   onFocus={() => this.onFocus('creditEdinComValue', this.props.creditEdinCom)}
