@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { ScrollView, Platform, Text } from 'react-native';
+import {
+  ScrollView, Platform, Text, Alert,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -23,6 +25,8 @@ const prodItems = Platform.select({
     // 'android.test.purchased',
   ],
 });
+let purchaseUpdateSubscription;
+let purchaseErrorSubscription;
 
 class Settings extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -40,30 +44,56 @@ class Settings extends Component {
     iapConnection: false,
     products: [],
     purchased: false,
+    receipt: '',
   };
-
-  async componentDidMount() {
-    try {
-      const iapConnection = await RNIap.initConnection();
-      await RNIap.consumeAllItems();
-      const products = await RNIap.getProducts(prodItems);
-      // const purchases = await RNIap.getAvailablePurchases();
-      // const availableProducts = products.filter(
-      //   product => purchases.every(purchase => purchase.productId !== product.productId),
-      // );
-      this.setState({ iapConnection, products });
-      // console.log('State', this.state.products);
-      // console.log(availableProducts);
-    } catch (err) {
-      console.warn(err.code, err.message);
-      // throw new Error('Ошибка');
-    }
-  }
 
   // no need to preset drawer label because we define title in navigationOptions
   // componentWillMount() {
   //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
   // }
+
+  componentWillMount() {
+    if (purchaseUpdateSubscription) {
+      purchaseUpdateSubscription.remove();
+      purchaseUpdateSubscription = null;
+    }
+    if (purchaseErrorSubscription) {
+      purchaseErrorSubscription.remove();
+      purchaseErrorSubscription = null;
+    }
+  }
+
+
+  async componentDidMount() {
+    if (Platform.OS === 'android') {
+      purchaseUpdateSubscription = RNIap.purchaseUpdatedListener((purchase) => {
+        console.log('purchaseUpdatedListener', purchase);
+        // this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+      });
+      purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
+        console.log('purchaseErrorListener', error);
+        Alert.alert('purchase error', JSON.stringify(error));
+      });
+      // console.log(this.state.receipt);
+      try {
+        const iapConnection = await RNIap.initConnection();
+        await RNIap.consumeAllItemsAndroid();
+        const products = await RNIap.getProducts(prodItems);
+        // const purchases = await RNIap.getAvailablePurchases();
+        // const availableProducts = products.filter(
+        //   product => purchases.every(purchase => purchase.productId !== product.productId),
+        // );
+        this.setState({ iapConnection, products });
+        // console.log('State', this.state.products);
+        // console.log(availableProducts);
+      } catch (err) {
+        console.warn(err.code, err.message);
+        // throw new Error('Ошибка');
+      }
+    }
+  }
+
+
   componentDidUpdate(prevProps) {
     if (this.props.language !== prevProps.language) {
       this.props.navigation.setParams({ DLabel: strings('settings.settings') });
@@ -111,10 +141,12 @@ class Settings extends Component {
     // const purchase = await RNIap.buyProduct(sku);
     // const products = await RNIap.buySubscription(sku);
     // const purchase = await RNIap.buyProductWithoutFinishTransaction(sku);
+
     try {
-      const purchase: any = await RNIap.buyProduct(sku);
+      const purchase: any = await RNIap.requestPurchase(sku);
       // this.setState({ receipt: purchase.transactionReceipt }, () => this.goToNext());
       // console.log(purchase);
+
       if (purchase) {
         this.setState(prevState => ({
           purchased: true,
@@ -129,7 +161,6 @@ class Settings extends Component {
       // });
     }
   };
-
 
   onLanguageChange = (value) => {
     this.props.languageChanged(value);
@@ -172,7 +203,8 @@ class Settings extends Component {
           {Platform.OS === 'android' && this.state.iapConnection && this.state.products && (
             <Card>
               <Header headerText={strings('settings.donat.header')} />
-              {this.state.purchased && (
+              {/* {this.state.purchased && ( */}
+              {purchaseUpdateSubscription && (
                 <CardSection>
                   <Text style={{ fontSize: 17, margin: 10, textAlign: 'center' }}>
                     {strings('settings.donat.thanks')}
