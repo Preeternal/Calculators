@@ -100,7 +100,7 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 5,
     alignSelf: 'center',
-    flex: 1,
+    // flex: 1,
   },
   inputStyle: {
     flex: 1.1,
