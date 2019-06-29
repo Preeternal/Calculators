@@ -44,7 +44,6 @@ class Settings extends Component {
     iapConnection: false,
     products: [],
     purchased: false,
-    receipt: '',
   };
 
   // no need to preset drawer label because we define title in navigationOptions
@@ -63,36 +62,40 @@ class Settings extends Component {
     }
   }
 
-
   async componentDidMount() {
     if (Platform.OS === 'android') {
       purchaseUpdateSubscription = RNIap.purchaseUpdatedListener((purchase) => {
-        console.log('purchaseUpdatedListener', purchase);
-        // this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+        // console.log('purchaseUpdatedListener', purchase);
+        if (purchase.transactionReceipt) {
+          this.setState(prevState => ({
+            products: prevState.products.filter(
+              product => purchase.productId !== product.productId,
+            ),
+            purchased: true,
+          }));
+        }
       });
       purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
         console.log('purchaseErrorListener', error);
         Alert.alert('purchase error', JSON.stringify(error));
       });
-      // console.log(this.state.receipt);
       try {
         const iapConnection = await RNIap.initConnection();
-        await RNIap.consumeAllItemsAndroid();
         const products = await RNIap.getProducts(prodItems);
-        // const purchases = await RNIap.getAvailablePurchases();
-        // const availableProducts = products.filter(
-        //   product => purchases.every(purchase => purchase.productId !== product.productId),
-        // );
+        const purchases = await RNIap.getAvailablePurchases();
+        if (purchases.length) {
+          // await RNIap.consumeAllItemsAndroid(); did not work as expected, need to open issue
+          purchases.map(async (purchase) => {
+            await RNIap.consumePurchaseAndroid(purchase.purchaseToken);
+          });
+        }
         this.setState({ iapConnection, products });
-        // console.log('State', this.state.products);
-        // console.log(availableProducts);
       } catch (err) {
         console.warn(err.code, err.message);
         // throw new Error('Ошибка');
       }
     }
   }
-
 
   componentDidUpdate(prevProps) {
     if (this.props.language !== prevProps.language) {
@@ -137,28 +140,10 @@ class Settings extends Component {
   // };
 
   buyItem = async (sku) => {
-    // console.info(`buyItem: ${sku}`);
-    // const purchase = await RNIap.buyProduct(sku);
-    // const products = await RNIap.buySubscription(sku);
-    // const purchase = await RNIap.buyProductWithoutFinishTransaction(sku);
-
     try {
-      const purchase: any = await RNIap.requestPurchase(sku);
-      // this.setState({ receipt: purchase.transactionReceipt }, () => this.goToNext());
-      // console.log(purchase);
-
-      if (purchase) {
-        this.setState(prevState => ({
-          purchased: true,
-          products: prevState.products.filter(product => purchase.productId !== product.productId),
-        }));
-      }
+      await RNIap.requestPurchase(sku);
     } catch (err) {
       console.warn(err.code, err.message);
-      // const subscription = RNIap.addAdditionalSuccessPurchaseListenerIOS(async (purchase) => {
-      //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goToNext());
-      //   subscription.remove();
-      // });
     }
   };
 
@@ -203,8 +188,7 @@ class Settings extends Component {
           {Platform.OS === 'android' && this.state.iapConnection && this.state.products && (
             <Card>
               <Header headerText={strings('settings.donat.header')} />
-              {/* {this.state.purchased && ( */}
-              {purchaseUpdateSubscription && (
+              {this.state.purchased && (
                 <CardSection>
                   <Text style={{ fontSize: 17, margin: 10, textAlign: 'center' }}>
                     {strings('settings.donat.thanks')}
