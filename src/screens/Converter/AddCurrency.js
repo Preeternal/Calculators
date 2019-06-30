@@ -90,7 +90,7 @@ class AddCurrency extends Component<Props, State> {
     //   // checked[index] = !prevState.checked[index];
     //   return { checked };
     // });
-  }
+  };
 
   render() {
     console.log(this.state.checked);
