@@ -15,7 +15,7 @@ type Props = {
   // navigation: Function,
 };
 
-type State = { additionalCurrencies: Array<Object> };
+type State = { additionalCurrencies: Array<Object>, checked: Array<boolean> };
 
 const styles = {
   headerText: {
@@ -71,17 +71,29 @@ class AddCurrency extends Component<Props, State> {
     ),
   });
 
-  state = { additionalCurrencies: [] };
+  state = { additionalCurrencies: [], checked: [] };
 
   componentDidMount() {
     const { preset, currencies } = this.props;
     const filter = currencies.filter(currency => !preset.includes(currency.charCode));
     this.setState({
       additionalCurrencies: [...filter],
+      checked: filter.map(() => false),
     });
   }
 
+  handleClick = (index) => {
+    console.log(this.state.checked[index]);
+    // this.setState((prevState) => {
+    //   const checked = [...prevState.checked];
+    //   console.log(prevState.checked[index]);
+    //   // checked[index] = !prevState.checked[index];
+    //   return { checked };
+    // });
+  }
+
   render() {
+    console.log(this.state.checked);
     return (
       <Fragment>
         <FlatList
@@ -90,7 +102,8 @@ class AddCurrency extends Component<Props, State> {
             <CurrencyAdditional
               name={currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng}
               char={item.charCode}
-              onPress={() => {}}
+              checked={this.state.checked[index]}
+              handleClick={this.handleClick(index)}
               // appInputStyle={{ color: this.state.inputStyle[index] }}
             />
           )}

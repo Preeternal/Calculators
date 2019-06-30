@@ -1,15 +1,18 @@
 // @flow
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { CheckBox } from 'native-base';
 
 type CurrencyType = {
   name: string,
   char: string,
-  onPress: Function,
+  checked: boolean,
+  handleClick: Function,
 };
 
-const CurrencyAdditional = ({ name, char, onPress }: CurrencyType) => {
+const CurrencyAdditional = ({
+  name, char, checked, handleClick,
+}: CurrencyType) => {
   const {
     containerStyle,
     checkBoxStyle,
@@ -19,11 +22,20 @@ const CurrencyAdditional = ({ name, char, onPress }: CurrencyType) => {
     charTextStyle,
   } = styles;
 
+  // const [checked, setCheck] = useState(false);
+
+  // const handleClick = () => {
+  //   setCheck(!checked);
+  //   if (!checked) {
+  //     console.log(char);
+  //   }
+  // };
+
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={handleClick}>
       <View style={containerStyle}>
         <View style={checkBoxStyle}>
-          <CheckBox checked={false} color="gray" />
+          <CheckBox checked={checked} color="gray" onPress={handleClick} />
         </View>
         <View style={nameStyle}>
           <Text style={nameTextStyle}>{name}</Text>
