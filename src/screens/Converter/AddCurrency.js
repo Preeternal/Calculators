@@ -83,13 +83,12 @@ class AddCurrency extends Component<Props, State> {
   }
 
   handleClick = (index) => {
-    console.log(this.state.checked[index]);
-    // this.setState((prevState) => {
-    //   const checked = [...prevState.checked];
-    //   console.log(prevState.checked[index]);
-    //   // checked[index] = !prevState.checked[index];
-    //   return { checked };
-    // });
+    // console.log(this.state.checked[index]);
+    this.setState((prevState) => {
+      const checked = [...prevState.checked];
+      checked[index] = !prevState.checked[index];
+      return { checked };
+    });
   };
 
   render() {
@@ -98,12 +97,13 @@ class AddCurrency extends Component<Props, State> {
       <Fragment>
         <FlatList
           data={[...this.state.additionalCurrencies]}
+          extraData={this.state}
           renderItem={({ item, index }) => (
             <CurrencyAdditional
               name={currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng}
               char={item.charCode}
               checked={this.state.checked[index]}
-              handleClick={this.handleClick(index)}
+              handleClick={() => this.handleClick(index)}
               // appInputStyle={{ color: this.state.inputStyle[index] }}
             />
           )}
