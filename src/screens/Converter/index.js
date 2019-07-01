@@ -162,6 +162,7 @@ class Converter extends Component<Props, State> {
               <TableSection>
                 <FlatList
                   data={[...this.props.presetCurrencies]}
+                  extraData={this.props}
                   renderItem={({ item, index }) => (
                     <CurrencyInput
                       // placeholder={item.name}

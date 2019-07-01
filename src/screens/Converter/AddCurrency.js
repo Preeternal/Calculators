@@ -12,14 +12,12 @@ type Props = {
   preset: Array<string>,
   currencies: Array<Object>,
   presetChanged: Function,
-  // presetCurrencies: Array<Object>,
-  // navigation: Function,
+  navigation: Function,
 };
 
 type State = {
   additionalCurrencies: Array<Object>,
-  checked: Array<boolean>,
-  preset: Array<string>,
+  checked: Array<string | null>,
 };
 
 const styles = {
@@ -64,43 +62,37 @@ class AddCurrency extends Component<Props, State> {
     ),
     // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
     headerRight: (
-      <TouchableOpacity
-        style={styles.rightButton}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
+      <TouchableOpacity style={styles.rightButton} onPress={navigation.getParam('handleSave')}>
         <Icon type="MaterialIcons" name="done" style={styles.actionButtonIcon} />
         {/* md-checkmark */}
       </TouchableOpacity>
     ),
   });
 
-  state = { additionalCurrencies: [], checked: [], preset: [] };
+  state = { additionalCurrencies: [], checked: [] };
 
   componentDidMount() {
     const { preset, currencies } = this.props;
     const filter = currencies.filter(currency => !preset.includes(currency.charCode));
     this.setState({
       additionalCurrencies: [...filter],
-      checked: filter.map(() => false),
+      checked: filter.map(() => null),
     });
+    this.props.navigation.setParams({ handleSave: this.saveDetails });
   }
 
-  handleClick = (index) => {
+  handleClick = (charCode, index) => {
     this.setState((prevState) => {
       const checked = [...prevState.checked];
-      checked[index] = !prevState.checked[index];
-      // const preset = checked.map((item) => {if (item === true) {}})
-      const found = this.state.additionalCurrencies.map((e, i) => {
-        if (i === index) {
-          return e;
-        }
-        return null;
-      });
-      console.log(found);
+      checked[index] = prevState.checked[index] === charCode ? null : charCode;
       return { checked };
     });
+  };
+
+  saveDetails = () => {
+    const preset = this.state.checked.filter(item => item !== null);
+    this.onPresetChange(this.props.preset.concat(preset));
+    this.props.navigation.goBack();
   };
 
   onPresetChange = (array) => {
@@ -119,9 +111,8 @@ class AddCurrency extends Component<Props, State> {
             <CurrencyAdditional
               name={currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng}
               char={item.charCode}
-              checked={this.state.checked[index]}
-              handleClick={() => this.handleClick(index)}
-              // appInputStyle={{ color: this.state.inputStyle[index] }}
+              checked={!!this.state.checked[index]}
+              handleClick={() => this.handleClick(item.charCode, index)}
             />
           )}
           keyExtractor={item => item.charCode}
