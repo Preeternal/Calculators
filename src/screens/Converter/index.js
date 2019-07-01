@@ -1,26 +1,26 @@
 // @flow
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 import {
   ScrollView,
   FlatList,
   TouchableOpacity,
   View,
   Text,
-  ActivityIndicator
-} from "react-native";
-import { connect } from "react-redux";
-import { Icon } from "native-base";
-import "number-to-locale-string";
+  ActivityIndicator,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { Icon } from 'native-base';
+import 'number-to-locale-string';
 
-import { Card, Header, TableSection } from "../../components/common";
-import { CurrencyInput } from "../../components/converter/CurrencyInput";
-import { strings, currentLocale } from "../../../locales/i18n";
-import CustomHeader from "../Common/CustomHeader";
-import { number } from "../../lib";
-import { presetChanged, currenciesChanged, presetCurrenciesChanged } from "../../actions";
+import { Card, Header, TableSection } from '../../components/common';
+import { CurrencyInput } from '../../components/converter/CurrencyInput';
+import { strings, currentLocale } from '../../../locales/i18n';
+import CustomHeader from '../Common/CustomHeader';
+import { number } from '../../lib';
+import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../../actions';
 
-const textColor = "#525050";
-const activeTextColor = "#000000";
+const textColor = '#525050';
+const activeTextColor = '#000000';
 
 type Props = {
   language: number,
@@ -30,13 +30,13 @@ type Props = {
   currencies: Array<Object>,
   presetCurrencies: Array<Object>,
   currenciesChanged: Function,
-  presetCurrenciesChanged: Function
+  presetCurrenciesChanged: Function,
 };
 
 type State = {
   inputStyle: Array<string>,
   userCountryCode?: string,
-  keyboard: boolean
+  keyboard: boolean,
 };
 
 class Converter extends Component<Props, State> {
@@ -45,19 +45,19 @@ class Converter extends Component<Props, State> {
     return {
       header: null,
       headerStyle: {
-        backgroundColor: "#525050"
+        backgroundColor: '#525050',
       },
-      title: strings("converter.header"), // drawer label initialization
+      title: strings('converter.header'), // drawer label initialization
       drawerLabel: params && params.DLabel,
       drawerIcon: ({ tintColor }) => (
         <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
-      )
+      ),
     };
   };
 
   state = {
     inputStyle: [],
-    keyboard: false
+    keyboard: false,
   };
 
   componentDidMount() {
@@ -71,22 +71,22 @@ class Converter extends Component<Props, State> {
     }
     this.setState({
       // inputStyle: Array(currenciesWithInputField.length + 1).fill(textColor),
-      inputStyle: Array(presetCurrencies.length).fill(textColor)
+      inputStyle: Array(presetCurrencies.length).fill(textColor),
     });
   }
 
-  onCurrencyChange = array => {
+  onCurrencyChange = (array) => {
     this.props.currenciesChanged(array);
   };
 
-  onPresetCurrencyChange = array => {
+  onPresetCurrencyChange = (array) => {
     this.props.presetCurrenciesChanged(array);
   };
 
   onPresetCurrencyChangeWithDivider = (
     index: number,
     input: string,
-    presetCurrencies: Array<Object>
+    presetCurrencies: Array<Object>,
   ) => {
     const currencies = [...presetCurrencies];
     const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
@@ -102,37 +102,37 @@ class Converter extends Component<Props, State> {
     this.onPresetCurrencyChange(currenciesWithDivider);
   };
 
-  onFocus = index => {
-    this.setState(prevState => {
+  onFocus = (index) => {
+    this.setState((prevState) => {
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, activeTextColor);
       return {
         keyboard: true,
-        inputStyle
+        inputStyle,
       };
     });
     const currencies = [...this.props.presetCurrencies];
     if (
-      currencies[index].input === 0 ||
-      currencies[index].input === "0,00" ||
-      currencies[index].input === "0"
+      currencies[index].input === 0
+      || currencies[index].input === '0,00'
+      || currencies[index].input === '0'
     ) {
-      currencies[index].input = "";
+      currencies[index].input = '';
       this.onPresetCurrencyChange(currencies);
     }
   };
 
-  onBlur = index => {
-    this.setState(prevState => {
+  onBlur = (index) => {
+    this.setState((prevState) => {
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, textColor);
       return {
         keyboard: false,
-        inputStyle
+        inputStyle,
       };
     });
     const currencies = [...this.props.presetCurrencies];
-    if (currencies[index].input === "") {
+    if (currencies[index].input === '') {
       currencies[index].input = 0;
     } else {
       currencies[index].input = this.getLocalInput(currencies[index].input);
@@ -140,11 +140,11 @@ class Converter extends Component<Props, State> {
     this.onPresetCurrencyChange(currencies);
   };
 
-  getLocalInput = input => {
+  getLocalInput = (input) => {
     const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
-    return Number(number(`${input}`)).toLocaleString("ru-RU", {
+    return Number(number(`${input}`)).toLocaleString('ru-RU', {
       minimumFractionDigits,
-      maximumFractionDigits: minimumFractionDigits
+      maximumFractionDigits: minimumFractionDigits,
     });
   };
 
@@ -152,13 +152,13 @@ class Converter extends Component<Props, State> {
     return (
       <Fragment>
         <CustomHeader
-          title={strings("converter.title")}
+          title={strings('converter.title')}
           drawerOpen={() => this.props.navigation.openDrawer()}
         />
         {this.props.currencies[1] ? (
           <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
             <Card>
-              <Header headerText={strings("converter.header")} />
+              <Header headerText={strings('converter.header')} />
               <TableSection>
                 <FlatList
                   data={[...this.props.presetCurrencies]}
@@ -167,13 +167,13 @@ class Converter extends Component<Props, State> {
                       // placeholder={item.name}
                       label={item.charCode}
                       name={`${item.nominal} ${
-                        currentLocale.substring(0, 2) === "ru" ? item.name : item.nameEng
+                        currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
                       }`}
                       onChangeText={(input: string) => {
                         this.onPresetCurrencyChangeWithDivider(
                           index,
                           input,
-                          this.props.presetCurrencies
+                          this.props.presetCurrencies,
                         );
                       }}
                       onFocus={() => this.onFocus(index)}
@@ -192,7 +192,7 @@ class Converter extends Component<Props, State> {
           <View
             style={{
               flex: 1,
-              justifyContent: "center"
+              justifyContent: 'center',
             }}
           >
             <ActivityIndicator size="large" color={textColor} />
@@ -202,12 +202,12 @@ class Converter extends Component<Props, State> {
           <Fragment>
             <View style={styles.footerView}>
               <Text style={styles.footerText}>
-                {` ${strings("converter.lastUpdate")} ${this.props.currencies[1].updatedAt}`}
+                {` ${strings('converter.lastUpdate')} ${this.props.currencies[1].updatedAt}`}
               </Text>
             </View>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate("AddCurrency");
+                this.props.navigation.navigate('AddCurrency');
               }}
               style={styles.button}
             >
@@ -224,32 +224,32 @@ const styles = {
   actionButtonIcon: {
     fontSize: 25,
     height: 22,
-    color: "white"
+    color: 'white',
   },
   button: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 16,
     right: 16,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     width: 56,
     height: 56,
-    backgroundColor: "rgba(231,76,60,1)",
-    borderRadius: 30
+    backgroundColor: 'rgba(231,76,60,1)',
+    borderRadius: 30,
   },
   footerView: {
     minHeight: 32,
-    backgroundColor: "#525050",
-    shadowColor: "#000",
+    backgroundColor: '#525050',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 1,
-    position: "relative"
+    position: 'relative',
   },
   footerText: {
     fontSize: 14,
-    color: "#ffffff"
-  }
+    color: '#ffffff',
+  },
 };
 
 const mapStateToProps = state => ({
@@ -257,16 +257,16 @@ const mapStateToProps = state => ({
   country: state.settings.country,
   preset: state.converter.preset,
   currencies: state.converter.currencies,
-  presetCurrencies: state.converter.presetCurrencies
+  presetCurrencies: state.converter.presetCurrencies,
 });
 
 const mapDispatchToActions = {
   presetChanged,
   currenciesChanged,
-  presetCurrenciesChanged
+  presetCurrenciesChanged,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToActions
+  mapDispatchToActions,
 )(Converter);
