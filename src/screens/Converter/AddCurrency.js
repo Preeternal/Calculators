@@ -6,16 +6,21 @@ import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
 import { strings, currentLocale } from '../../../locales/i18n';
-import { presetChanged, currenciesChanged, presetCurrenciesChanged } from '../../actions';
+import { presetChanged } from '../../actions';
 
 type Props = {
   preset: Array<string>,
   currencies: Array<Object>,
+  presetChanged: Function,
   // presetCurrencies: Array<Object>,
   // navigation: Function,
 };
 
-type State = { additionalCurrencies: Array<Object>, checked: Array<boolean> };
+type State = {
+  additionalCurrencies: Array<Object>,
+  checked: Array<boolean>,
+  preset: Array<string>,
+};
 
 const styles = {
   headerText: {
@@ -71,7 +76,7 @@ class AddCurrency extends Component<Props, State> {
     ),
   });
 
-  state = { additionalCurrencies: [], checked: [] };
+  state = { additionalCurrencies: [], checked: [], preset: [] };
 
   componentDidMount() {
     const { preset, currencies } = this.props;
@@ -83,16 +88,28 @@ class AddCurrency extends Component<Props, State> {
   }
 
   handleClick = (index) => {
-    // console.log(this.state.checked[index]);
     this.setState((prevState) => {
       const checked = [...prevState.checked];
       checked[index] = !prevState.checked[index];
+      // const preset = checked.map((item) => {if (item === true) {}})
+      const found = this.state.additionalCurrencies.map((e, i) => {
+        if (i === index) {
+          return e;
+        }
+        return null;
+      });
+      console.log(found);
       return { checked };
     });
   };
 
+  onPresetChange = (array) => {
+    this.props.presetChanged(array);
+  };
+
   render() {
-    console.log(this.state.checked);
+    // console.log(this.state.checked);
+    // console.log(this.props.preset);
     return (
       <Fragment>
         <FlatList
@@ -117,13 +134,10 @@ class AddCurrency extends Component<Props, State> {
 const mapStateToProps = state => ({
   preset: state.converter.preset,
   currencies: state.converter.currencies,
-  presetCurrencies: state.converter.presetCurrencies,
 });
 
 const mapDispatchToActions = {
   presetChanged,
-  currenciesChanged,
-  presetCurrenciesChanged,
 };
 
 export default connect(
