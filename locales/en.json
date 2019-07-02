@@ -170,7 +170,8 @@
     "header": "Currency Converter",
     "lastUpdate": "Last update",
     "addCurrency": "Add currency",
-    "changeCurr": "Change the list of currencies"
+    "changeCurr": "Change the list of currencies",
+    "delete": "Delete"
   },
   "settings": {
     "settings": "Settings",
@@ -219,5 +220,9 @@
       "header": "Overpayment",
       "text": "The difference between all payments that you pay to the bank and the amount of the loan. Characterizes the cost of the loan. In other words, this is the money that you have to give later, minus this money, which the bank gives you now."
     }
+  },
+  "common": {
+    "ok": "Ok",
+    "cancel": "Cancel"
   }
 }

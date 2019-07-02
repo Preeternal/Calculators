@@ -1,28 +1,19 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { FlatList, Text, TouchableOpacity } from 'react-native';
+import { FlatList, Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon } from 'native-base';
 
-import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
+import { CurrencyPreset } from '../../components/converter/CurrencyPreset';
 import { strings } from '../../../locales/i18n';
-import { presetChanged, presetCurrenciesChanged } from '../../actions';
-import { number } from '../../lib';
+import { presetChanged } from '../../actions';
 
 type Props = {
-  language: number,
   preset: Array<string>,
-  currencies: Array<Object>,
-  presetCurrencies: Array<Object>,
   presetChanged: Function,
-  presetCurrenciesChanged: Function,
   navigation: Function,
 };
 
-type State = {
-  additionalCurrencies: Array<Object>,
-  checked: Array<string | null>,
-};
+type State = {};
 
 const styles = {
   headerText: {
@@ -47,7 +38,6 @@ class EditPreset extends Component<Props, State> {
     drawerLockMode: 'locked-closed',
     headerTitle: <Text style={styles.headerText}>{strings('converter.changeCurr')}</Text>,
     headerStyle: {
-      // backgroundColor: '#f4511e',
       backgroundColor: '#525050',
     },
     headerTintColor: '#fff',
@@ -56,74 +46,59 @@ class EditPreset extends Component<Props, State> {
     },
   });
 
-  state = { additionalCurrencies: [], checked: [] };
+  state = {};
 
   componentDidMount() {
-    const { preset, currencies } = this.props;
-    const filter = currencies.filter(currency => !preset.includes(currency.charCode));
-    this.setState({
-      additionalCurrencies: [...filter],
-      checked: filter.map(() => null),
-    });
-    this.props.navigation.setParams({ handleSave: this.saveDetails });
+    // const { preset, currencies } = this.props;
+    // const filter = currencies.filter(currency => !preset.includes(currency.charCode));
+    // this.setState({
+    //   additionalCurrencies: [...filter],
+    //   checked: filter.map(() => null),
+    // });
+    // this.props.navigation.setParams({ handleSave: this.saveDetails });
   }
 
-  handleClick = (charCode, index) => {
-    this.setState((prevState) => {
-      const checked = [...prevState.checked];
-      checked[index] = prevState.checked[index] === charCode ? null : charCode;
-      return { checked };
-    });
-  };
+  // handleClick = (charCode, index) => {
+  //   this.setState((prevState) => {
+  //     const checked = [...prevState.checked];
+  //     checked[index] = prevState.checked[index] === charCode ? null : charCode;
+  //     return { checked };
+  //   });
+  // };
 
-  saveDetails = () => {
-    const presetSelected = this.state.checked.filter(item => item !== null);
-    const preset = this.props.preset.concat(presetSelected);
-    this.onPresetChange(preset);
-    const { currencies, presetCurrencies } = this.props;
-    const filter = currencies.filter(currency => preset.includes(currency.charCode));
-    filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-    if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
-      this.onPresetCurrencyChange(filter);
-    } else if (presetCurrencies[0].input !== filter[0].input) {
-      this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
-    }
-    this.props.navigation.goBack();
+  // saveDetails = () => {
+  //   const presetSelected = this.state.checked.filter(item => item !== null);
+  //   const preset = this.props.preset.concat(presetSelected);
+  //   this.onPresetChange(preset);
+  //   const { currencies, presetCurrencies } = this.props;
+  //   const filter = currencies.filter(currency => preset.includes(currency.charCode));
+  //   filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
+  //   if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
+  //     this.onPresetCurrencyChange(filter);
+  //   } else if (presetCurrencies[0].input !== filter[0].input) {
+  //     this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
+  //   }
+  //   this.props.navigation.goBack();
+  // };
+
+  onDelete = (item) => {
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {
+          text: strings('common.cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: strings('common.ok'), onPress: () => console.log(item) },
+      ],
+      // { cancelable: false },
+    );
   };
 
   onPresetChange = (array) => {
     this.props.presetChanged(array);
-  };
-
-  onPresetCurrencyChange = (array) => {
-    this.props.presetCurrenciesChanged(array);
-  };
-
-  onPresetCurrencyChangeWithDivider = (
-    index: number,
-    input: string,
-    presetCurrencies: Array<Object>,
-  ) => {
-    const currencies = [...presetCurrencies];
-    const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
-    const currenciesWithDivider = currencies.map((currency, ind) => {
-      const curr = { ...currency };
-      if (ind === index) {
-        curr.input = number(input);
-      } else {
-        curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
-      }
-      return curr;
-    });
-    this.onPresetCurrencyChange(currenciesWithDivider);
-  };
-
-  getLocalInput = (input) => {
-    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
-    return Number(number(`${input}`)).toLocaleString('ru-RU', {
-      minimumFractionDigits,
-      maximumFractionDigits: minimumFractionDigits,
-    });
   };
 
   render() {
@@ -132,17 +107,12 @@ class EditPreset extends Component<Props, State> {
     return (
       <Fragment>
         <FlatList
-          data={[...this.state.additionalCurrencies]}
-          extraData={this.state}
+          data={this.props.preset}
+          extraData={this.props}
           renderItem={({ item, index }) => (
-            <CurrencyAdditional
-              name={this.props.language === 0 ? item.name : item.nameEng}
-              char={item.charCode}
-              checked={!!this.state.checked[index]}
-              handleClick={() => this.handleClick(item.charCode, index)}
-            />
+            <CurrencyPreset char={item} onDelete={() => this.onDelete(item)} onMove={() => {}} />
           )}
-          keyExtractor={item => item.charCode}
+          keyExtractor={item => item}
         />
       </Fragment>
     );
@@ -150,15 +120,11 @@ class EditPreset extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  language: state.settings.language,
   preset: state.converter.preset,
-  currencies: state.converter.currencies,
-  presetCurrencies: state.converter.presetCurrencies,
 });
 
 const mapDispatchToActions = {
   presetChanged,
-  presetCurrenciesChanged,
 };
 
 export default connect(
