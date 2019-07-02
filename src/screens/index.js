@@ -15,6 +15,7 @@ import Depo from './Depo';
 import Credit from './Credit';
 import Converter from './Converter';
 import AddCurrency from './Converter/AddCurrency';
+import EditPreset from './Converter/EditPreset';
 import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
@@ -26,6 +27,7 @@ const ConverterStack = createStackNavigator(
   {
     Converter,
     AddCurrency,
+    EditPreset,
   },
   {
     mode: 'modal',

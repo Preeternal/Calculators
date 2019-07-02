@@ -32,7 +32,7 @@ const CustomHeader = props => (
         {props.title}
       </Title>
     </Body>
-    <Right />
+    <Right>{props.right}</Right>
   </Header>
 );
 

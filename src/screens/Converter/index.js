@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon } from 'native-base';
+import { Icon, Button } from 'native-base';
 import 'number-to-locale-string';
 
 import { Card, Header, TableSection } from '../../components/common';
@@ -154,6 +154,16 @@ class Converter extends Component<Props, State> {
         <CustomHeader
           title={strings('converter.title')}
           drawerOpen={() => this.props.navigation.openDrawer()}
+          right={
+            <Button
+              transparent
+              onPress={() => {
+                this.props.navigation.navigate('EditPreset');
+              }}
+            >
+              <Icon name="md-create" style={{ fontSize: 30, color: 'white' }} />
+            </Button>
+          }
         />
         {this.props.currencies[1] ? (
           <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
