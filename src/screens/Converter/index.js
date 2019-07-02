@@ -14,7 +14,7 @@ import 'number-to-locale-string';
 
 import { Card, Header, TableSection } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
-import { strings, currentLocale } from '../../../locales/i18n';
+import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 import { number } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
@@ -168,7 +168,7 @@ class Converter extends Component<Props, State> {
                       // placeholder={item.name}
                       label={item.charCode}
                       name={`${item.nominal} ${
-                        currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng
+                        this.props.language === 0 ? item.name : item.nameEng
                       }`}
                       onChangeText={(input: string) => {
                         this.onPresetCurrencyChangeWithDivider(

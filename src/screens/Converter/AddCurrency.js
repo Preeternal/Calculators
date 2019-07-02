@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
-import { strings, currentLocale } from '../../../locales/i18n';
+import { strings } from '../../../locales/i18n';
 import { presetChanged, presetCurrenciesChanged } from '../../actions';
 import { number } from '../../lib';
 
 type Props = {
+  language: number,
   preset: Array<string>,
   currencies: Array<Object>,
   presetCurrencies: Array<Object>,
@@ -152,7 +153,7 @@ class AddCurrency extends Component<Props, State> {
           extraData={this.state}
           renderItem={({ item, index }) => (
             <CurrencyAdditional
-              name={currentLocale.substring(0, 2) === 'ru' ? item.name : item.nameEng}
+              name={this.props.language === 0 ? item.name : item.nameEng}
               char={item.charCode}
               checked={!!this.state.checked[index]}
               handleClick={() => this.handleClick(item.charCode, index)}
@@ -166,6 +167,7 @@ class AddCurrency extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
+  language: state.settings.language,
   preset: state.converter.preset,
   currencies: state.converter.currencies,
   presetCurrencies: state.converter.presetCurrencies,
