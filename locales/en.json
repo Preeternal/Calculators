@@ -171,7 +171,9 @@
     "lastUpdate": "Last update",
     "addCurrency": "Add currency",
     "changeCurr": "Change the list of currencies",
-    "delete": "Delete"
+    "delete": "Delete",
+    "remove": "Remove",
+    "fromTheList": "from the list?"
   },
   "settings": {
     "settings": "Settings",

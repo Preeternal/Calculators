@@ -172,7 +172,9 @@
     "lastUpdate": "Последнее обновление",
     "addCurrency": "Добавление валюты",
     "changeCurr": "Изменение списка валют",
-    "delete": "Удаление"
+    "delete": "Удаление",
+    "remove": "Удалить",
+    "fromTheList": "из списка?"
   },
   "settings": {
     "settings": "Настройки",

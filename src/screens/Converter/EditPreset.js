@@ -83,8 +83,8 @@ class EditPreset extends Component<Props, State> {
 
   onDelete = (item) => {
     Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
+      `${strings('converter.delete')} ${item}`,
+      `${strings('converter.remove')} ${item} ${strings('converter.fromTheList')}`,
       [
         {
           text: strings('common.cancel'),
