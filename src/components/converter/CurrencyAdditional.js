@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { CheckBox } from 'native-base';
 

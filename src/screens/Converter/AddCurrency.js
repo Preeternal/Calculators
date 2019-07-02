@@ -6,12 +6,15 @@ import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
 import { strings, currentLocale } from '../../../locales/i18n';
-import { presetChanged } from '../../actions';
+import { presetChanged, presetCurrenciesChanged } from '../../actions';
+import { number } from '../../lib';
 
 type Props = {
   preset: Array<string>,
   currencies: Array<Object>,
+  presetCurrencies: Array<Object>,
   presetChanged: Function,
+  presetCurrenciesChanged: Function,
   navigation: Function,
 };
 
@@ -90,13 +93,53 @@ class AddCurrency extends Component<Props, State> {
   };
 
   saveDetails = () => {
-    const preset = this.state.checked.filter(item => item !== null);
-    this.onPresetChange(this.props.preset.concat(preset));
+    const presetSelected = this.state.checked.filter(item => item !== null);
+    const preset = this.props.preset.concat(presetSelected);
+    this.onPresetChange(preset);
+    const { currencies, presetCurrencies } = this.props;
+    const filter = currencies.filter(currency => preset.includes(currency.charCode));
+    filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
+    if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
+      this.onPresetCurrencyChange(filter);
+    } else if (presetCurrencies[0].input !== filter[0].input) {
+      this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
+    }
     this.props.navigation.goBack();
   };
 
   onPresetChange = (array) => {
     this.props.presetChanged(array);
+  };
+
+  onPresetCurrencyChange = (array) => {
+    this.props.presetCurrenciesChanged(array);
+  };
+
+  onPresetCurrencyChangeWithDivider = (
+    index: number,
+    input: string,
+    presetCurrencies: Array<Object>,
+  ) => {
+    const currencies = [...presetCurrencies];
+    const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
+    const currenciesWithDivider = currencies.map((currency, ind) => {
+      const curr = { ...currency };
+      if (ind === index) {
+        curr.input = number(input);
+      } else {
+        curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
+      }
+      return curr;
+    });
+    this.onPresetCurrencyChange(currenciesWithDivider);
+  };
+
+  getLocalInput = (input) => {
+    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
+    return Number(number(`${input}`)).toLocaleString('ru-RU', {
+      minimumFractionDigits,
+      maximumFractionDigits: minimumFractionDigits,
+    });
   };
 
   render() {
@@ -125,10 +168,12 @@ class AddCurrency extends Component<Props, State> {
 const mapStateToProps = state => ({
   preset: state.converter.preset,
   currencies: state.converter.currencies,
+  presetCurrencies: state.converter.presetCurrencies,
 });
 
 const mapDispatchToActions = {
   presetChanged,
+  presetCurrenciesChanged,
 };
 
 export default connect(
