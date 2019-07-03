@@ -10,10 +10,10 @@ import { presetChanged } from '../../actions';
 type Props = {
   preset: Array<string>,
   presetChanged: Function,
-  navigation: Function,
+  // navigation: Function,
 };
 
-type State = {};
+type State = { enable: boolean };
 
 const styles = {
   headerText: {
@@ -46,40 +46,7 @@ class EditPreset extends Component<Props, State> {
     },
   });
 
-  state = {};
-
-  componentDidMount() {
-    // const { preset, currencies } = this.props;
-    // const filter = currencies.filter(currency => !preset.includes(currency.charCode));
-    // this.setState({
-    //   additionalCurrencies: [...filter],
-    //   checked: filter.map(() => null),
-    // });
-    // this.props.navigation.setParams({ handleSave: this.saveDetails });
-  }
-
-  // handleClick = (charCode, index) => {
-  //   this.setState((prevState) => {
-  //     const checked = [...prevState.checked];
-  //     checked[index] = prevState.checked[index] === charCode ? null : charCode;
-  //     return { checked };
-  //   });
-  // };
-
-  // saveDetails = () => {
-  //   const presetSelected = this.state.checked.filter(item => item !== null);
-  //   const preset = this.props.preset.concat(presetSelected);
-  //   this.onPresetChange(preset);
-  //   const { currencies, presetCurrencies } = this.props;
-  //   const filter = currencies.filter(currency => preset.includes(currency.charCode));
-  //   filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-  //   if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
-  //     this.onPresetCurrencyChange(filter);
-  //   } else if (presetCurrencies[0].input !== filter[0].input) {
-  //     this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
-  //   }
-  //   this.props.navigation.goBack();
-  // };
+  state = { enable: true };
 
   onDelete = (item) => {
     Alert.alert(
@@ -88,7 +55,7 @@ class EditPreset extends Component<Props, State> {
       [
         {
           text: strings('common.cancel'),
-          onPress: () => console.log('Cancel Pressed'),
+          // onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
@@ -107,6 +74,12 @@ class EditPreset extends Component<Props, State> {
     this.props.presetChanged(array);
   };
 
+  setScrollEnabled = (enable) => {
+    this.setState({
+      enable,
+    });
+  };
+
   render() {
     // console.log(this.state.checked);
     // console.log(this.props.preset);
@@ -115,10 +88,11 @@ class EditPreset extends Component<Props, State> {
         <FlatList
           data={this.props.preset}
           extraData={this.props}
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
             <CurrencyPreset char={item} onDelete={() => this.onDelete(item)} onMove={() => {}} />
           )}
           keyExtractor={item => item}
+          scrollEnabled={this.state.enable}
         />
       </Fragment>
     );
