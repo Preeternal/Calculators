@@ -91,7 +91,13 @@ class EditPreset extends Component<Props, State> {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: strings('common.ok'), onPress: () => console.log(item) },
+        {
+          text: strings('common.ok'),
+          onPress: () => {
+            const preset = this.props.preset.filter(i => i !== item);
+            this.onPresetChange(preset);
+          },
+        },
       ],
       // { cancelable: false },
     );
