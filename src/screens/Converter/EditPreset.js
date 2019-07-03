@@ -89,7 +89,12 @@ class EditPreset extends Component<Props, State> {
           data={this.props.preset}
           extraData={this.props}
           renderItem={({ item }) => (
-            <CurrencyPreset char={item} onDelete={() => this.onDelete(item)} onMove={() => {}} />
+            <CurrencyPreset
+              char={item}
+              onDelete={() => this.onDelete(item)}
+              onMove={() => {}}
+              setScrollEnabled={enable => this.setScrollEnabled(enable)}
+            />
           )}
           keyExtractor={item => item}
           scrollEnabled={this.state.enable}
