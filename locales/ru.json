@@ -174,7 +174,8 @@
     "changeCurr": "Изменение списка валют",
     "delete": "Удаление",
     "remove": "Удалить",
-    "fromTheList": "из списка?"
+    "fromTheList": "из списка?",
+    "DELETE": "УДАЛЕНИЕ"
   },
   "settings": {
     "settings": "Настройки",

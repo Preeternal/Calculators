@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import {
   View, Text, TouchableOpacity, Animated, PanResponder, Dimensions,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Icon } from 'native-base';
+import { strings } from '../../../locales/i18n';
+import { presetChanged } from '../../actions';
 
 type Props = {
   char: string,
   onDelete: Function,
   onMove: Function,
+  preset: Array<string>,
+  presetChanged: Function,
 };
 
 type State = { position: number };
@@ -47,7 +52,8 @@ class CurrencyPreset extends Component<Props, State> {
             toValue: { x: width, y: 0 },
             duration: 300,
           }).start(() => {
-            this.props.onDelete(this.props.char);
+            const preset = this.props.preset.filter(i => i !== this.props.char);
+            this.onPresetChange(preset);
             this.setScrollViewEnabled(true);
           });
         }
@@ -65,6 +71,10 @@ class CurrencyPreset extends Component<Props, State> {
     }
   };
 
+  onPresetChange = (array) => {
+    this.props.presetChanged(array);
+  };
+
   render() {
     const {
       containerStyle, deleteStyle, charStyle, charTextStyle, moveStyle,
@@ -73,7 +83,7 @@ class CurrencyPreset extends Component<Props, State> {
       <View style={styles.listItem}>
         <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
           <View style={styles.absoluteCell}>
-            <Text style={styles.absoluteCellText}>DELETE</Text>
+            <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
           </View>
           <View style={containerStyle}>
             <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
@@ -110,7 +120,7 @@ const styles = {
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  absoluteCellText: { margin: 16, color: '#FFF' },
+  absoluteCellText: { marginRight: 15, color: '#FFF' },
   containerStyle: {
     // flex: 1,
     // borderBottomWidth: 1,
@@ -152,4 +162,15 @@ const styles = {
   },
 };
 
-export { CurrencyPreset };
+const mapStateToProps = state => ({
+  preset: state.converter.preset,
+});
+
+const mapDispatchToActions = {
+  presetChanged,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToActions,
+)(CurrencyPreset);

@@ -173,7 +173,8 @@
     "changeCurr": "Change the list of currencies",
     "delete": "Delete",
     "remove": "Remove",
-    "fromTheList": "from the list?"
+    "fromTheList": "from the list?",
+    "DELETE": "DELETE"
   },
   "settings": {
     "settings": "Settings",
