@@ -104,11 +104,10 @@ class CurrencyPreset extends Component<Props, State> {
 
 const styles = {
   listItem: {
-    // height: 80,
     minHeight: 52,
     marginLeft: -100,
     justifyContent: 'center',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'gray',
   },
   absoluteCell: {
     position: 'absolute',
@@ -128,17 +127,13 @@ const styles = {
     // borderColor: '#ddd',
     // minHeight: 52,
     // flexDirection: 'row',
-    // flex: 1,
     width,
-    // height: 80,
     borderBottomWidth: 1,
     backgroundColor: '#fff',
     borderColor: '#ddd',
     minHeight: 52,
     flexDirection: 'row',
     marginLeft: 100,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   deleteStyle: {
     flex: 1,
