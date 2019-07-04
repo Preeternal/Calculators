@@ -93,7 +93,7 @@ const styles = {
     paddingRight: 10,
   },
   inputStyle: {
-    flex: 3,
+    flex: 5,
     justifyContent: 'center',
     alignItems: 'flex-end',
   },

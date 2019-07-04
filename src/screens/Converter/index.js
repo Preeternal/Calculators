@@ -186,9 +186,7 @@ class Converter extends Component<Props, State> {
                     <CurrencyInput
                       // placeholder={item.name}
                       label={item.charCode}
-                      name={`${item.nominal} ${
-                        this.props.language === 0 ? item.name : item.nameEng
-                      }`}
+                      name={this.props.language === 0 ? item.name : item.nameEng}
                       onChangeText={(input: string) => {
                         this.onPresetCurrencyChangeWithDivider(
                           index,

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import {
   View, Text, TouchableOpacity, Animated, PanResponder, Dimensions,
@@ -15,27 +16,28 @@ type Props = {
   presetChanged: Function,
 };
 
-type State = { position: number };
+type State = { position: Animated.ValueXY, scrollViewEnabled: boolean };
 
 const { width } = Dimensions.get('window');
+const gestureDelay = -35;
 
 // const CurrencyPreset = ({ char, onDelete, onMove }: CurrencyType) => {
 class CurrencyPreset extends Component<Props, State> {
   constructor(props) {
     super(props);
 
-    this.gestureDelay = -35;
+    // this.gestureDelay = -35;
     this.scrollViewEnabled = true;
 
     const position = new Animated.ValueXY();
     const panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => false,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onPanResponderTerminationRequest: (evt, gestureState) => false,
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderTerminationRequest: () => false,
       onPanResponderMove: (evt, gestureState) => {
         if (gestureState.dx > 35) {
           this.setScrollViewEnabled(false);
-          const newX = gestureState.dx + this.gestureDelay;
+          const newX = gestureState.dx + gestureDelay;
           position.setValue({ x: newX, y: 0 });
         }
       },
@@ -76,6 +78,7 @@ class CurrencyPreset extends Component<Props, State> {
   };
 
   render() {
+    console.log(this.state.position);
     const {
       containerStyle, deleteStyle, charStyle, charTextStyle, moveStyle,
     } = styles;
