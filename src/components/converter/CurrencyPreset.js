@@ -16,7 +16,7 @@ type Props = {
   presetChanged: Function,
 };
 
-type State = { position: Animated.ValueXY, scrollViewEnabled: boolean };
+type State = { position: Animated.ValueXY };
 
 const { width } = Dimensions.get('window');
 const gestureDelay = -35;
