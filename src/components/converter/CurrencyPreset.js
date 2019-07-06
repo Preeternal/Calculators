@@ -14,12 +14,13 @@ type Props = {
   onMove: Function,
   preset: Array<string>,
   presetChanged: Function,
+  setScrollEnabled: Function,
 };
 
 type State = { position: Animated.ValueXY };
 
 const { width } = Dimensions.get('window');
-const gestureDelay = -35;
+const gestureDelay = -20;
 
 // const CurrencyPreset = ({ char, onDelete, onMove }: CurrencyType) => {
 class CurrencyPreset extends Component<Props, State> {
@@ -78,7 +79,7 @@ class CurrencyPreset extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.state.position);
+    // console.log(this.state.position);
     const {
       containerStyle, deleteStyle, charStyle, charTextStyle, moveStyle,
     } = styles;
