@@ -2,6 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import { FlatList, Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import CurrencyPreset from '../../components/converter/CurrencyPreset';
 import { strings } from '../../../locales/i18n';
@@ -80,24 +81,37 @@ class EditPreset extends Component<Props, State> {
     });
   };
 
-  renderItem = ({ item }) => (
+  renderItem = ({
+    item, move, moveEnd, isActive,
+  }) => (
     <CurrencyPreset
       char={item}
       onDelete={() => this.onDelete(item)}
-      onMove={() => {}}
+      onMove={move}
       setScrollEnabled={enable => this.setScrollEnabled(enable)}
+      onLongPress={move}
+      onPressOut={moveEnd}
+      selectedStyle={{ backgroundColor: isActive ? 'blue' : '#fff' }}
     />
   );
 
   render() {
     return (
       <Fragment>
-        <FlatList
+        <DraggableFlatList
           data={this.props.preset}
           extraData={this.props}
           renderItem={this.renderItem}
           keyExtractor={item => item}
           scrollEnabled={this.state.enable}
+          horizontal={false}
+          scrollPercent={5}
+          // onMoveBegin={() => this.setScrollEnabled(false)}
+          onMoveEnd={({ data }) => {
+            console.log(data);
+            this.onPresetChange(data);
+            // this.setScrollEnabled(true);
+          }}
         />
       </Fragment>
     );
