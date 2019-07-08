@@ -80,22 +80,22 @@ class EditPreset extends Component<Props, State> {
     });
   };
 
+  renderItem = ({ item }) => (
+    <CurrencyPreset
+      char={item}
+      onDelete={() => this.onDelete(item)}
+      onMove={() => {}}
+      setScrollEnabled={enable => this.setScrollEnabled(enable)}
+    />
+  );
+
   render() {
-    // console.log(this.state.checked);
-    // console.log(this.props.preset);
     return (
       <Fragment>
         <FlatList
           data={this.props.preset}
           extraData={this.props}
-          renderItem={({ item }) => (
-            <CurrencyPreset
-              char={item}
-              onDelete={() => this.onDelete(item)}
-              onMove={() => {}}
-              setScrollEnabled={enable => this.setScrollEnabled(enable)}
-            />
-          )}
+          renderItem={this.renderItem}
           keyExtractor={item => item}
           scrollEnabled={this.state.enable}
         />
