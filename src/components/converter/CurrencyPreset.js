@@ -20,7 +20,7 @@ type Props = {
 type State = { position: Animated.ValueXY };
 
 const { width } = Dimensions.get('window');
-const gestureDelay = -20;
+const gestureDelay = -35;
 
 class CurrencyPreset extends Component<Props, State> {
   scrollViewEnabled: boolean;
