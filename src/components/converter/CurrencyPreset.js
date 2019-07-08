@@ -30,7 +30,6 @@ class CurrencyPreset extends Component<Props, State> {
   constructor(props) {
     super(props);
 
-    // this.gestureDelay = -35;
     this.scrollViewEnabled = true;
 
     const position = new Animated.ValueXY();
@@ -82,7 +81,6 @@ class CurrencyPreset extends Component<Props, State> {
   };
 
   render() {
-    // console.log(this.state.position);
     const {
       containerStyle, deleteStyle, charStyle, charTextStyle, moveStyle,
     } = styles;
