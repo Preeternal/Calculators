@@ -18,6 +18,7 @@ type Props = {
   presetChanged: Function,
   setScrollEnabled: Function,
   selectedStyle: Object,
+  verticalMove: boolean,
 };
 
 type State = { position: Animated.ValueXY };
@@ -85,11 +86,11 @@ class CurrencyPreset extends Component<Props, State> {
 
   render() {
     const {
-      containerStyle, deleteStyle, charStyle, charTextStyle, moveStyle,
+      containerStyle, containerStyle2, deleteStyle, charStyle, charTextStyle, moveStyle,
     } = styles;
-    return (
+    return !this.props.verticalMove ? (
       <View style={styles.listItem}>
-        {/* <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}> */}
+        <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
           <View style={styles.absoluteCell}>
             <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
           </View>
@@ -109,7 +110,24 @@ class CurrencyPreset extends Component<Props, State> {
               <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
             </TouchableOpacity>
           </View>
-        {/* </Animated.View> */}
+        </Animated.View>
+      </View>
+    ) : (
+      <View style={[containerStyle2, this.props.selectedStyle]}>
+        <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+          <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+        </TouchableOpacity>
+        <View style={charStyle}>
+          <Text style={charTextStyle}>{this.props.char}</Text>
+        </View>
+        <TouchableOpacity
+          style={moveStyle}
+          onPress={this.props.onMove}
+          onLongPress={this.props.onLongPress}
+          onPressOut={this.props.onPressOut}
+        >
+          <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -147,6 +165,21 @@ const styles = {
     minHeight: 52,
     flexDirection: 'row',
     marginLeft: 100,
+  },
+  containerStyle2: {
+    // flex: 1,
+    // borderBottomWidth: 1,
+    // backgroundColor: '#fff',
+    // borderColor: '#ddd',
+    // minHeight: 52,
+    // flexDirection: 'row',
+    width,
+    borderBottomWidth: 1,
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
+    minHeight: 52,
+    flexDirection: 'row',
+    // marginLeft: 100,
   },
   deleteStyle: {
     flex: 1,

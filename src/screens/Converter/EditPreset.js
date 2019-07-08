@@ -2,7 +2,8 @@
 import React, { Component, Fragment } from 'react';
 import { FlatList, Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import DraggableFlatList from 'react-native-draggable-flatlist';
+// import DraggableFlatList from 'react-native-draggable-flatlist';
+import DraggableFlatList from 'react-native-draggable-dynamic-flatlist';
 
 import CurrencyPreset from '../../components/converter/CurrencyPreset';
 import { strings } from '../../../locales/i18n';
@@ -92,6 +93,7 @@ class EditPreset extends Component<Props, State> {
       onLongPress={move}
       onPressOut={moveEnd}
       selectedStyle={{ backgroundColor: isActive ? 'blue' : '#fff' }}
+      verticalMove={isActive}
     />
   );
 
