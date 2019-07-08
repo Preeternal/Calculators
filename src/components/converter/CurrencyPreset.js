@@ -22,8 +22,11 @@ type State = { position: Animated.ValueXY };
 const { width } = Dimensions.get('window');
 const gestureDelay = -20;
 
-// const CurrencyPreset = ({ char, onDelete, onMove }: CurrencyType) => {
 class CurrencyPreset extends Component<Props, State> {
+  scrollViewEnabled: boolean;
+
+  panResponder: Object;
+
   constructor(props) {
     super(props);
 
