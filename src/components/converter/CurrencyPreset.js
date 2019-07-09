@@ -86,31 +86,36 @@ class CurrencyPreset extends Component<Props, State> {
 
   render() {
     const {
-      containerStyle, containerStyle2, deleteStyle, charStyle, charTextStyle, moveStyle,
+      containerStyle,
+      containerStyle2,
+      deleteStyle,
+      charStyle,
+      charTextStyle,
+      moveStyle,
     } = styles;
     return !this.props.verticalMove ? (
       <View style={styles.listItem}>
-        <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
-          <View style={styles.absoluteCell}>
-            <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+        {/* <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}> */}
+        <View style={styles.absoluteCell}>
+          <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+        </View>
+        <View style={[containerStyle, this.props.selectedStyle]}>
+          <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+            <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+          </TouchableOpacity>
+          <View style={charStyle}>
+            <Text style={charTextStyle}>{this.props.char}</Text>
           </View>
-          <View style={[containerStyle, this.props.selectedStyle]}>
-            <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
-              <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-            <View style={charStyle}>
-              <Text style={charTextStyle}>{this.props.char}</Text>
-            </View>
-            <TouchableOpacity
-              style={moveStyle}
-              onPress={this.props.onMove}
-              onLongPress={this.props.onLongPress}
-              onPressOut={this.props.onPressOut}
-            >
-              <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
+          <TouchableOpacity
+            style={moveStyle}
+            onPress={this.props.onMove}
+            onLongPress={this.props.onLongPress}
+            onPressOut={this.props.onPressOut}
+          >
+            <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+          </TouchableOpacity>
+        </View>
+        {/* </Animated.View> */}
       </View>
     ) : (
       <View style={[containerStyle2, this.props.selectedStyle]}>

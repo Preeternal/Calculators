@@ -92,7 +92,7 @@ class EditPreset extends Component<Props, State> {
       setScrollEnabled={enable => this.setScrollEnabled(enable)}
       onLongPress={move}
       onPressOut={moveEnd}
-      selectedStyle={{ backgroundColor: isActive ? 'blue' : '#fff' }}
+      selectedStyle={{ backgroundColor: isActive ? 'lightgray' : '#fff' }}
       verticalMove={isActive}
     />
   );
