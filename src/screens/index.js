@@ -1,3 +1,4 @@
+// @flow
 import {
   createDrawerNavigator,
   createStackNavigator,
@@ -186,7 +187,7 @@ class App extends Component<Props> {
     }
   };
 
-  pickerValue = (locale) => {
+  pickerValue = (locale: string) => {
     if (locale.substring(0, 2) === 'ru') {
       return 0;
     }
