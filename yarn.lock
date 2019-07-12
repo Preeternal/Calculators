@@ -5634,10 +5634,9 @@ react-native-animatable@^1.3.1:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-draggable-dynamic-flatlist@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-draggable-dynamic-flatlist/-/react-native-draggable-dynamic-flatlist-1.0.2.tgz#fc8f4ee51439fe70e9a32c1f8a69aef572a550e9"
-  integrity sha512-XmvW+hx8DdRByklj/3zw0SOWs145Pm/NpdhER9L0VU36r8GaTRTwsvmdth5T5YET0R8jas2qjvGaoGiA3Gjfnw==
+react-native-draggable-dynamic-flatlist@Preeternal/react-native-draggable-dynamic-flatlist#dragonpress:
+  version "1.0.1"
+  resolved "https://codeload.github.com/Preeternal/react-native-draggable-dynamic-flatlist/tar.gz/f8dd72f470101d77286f538cfb16f6bb900a480e"
 
 react-native-draggable-flatlist@^1.1.7:
   version "1.1.7"
