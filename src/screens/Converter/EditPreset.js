@@ -88,9 +88,9 @@ class EditPreset extends Component<Props, State> {
     <CurrencyPreset
       char={item}
       onDelete={() => this.onDelete(item)}
-      onMove={moveEnd}
+      onMove={move}
       setScrollEnabled={enable => this.setScrollEnabled(enable)}
-      onLongPress={move}
+      // onLongPress={move}
       onPressOut={moveEnd}
       selectedStyle={{ backgroundColor: isActive ? 'lightgray' : '#fff' }}
       verticalMove={isActive}
