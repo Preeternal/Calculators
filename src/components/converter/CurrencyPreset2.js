@@ -25,61 +25,96 @@ type Props = {
 type State = { position: Animated.ValueXY };
 
 const { width } = Dimensions.get('window');
-const gestureDelay = -35;
+// const gestureDelay = -35;
 
 class CurrencyPreset extends Component<Props, State> {
-  scrollViewEnabled: boolean;
+  // scrollViewEnabled: boolean;
 
-  panResponder: Object;
+  // panResponder: Object;
 
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.scrollViewEnabled = true;
+  // this.scrollViewEnabled = true;
 
-    const position = new Animated.ValueXY();
-    const panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderTerminationRequest: () => false,
-      onPanResponderMove: (evt, gestureState) => {
-        if (gestureState.dx > 35) {
-          this.setScrollViewEnabled(false);
-          const newX = gestureState.dx + gestureDelay;
-          position.setValue({ x: newX, y: 0 });
-        }
-      },
-      onPanResponderRelease: (evt, gestureState) => {
-        if (gestureState.dx < 150) {
-          Animated.timing(this.state.position, {
-            toValue: { x: 0, y: 0 },
-            duration: 150,
-          }).start(() => {
-            this.setScrollViewEnabled(true);
-          });
-        } else {
-          Animated.timing(this.state.position, {
-            toValue: { x: width, y: 0 },
-            duration: 300,
-          }).start(() => {
-            const preset = this.props.preset.filter(i => i !== this.props.char);
-            this.onPresetChange(preset);
-            this.setScrollViewEnabled(true);
-          });
-        }
-      },
-    });
+  // const position = new Animated.ValueXY();
+  // const panResponder = PanResponder.create({
+  //   onStartShouldSetPanResponder: () => false,
+  //   onMoveShouldSetPanResponder: () => true,
+  //   onPanResponderTerminationRequest: () => false,
+  //   onPanResponderMthis.scrollViewEnabled = true;
 
-    this.panResponder = panResponder;
-    this.state = { position };
-  }
+  // const position = new Animated.ValueXY();
+  // const panResponder = PanResponder.create({
+  //   onStartShouldSetPanResponder: () => false,
+  //   onMoveShouldSetPanResponder: () => true,
+  //   onPanResponderTerminationRequest: () => false,
+  //   onPanResponderMove: (evt, gestureState) => {
+  //     if (gestureState.dx > 35) {
+  //       this.setScrollViewEnabled(false);
+  //       const newX = gestureState.dx + gestureDelay;
+  //       position.setValue({ x: newX, y: 0 });
+  //     }
+  //   },
+  //   onPanResponderRelease: (evt, gestureState) => {
+  //     if (gestureState.dx < 150) {
+  //       Animated.timing(this.state.position, {
+  //         toValue: { x: 0, y: 0 },
+  //         duration: 150,
+  //       }).start(() => {
+  //         this.setScrollViewEnabled(true);
+  //       });
+  //     } else {
+  //       Animated.timing(this.state.position, {
+  //         toValue: { x: width, y: 0 },
+  //         duration: 300,
+  //       }).start(() => {
+  //         const preset = this.props.preset.filter(i => i !== this.props.char);
+  //         this.onPresetChange(preset);
+  //         this.setScrollViewEnabled(true);
+  //       });
+  //     }
+  //   },
+  // });
 
-  setScrollViewEnabled = (enabled) => {
-    if (this.scrollViewEnabled !== enabled) {
-      this.props.setScrollEnabled(enabled);
-      this.scrollViewEnabled = enabled;
-    }
-  };
+  // this.panResponder = panResponder;ove: (evt, gestureState) => {
+  //     if (gestureState.dx > 35) {
+  //       this.setScrollViewEnabled(false);
+  //       const newX = gestureState.dx + gestureDelay;
+  //       position.setValue({ x: newX, y: 0 });
+  //     }
+  //   },
+  //   onPanResponderRelease: (evt, gestureState) => {
+  //     if (gestureState.dx < 150) {
+  //       Animated.timing(this.state.position, {
+  //         toValue: { x: 0, y: 0 },
+  //         duration: 150,
+  //       }).start(() => {
+  //         this.setScrollViewEnabled(true);
+  //       });
+  //     } else {
+  //       Animated.timing(this.state.position, {
+  //         toValue: { x: width, y: 0 },
+  //         duration: 300,
+  //       }).start(() => {
+  //         const preset = this.props.preset.filter(i => i !== this.props.char);
+  //         this.onPresetChange(preset);
+  //         this.setScrollViewEnabled(true);
+  //       });
+  //     }
+  //   },
+  // });
+
+  // this.panResponder = panResponder;
+  // this.state = { position };
+  // }
+
+  // setScrollViewEnabled = (enabled) => {
+  //   if (this.scrollViewEnabled !== enabled) {
+  //     this.props.setScrollEnabled(enabled);
+  //     this.scrollViewEnabled = enabled;
+  //   }
+  // };
 
   onPresetChange = (array) => {
     this.props.presetChanged(array);
@@ -96,65 +131,71 @@ class CurrencyPreset extends Component<Props, State> {
       moveStyle,
     } = styles;
     return (
-      // !this.props.verticalMove ?
-      <View style={styles.listItem}>
-        {/* <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
-          <View style={styles.absoluteCell}>
-            <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
-          </View>
-          <View style={[containerStyle, this.props.selectedStyle]}>
-            <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
-              <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-            <View style={charStyle}>
-              <Text style={charTextStyle}>{this.props.char}</Text>
-            </View>
-            <TouchableOpacity
-              style={moveStyle}
-              onPress={this.props.onMove}
-              onLongPress={this.props.onLongPress}
-              onPressOut={this.props.onPressOut}
-            >
-              <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-          </View>
-        </Animated.View> */}
-        <SwipeRow rightOpenValue={-180}>
-          {!this.props.isActive && (
-            <View style={styles.absoluteCell}>
-              <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
-            </View>
-          )}
-          <View style={[containerStyle, this.props.isActive && active]}>
-            <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
-              <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-            <View style={charStyle}>
-              <Text style={charTextStyle}>{this.props.char}</Text>
-            </View>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={moveStyle}
-              // onPress={this.props.onMove}
-              onLongPress={this.props.onLongPress}
-              onPressOut={this.props.onPressOut}
-            >
-              <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-          </View>
-        </SwipeRow>
+    // !this.props.verticalMove ?
+    // <View style={styles.listItem}>
+    // {/* <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
+    //   <View style={styles.absoluteCell}>
+    //     <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+    //   </View>
+    //   <View style={[containerStyle, this.props.selectedStyle]}>
+    //     <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+    //       <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+    //     </TouchableOpacity>
+    //     <View style={charStyle}>
+    //       <Text style={charTextStyle}>{this.props.char}</Text>
+    //     </View>
+    //     <TouchableOpacity
+    //       style={moveStyle}
+    //       onPress={this.props.onMove}
+    //       onLongPress={this.props.onLongPress}
+    //       onPressOut={this.props.onPressOut}
+    //     >
+    //       <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+    //     </TouchableOpacity>
+    //   </View>
+    // </Animated.View> */}
+    // <SwipeRow rightOpenValue={-180}>
+    //   {!this.props.isActive && (
+    //     <View style={styles.absoluteCell}>
+    //       <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+    //     </View>
+    //   )}
+    //   <View style={[containerStyle, this.props.isActive && active]}>
+    //     <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+    //       <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+    //     </TouchableOpacity>
+    //     <View style={charStyle}>
+    //       <Text style={charTextStyle}>{this.props.char}</Text>
+    //     </View>
+    //     <TouchableOpacity
+    //       activeOpacity={1}
+    //       style={moveStyle}
+    //       // onPress={this.props.onMove}
+    //       onLongPress={this.props.onLongPress}
+    //       onPressOut={this.props.onPressOut}
+    //     >
+    //       <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+    //     </TouchableOpacity>
+    //   </View>
+    // </SwipeRow>
 
-        {/* <SwipeRow rightOpenValue={-180}>
-          <TouchableOpacity
-            activeOpacity={1}
-            style={[styles.root, this.props.isActive && styles.active]}
-            onLongPress={this.props.onLongPress}
-            onPressOut={this.props.onPressOut}
-          >
-            <Text style={styles.text}>{this.props.char}</Text>
+      <SwipeRow rightOpenValue={-180}>
+        <View style={styles.hidden}>
+          <TouchableOpacity onPress={this.props.onDelete}>
+            <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
           </TouchableOpacity>
-        </SwipeRow> */}
-      </View>
+        </View>
+
+        <TouchableOpacity
+          activeOpacity={1}
+          style={[styles.root, this.props.isActive && styles.active]}
+          onLongPress={this.props.onLongPress}
+          onPressOut={this.props.onPressOut}
+        >
+          <Text style={styles.text}>{this.props.char}</Text>
+        </TouchableOpacity>
+      </SwipeRow>
+      // // </View>
     );
     // ) : (
     //   <View style={[containerStyle2, this.props.selectedStyle]}>
@@ -202,7 +243,7 @@ const styles = {
     borderColor: '#ddd',
     minHeight: 52,
     flexDirection: 'row',
-    marginLeft: 100,
+    // marginLeft: 100,
   },
   containerStyle2: {
     width,

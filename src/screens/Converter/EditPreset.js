@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { Text, Alert } from 'react-native';
+import { Text, Alert, View } from 'react-native';
 import { connect } from 'react-redux';
 // import DraggableFlatList from 'react-native-draggable-flatlist';
 import DraggableFlatList from 'react-native-draggable-dynamic-flatlist';
@@ -32,6 +32,9 @@ const styles = {
     fontSize: 25,
     height: 22,
     color: 'white',
+  },
+  root: {
+    flex: 1,
   },
 };
 
@@ -98,7 +101,7 @@ class EditPreset extends Component<Props, State> {
 
   render() {
     return (
-      <Fragment>
+      <View style={styles.root}>
         <DraggableFlatList
           data={this.props.preset}
           extraData={this.props}
@@ -109,12 +112,12 @@ class EditPreset extends Component<Props, State> {
           scrollPercent={5}
           // onMoveBegin={() => this.setScrollEnabled(false)}
           onMoveEnd={({ data }) => {
-            console.log(data);
+            // console.log(data);
             this.onPresetChange(data);
             // this.setScrollEnabled(true);
           }}
         />
-      </Fragment>
+      </View>
     );
   }
 }
