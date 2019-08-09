@@ -18,8 +18,8 @@ type Props = {
   preset: Array<string>,
   presetChanged: Function,
   setScrollEnabled: Function,
-  selectedStyle: Object,
-  verticalMove: boolean,
+  // active: Object,
+  isActive: boolean,
 };
 
 type State = { position: Animated.ValueXY };
@@ -89,6 +89,7 @@ class CurrencyPreset extends Component<Props, State> {
     const {
       containerStyle,
       containerStyle2,
+      active,
       deleteStyle,
       charStyle,
       charTextStyle,
@@ -119,10 +120,12 @@ class CurrencyPreset extends Component<Props, State> {
           </View>
         </Animated.View> */}
         <SwipeRow rightOpenValue={-180}>
-          <View style={styles.absoluteCell}>
-            <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
-          </View>
-          <View style={[containerStyle, this.props.selectedStyle]}>
+          {!this.props.isActive && (
+            <View style={styles.absoluteCell}>
+              <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+            </View>
+          )}
+          <View style={[containerStyle, this.props.isActive && active]}>
             <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
               <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
             </TouchableOpacity>
@@ -130,8 +133,9 @@ class CurrencyPreset extends Component<Props, State> {
               <Text style={charTextStyle}>{this.props.char}</Text>
             </View>
             <TouchableOpacity
+              activeOpacity={1}
               style={moveStyle}
-              onPress={this.props.onMove}
+              // onPress={this.props.onMove}
               onLongPress={this.props.onLongPress}
               onPressOut={this.props.onPressOut}
             >
@@ -139,6 +143,17 @@ class CurrencyPreset extends Component<Props, State> {
             </TouchableOpacity>
           </View>
         </SwipeRow>
+
+        {/* <SwipeRow rightOpenValue={-180}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={[styles.root, this.props.isActive && styles.active]}
+            onLongPress={this.props.onLongPress}
+            onPressOut={this.props.onPressOut}
+          >
+            <Text style={styles.text}>{this.props.char}</Text>
+          </TouchableOpacity>
+        </SwipeRow> */}
       </View>
     );
     // ) : (
@@ -181,12 +196,6 @@ const styles = {
   },
   absoluteCellText: { marginRight: 15, color: '#FFF' },
   containerStyle: {
-    // flex: 1,
-    // borderBottomWidth: 1,
-    // backgroundColor: '#fff',
-    // borderColor: '#ddd',
-    // minHeight: 52,
-    // flexDirection: 'row',
     width,
     borderBottomWidth: 1,
     backgroundColor: '#fff',
@@ -196,12 +205,6 @@ const styles = {
     marginLeft: 100,
   },
   containerStyle2: {
-    // flex: 1,
-    // borderBottomWidth: 1,
-    // backgroundColor: '#fff',
-    // borderColor: '#ddd',
-    // minHeight: 52,
-    // flexDirection: 'row',
     width,
     borderBottomWidth: 1,
     backgroundColor: '#fff',
@@ -209,6 +212,17 @@ const styles = {
     minHeight: 52,
     flexDirection: 'row',
     // marginLeft: 100,
+  },
+  active: {
+    // backgroundColor: 'lightgray',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   deleteStyle: {
     flex: 1,
@@ -229,6 +243,25 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'flex-end',
     marginRight: 15,
+  },
+  root: {
+    height: 80,
+    backgroundColor: '#031d44',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontWeight: 'bold',
+    color: '#e57a44',
+    fontSize: 32,
+  },
+
+  hidden: {
+    height: 80,
+    backgroundColor: '#d6eadf',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 80,
   },
 };
 
