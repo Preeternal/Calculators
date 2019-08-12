@@ -67,6 +67,7 @@ class EditPreset extends Component<Props, State> {
           text: strings('common.ok'),
           onPress: () => {
             const preset = this.props.preset.filter(i => i !== item);
+            console.log(preset);
             this.onPresetChange(preset);
           },
         },
@@ -75,8 +76,8 @@ class EditPreset extends Component<Props, State> {
     );
   };
 
-  onPresetChange = (array) => {
-    this.props.presetChanged(array);
+  onPresetChange = ({ data }) => {
+    this.props.presetChanged(data || []);
   };
 
   setScrollEnabled = (enable) => {
@@ -111,11 +112,7 @@ class EditPreset extends Component<Props, State> {
           horizontal={false}
           scrollPercent={5}
           // onMoveBegin={() => this.setScrollEnabled(false)}
-          onMoveEnd={({ data }) => {
-            // console.log(data);
-            this.onPresetChange(data);
-            // this.setScrollEnabled(true);
-          }}
+          onMoveEnd={this.onPresetChange}
         />
       </View>
     );
