@@ -144,7 +144,7 @@ const AppContainer = createAppContainer(Navigator);
 type Props = {
   language: string,
   languageChanged: Function,
-  currenciesChanged: Function
+  currenciesChanged: Function,
 };
 
 class App extends Component<Props> {
