@@ -158,6 +158,7 @@ class Converter extends Component<Props, State> {
   };
 
   render() {
+    console.log(this.props.navigation);
     return (
       <Fragment>
         <CustomHeader

@@ -1,6 +1,8 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { FlatList, Text, TouchableOpacity } from 'react-native';
+import {
+  FlatList, Text, TouchableOpacity, View,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
@@ -80,6 +82,7 @@ class AddCurrency extends Component<Props, State> {
       checked: filter.map(() => null),
     });
     this.props.navigation.setParams({ handleSave: this.saveDetails });
+    console.log(this.props.navigation);
   }
 
   handleClick = (charCode, index) => {

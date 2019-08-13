@@ -56,7 +56,7 @@ class EditPreset extends Component<Props, State> {
   componentWillMount() {
     console.log(this.props.navigation);
     if (this.props.navigation.state.key[this.props.navigation.state.key.length - 1] === '1') {
-      this.props.navigation.push('EditPreset');
+      // this.props.navigation.push('EditPreset');
     }
   }
 
