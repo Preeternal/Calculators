@@ -39,7 +39,9 @@ const ConverterStack = createStackNavigator(
 
 const Navigator = createDrawerNavigator(
   {
-    Depo,
+    Depo: {
+      screen: EditPreset,
+    },
     Credit,
     ConverterStack: {
       screen: ConverterStack,

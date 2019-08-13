@@ -53,6 +53,13 @@ class EditPreset extends Component<Props, State> {
 
   state = { enable: true };
 
+  componentWillMount() {
+    console.log(this.props.navigation);
+    if (this.props.navigation.state.key[this.props.navigation.state.key.length - 1] === '1') {
+      this.props.navigation.push('EditPreset');
+    }
+  }
+
   onDelete = (item) => {
     Alert.alert(
       `${strings('converter.delete')} ${item}`,
