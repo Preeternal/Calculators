@@ -10,7 +10,7 @@ import { strings } from '../../../locales/i18n';
 import { presetChanged } from '../../actions';
 
 type Props = {
-  preset: Array<string>,
+  preset?: Array<string>,
   presetChanged: Function,
   navigation: Object,
 };
@@ -72,8 +72,7 @@ class EditPreset extends Component<Props, State> {
         {
           text: strings('common.ok'),
           onPress: () => {
-            const preset = this.props.preset.filter(i => i !== item);
-            // console.log(preset);
+            const preset = this.props.preset ? this.props.preset.filter(i => i !== item) : [];
             this.onPresetChange(preset);
           },
         },
