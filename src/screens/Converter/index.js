@@ -25,7 +25,7 @@ const activeTextColor = '#000000';
 type Props = {
   language: number,
   country: number,
-  navigation: Function,
+  navigation: Object,
   preset: Array<string>,
   currencies: Array<Object>,
   presetCurrencies: Array<Object>,
@@ -158,7 +158,6 @@ class Converter extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.props.navigation);
     return (
       <Fragment>
         <CustomHeader

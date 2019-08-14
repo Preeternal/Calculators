@@ -82,7 +82,6 @@ class AddCurrency extends Component<Props, State> {
       checked: filter.map(() => null),
     });
     this.props.navigation.setParams({ handleSave: this.saveDetails });
-    console.log(this.props.navigation);
   }
 
   handleClick = (charCode, index) => {

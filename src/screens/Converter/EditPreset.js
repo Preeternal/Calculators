@@ -12,7 +12,7 @@ import { presetChanged } from '../../actions';
 type Props = {
   preset: Array<string>,
   presetChanged: Function,
-  // navigation: Function,
+  navigation: Object,
 };
 
 type State = { enable: boolean };
@@ -54,9 +54,8 @@ class EditPreset extends Component<Props, State> {
   state = { enable: true };
 
   componentWillMount() {
-    console.log(this.props.navigation);
     if (this.props.navigation.state.key[this.props.navigation.state.key.length - 1] === '1') {
-      // this.props.navigation.push('EditPreset');
+      this.props.navigation.replace('EditPreset');
     }
   }
 
@@ -100,7 +99,7 @@ class EditPreset extends Component<Props, State> {
       char={item}
       onDelete={() => this.onDelete(item)}
       // onMove={move}
-      // setScrollEnabled={enable => this.setScrollEnabled(enable)}
+      setScrollEnabled={enable => this.setScrollEnabled(enable)}
       onLongPress={move}
       onPressOut={moveEnd}
       isActive={isActive}
@@ -115,10 +114,10 @@ class EditPreset extends Component<Props, State> {
           extraData={this.props}
           renderItem={this.renderItem}
           keyExtractor={item => item}
-          // scrollEnabled={this.state.enable}
-          // horizontal={false}
+          scrollEnabled={this.state.enable}
+          horizontal={false}
           scrollPercent={5}
-          // onMoveBegin={() => this.setScrollEnabled(false)}
+          onMoveBegin={() => this.setScrollEnabled(false)}
           onMoveEnd={this.onPresetChange}
         />
       </View>
