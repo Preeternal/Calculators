@@ -94,51 +94,66 @@ class CurrencyPreset extends Component<Props, State> {
       moveStyle,
     } = styles;
     return (
-      // !this.props.isActive ? (
-      <View style={styles.listItem}>
-        <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
-          <View style={styles.absoluteCell}>
-            <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
-          </View>
-          <View style={[containerStyle, this.props.isActive && active]}>
-            <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
-              <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-            <View style={charStyle}>
-              <Text style={charTextStyle}>{this.props.char}</Text>
-            </View>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={moveStyle}
-              // onPress={this.props.onMove}
-              onLongPress={this.props.onLongPress}
-              onPressOut={this.props.onPressOut}
-            >
-              <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
-      </View>
-    );
+    // !this.props.isActive ? (
+    //   <View style={styles.listItem}>
+    //     <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
+    //       <View style={styles.absoluteCell}>
+    //         <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+    //       </View>
+    //       <View style={[containerStyle, this.props.isActive && active]}>
+    //         <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+    //           <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+    //         </TouchableOpacity>
+    //         <View style={charStyle}>
+    //           <Text style={charTextStyle}>{this.props.char}</Text>
+    //         </View>
+    //         <TouchableOpacity
+    //           activeOpacity={1}
+    //           style={moveStyle}
+    //           // onPress={this.props.onMove}
+    //           onLongPress={this.props.onLongPress}
+    //           onPressOut={this.props.onPressOut}
+    //         >
+    //           <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+    //         </TouchableOpacity>
+    //       </View>
+    //     </Animated.View>
+    //   </View>
+    // );
     // ) : (
     // </SwipeRow>
 
-    // <SwipeRow rightOpenValue={-180}>
-    //   <View style={styles.hidden}>
-    //     <TouchableOpacity onPress={this.props.onDelete}>
-    //       <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
-    //     </TouchableOpacity>
-    //   </View>
-
-    //   <TouchableOpacity
-    //     activeOpacity={1}
-    //     style={[styles.root, this.props.isActive && styles.active]}
-    //     onLongPress={this.props.onLongPress}
-    //     onPressOut={this.props.onPressOut}
-    //   >
-    //     <Text style={styles.text}>{this.props.char}</Text>
-    //   </TouchableOpacity>
-    // </SwipeRow>
+      <SwipeRow
+        style={styles.listItem}
+        rightOpenValue={-75}
+        onRowOpen={this.props.onDelete}
+        onRowPress={this.props.onDelete}
+        onSwipeValueChange={this.props.onDelete}
+        disableLeftSwipe
+        // swipeToOpenPercent={50}
+      >
+        <View style={styles.absoluteCell}>
+          <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+        </View>
+        <View style={[containerStyle, this.props.isActive && active]}>
+          <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+            <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+          </TouchableOpacity>
+          <View style={charStyle}>
+            <Text style={charTextStyle}>{this.props.char}</Text>
+          </View>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={moveStyle}
+            // onPress={this.props.onMove}
+            onLongPress={this.props.onLongPress}
+            onPressOut={this.props.onPressOut}
+          >
+            <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+          </TouchableOpacity>
+        </View>
+      </SwipeRow>
+    );
     // // </View>
 
     //   <View style={[containerStyle2, this.props.isActive && active]}>
