@@ -81,8 +81,8 @@ class EditPreset extends Component<Props, State> {
     );
   };
 
-  onPresetChange = ({ data }) => {
-    this.props.presetChanged(data || []);
+  onPresetChange = (data) => {
+    this.props.presetChanged(data);
   };
 
   setScrollEnabled = (enable) => {
@@ -109,7 +109,7 @@ class EditPreset extends Component<Props, State> {
     return (
       <View style={styles.root}>
         <DraggableFlatList
-          data={this.props.preset}
+          data={this.props.preset ? this.props.preset : []}
           extraData={this.props}
           renderItem={this.renderItem}
           keyExtractor={item => item}

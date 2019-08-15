@@ -75,12 +75,18 @@ class Converter extends Component<Props, State> {
 
   handlePreset = () => {
     const { preset, currencies, presetCurrencies } = this.props;
-    const filter = currencies.filter(currency => preset.includes(currency.charCode));
-    filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-    if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
-      this.onPresetCurrencyChange(filter);
-    } else if (presetCurrencies[0].input !== filter[0].input) {
-      this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
+    console.log(preset.length);
+    if (preset.length) {
+      const filter = currencies.filter(currency => preset.includes(currency.charCode));
+      filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
+      // if (filter.length) {
+      if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
+        this.onPresetCurrencyChange(filter);
+      } else if (presetCurrencies[0].input !== filter[0].input) {
+        this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
+      }
+    } else {
+      this.onPresetCurrencyChange([]);
     }
   };
 
@@ -99,6 +105,7 @@ class Converter extends Component<Props, State> {
   ) => {
     const currencies = [...presetCurrencies];
     const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
+    console.log(divider);
     const currenciesWithDivider = currencies.map((currency, ind) => {
       const curr = { ...currency };
       if (ind === index) {
