@@ -75,7 +75,6 @@ class Converter extends Component<Props, State> {
 
   handlePreset = () => {
     const { preset, currencies, presetCurrencies } = this.props;
-    console.log(preset.length);
     if (preset.length) {
       const filter = currencies.filter(currency => preset.includes(currency.charCode));
       filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
@@ -105,7 +104,6 @@ class Converter extends Component<Props, State> {
   ) => {
     const currencies = [...presetCurrencies];
     const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
-    console.log(divider);
     const currenciesWithDivider = currencies.map((currency, ind) => {
       const curr = { ...currency };
       if (ind === index) {
