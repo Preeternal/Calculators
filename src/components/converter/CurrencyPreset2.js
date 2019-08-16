@@ -36,36 +36,36 @@ class CurrencyPreset extends Component<Props, State> {
 
     this.scrollViewEnabled = true;
 
-    const position = new Animated.ValueXY();
-    const panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderTerminationRequest: () => false,
-      onPanResponderMove: (evt, gestureState) => {
-        if (gestureState.dx > 35) {
-          this.setScrollViewEnabled(false);
-          const newX = gestureState.dx + gestureDelay;
-          position.setValue({ x: newX, y: 0 });
-        }
-      },
-      onPanResponderRelease: (evt, gestureState) => {
-        if (gestureState.dx < 150) {
-          Animated.timing(this.state.position, {
-            toValue: { x: 0, y: 0 },
-            duration: 150,
-          }).start(() => {
-            this.setScrollViewEnabled(true);
-          });
-        } else {
-          Animated.timing(this.state.position, {
-            toValue: { x: width, y: 0 },
-            duration: 300,
-          }).start(this.deleteListItem);
-        }
-      },
-    });
-    this.panResponder = panResponder;
-    this.state = { position };
+    // const position = new Animated.ValueXY();
+    // const panResponder = PanResponder.create({
+    //   onStartShouldSetPanResponder: () => false,
+    //   onMoveShouldSetPanResponder: () => true,
+    //   onPanResponderTerminationRequest: () => false,
+    //   onPanResponderMove: (evt, gestureState) => {
+    //     if (gestureState.dx > 35) {
+    //       this.setScrollViewEnabled(false);
+    //       const newX = gestureState.dx + gestureDelay;
+    //       position.setValue({ x: newX, y: 0 });
+    //     }
+    //   },
+    //   onPanResponderRelease: (evt, gestureState) => {
+    //     if (gestureState.dx < 150) {
+    //       Animated.timing(this.state.position, {
+    //         toValue: { x: 0, y: 0 },
+    //         duration: 150,
+    //       }).start(() => {
+    //         this.setScrollViewEnabled(true);
+    //       });
+    //     } else {
+    //       Animated.timing(this.state.position, {
+    //         toValue: { x: width, y: 0 },
+    //         duration: 300,
+    //       }).start(this.deleteListItem);
+    //     }
+    //   },
+    // });
+    // this.panResponder = panResponder;
+    // this.state = { position };
   }
 
   setScrollViewEnabled = (enabled) => {
@@ -96,49 +96,9 @@ class CurrencyPreset extends Component<Props, State> {
       moveStyle,
     } = styles;
     return (
-    // !this.props.isActive ? (
-    //   <View style={styles.listItem}>
-    //     <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
-    //       <View style={styles.absoluteCell}>
-    //         <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
-    //       </View>
-    //       <View style={[containerStyle, this.props.isActive && active]}>
-    //         <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
-    //           <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
-    //         </TouchableOpacity>
-    //         <View style={charStyle}>
-    //           <Text style={charTextStyle}>{this.props.char}</Text>
-    //         </View>
-    //         <TouchableOpacity
-    //           activeOpacity={1}
-    //           style={moveStyle}
-    //           // onPress={this.props.onMove}
-    //           onLongPress={this.props.onLongPress}
-    //           onPressOut={this.props.onPressOut}
-    //         >
-    //           <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
-    //         </TouchableOpacity>
-    //       </View>
-    //     </Animated.View>
-    //   </View>
-    // );
-    // ) : (
-    // </SwipeRow>
-
-      <SwipeRow
-        style={styles.listItem}
-        // rightOpenValue={15}
-        leftOpenValue={0.66 * width}
-        stopLeftSwipe={0.66 * width}
-        onRowOpen={this.deleteListItem}
-        // onRowPress={this.deleteListItem}
-        // onSwipeValueChange={this.deleteListItem}
-        // swipeGestureBegan={this.deleteListItem}
-        // onRowDidOpen={this.deleteListItem}
-        swipeToOpenVelocityContribution={10}
-        disableLeftSwipe
-        // swipeToOpenPercent={50}
-      >
+      // !this.props.isActive ? (
+      <View style={styles.listItem}>
+        {/* <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}> */}
         <View style={styles.absoluteCell}>
           <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
         </View>
@@ -159,9 +119,39 @@ class CurrencyPreset extends Component<Props, State> {
             <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
           </TouchableOpacity>
         </View>
-      </SwipeRow>
+        {/* </Animated.View> */}
+      </View>
     );
-    // // </View>
+
+    //   <SwipeRow
+    //     style={styles.listItem}
+    //     leftOpenValue={width}
+    //     stopLeftSwipe={width}
+    //     onRowOpen={this.deleteListItem}
+    //     disableLeftSwipe
+    //   >
+    //     <View style={styles.absoluteCell}>
+    //       <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+    //     </View>
+    //     <View style={[containerStyle, this.props.isActive && active]}>
+    //       <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+    //         <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+    //       </TouchableOpacity>
+    //       <View style={charStyle}>
+    //         <Text style={charTextStyle}>{this.props.char}</Text>
+    //       </View>
+    //       <TouchableOpacity
+    //         activeOpacity={1}
+    //         style={moveStyle}
+    //         // onPress={this.props.onMove}
+    //         onLongPress={this.props.onLongPress}
+    //         onPressOut={this.props.onPressOut}
+    //       >
+    //         <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+    //       </TouchableOpacity>
+    //     </View>
+    //   </SwipeRow>
+    // );
 
     //   <View style={[containerStyle2, this.props.isActive && active]}>
     //     <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
@@ -186,7 +176,7 @@ class CurrencyPreset extends Component<Props, State> {
 const styles = {
   listItem: {
     minHeight: 52,
-    marginLeft: -100,
+    // marginLeft: -100,
     justifyContent: 'center',
     backgroundColor: 'gray',
   },
@@ -208,7 +198,7 @@ const styles = {
     borderColor: '#ddd',
     minHeight: 52,
     flexDirection: 'row',
-    marginLeft: 100,
+    // marginLeft: 100,
   },
   containerStyle2: {
     width,
