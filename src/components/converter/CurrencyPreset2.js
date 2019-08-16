@@ -60,11 +60,7 @@ class CurrencyPreset extends Component<Props, State> {
           Animated.timing(this.state.position, {
             toValue: { x: width, y: 0 },
             duration: 300,
-          }).start(() => {
-            const preset = this.props.preset.filter(i => i !== this.props.char);
-            this.onPresetChange(preset);
-            this.setScrollViewEnabled(true);
-          });
+          }).start(this.deleteListItem);
         }
       },
     });
@@ -81,6 +77,12 @@ class CurrencyPreset extends Component<Props, State> {
 
   onPresetChange = (array) => {
     this.props.presetChanged(array);
+  };
+
+  deleteListItem = () => {
+    const preset = this.props.preset.filter(i => i !== this.props.char);
+    this.onPresetChange(preset);
+    this.setScrollViewEnabled(true);
   };
 
   render() {
@@ -125,10 +127,15 @@ class CurrencyPreset extends Component<Props, State> {
 
       <SwipeRow
         style={styles.listItem}
-        rightOpenValue={-75}
-        onRowOpen={this.props.onDelete}
-        onRowPress={this.props.onDelete}
-        onSwipeValueChange={this.props.onDelete}
+        // rightOpenValue={15}
+        leftOpenValue={0.66 * width}
+        stopLeftSwipe={0.66 * width}
+        onRowOpen={this.deleteListItem}
+        // onRowPress={this.deleteListItem}
+        // onSwipeValueChange={this.deleteListItem}
+        // swipeGestureBegan={this.deleteListItem}
+        // onRowDidOpen={this.deleteListItem}
+        swipeToOpenVelocityContribution={10}
         disableLeftSwipe
         // swipeToOpenPercent={50}
       >
