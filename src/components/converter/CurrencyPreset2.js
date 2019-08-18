@@ -97,39 +97,8 @@ class CurrencyPreset extends Component<Props, State> {
     } = styles;
     return (
       // !this.props.isActive ? (
-      <View style={styles.listItem}>
-        {/* <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}> */}
-        <View style={styles.absoluteCell}>
-          <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
-        </View>
-        <View style={[containerStyle, this.props.isActive && active]}>
-          <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
-            <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
-          </TouchableOpacity>
-          <View style={charStyle}>
-            <Text style={charTextStyle}>{this.props.char}</Text>
-          </View>
-          <TouchableOpacity
-            activeOpacity={1}
-            style={moveStyle}
-            // onPress={this.props.onMove}
-            onLongPress={this.props.onLongPress}
-            onPressOut={this.props.onPressOut}
-          >
-            <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
-          </TouchableOpacity>
-        </View>
-        {/* </Animated.View> */}
-      </View>
-    );
-
-    //   <SwipeRow
-    //     style={styles.listItem}
-    //     leftOpenValue={width}
-    //     stopLeftSwipe={width}
-    //     onRowOpen={this.deleteListItem}
-    //     disableLeftSwipe
-    //   >
+    //   <View style={styles.listItem}>
+    //     {/* <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}> */}
     //     <View style={styles.absoluteCell}>
     //       <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
     //     </View>
@@ -150,8 +119,39 @@ class CurrencyPreset extends Component<Props, State> {
     //         <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
     //       </TouchableOpacity>
     //     </View>
-    //   </SwipeRow>
+    //     {/* </Animated.View> */}
+    //   </View>
     // );
+
+      <SwipeRow
+        style={styles.listItem}
+        leftOpenValue={width}
+        stopLeftSwipe={width}
+        onRowOpen={this.deleteListItem}
+        disableLeftSwipe
+      >
+        <View style={styles.absoluteCell}>
+          <Text style={styles.absoluteCellText}>{strings('converter.DELETE')}</Text>
+        </View>
+        <View style={[containerStyle, this.props.isActive && active]}>
+          <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
+            <Icon type="MaterialIcons" name="delete" style={{ fontSize: 22, color: 'gray' }} />
+          </TouchableOpacity>
+          <View style={charStyle}>
+            <Text style={charTextStyle}>{this.props.char}</Text>
+          </View>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={moveStyle}
+            // onPress={this.props.onMove}
+            onLongPress={this.props.onLongPress}
+            onPressOut={this.props.onPressOut}
+          >
+            <Icon type="FontAwesome" name="sort" style={{ fontSize: 22, color: 'gray' }} />
+          </TouchableOpacity>
+        </View>
+      </SwipeRow>
+    );
 
     //   <View style={[containerStyle2, this.props.isActive && active]}>
     //     <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
