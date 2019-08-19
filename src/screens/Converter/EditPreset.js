@@ -1,11 +1,10 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { Text, Alert, View } from 'react-native';
+import { Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-// import DraggableFlatList from 'react-native-draggable-dynamic-flatlist';
 
-import CurrencyPreset from '../../components/converter/CurrencyPreset2';
+import CurrencyPreset from '../../components/converter/CurrencyPreset';
 import { strings } from '../../../locales/i18n';
 import { presetChanged } from '../../actions';
 
@@ -98,8 +97,7 @@ class EditPreset extends Component<Props, State> {
     <CurrencyPreset
       char={item}
       onDelete={() => this.onDelete(item)}
-      // onMove={move}
-      setScrollEnabled={enable => this.setScrollEnabled(enable)}
+      onMove={move}
       onLongPress={move}
       onPressOut={moveEnd}
       isActive={isActive}
@@ -108,7 +106,7 @@ class EditPreset extends Component<Props, State> {
 
   render() {
     return (
-      <View style={styles.root}>
+      <Fragment>
         <DraggableFlatList
           data={this.props.preset}
           extraData={this.props}
@@ -119,12 +117,8 @@ class EditPreset extends Component<Props, State> {
           scrollPercent={5}
           onMoveBegin={() => this.setScrollEnabled(false)}
           onMoveEnd={this.onPresetChange}
-          // onMoveEnd={({ data }) => {
-          //   this.onPresetChange(data);
-          //   // this.setScrollEnabled(true);
-          // }}
         />
-      </View>
+      </Fragment>
     );
   }
 }
