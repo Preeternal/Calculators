@@ -62,9 +62,6 @@ class Converter extends Component<Props, State> {
 
   componentDidMount() {
     this.handlePreset();
-    this.setState({
-      inputStyle: Array(this.props.presetCurrencies.length).fill(textColor),
-    });
   }
 
   componentDidUpdate(prevProps) {
@@ -87,6 +84,9 @@ class Converter extends Component<Props, State> {
     } else {
       this.onPresetCurrencyChange([]);
     }
+    this.setState({
+      inputStyle: Array(this.props.presetCurrencies.length).fill(textColor),
+    });
   };
 
   onCurrencyChange = (array) => {
