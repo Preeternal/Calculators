@@ -14,7 +14,7 @@ import 'number-to-locale-string';
 
 import { Card, Header, TableSection } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
-import { strings } from '../../../locales/i18n';
+import { strings, currentLocale } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 import { number } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
@@ -225,7 +225,9 @@ class Converter extends Component<Props, State> {
           <Fragment>
             <View style={styles.footerView}>
               <Text style={styles.footerText}>
-                {` ${strings('converter.lastUpdate')} ${this.props.currencies[1].updatedAt}`}
+                {` ${strings('converter.lastUpdate')} ${new Date(
+                  Date.parse(this.props.currencies[1].updatedAt),
+                ).toLocaleString(currentLocale, { hour12: false })}`}
               </Text>
             </View>
             <TouchableOpacity
