@@ -179,7 +179,7 @@ class Converter extends Component<Props, State> {
             </Button>
           }
         />
-        {this.props.currencies[1] ? (
+        {this.props.currencies.length ? (
           <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
             <Card>
               <Header headerText={strings('converter.header')} />

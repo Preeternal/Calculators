@@ -39,9 +39,7 @@ const ConverterStack = createStackNavigator(
 
 const Navigator = createDrawerNavigator(
   {
-    Depo: {
-      screen: EditPreset,
-    },
+    Depo,
     Credit,
     ConverterStack: {
       screen: ConverterStack,
@@ -64,8 +62,8 @@ const Navigator = createDrawerNavigator(
     Help,
   },
   {
-    // initialRouteName: 'Depo',
-    initialRouteName: 'ConverterStack',
+    initialRouteName: 'Depo',
+    // initialRouteName: 'ConverterStack',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
     // drawerBackgroundColor: 'transparent',
