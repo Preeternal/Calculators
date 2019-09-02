@@ -51,6 +51,9 @@ class CurrencyPreset extends Component<Props> {
         leftOpenValue={width}
         stopLeftSwipe={width}
         onRowOpen={this.deleteListItem}
+        // onRowPress={() => {
+        //   styles.absoluteCell = { backgroundColor: 'gray' };
+        // }}
         disableLeftSwipe
       >
         <View style={absoluteCell}>
@@ -66,7 +69,7 @@ class CurrencyPreset extends Component<Props> {
           <TouchableOpacity
             activeOpacity={1}
             style={moveStyle}
-            onPress={this.props.onMove}
+            // onPress={this.props.onMove}
             onLongPress={this.props.onLongPress}
             onPressOut={this.props.onPressOut}
           >
@@ -93,6 +96,12 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
+    // backgroundColor: 'white',
+    // flexDirection: 'row',
+    // height: 80,
+    // justifyContent: 'flex-end',
+    // alignItems: 'center',
+    // paddingRight: 80,
   },
   absoluteCellText: { marginRight: 15, color: '#FFF' },
   containerStyle: {

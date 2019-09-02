@@ -97,7 +97,7 @@ class EditPreset extends Component<Props, State> {
     <CurrencyPreset
       char={item}
       onDelete={() => this.onDelete(item)}
-      onMove={move}
+      // onMove={move}
       onLongPress={move}
       onPressOut={moveEnd}
       isActive={isActive}
@@ -109,13 +109,13 @@ class EditPreset extends Component<Props, State> {
       <Fragment>
         <DraggableFlatList
           data={this.props.preset}
-          extraData={this.props}
+          // extraData={this.props}
           renderItem={this.renderItem}
           keyExtractor={item => item}
           scrollEnabled={this.state.enable}
           horizontal={false}
           scrollPercent={5}
-          onMoveBegin={() => this.setScrollEnabled(false)}
+          // onMoveBegin={() => this.setScrollEnabled(false)}
           onMoveEnd={this.onPresetChange}
         />
       </Fragment>
