@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'native-base';
+import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 
 import { Card, Header, TableSection } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
-import { strings, currentLocale } from '../../../locales/i18n';
+import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
-import { number } from '../../lib';
+import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
 
 const textColor = '#525050';
@@ -225,9 +226,17 @@ class Converter extends Component<Props, State> {
           <Fragment>
             <View style={styles.footerView}>
               <Text style={styles.footerText}>
-                {` ${strings('converter.lastUpdate')} ${new Date(
+                {/* {` ${strings('converter.lastUpdate')} ${new Date(
                   Date.parse(this.props.currencies[1].updatedAt),
-                ).toLocaleString(currentLocale, { hour12: false })}`}
+                ).toLocaleString(currentLocale, { hour12: false })}`} */}
+                {/* {`${strings('converter.lastUpdate')} ${DateTime.fromJSDate(
+                  new Date(Date.parse(this.props.currencies[1].updatedAt)),
+                )
+                  .setLocale('ru')
+                  .toLocaleString(DateTime.DATE_SHORT)}`} */}
+                {`${strings('converter.lastUpdate')} ${initDate(
+                  new Date(Date.parse(this.props.currencies[1].updatedAt)),
+                )}`}
               </Text>
             </View>
             <TouchableOpacity
