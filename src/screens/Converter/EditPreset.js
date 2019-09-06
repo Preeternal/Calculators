@@ -14,7 +14,7 @@ type Props = {
   navigation: Object,
 };
 
-type State = { enable: boolean };
+type State = { data: Object };
 
 const styles = {
   headerText: {
@@ -50,7 +50,7 @@ class EditPreset extends Component<Props, State> {
     },
   });
 
-  state = { enable: true };
+  state = { data: this.props.preset };
 
   componentWillMount() {
     if (this.props.navigation.state.key[this.props.navigation.state.key.length - 1] === '1') {
@@ -85,10 +85,9 @@ class EditPreset extends Component<Props, State> {
     this.props.presetChanged(data);
   };
 
-  setScrollEnabled = (enable) => {
-    this.setState({
-      enable,
-    });
+  onMoveEnd = ({ data }) => {
+    this.setState({ data });
+    // this.onPresetChange({ data });
   };
 
   renderItem = ({
@@ -108,15 +107,15 @@ class EditPreset extends Component<Props, State> {
     return (
       <Fragment>
         <DraggableFlatList
-          data={this.props.preset}
+          // data={this.props.preset}
+          data={this.state.data}
           // extraData={this.props}
           renderItem={this.renderItem}
           keyExtractor={item => item}
-          scrollEnabled={this.state.enable}
           horizontal={false}
           scrollPercent={5}
-          // onMoveBegin={() => this.setScrollEnabled(false)}
-          onMoveEnd={this.onPresetChange}
+          // onMoveEnd={this.onPresetChange}
+          onMoveEnd={this.onMoveEnd}
         />
       </Fragment>
     );
