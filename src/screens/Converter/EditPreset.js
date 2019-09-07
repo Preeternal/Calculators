@@ -93,8 +93,7 @@ class EditPreset extends Component<Props, State> {
         {
           text: strings('common.ok'),
           onPress: () => {
-            // const preset = {};
-            // preset.data = this.props.preset ? this.props.preset.filter(i => i !== item) : [];
+            // const preset = this.props.preset ? this.props.preset.filter(i => i !== item) : [];
             // this.onPresetChange(preset);
             this.deleteListItem(item);
           },
@@ -104,12 +103,12 @@ class EditPreset extends Component<Props, State> {
     );
   };
 
-  onPresetChange = ({ data }) => {
-    this.props.presetChanged(data);
+  onPresetChange = (preset) => {
+    this.props.presetChanged(preset);
   };
 
-  onMoveEnd = ({ preset }) => {
-    this.setState({ preset });
+  onMoveEnd = ({ data }) => {
+    this.setState({ preset: data });
     // this.onPresetChange({ data });
     // console.log(this.props.preset);
   };
@@ -118,7 +117,7 @@ class EditPreset extends Component<Props, State> {
     // const preset = {};
     // preset.data = this.state.data;
     // this.onPresetChange(preset);
-    this.props.presetChanged(this.state.preset);
+    this.onPresetChange(this.state.preset);
   };
 
   renderItem = ({
@@ -146,7 +145,7 @@ class EditPreset extends Component<Props, State> {
           keyExtractor={item => item}
           horizontal={false}
           scrollPercent={5}
-          // onMoveEnd={this.onPresetChange}
+          // onMoveEnd={({ data }) => this.onPresetChange(data)}
           onMoveEnd={this.onMoveEnd}
         />
       </HandleBack>
