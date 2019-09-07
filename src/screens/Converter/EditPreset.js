@@ -27,7 +27,7 @@ type Props = {
   navigation: Object,
 };
 
-type State = { data: Array<string> };
+type State = { preset: Array<string> };
 
 const styles = {
   headerText: {
@@ -63,7 +63,7 @@ class EditPreset extends Component<Props, State> {
     },
   });
 
-  state = { data: this.props.preset ? this.props.preset : [] };
+  state = { preset: this.props.preset ? this.props.preset : [] };
 
   componentWillMount() {
     if (this.props.navigation.state.key[this.props.navigation.state.key.length - 1] === '1') {
@@ -73,9 +73,9 @@ class EditPreset extends Component<Props, State> {
 
   deleteListItem = (item) => {
     this.setState((prevState) => {
-      const data = prevState.data.filter(i => i !== item);
+      const preset = prevState.preset.filter(i => i !== item);
       return {
-        data,
+        preset,
       };
     });
   };
@@ -108,8 +108,8 @@ class EditPreset extends Component<Props, State> {
     this.props.presetChanged(data);
   };
 
-  onMoveEnd = ({ data }) => {
-    this.setState({ data });
+  onMoveEnd = ({ preset }) => {
+    this.setState({ preset });
     // this.onPresetChange({ data });
     // console.log(this.props.preset);
   };
@@ -118,7 +118,7 @@ class EditPreset extends Component<Props, State> {
     // const preset = {};
     // preset.data = this.state.data;
     // this.onPresetChange(preset);
-    this.props.presetChanged(this.state.data);
+    this.props.presetChanged(this.state.preset);
   };
 
   renderItem = ({
@@ -140,7 +140,7 @@ class EditPreset extends Component<Props, State> {
       <HandleBack onBack={this.onBack}>
         <DraggableFlatList
           // data={this.props.preset}
-          data={this.state.data}
+          data={this.state.preset}
           // extraData={this.props}
           renderItem={this.renderItem}
           keyExtractor={item => item}

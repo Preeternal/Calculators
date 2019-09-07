@@ -73,8 +73,6 @@ const CurrencyPreset = (props: Props) => {
   );
 };
 
-export default CurrencyPreset;
-
 const styles = {
   listItem: {
     minHeight: 52,
@@ -135,3 +133,5 @@ const styles = {
     color: 'gray',
   },
 };
+
+export default CurrencyPreset;
