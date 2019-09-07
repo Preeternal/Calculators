@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'native-base';
-import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 
 import { Card, Header, TableSection } from '../../components/common';

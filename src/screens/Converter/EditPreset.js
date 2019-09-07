@@ -3,18 +3,28 @@ import React, { Component, Fragment } from 'react';
 import { Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+// import type {
+//   NavigationStateRoute,
+//   NavigationReplaceAction,
+//   NavigationScreenProp,
+// } from 'react-navigation';
 
 import CurrencyPreset from '../../components/converter/CurrencyPreset';
 import { strings } from '../../../locales/i18n';
 import { presetChanged } from '../../actions';
+import HandleBack from '../../components/HandleBack';
 
 type Props = {
   preset?: Array<string>,
   presetChanged: Function,
+  // navigation: NavigationScreenProp<{|
+  //   ...NavigationStateRoute,
+  //   ...NavigationReplaceAction,
+  // |}>,
   navigation: Object,
 };
 
-type State = { data: Object };
+type State = { data?: Array<string> };
 
 const styles = {
   headerText: {
@@ -88,6 +98,14 @@ class EditPreset extends Component<Props, State> {
   onMoveEnd = ({ data }) => {
     this.setState({ data });
     // this.onPresetChange({ data });
+    // console.log(this.props.preset);
+  };
+
+  onBack = () => {
+    // const preset = {};
+    // preset.data = this.state.data;
+    // this.onPresetChange(preset);
+    this.props.presetChanged(this.state.data);
   };
 
   renderItem = ({
@@ -105,7 +123,7 @@ class EditPreset extends Component<Props, State> {
 
   render() {
     return (
-      <Fragment>
+      <HandleBack onBack={this.onBack}>
         <DraggableFlatList
           // data={this.props.preset}
           data={this.state.data}
@@ -117,7 +135,7 @@ class EditPreset extends Component<Props, State> {
           // onMoveEnd={this.onPresetChange}
           onMoveEnd={this.onMoveEnd}
         />
-      </Fragment>
+      </HandleBack>
     );
   }
 }
