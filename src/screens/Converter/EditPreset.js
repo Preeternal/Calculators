@@ -24,7 +24,7 @@ type Props = {
   navigation: Object,
 };
 
-type State = { data?: Array<string> };
+type State = { data: Array<string> };
 
 const styles = {
   headerText: {
@@ -60,13 +60,22 @@ class EditPreset extends Component<Props, State> {
     },
   });
 
-  state = { data: this.props.preset };
+  state = { data: this.props.preset ? this.props.preset : [] };
 
   componentWillMount() {
     if (this.props.navigation.state.key[this.props.navigation.state.key.length - 1] === '1') {
       this.props.navigation.replace('EditPreset');
     }
   }
+
+  deleteListItem = (item) => {
+    this.setState((prevState) => {
+      const data = prevState.data.filter(i => i !== item);
+      return {
+        data,
+      };
+    });
+  };
 
   onDelete = (item) => {
     Alert.alert(
@@ -81,9 +90,10 @@ class EditPreset extends Component<Props, State> {
         {
           text: strings('common.ok'),
           onPress: () => {
-            const preset = {};
-            preset.data = this.props.preset ? this.props.preset.filter(i => i !== item) : [];
-            this.onPresetChange(preset);
+            // const preset = {};
+            // preset.data = this.props.preset ? this.props.preset.filter(i => i !== item) : [];
+            // this.onPresetChange(preset);
+            this.deleteListItem(item);
           },
         },
       ],
@@ -114,6 +124,7 @@ class EditPreset extends Component<Props, State> {
     <CurrencyPreset
       char={item}
       onDelete={() => this.onDelete(item)}
+      deleteListItem={() => this.deleteListItem(item)}
       // onMove={move}
       onLongPress={move}
       onPressOut={moveEnd}

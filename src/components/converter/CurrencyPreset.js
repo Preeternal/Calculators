@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, TouchableOpacity, Dimensions,
 } from 'react-native';
@@ -12,25 +12,26 @@ import { presetChanged } from '../../actions';
 type Props = {
   char: string,
   onDelete: Function,
-  onMove: Function,
+  // onMove: Function,
   onLongPress: Function,
   onPressOut: Function,
-  preset: Array<string>,
-  presetChanged: Function,
+  // preset: Array<string>,
+  // presetChanged: Function,
   isActive: boolean,
+  deleteListItem: Function,
 };
 
 const { width } = Dimensions.get('window');
 
-class CurrencyPreset extends Component<Props> {
-  onPresetChange = (array) => {
-    this.props.presetChanged(array);
-  };
+class CurrencyPreset extends PureComponent<Props> {
+  // onPresetChange = (array) => {
+  //   this.props.presetChanged(array);
+  // };
 
-  deleteListItem = () => {
-    const preset = this.props.preset.filter(i => i !== this.props.char);
-    this.onPresetChange(preset);
-  };
+  // deleteListItem = () => {
+  //   const preset = this.props.preset.filter(i => i !== this.props.char);
+  //   this.onPresetChange(preset);
+  // };
 
   render() {
     const {
@@ -50,7 +51,8 @@ class CurrencyPreset extends Component<Props> {
         style={listItem}
         leftOpenValue={width}
         stopLeftSwipe={width}
-        onRowOpen={this.deleteListItem}
+        // onRowOpen={this.deleteListItem}
+        onRowOpen={this.props.deleteListItem}
         // onRowPress={() => {
         //   styles.absoluteCell = { backgroundColor: 'gray' };
         // }}
