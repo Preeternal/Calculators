@@ -1,5 +1,8 @@
 // @flow
-import React, { Component, Fragment } from 'react';
+import React, {
+  Component,
+  // Fragment,
+} from 'react';
 import { Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import DraggableFlatList from 'react-native-draggable-flatlist';

@@ -1,13 +1,11 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React from 'react';
 import {
   View, Text, TouchableOpacity, Dimensions,
 } from 'react-native';
-import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { strings } from '../../../locales/i18n';
-import { presetChanged } from '../../actions';
 
 type Props = {
   char: string,
@@ -15,15 +13,13 @@ type Props = {
   // onMove: Function,
   onLongPress: Function,
   onPressOut: Function,
-  // preset: Array<string>,
-  // presetChanged: Function,
   isActive: boolean,
   deleteListItem: Function,
 };
 
 const { width } = Dimensions.get('window');
 
-class CurrencyPreset extends PureComponent<Props> {
+const CurrencyPreset = (props: Props) => {
   // onPresetChange = (array) => {
   //   this.props.presetChanged(array);
   // };
@@ -32,56 +28,52 @@ class CurrencyPreset extends PureComponent<Props> {
   //   const preset = this.props.preset.filter(i => i !== this.props.char);
   //   this.onPresetChange(preset);
   // };
+  const {
+    listItem,
+    absoluteCell,
+    absoluteCellText,
+    containerStyle,
+    active,
+    deleteStyle,
+    charStyle,
+    charTextStyle,
+    moveStyle,
+    iconStyle,
+  } = styles;
+  return (
+    <SwipeRow
+      style={listItem}
+      leftOpenValue={width}
+      stopLeftSwipe={width}
+      // onRowOpen={this.deleteListItem}
+      onRowOpen={props.deleteListItem}
+      disableLeftSwipe
+    >
+      <View style={absoluteCell}>
+        <Text style={absoluteCellText}>{strings('converter.DELETE')}</Text>
+      </View>
+      <View style={[containerStyle, props.isActive && active]}>
+        <TouchableOpacity style={deleteStyle} onPress={props.onDelete}>
+          <Icon type="MaterialIcons" name="delete" style={iconStyle} />
+        </TouchableOpacity>
+        <View style={charStyle}>
+          <Text style={charTextStyle}>{props.char}</Text>
+        </View>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={moveStyle}
+          // onPress={props.onMove}
+          onLongPress={props.onLongPress}
+          onPressOut={props.onPressOut}
+        >
+          <Icon type="FontAwesome" name="sort" style={iconStyle} />
+        </TouchableOpacity>
+      </View>
+    </SwipeRow>
+  );
+};
 
-  render() {
-    const {
-      listItem,
-      absoluteCell,
-      absoluteCellText,
-      containerStyle,
-      active,
-      deleteStyle,
-      charStyle,
-      charTextStyle,
-      moveStyle,
-      iconStyle,
-    } = styles;
-    return (
-      <SwipeRow
-        style={listItem}
-        leftOpenValue={width}
-        stopLeftSwipe={width}
-        // onRowOpen={this.deleteListItem}
-        onRowOpen={this.props.deleteListItem}
-        // onRowPress={() => {
-        //   styles.absoluteCell = { backgroundColor: 'gray' };
-        // }}
-        disableLeftSwipe
-      >
-        <View style={absoluteCell}>
-          <Text style={absoluteCellText}>{strings('converter.DELETE')}</Text>
-        </View>
-        <View style={[containerStyle, this.props.isActive && active]}>
-          <TouchableOpacity style={deleteStyle} onPress={this.props.onDelete}>
-            <Icon type="MaterialIcons" name="delete" style={iconStyle} />
-          </TouchableOpacity>
-          <View style={charStyle}>
-            <Text style={charTextStyle}>{this.props.char}</Text>
-          </View>
-          <TouchableOpacity
-            activeOpacity={1}
-            style={moveStyle}
-            // onPress={this.props.onMove}
-            onLongPress={this.props.onLongPress}
-            onPressOut={this.props.onPressOut}
-          >
-            <Icon type="FontAwesome" name="sort" style={iconStyle} />
-          </TouchableOpacity>
-        </View>
-      </SwipeRow>
-    );
-  }
-}
+export default CurrencyPreset;
 
 const styles = {
   listItem: {
@@ -98,12 +90,6 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    // backgroundColor: 'white',
-    // flexDirection: 'row',
-    // height: 80,
-    // justifyContent: 'flex-end',
-    // alignItems: 'center',
-    // paddingRight: 80,
   },
   absoluteCellText: { marginRight: 15, color: '#FFF' },
   containerStyle: {
@@ -149,16 +135,3 @@ const styles = {
     color: 'gray',
   },
 };
-
-const mapStateToProps = state => ({
-  preset: state.converter.preset,
-});
-
-const mapDispatchToActions = {
-  presetChanged,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToActions,
-)(CurrencyPreset);
