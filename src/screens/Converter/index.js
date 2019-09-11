@@ -278,10 +278,12 @@ const styles = {
     shadowOpacity: 0.2,
     shadowRadius: 1,
     position: 'relative',
+    justifyContent: 'center',
   },
   footerText: {
     fontSize: 14,
     color: '#ffffff',
+    marginLeft: 5,
   },
 };
 

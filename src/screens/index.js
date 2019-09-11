@@ -160,6 +160,11 @@ class App extends Component<Props> {
           curr.input = this.getLocalInput(curr.nominal / curr.value);
           return curr;
         });
+        // console.log(currenciesWithInputField[0].updatedAt);
+
+        console.log(new Date().getTime());
+        console.log(new Date(Date.parse(currenciesWithInputField[0].updatedAt)).getTime());
+
         this.onCurrencyChange([
           {
             charCode: 'RUB',
