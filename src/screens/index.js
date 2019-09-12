@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
 import { gql } from 'apollo-boost';
+import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 
 import Depo from './Depo';
@@ -160,17 +161,9 @@ class App extends Component<Props> {
           curr.input = this.getLocalInput(curr.nominal / curr.value);
           return curr;
         });
-        // console.log(currenciesWithInputField[0].updatedAt);
-        const oneMinute = 60 * 1000;
-        const oneHour = oneMinute * 60;
-
-        if (
-          new Date().getTime() - oneHour
-          > new Date(Date.parse(currenciesWithInputField[0].updatedAt)).getTime()
-        ) {
-          console.log(new Date().getTime() - oneHour);
-          console.log(new Date().getTime());
-          console.log(new Date(Date.parse(currenciesWithInputField[0].updatedAt)).getTime());
+        const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
+        if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
+          console.log('сейчас обновимся!');
         }
 
         this.onCurrencyChange([
