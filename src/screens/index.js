@@ -161,9 +161,17 @@ class App extends Component<Props> {
           return curr;
         });
         // console.log(currenciesWithInputField[0].updatedAt);
+        const oneMinute = 60 * 1000;
+        const oneHour = oneMinute * 60;
 
-        console.log(new Date().getTime());
-        console.log(new Date(Date.parse(currenciesWithInputField[0].updatedAt)).getTime());
+        if (
+          new Date().getTime() - oneHour
+          > new Date(Date.parse(currenciesWithInputField[0].updatedAt)).getTime()
+        ) {
+          console.log(new Date().getTime() - oneHour);
+          console.log(new Date().getTime());
+          console.log(new Date(Date.parse(currenciesWithInputField[0].updatedAt)).getTime());
+        }
 
         this.onCurrencyChange([
           {
@@ -173,7 +181,7 @@ class App extends Component<Props> {
             name: 'Российский рубль',
             nameEng: 'Russian ruble',
             nominal: 1,
-            updatedAt: '2019-05-30T11:02:01.574Z',
+            updatedAt: currenciesWithInputField[0].updatedAt,
             value: 1,
             __typename: 'Currency',
           },
