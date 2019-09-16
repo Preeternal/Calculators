@@ -17,7 +17,7 @@ const getCreditAcCountCom = state => Number(number(state.credit.creditAcCountCom
 
 const ceilMethod = value => Number(value.toFixed(2));
 
-export const creditCalculate = createSelector(
+export default createSelector(
   [
     getCreditPrincipal,
     getCreditInterest,

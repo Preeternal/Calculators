@@ -51,7 +51,8 @@ import { strings, currentLocale } from '../../../locales/i18n';
 
 import config from '../../../config';
 
-import { initDate, number, calculate } from '../../lib';
+import { initDate, number } from '../../lib';
+import calculate from '../../lib/calculate';
 
 import CustomHeader from '../Common/CustomHeader';
 
