@@ -163,6 +163,15 @@ class Converter extends Component<Props, State> {
   };
 
   render() {
+    console.log(
+      new Date(
+        new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+          - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+            - new Date(Date.parse(new Date().toUTCString())).valueOf()),
+      ).toLocaleTimeString(),
+    );
+    console.log(new Date(Date.parse(new Date().toUTCString())));
+    console.log(new Date());
     return (
       <Fragment>
         <CustomHeader
@@ -236,8 +245,17 @@ class Converter extends Component<Props, State> {
                 {`${strings('converter.lastUpdate')} ${initDate(
                   new Date(Date.parse(this.props.currencies[1].updatedAt)),
                 )} ${new Date(
-                  Date.parse(this.props.currencies[1].updatedAt),
+                  Date.parse(this.props.currencies[1].updatedAt)
+                    - new Date().getTimezoneOffset() * 1000,
                 ).toLocaleTimeString()}`}
+                {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                  - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
+                {/* {new Date().toUTCString()} */}
+                {/* {new Date(
+                  new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                    - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                      - new Date(Date.parse(new Date().toUTCString())).valueOf()),
+                ).toLocaleTimeString()} */}
                 {/* {`${strings('converter.lastUpdate')} ${DateTime.fromISO(
                   this.props.currencies[1].updatedAt,
                   { locale: this.props.language === 0 ? 'ru' : 'en' },

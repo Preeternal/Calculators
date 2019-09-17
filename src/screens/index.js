@@ -214,6 +214,7 @@ class App extends Component<Props> {
   };
 
   render() {
+    console.log(new Date().getTimezoneOffset());
     return <AppContainer />;
   }
 }
