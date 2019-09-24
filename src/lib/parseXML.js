@@ -9,16 +9,20 @@ if (typeof this.Buffer === 'undefined') {
 const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
 const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 
-const parseXML = () => {
+const parseXML = async () => {
   console.log('сейчас обновимся!');
 
   // fetch(dailyUrl).then(res => console.log(res.text()));
   fetch(dailyUrl)
     .then(response => response.text())
+    // console.log(response))
+    // console.log(iconv.decode(Buffer.from(response), 'windows-1251')))
     .then((response) => {
-      parseString(response, (err, result) => {
-        const decoded = iconv.decode(Buffer.from(response), 'windows-1251');
-        console.log(decoded);
+      console.log(response);
+      const decodedXmlBody = iconv.decode(Buffer.from(response), 'windows-1251');
+      parseString(decodedXmlBody, (err, result) => {
+        // const decoded = iconv.decode(Buffer.from(response), 'windows-1251');
+        // console.log(decoded);
         const parsed = result.ValCurs.Valute.map((currency) => {
           const charCode = currency.CharCode[0];
           const name = currency.Name[0];
