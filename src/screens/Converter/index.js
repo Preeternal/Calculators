@@ -163,15 +163,15 @@ class Converter extends Component<Props, State> {
   };
 
   render() {
-    console.log(
-      new Date(
-        new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
-          - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
-            - new Date(Date.parse(new Date().toUTCString())).valueOf()),
-      ).toLocaleTimeString(),
-    );
-    console.log(new Date(Date.parse(new Date().toUTCString())));
-    console.log(new Date());
+    // console.log(
+    //   new Date(
+    //     new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+    //       - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+    //         - new Date(Date.parse(new Date().toUTCString())).valueOf()),
+    //   ).toLocaleTimeString(),
+    // );
+    // console.log(new Date(Date.parse(new Date().toUTCString())));
+    // console.log(new Date());
     return (
       <Fragment>
         <CustomHeader

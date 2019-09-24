@@ -24,6 +24,7 @@ import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged, currenciesChanged } from '../actions';
 import client from '../client';
 import { number } from '../lib';
+import parseXML from '../lib/parseXML';
 
 const ConverterStack = createStackNavigator(
   {
@@ -162,10 +163,10 @@ class App extends Component<Props> {
           return curr;
         });
         const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
-        if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
-          console.log('сейчас обновимся!');
-        }
-
+        // if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
+        parseXML();
+        // }
+        console.log(response);
         this.onCurrencyChange([
           {
             charCode: 'RUB',
@@ -180,6 +181,7 @@ class App extends Component<Props> {
           },
           ...currenciesWithInputField,
         ]);
+        console.log(this.props.currencies);
       });
   }
 
@@ -214,7 +216,7 @@ class App extends Component<Props> {
   };
 
   render() {
-    console.log(new Date().getTimezoneOffset());
+    // console.log(new Date().getTimezoneOffset());
     return <AppContainer />;
   }
 }
