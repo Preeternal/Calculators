@@ -164,9 +164,10 @@ class App extends Component<Props> {
         });
         const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
         // if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
-        parseXML();
+        const newReq = parseXML();
+        console.log(newReq);
         // }
-        console.log(response);
+        // console.log(response);
         this.onCurrencyChange([
           {
             charCode: 'RUB',

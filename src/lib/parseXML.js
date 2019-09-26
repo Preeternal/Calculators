@@ -1,34 +1,28 @@
+import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
 import iconv from 'iconv-lite';
 import { Buffer } from 'buffer';
 
-if (typeof this.Buffer === 'undefined') {
-  this.Buffer = Buffer.Buffer;
-}
-
 const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
 const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 
-const parseXML = async () => {
-  console.log('сейчас обновимся!');
-
-  // fetch(dailyUrl).then(res => console.log(res.text()));
-  fetch(dailyUrl)
-    .then(response => response.text())
-    // console.log(response))
-    // console.log(iconv.decode(Buffer.from(response), 'windows-1251')))
+const parseXML = () => {
+  axios({
+    method: 'get',
+    url: dailyUrl,
+    responseType: 'arraybuffer',
+  })
     .then((response) => {
-      console.log(response);
-      const decodedXmlBody = iconv.decode(Buffer.from(response), 'windows-1251');
-      parseString(decodedXmlBody, (err, result) => {
-        // const decoded = iconv.decode(Buffer.from(response), 'windows-1251');
-        // console.log(decoded);
-        const parsed = result.ValCurs.Valute.map((currency) => {
-          const charCode = currency.CharCode[0];
-          const name = currency.Name[0];
-          const nominal = currency.Nominal[0];
+      const result = iconv.decode(Buffer.from(response.data), 'windows-1251');
+      parseString(result, (err, data) => {
+        const parsed = data.ValCurs.Valute.map((element) => {
+          const charCode = element.CharCode[0];
+          const name = element.Name[0];
+          const nominal = element.Nominal[0];
           const updatedAt = new Date().toJSON();
-          const value = currency.Value[0];
+          const value = Number(
+            element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
+          );
           return {
             charCode,
             name,
@@ -37,11 +31,12 @@ const parseXML = async () => {
             value,
           };
         });
-        console.log(parsed);
+        // console.log(parsed);
+        return parsed;
       });
     })
     .catch((err) => {
-      console.log('fetch', err);
+      console.log(err);
     });
 };
 
