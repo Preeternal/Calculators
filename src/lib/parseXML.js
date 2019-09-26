@@ -6,38 +6,36 @@ import { Buffer } from 'buffer';
 const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
 const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 
-const parseXML = () => {
-  axios({
-    method: 'get',
-    url: dailyUrl,
-    responseType: 'arraybuffer',
-  })
-    .then((response) => {
-      const result = iconv.decode(Buffer.from(response.data), 'windows-1251');
-      parseString(result, (err, data) => {
-        const parsed = data.ValCurs.Valute.map((element) => {
-          const charCode = element.CharCode[0];
-          const name = element.Name[0];
-          const nominal = element.Nominal[0];
-          const updatedAt = new Date().toJSON();
-          const value = Number(
-            element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
-          );
-          return {
-            charCode,
-            name,
-            nominal,
-            updatedAt,
-            value,
-          };
-        });
-        // console.log(parsed);
-        return parsed;
+const parseXML = () => axios({
+  method: 'get',
+  url: dailyUrl,
+  responseType: 'arraybuffer',
+})
+  .then((response) => {
+    const result = iconv.decode(Buffer.from(response.data), 'windows-1251');
+    return parseString(result, (err, data) => {
+      const parsed = data.ValCurs.Valute.map((element) => {
+        const charCode = element.CharCode[0];
+        const name = element.Name[0];
+        const nominal = element.Nominal[0];
+        const updatedAt = new Date().toJSON();
+        const value = Number(
+          element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
+        );
+        return {
+          charCode,
+          name,
+          nominal,
+          updatedAt,
+          value,
+        };
       });
-    })
-    .catch((err) => {
-      console.log(err);
+      console.log(parsed);
+      // return parsed;
     });
-};
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 export default parseXML;

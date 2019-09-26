@@ -164,8 +164,9 @@ class App extends Component<Props> {
         });
         const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
         // if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
-        const newReq = parseXML();
-        console.log(newReq);
+        // const newReq = parseXML().then(r => console.log(r));
+        // console.log(newReq);
+        parseXML();
         // }
         // console.log(response);
         this.onCurrencyChange([
