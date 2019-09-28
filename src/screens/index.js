@@ -187,7 +187,10 @@ class App extends Component<Props> {
           },
           ...currenciesWithInputField,
         ]);
-        console.log(this.props.currencies);
+        // console.log(this.props.currencies);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
