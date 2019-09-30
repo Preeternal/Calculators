@@ -11,6 +11,10 @@ import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
 import { gql } from 'apollo-boost';
 import { DateTime } from 'luxon';
+import axios from 'axios';
+import { parseString } from 'react-native-xml2js';
+import iconv from 'iconv-lite';
+import { Buffer } from 'buffer';
 import 'number-to-locale-string';
 
 import Depo from './Depo';
@@ -149,6 +153,9 @@ type Props = {
   currenciesChanged: Function,
 };
 
+const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
+const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
+
 class App extends Component<Props> {
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
@@ -157,7 +164,7 @@ class App extends Component<Props> {
         query: getCurrencies,
       })
       .then((response) => {
-        const currenciesWithInputField = response.data.currencies.map((currency) => {
+        let currenciesWithInputField = response.data.currencies.map((currency) => {
           const curr = { ...currency };
           curr.input = this.getLocalInput(curr.nominal / curr.value);
           return curr;
@@ -170,9 +177,58 @@ class App extends Component<Props> {
         //   console.log(accessToken);
         // }());
         // console.log(newReq);
-        parseXML();
+        // parseXML();
         // }
         // console.log(response);
+
+        axios({
+          method: 'get',
+          url: dailyUrl,
+          responseType: 'arraybuffer',
+        })
+          .then((res) => {
+            const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
+            parseString(result, (err, data) => {
+              currenciesWithInputField = data.ValCurs.Valute.map((element) => {
+                const charCode = element.CharCode[0];
+                const name = element.Name[0];
+                const nominal = element.Nominal[0];
+                const updatedAt = new Date().toJSON();
+                const value = Number(
+                  element.Value[0].match(',')
+                    ? element.Value[0].replace(',', '.')
+                    : element.Value[0],
+                );
+                return {
+                  charCode,
+                  name,
+                  nominal,
+                  updatedAt,
+                  value,
+                };
+              });
+              console.log(currenciesWithInputField);
+              this.onCurrencyChange([
+                {
+                  charCode: 'RUB',
+                  id: '1',
+                  input: 1,
+                  name: 'Российский рубль',
+                  nameEng: 'Russian ruble',
+                  nominal: 1,
+                  updatedAt: currenciesWithInputField[0].updatedAt,
+                  value: 1,
+                  __typename: 'Currency',
+                },
+                ...currenciesWithInputField,
+              ]);
+              // return parsed;
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
         this.onCurrencyChange([
           {
             charCode: 'RUB',
@@ -225,6 +281,7 @@ class App extends Component<Props> {
   };
 
   render() {
+    console.log(this.props.currencies);
     // console.log(new Date().getTimezoneOffset());
     return <AppContainer />;
   }
