@@ -7,9 +7,14 @@ import {
   View,
   Text,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'native-base';
+import axios from 'axios';
+import { parseString } from 'react-native-xml2js';
+import iconv from 'iconv-lite';
+import { Buffer } from 'buffer';
 import 'number-to-locale-string';
 
 import { Card, Header, TableSection } from '../../components/common';
@@ -37,7 +42,11 @@ type State = {
   inputStyle: Array<string>,
   userCountryCode?: string,
   keyboard: boolean,
+  refreshing: boolean,
 };
+
+const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
+const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 
 class Converter extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => {
@@ -58,6 +67,7 @@ class Converter extends Component<Props, State> {
   state = {
     inputStyle: [],
     keyboard: false,
+    refreshing: false,
   };
 
   componentDidMount() {
@@ -69,6 +79,75 @@ class Converter extends Component<Props, State> {
       this.handlePreset();
     }
   }
+
+  onRefresh = () => {
+    this.setState({
+      refreshing: true,
+    });
+    console.log('refreshing');
+    axios({
+      method: 'get',
+      url: dailyUrl,
+      responseType: 'arraybuffer',
+    })
+      .then((res) => {
+        const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
+        parseString(result, (err, data) => {
+          const currenciesWithInputField = data.ValCurs.Valute.map((element) => {
+            const charCode = element.CharCode[0];
+            const name = element.Name[0];
+            const nominal = element.Nominal[0];
+            const updatedAt = new Date().toJSON();
+            const value = Number(
+              element.Value[0].match(',')
+                ? element.Value[0].replace(',', '.')
+                : element.Value[0],
+            );
+            return {
+              charCode,
+              name,
+              nominal,
+              updatedAt,
+              value,
+            };
+          });
+          // console.log(currenciesWithInputField);
+          this.onCurrencyChange([
+            {
+              charCode: 'RUB',
+              id: '1',
+              input: 1,
+              name: 'Российский рубль',
+              nameEng: 'Russian ruble',
+              nominal: 1,
+              updatedAt: currenciesWithInputField[0].updatedAt,
+              value: 1,
+              __typename: 'Currency',
+            },
+            ...currenciesWithInputField,
+          ]);
+          this.setState({
+            refreshing: false,
+          });
+          console.log('done');
+          // return parsed;
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          refreshing: false,
+        });
+        console.log('done with error');
+      });
+
+    // setTimeout(() => {
+    //   this.setState({
+    //     refreshing: false,
+    //   });
+    //   console.log('done');
+    // }, 2000);
+  };
 
   handlePreset = () => {
     const { preset, currencies, presetCurrencies } = this.props;
@@ -189,7 +268,13 @@ class Converter extends Component<Props, State> {
           }
         />
         {this.props.currencies.length ? (
-          <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
+          <ScrollView
+            key={`${this.props.language}${this.props.country}`}
+            style={{ flex: 1 }}
+            refreshControl={
+              <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+            }
+          >
             <Card>
               <Header headerText={strings('converter.header')} />
               <TableSection>
@@ -215,6 +300,9 @@ class Converter extends Component<Props, State> {
                     />
                   )}
                   keyExtractor={item => item.charCode}
+                  // refreshControl={
+                  //   <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                  // }
                 />
               </TableSection>
             </Card>
