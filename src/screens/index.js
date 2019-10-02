@@ -151,6 +151,7 @@ type Props = {
   language: string,
   languageChanged: Function,
   currenciesChanged: Function,
+  currencies: Object
 };
 
 const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
@@ -207,7 +208,9 @@ class App extends Component<Props> {
                   value,
                 };
               });
-              console.log(currenciesWithInputField);
+              if (this.props.currencies.length === 35 && !!this.props.currencies[1].nameEng) {
+                console.log(!!this.props.currencies[1].nameEng);
+              }
               this.onCurrencyChange([
                 {
                   charCode: 'RUB',
