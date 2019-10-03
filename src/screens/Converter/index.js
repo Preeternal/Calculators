@@ -99,9 +99,7 @@ class Converter extends Component<Props, State> {
             const nominal = element.Nominal[0];
             const updatedAt = new Date().toJSON();
             const value = Number(
-              element.Value[0].match(',')
-                ? element.Value[0].replace(',', '.')
-                : element.Value[0],
+              element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
             );
             return {
               charCode,
@@ -126,9 +124,12 @@ class Converter extends Component<Props, State> {
             },
             ...currenciesWithInputField,
           ]);
-          this.setState({
-            refreshing: false,
-          });
+
+          // () => {
+            this.setState({
+              refreshing: false,
+            });
+          // };
           console.log('done');
           // return parsed;
         });
