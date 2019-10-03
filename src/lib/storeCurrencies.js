@@ -22,11 +22,58 @@ const getLocalInput = (input) => {
   });
 };
 
+const getFrontendRequest = () => axios({
+  method: 'get',
+  url: dailyUrl,
+  responseType: 'arraybuffer',
+})
+  .then((res) => {
+    const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
+    const updatedAt = new Date().toJSON();
+    return parseString(result, (err, data) => {
+      const parsed = data.ValCurs.Valute.map((element) => {
+        const charCode = element.CharCode[0];
+        const name = element.Name[0];
+        const nominal = element.Nominal[0];
+        const value = Number(
+          element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
+        );
+        return {
+          name,
+          charCode,
+          nominal,
+          updatedAt,
+          value,
+        };
+      });
+      store.dispatch(
+        currenciesChanged([
+          {
+            id: '1',
+            name: 'Российский рубль',
+            nameEng: 'Russian ruble',
+            charCode: 'RUB',
+            nominal: 1,
+            updatedAt,
+            value: 1,
+            __typename: 'Currency',
+            input: 1,
+          },
+          ...parsed,
+        ]),
+      );
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 const storeCurrencies = () => {
   function selectCurrencies(state) {
     return state.converter.currencies;
   }
   const currencies = selectCurrencies(store.getState());
+  console.log(currencies);
   client
     .query({
       query: getCurrencies,
@@ -39,51 +86,7 @@ const storeCurrencies = () => {
       });
       const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
       // if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
-      axios({
-        method: 'get',
-        url: dailyUrl,
-        responseType: 'arraybuffer',
-      })
-        .then((res) => {
-          const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
-          const updatedAt = new Date().toJSON();
-          return parseString(result, (err, data) => {
-            const parsed = data.ValCurs.Valute.map((element) => {
-              const charCode = element.CharCode[0];
-              const name = element.Name[0];
-              const nominal = element.Nominal[0];
-              const value = Number(
-                element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
-              );
-              return {
-                name,
-                charCode,
-                nominal,
-                updatedAt,
-                value,
-              };
-            });
-            store.dispatch(
-              currenciesChanged([
-                {
-                  id: '1',
-                  name: 'Российский рубль',
-                  nameEng: 'Russian ruble',
-                  charCode: 'RUB',
-                  nominal: 1,
-                  updatedAt,
-                  value: 1,
-                  __typename: 'Currency',
-                  input: 1,
-                },
-                ...parsed,
-              ]),
-            );
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      getFrontendRequest();
       // }
       store.dispatch(
         currenciesChanged([
@@ -104,65 +107,13 @@ const storeCurrencies = () => {
     })
     .catch((err) => {
       console.log(err);
+      const dt = DateTime.fromISO(currencies[1].updatedAt);
+      console.log(dt);
+      // if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
+      getFrontendRequest();
+      // }
     });
 };
-
-// const parseXML = async () => {
-//   function selectCurrencies(state) {
-//     return state.converter.currencies;
-//   }
-//   const currencies = selectCurrencies(store.getState());
-//   console.log(currencies);
-//   const nextCurrencies = [...currencies];
-//   console.log('Current currencies state', currencies);
-
-//   const result = await axios({
-//     method: 'get',
-//     url: dailyUrl,
-//     responseType: 'arraybuffer',
-//   })
-//     .then(response => iconv.decode(Buffer.from(response.data), 'windows-1251'))
-//     .catch(err => {
-//       console.log(err);
-//     });
-//   parseString(result, (err, data) => {
-//     const parsed = data.ValCurs.Valute.map(element => {
-//       const charCode = element.CharCode[0];
-//       const name = element.Name[0];
-//       const nominal = element.Nominal[0];
-//       const updatedAt = new Date().toJSON();
-//       const value = Number(
-//         element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
-//       );
-//       return {
-//         charCode,
-//         name,
-//         nominal,
-//         updatedAt,
-//         value,
-//       };
-//     });
-//     store.dispatch(
-//       currenciesChanged([
-//         {
-//           charCode: 'RUB',
-//           id: '1',
-//           input: 1,
-//           name: 'Российский рубль',
-//           nameEng: 'Russian ruble',
-//           nominal: 1,
-//           updatedAt: new Date().toJSON(),
-//           value: 1,
-//           __typename: 'Currency',
-//         },
-//         ...parsed,
-//       ]),
-//     );
-//     // console.log('Next currencies state', nextCurrencies);
-//   });
-//   // console.log(result);
-//   // return result;
-// };
 
 export default storeCurrencies;
 
