@@ -14,66 +14,68 @@ import { number } from '.';
 const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
 const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 
-const getLocalInput = (input) => {
-  const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
-  return Number(number(`${input}`)).toLocaleString('ru-RU', {
-    minimumFractionDigits,
-    maximumFractionDigits: minimumFractionDigits,
-  });
-};
-
-const getFrontendRequest = () => axios({
-  method: 'get',
-  url: dailyUrl,
-  responseType: 'arraybuffer',
-})
-  .then((res) => {
-    const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
-    const updatedAt = new Date().toJSON();
-    return parseString(result, (err, data) => {
-      const parsed = data.ValCurs.Valute.map((element) => {
-        const charCode = element.CharCode[0];
-        const name = element.Name[0];
-        const nominal = element.Nominal[0];
-        const value = Number(
-          element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
-        );
-        return {
-          name,
-          charCode,
-          nominal,
-          updatedAt,
-          value,
-        };
-      });
-      store.dispatch(
-        currenciesChanged([
-          {
-            id: '1',
-            name: 'Российский рубль',
-            nameEng: 'Russian ruble',
-            charCode: 'RUB',
-            nominal: 1,
-            updatedAt,
-            value: 1,
-            __typename: 'Currency',
-            input: 1,
-          },
-          ...parsed,
-        ]),
-      );
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 const storeCurrencies = () => {
-  function selectCurrencies(state) {
-    return state.converter.currencies;
-  }
+  const selectCurrencies = state => state.converter.currencies;
   const currencies = selectCurrencies(store.getState());
-  console.log(currencies);
+
+  const getLocalInput = (input) => {
+    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
+    return Number(number(`${input}`)).toLocaleString('ru-RU', {
+      minimumFractionDigits,
+      maximumFractionDigits: minimumFractionDigits,
+    });
+  };
+
+  const getFrontendRequest = () => axios({
+    method: 'get',
+    url: dailyUrl,
+    responseType: 'arraybuffer',
+  })
+    .then((res) => {
+      const newLocal = currencies instanceof Object ? typeof currencies[2] : undefined;
+      if (newLocal === 'object') {
+        console.log(newLocal);
+      }
+      const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
+      const updatedAt = new Date().toJSON();
+      return parseString(result, (err, data) => {
+        const parsed = data.ValCurs.Valute.map((element) => {
+          const charCode = element.CharCode[0];
+          const name = element.Name[0];
+          const nominal = element.Nominal[0];
+          const value = Number(
+            element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
+          );
+          return {
+            name,
+            charCode,
+            nominal,
+            updatedAt,
+            value,
+          };
+        });
+        store.dispatch(
+          currenciesChanged([
+            {
+              id: '1',
+              name: 'Российский рубль',
+              nameEng: 'Russian ruble',
+              charCode: 'RUB',
+              nominal: 1,
+              updatedAt,
+              value: 1,
+              __typename: 'Currency',
+              input: 1,
+            },
+            ...parsed,
+          ]),
+        );
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   client
     .query({
       query: getCurrencies,
