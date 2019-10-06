@@ -17,6 +17,46 @@ const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 const storeCurrencies = () => {
   const selectCurrencies = state => state.converter.currencies;
   const currencies = selectCurrencies(store.getState());
+  const newLocal = currencies instanceof Object ? typeof currencies[2] : undefined;
+  let comprasion;
+  if (newLocal === 'object' && currencies[2].nameEng !== undefined) {
+    console.log(currencies[2].nameEng);
+    comprasion = [...currencies];
+    comprasion.splice(0, 1);
+    console.log(comprasion);
+  } else {
+    axios({
+      method: 'get',
+      url: dailyEnUrl,
+      responseType: 'arraybuffer',
+    })
+      .then((res) => {
+        const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
+        const updatedAt = new Date().toJSON();
+        return parseString(result, (err, data) => {
+          const parsed = data.ValCurs.Valute.map((element) => {
+            const charCode = element.CharCode[0];
+            const nameEng = element.Name[0];
+            const nominal = element.Nominal[0];
+            const value = Number(
+              element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
+            );
+            return {
+              nameEng,
+              charCode,
+              nominal,
+              updatedAt,
+              value,
+            };
+          });
+          comprasion = parsed;
+          console.log(comprasion);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   const getLocalInput = (input) => {
     const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
@@ -32,10 +72,6 @@ const storeCurrencies = () => {
     responseType: 'arraybuffer',
   })
     .then((res) => {
-      const newLocal = currencies instanceof Object ? typeof currencies[2] : undefined;
-      if (newLocal === 'object') {
-        console.log(newLocal);
-      }
       const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
       const updatedAt = new Date().toJSON();
       return parseString(result, (err, data) => {
