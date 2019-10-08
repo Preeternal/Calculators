@@ -78,12 +78,16 @@ const storeCurrencies = () => {
         const parsed = data.ValCurs.Valute.map((element) => {
           const charCode = element.CharCode[0];
           const name = element.Name[0];
-          const nominal = element.Nominal[0];
+          const nominal = Number(element.Nominal[0]);
           const value = Number(
             element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
           );
+          const { id, input, nameEng } = comprasion.find(el => el.charCode === charCode);
           return {
+            id,
+            input,
             name,
+            nameEng,
             charCode,
             nominal,
             updatedAt,
