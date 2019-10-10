@@ -20,9 +20,9 @@ const storeCurrencies = () => {
   const newLocal = currencies instanceof Object ? typeof currencies[2] : undefined;
   let comprasion;
   if (newLocal === 'object' && currencies[2].nameEng !== undefined) {
-    console.log(currencies[2].nameEng);
     comprasion = [...currencies];
     comprasion.splice(0, 1);
+    console.log(currencies);
     console.log(comprasion);
   } else {
     axios({
@@ -32,24 +32,16 @@ const storeCurrencies = () => {
     })
       .then((res) => {
         const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
-        const updatedAt = new Date().toJSON();
         return parseString(result, (err, data) => {
           const parsed = data.ValCurs.Valute.map((element) => {
-            const charCode = element.CharCode[0];
             const nameEng = element.Name[0];
-            const nominal = element.Nominal[0];
-            const value = Number(
-              element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
-            );
+            const charCode = element.CharCode[0];
             return {
               nameEng,
               charCode,
-              nominal,
-              updatedAt,
-              value,
             };
           });
-          comprasion = parsed;
+          comprasion = [...parsed];
           console.log(comprasion);
         });
       })
