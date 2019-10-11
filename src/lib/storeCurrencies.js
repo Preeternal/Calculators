@@ -22,8 +22,6 @@ const storeCurrencies = () => {
   if (newLocal === 'object' && currencies[2].nameEng !== undefined) {
     comprasion = [...currencies];
     comprasion.splice(0, 1);
-    console.log(currencies);
-    console.log(comprasion);
   } else {
     axios({
       method: 'get',
@@ -119,33 +117,33 @@ const storeCurrencies = () => {
         return curr;
       });
       const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
-      // if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
-      getFrontendRequest();
-      // }
-      store.dispatch(
-        currenciesChanged([
-          {
-            id: '1',
-            name: 'Российский рубль',
-            nameEng: 'Russian ruble',
-            charCode: 'RUB',
-            nominal: 1,
-            updatedAt: currenciesWithInputField[0].updatedAt,
-            value: 1,
-            __typename: 'Currency',
-            input: 1,
-          },
-          ...currenciesWithInputField,
-        ]),
-      );
+      if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
+        getFrontendRequest();
+      } else {
+        store.dispatch(
+          currenciesChanged([
+            {
+              id: '1',
+              name: 'Российский рубль',
+              nameEng: 'Russian ruble',
+              charCode: 'RUB',
+              nominal: 1,
+              updatedAt: currenciesWithInputField[0].updatedAt,
+              value: 1,
+              __typename: 'Currency',
+              input: 1,
+            },
+            ...currenciesWithInputField,
+          ]),
+        );
+      }
     })
     .catch((err) => {
       console.log(err);
       const dt = DateTime.fromISO(currencies[1].updatedAt);
-      console.log(dt);
-      // if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
-      getFrontendRequest();
-      // }
+      if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
+        getFrontendRequest();
+      }
     });
 };
 
