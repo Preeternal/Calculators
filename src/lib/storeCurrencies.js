@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // @flow
 import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
@@ -40,7 +41,6 @@ const storeCurrencies = () => {
             };
           });
           comprasion = [...parsed];
-          console.log(comprasion);
         });
       })
       .catch((err) => {

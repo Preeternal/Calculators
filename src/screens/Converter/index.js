@@ -11,10 +11,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'native-base';
-import axios from 'axios';
-import { parseString } from 'react-native-xml2js';
-import iconv from 'iconv-lite';
-import { Buffer } from 'buffer';
 import 'number-to-locale-string';
 
 import { Card, Header, TableSection } from '../../components/common';
@@ -23,6 +19,7 @@ import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
+import storeCurrencies from '../../lib/storeCurrencies';
 
 const textColor = '#525050';
 const activeTextColor = '#000000';
@@ -44,9 +41,6 @@ type State = {
   keyboard: boolean,
   refreshing: boolean,
 };
-
-const dailyUrl = 'https://www.cbr.ru/scripts/XML_daily.asp';
-const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 
 class Converter extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => {
@@ -78,76 +72,22 @@ class Converter extends Component<Props, State> {
     if (this.props.preset !== prevProps.preset) {
       this.handlePreset();
     }
+    if (this.props.currencies !== prevProps.currencies) {
+      this.handleRefresh();
+    }
   }
 
   onRefresh = () => {
     this.setState({
       refreshing: true,
     });
-    console.log('refreshing');
-    axios({
-      method: 'get',
-      url: dailyUrl,
-      responseType: 'arraybuffer',
-    })
-      .then((res) => {
-        const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
-        parseString(result, (err, data) => {
-          const currenciesWithInputField = data.ValCurs.Valute.map((element) => {
-            const charCode = element.CharCode[0];
-            const name = element.Name[0];
-            const nominal = element.Nominal[0];
-            const updatedAt = new Date().toJSON();
-            const value = Number(
-              element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
-            );
-            return {
-              charCode,
-              name,
-              nominal,
-              updatedAt,
-              value,
-            };
-          });
-          // console.log(currenciesWithInputField);
-          this.onCurrencyChange([
-            {
-              charCode: 'RUB',
-              id: '1',
-              input: 1,
-              name: 'Российский рубль',
-              nameEng: 'Russian ruble',
-              nominal: 1,
-              updatedAt: currenciesWithInputField[0].updatedAt,
-              value: 1,
-              __typename: 'Currency',
-            },
-            ...currenciesWithInputField,
-          ]);
+    storeCurrencies();
+  };
 
-          // () => {
-            this.setState({
-              refreshing: false,
-            });
-          // };
-          console.log('done');
-          // return parsed;
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          refreshing: false,
-        });
-        console.log('done with error');
-      });
-
-    // setTimeout(() => {
-    //   this.setState({
-    //     refreshing: false,
-    //   });
-    //   console.log('done');
-    // }, 2000);
+  handleRefresh = () => {
+    this.setState({
+      refreshing: false,
+    });
   };
 
   handlePreset = () => {
@@ -155,7 +95,7 @@ class Converter extends Component<Props, State> {
     if (preset.length) {
       const filter = currencies.filter(currency => preset.includes(currency.charCode));
       filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
-      // if (filter.length) {
+
       if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
         this.onPresetCurrencyChange(filter);
       } else if (presetCurrencies[0].input !== filter[0].input) {
@@ -243,15 +183,6 @@ class Converter extends Component<Props, State> {
   };
 
   render() {
-    // console.log(
-    //   new Date(
-    //     new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
-    //       - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
-    //         - new Date(Date.parse(new Date().toUTCString())).valueOf()),
-    //   ).toLocaleTimeString(),
-    // );
-    // console.log(new Date(Date.parse(new Date().toUTCString())));
-    // console.log(new Date());
     return (
       <Fragment>
         <CustomHeader
@@ -301,9 +232,6 @@ class Converter extends Component<Props, State> {
                     />
                   )}
                   keyExtractor={item => item.charCode}
-                  // refreshControl={
-                  //   <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
-                  // }
                 />
               </TableSection>
             </Card>
