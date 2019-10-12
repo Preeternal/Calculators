@@ -51,7 +51,8 @@ import { strings, currentLocale } from '../../../locales/i18n';
 
 import config from '../../../config';
 
-import { initDate, number, calculate } from '../../lib';
+import { initDate, number } from '../../lib';
+import calculate from '../../lib/calculate';
 
 import CustomHeader from '../Common/CustomHeader';
 
@@ -87,7 +88,7 @@ type Props = {
   countryIpTriggered: Function,
 
   calculated: typeof calculate,
-  navigation: any,
+  navigation: Function,
 };
 
 const textColor = '#525050';
@@ -155,6 +156,7 @@ class Depo extends Component<Props, State> {
           this.onCountryIpTrigger(true);
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.warn(`There has been a problem with your fetch operation: ${error.message}`);
         });
     }
@@ -182,6 +184,11 @@ class Depo extends Component<Props, State> {
         key: 'Credit',
       });
       this.props.navigation.dispatch(setCreditLabel);
+      const setConverterLabel = NavigationActions.setParams({
+        params: { DLabel: strings('converter.header') },
+        key: 'ConverterStack',
+      });
+      this.props.navigation.dispatch(setConverterLabel);
       const setSettingsLabel = NavigationActions.setParams({
         params: { DLabel: strings('settings.settings') },
         key: 'Settings',

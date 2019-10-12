@@ -37,6 +37,7 @@ const InputPicker = ({
             fontSize: Platform.OS === 'ios' ? 13 : 15,
           }}
           // mode='dropdown'
+          mode="dialog"
           options={options}
           style={Platform.OS === 'android' ? pickerStyle : { flex: 1, width: pickerWidth || Dimensions.get('window').width / 2.8 }}
           // headerStyle={{ backgroundColor: '#b95dd3' }}

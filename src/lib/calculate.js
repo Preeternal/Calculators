@@ -18,7 +18,7 @@ const getTaxRate = state => state.depo.taxRate;
 const getCountry = state => state.settings.country;
 const getLanguage = state => state.settings.language;
 
-export const calculate = createSelector(
+export default createSelector(
   [
     getPrincipal,
     dateOpen,

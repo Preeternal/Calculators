@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import DepoReducer from './DepoReducer';
 import CreditReducer from './CreditReducer';
+import ConverterReducer from './ConverterReducer';
 import SettingsReducer from './SettingsReducer';
 
 const depoPersistConfig = {
@@ -20,6 +21,7 @@ const creditPersistConfig = {
 const rootReducer = combineReducers({
   depo: persistReducer(depoPersistConfig, DepoReducer),
   credit: persistReducer(creditPersistConfig, CreditReducer),
+  converter: ConverterReducer,
   settings: SettingsReducer,
 });
 

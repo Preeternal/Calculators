@@ -1,5 +1,5 @@
-// flow-typed signature: b1d791c3159b0ab2ef1edd565d53f0d8
-// flow-typed version: d11f702aef/react-navigation_v3.x.x/flow_>=v0.60.x
+// flow-typed signature: e82a57ad89bebc4ed2e42fef7f133e70
+// flow-typed version: 4018635bcb/react-navigation_v3.x.x/flow_>=v0.92.x
 
 // @flow
 
@@ -356,11 +356,8 @@ declare module 'react-navigation' {
   declare export type NavigationScreenComponent<
     Route: NavigationRoute,
     Options: {},
-    Props: {}
-  > = React$ComponentType<{
-    ...Props,
-    ...NavigationNavigatorProps<Options, Route>,
-  }> &
+    Props: NavigationNavigatorProps<Options, Route>,
+  > = React$ComponentType<Props> &
     withOptionalNavigationOptions<Options>;
 
   declare interface withRouter<State, Options> {
@@ -370,11 +367,8 @@ declare module 'react-navigation' {
   declare export type NavigationNavigator<
     State: NavigationState,
     Options: {},
-    Props: {}
-  > = React$StatelessFunctionalComponent<{
-    ...Props,
-    ...NavigationNavigatorProps<Options, State>,
-  }> &
+    Props: NavigationNavigatorProps<Options, State>,
+  > = React$ComponentType<Props> &
     withRouter<State, Options> &
     withOptionalNavigationOptions<Options>;
 
@@ -460,14 +454,22 @@ declare module 'react-navigation' {
     headerTransitionPreset?: 'fade-in-place' | 'uikit',
     headerLayoutPreset?: 'left' | 'center',
     headerBackTitleVisible?: boolean,
+    cardShadowEnabled?: boolean,
+    cardOverlayEnabled?: boolean,
     cardStyle?: ViewStyleProp,
     transitionConfig?: (
       transitionProps: NavigationTransitionProps,
       prevTransitionProps: ?NavigationTransitionProps,
       isModal: boolean
     ) => TransitionConfig,
-    onTransitionStart?: () => void,
-    onTransitionEnd?: () => void,
+    onTransitionStart?: (
+      transitionProps: NavigationTransitionProps,
+      prevTransitionProps: ?NavigationTransitionProps,
+    ) => void,
+    onTransitionEnd?: (
+      transitionProps: NavigationTransitionProps,
+      prevTransitionProps: ?NavigationTransitionProps,
+    ) => void,
     transparentCard?: boolean,
     disableKeyboardHandling?: boolean,
   |};
@@ -592,7 +594,7 @@ declare module 'react-navigation' {
       fallback?: $ElementType<
         $PropertyType<
           {|
-            ...{| params: {| [ParamName]: void |} |},
+            ...{| params: { } |},
             ...$Exact<S>,
           |},
           'params'
@@ -602,14 +604,14 @@ declare module 'react-navigation' {
     ) => $ElementType<
       $PropertyType<
         {|
-          ...{| params: {| [ParamName]: void |} |},
+          ...{| params: { } |},
           ...$Exact<S>,
         |},
         'params'
       >,
       ParamName
     >,
-    dangerouslyGetParent: () => NavigationScreenProp<*>,
+    dangerouslyGetParent: () => ?NavigationScreenProp<NavigationState>,
     isFocused: () => boolean,
     // Shared action creators that exist for all routers
     goBack: (routeKey?: ?string) => boolean,
@@ -675,11 +677,8 @@ declare module 'react-navigation' {
   declare export type NavigationContainer<
     State: NavigationState,
     Options: {},
-    Props: {}
-  > = React$ComponentType<{
-    ...Props,
-    ...NavigationContainerProps<State, Options>,
-  }> &
+    Props: NavigationContainerProps<Options, State>,
+  > = React$ComponentType<Props> &
     withRouter<State, Options> &
     withOptionalNavigationOptions<Options>;
 
@@ -939,6 +938,7 @@ declare module 'react-navigation' {
   declare type NavigationView<O, S> = React$ComponentType<{
     descriptors: { [key: string]: NavigationDescriptor },
     navigation: NavigationScreenProp<S>,
+    navigationConfig: *,
   }>;
 
   declare export function createNavigator<O: *, S: *, NavigatorConfig: *>(
@@ -1278,4 +1278,12 @@ declare module 'react-navigation' {
     getScreenProps: () => {},
     getCurrentNavigation: () => ?NavigationScreenProp<State>
   ): NavigationScreenProp<State>;
+
+  declare export function getActiveChildNavigationOptions<
+    State: NavigationState,
+    Options: {}
+  >(
+    navigation: NavigationScreenProp<State>,
+    screenProps?: {}
+  ): Options;
 }

@@ -52,6 +52,16 @@ export type CreditActionsTypes =
   | { type: 'credit_fin_cost_com_changed', payload: string }
   | { type: 'credit_ac_count_com_changed', payload: string };
 
+// Converter
+export const PRESET_CHANGED = 'preset_changed';
+export const CURRENCIES_CHANGED = 'currencies_changed';
+export const PRESET_CURRENCIES_CHANGED = 'preset_currencies_changed';
+
+export type ConverterActionsTypes =
+  | { type: 'preset_changed', payload: Array<string> }
+  | { type: 'currencies_changed', payload: Array<Object> }
+  | { type: 'preset_currencies_changed', payload: Array<Object> };
+
 // Settings
 export const LANGUAGE_CHANGED = 'language_changed';
 export const COUNTRY_CHANGED = 'country_changed';
@@ -62,4 +72,8 @@ export type SettingsActionsTypes =
   | { type: 'country_changed', payload: number }
   | { type: 'country_ip_triggered', payload: boolean };
 
-export type Action = DepoActionsTypes | CreditActionsTypes | SettingsActionsTypes;
+export type Action =
+  | DepoActionsTypes
+  | CreditActionsTypes
+  | ConverterActionsTypes
+  | SettingsActionsTypes;
