@@ -51,6 +51,7 @@ class Converter extends Component<Props, State> {
         backgroundColor: '#525050',
       },
       title: strings('converter.header'), // drawer label initialization
+      headerBackTitle: null,
       drawerLabel: params && params.DLabel,
       drawerIcon: ({ tintColor }) => (
         <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
