@@ -31,5 +31,6 @@ module.exports = {
     ],
     'flowtype/require-valid-file-annotation': 0,
     'flowtype/no-types-missing-file-annotation': 0,
+    'arrow-parens': ['error', 'as-needed'],
   },
 };
