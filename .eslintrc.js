@@ -1,7 +1,7 @@
 module.exports = {
-  extends: 'airbnb',
+  extends: ['airbnb', 'plugin:prettier/recommended'],
   parser: 'babel-eslint',
-  plugins: ['react', 'flowtype', 'jsx-a11y', 'import'],
+  plugins: ['react', 'prettier', 'flowtype', 'jsx-a11y', 'import'],
   env: {
     jest: true,
   },
@@ -9,6 +9,7 @@ module.exports = {
     fetch: false,
   },
   rules: {
+    'prettier/prettier': 'error',
     'no-use-before-define': 'off',
     'no-plusplus': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
@@ -31,6 +32,6 @@ module.exports = {
     ],
     'flowtype/require-valid-file-annotation': 0,
     'flowtype/no-types-missing-file-annotation': 0,
-    'arrow-parens': ['error', 'as-needed'],
+    // 'arrow-parens': ['error', 'as-needed'],
   },
 };
