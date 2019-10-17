@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { Icon, Button } from 'native-base';
 import 'number-to-locale-string';
+import type { NavigationStackScreenOptions } from 'react-navigation';
 
 import { Card, Header, TableSection } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
@@ -23,7 +24,6 @@ import storeCurrencies from '../../lib/storeCurrencies';
 
 const textColor = '#525050';
 const activeTextColor = '#000000';
-
 type Props = {
   language: number,
   country: number,
@@ -43,7 +43,11 @@ type State = {
 };
 
 class Converter extends Component<Props, State> {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({
+    navigation,
+  }: {
+    navigation: Object,
+  }): NavigationStackScreenOptions => {
     const { params } = navigation.state;
     return {
       header: null,
@@ -54,7 +58,11 @@ class Converter extends Component<Props, State> {
       headerBackTitle: null,
       drawerLabel: params && params.DLabel,
       drawerIcon: ({ tintColor }) => (
-        <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
+        <Icon
+          type="FontAwesome"
+          name="retweet"
+          style={{ fontSize: 22, color: tintColor }}
+        />
       ),
     };
   };
@@ -65,11 +73,13 @@ class Converter extends Component<Props, State> {
     refreshing: false,
   };
 
+  listRef: any;
+
   componentDidMount() {
     this.handlePreset();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.preset !== prevProps.preset) {
       this.handlePreset();
     }
@@ -94,13 +104,24 @@ class Converter extends Component<Props, State> {
   handlePreset = () => {
     const { preset, currencies, presetCurrencies } = this.props;
     if (preset.length) {
-      const filter = currencies.filter(currency => preset.includes(currency.charCode));
-      filter.sort((a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode));
+      const filter = currencies.filter(currency =>
+        preset.includes(currency.charCode),
+      );
+      filter.sort(
+        (a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode),
+      );
 
-      if (!presetCurrencies[0] || presetCurrencies[0].input === filter[0].input) {
+      if (
+        !presetCurrencies[0] ||
+        presetCurrencies[0].input === filter[0].input
+      ) {
         this.onPresetCurrencyChange(filter);
       } else if (presetCurrencies[0].input !== filter[0].input) {
-        this.onPresetCurrencyChangeWithDivider(0, presetCurrencies[0].input, filter);
+        this.onPresetCurrencyChangeWithDivider(
+          0,
+          presetCurrencies[0].input,
+          filter,
+        );
       }
     } else {
       this.onPresetCurrencyChange([]);
@@ -110,11 +131,11 @@ class Converter extends Component<Props, State> {
     });
   };
 
-  onCurrencyChange = (array) => {
+  onCurrencyChange = (array: Array<Object>) => {
     this.props.currenciesChanged(array);
   };
 
-  onPresetCurrencyChange = (array) => {
+  onPresetCurrencyChange = (array: Array<Object>) => {
     this.props.presetCurrenciesChanged(array);
   };
 
@@ -124,21 +145,26 @@ class Converter extends Component<Props, State> {
     presetCurrencies: Array<Object>,
   ) => {
     const currencies = [...presetCurrencies];
-    const divider = Number(number(input)) / (currencies[index].nominal / currencies[index].value);
+    const divider =
+      Number(number(input)) /
+      (currencies[index].nominal / currencies[index].value);
     const currenciesWithDivider = currencies.map((currency, ind) => {
       const curr = { ...currency };
       if (ind === index) {
         curr.input = number(input);
       } else {
-        curr.input = this.getLocalInput((curr.nominal / curr.value) * divider);
+        curr.input = this.getLocalInput(
+          ((curr.nominal / curr.value) * divider).toString(),
+        );
       }
       return curr;
     });
     this.onPresetCurrencyChange(currenciesWithDivider);
   };
 
-  onFocus = (index) => {
-    this.setState((prevState) => {
+  onFocus = (index: number) => {
+    this.scrollToIndex(index);
+    this.setState(prevState => {
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, activeTextColor);
       return {
@@ -148,17 +174,17 @@ class Converter extends Component<Props, State> {
     });
     const currencies = [...this.props.presetCurrencies];
     if (
-      currencies[index].input === 0
-      || currencies[index].input === '0,00'
-      || currencies[index].input === '0'
+      currencies[index].input === 0 ||
+      currencies[index].input === '0,00' ||
+      currencies[index].input === '0'
     ) {
       currencies[index].input = '';
       this.onPresetCurrencyChange(currencies);
     }
   };
 
-  onBlur = (index) => {
-    this.setState((prevState) => {
+  onBlur = (index: number) => {
+    this.setState(prevState => {
       const inputStyle = [...prevState.inputStyle];
       inputStyle.splice(index, 1, textColor);
       return {
@@ -175,12 +201,17 @@ class Converter extends Component<Props, State> {
     this.onPresetCurrencyChange(currencies);
   };
 
-  getLocalInput = (input) => {
-    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
+  getLocalInput = (input: string) => {
+    const minimumFractionDigits =
+      Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
     return Number(number(`${input}`)).toLocaleString('ru-RU', {
       minimumFractionDigits,
       maximumFractionDigits: minimumFractionDigits,
     });
+  };
+
+  scrollToIndex = (index: number) => {
+    this.listRef.scrollToIndex({ animated: true, index: index });
   };
 
   render() {
@@ -194,57 +225,60 @@ class Converter extends Component<Props, State> {
               transparent
               onPress={() => {
                 this.props.navigation.navigate('EditPreset');
-              }}
-            >
+              }}>
               <Icon name="md-create" style={{ fontSize: 30, color: 'white' }} />
             </Button>
           }
         />
         {this.props.currencies.length ? (
-          <ScrollView
-            key={`${this.props.language}${this.props.country}`}
-            style={{ flex: 1 }}
-            refreshControl={
-              <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
-            }
-          >
-            <Card>
-              <Header headerText={strings('converter.header')} />
-              <TableSection>
-                <FlatList
-                  data={[...this.props.presetCurrencies]}
-                  extraData={this.props}
-                  renderItem={({ item, index }) => (
-                    <CurrencyInput
-                      // placeholder={item.name}
-                      label={item.charCode}
-                      name={this.props.language === 0 ? item.name : item.nameEng}
-                      onChangeText={(input: string) => {
-                        this.onPresetCurrencyChangeWithDivider(
-                          index,
-                          input,
-                          this.props.presetCurrencies,
-                        );
-                      }}
-                      onFocus={() => this.onFocus(index)}
-                      onBlur={() => this.onBlur(index)}
-                      appInputStyle={{ color: this.state.inputStyle[index] }}
-                      value={`${item.input}`}
-                    />
-                  )}
-                  keyExtractor={item => item.charCode}
-                />
-              </TableSection>
+          <Fragment>
+            <Card key={`${this.props.language}${this.props.country}`}>
+              {/* <TableSection> */}
+              <FlatList
+                ref={ref => {
+                  this.listRef = listRef;
+                }}
+                data={[...this.props.presetCurrencies]}
+                extraData={this.props}
+                ListHeaderComponent={
+                  <Header headerText={strings('converter.header')} />
+                }
+                renderItem={({ item, index }) => (
+                  <CurrencyInput
+                    // placeholder={item.name}
+                    label={item.charCode}
+                    name={this.props.language === 0 ? item.name : item.nameEng}
+                    onChangeText={(input: string) => {
+                      this.onPresetCurrencyChangeWithDivider(
+                        index,
+                        input,
+                        this.props.presetCurrencies,
+                      );
+                    }}
+                    onFocus={() => this.onFocus(index)}
+                    onBlur={() => this.onBlur(index)}
+                    appInputStyle={{ color: this.state.inputStyle[index] }}
+                    value={`${item.input}`}
+                  />
+                )}
+                keyExtractor={item => item.charCode}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.onRefresh}
+                  />
+                }
+              />
+              {/* </TableSection> */}
             </Card>
             <View style={{ minHeight: 32 }} />
-          </ScrollView>
+          </Fragment>
         ) : (
           <View
             style={{
               flex: 1,
               justifyContent: 'center',
-            }}
-          >
+            }}>
             <ActivityIndicator size="large" color={textColor} />
           </View>
         )}
@@ -263,8 +297,8 @@ class Converter extends Component<Props, State> {
                 {`${strings('converter.lastUpdate')} ${initDate(
                   new Date(Date.parse(this.props.currencies[1].updatedAt)),
                 )} ${new Date(
-                  Date.parse(this.props.currencies[1].updatedAt)
-                    - new Date().getTimezoneOffset() * 1000,
+                  Date.parse(this.props.currencies[1].updatedAt) -
+                    new Date().getTimezoneOffset() * 1000,
                 ).toLocaleTimeString()}`}
                 {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                   - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
@@ -284,8 +318,7 @@ class Converter extends Component<Props, State> {
               onPress={() => {
                 this.props.navigation.navigate('AddCurrency');
               }}
-              style={styles.button}
-            >
+              style={styles.button}>
               <Icon name="md-add" style={styles.actionButtonIcon} />
             </TouchableOpacity>
           </Fragment>
@@ -342,7 +375,7 @@ const mapDispatchToActions = {
   presetCurrenciesChanged,
 };
 
-export default connect(
+export default connect<any, any, any, any, any, any>(
   mapStateToProps,
   mapDispatchToActions,
 )(Converter);
