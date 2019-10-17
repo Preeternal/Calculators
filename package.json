@@ -22,7 +22,7 @@
     "i18n-js": "^3.1.0",
     "iconv-lite": "^0.5.0",
     "luxon": "^1.11.2",
-    "native-base": "^2.12.1",
+    "native-base": "^2.13.8",
     "number-to-locale-string": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
