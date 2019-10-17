@@ -73,7 +73,7 @@ class Converter extends Component<Props, State> {
     refreshing: false,
   };
 
-  listRef: any;
+  listRef: ?FlatList<any>;
 
   componentDidMount() {
     this.handlePreset();
@@ -235,7 +235,7 @@ class Converter extends Component<Props, State> {
             <Card key={`${this.props.language}${this.props.country}`}>
               {/* <TableSection> */}
               <FlatList
-                ref={ref => {
+                ref={listRef => {
                   this.listRef = listRef;
                 }}
                 data={[...this.props.presetCurrencies]}
