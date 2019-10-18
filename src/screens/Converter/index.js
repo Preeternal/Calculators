@@ -1,7 +1,6 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import {
-  ScrollView,
   FlatList,
   TouchableOpacity,
   View,
@@ -212,7 +211,7 @@ class Converter extends Component<Props, State> {
 
   scrollToIndex = (index: number) => {
     if (this.listRef.current) {
-      this.listRef.current.scrollToIndex({ animated: true, index: index });
+      this.listRef.current.scrollToIndex({ animated: true, index });
     }
   };
 
