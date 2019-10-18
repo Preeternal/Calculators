@@ -1,7 +1,7 @@
 module.exports = {
   extends: ['airbnb', 'plugin:prettier/recommended'],
   parser: 'babel-eslint',
-  plugins: ['react', 'prettier', 'flowtype', 'jsx-a11y', 'import'],
+  plugins: ['react', 'flowtype', 'jsx-a11y', 'import'],
   env: {
     jest: true,
   },
@@ -9,7 +9,6 @@ module.exports = {
     fetch: false,
   },
   rules: {
-    'prettier/prettier': 'error',
     'no-use-before-define': 'off',
     'no-plusplus': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
