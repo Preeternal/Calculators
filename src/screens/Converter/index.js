@@ -226,7 +226,8 @@ class Converter extends Component<Props, State> {
               transparent
               onPress={() => {
                 this.props.navigation.navigate('EditPreset');
-              }}>
+              }}
+            >
               <Icon name="md-create" style={{ fontSize: 30, color: 'white' }} />
             </Button>
           }
@@ -310,7 +311,8 @@ class Converter extends Component<Props, State> {
                   onPress={() => {
                     this.props.navigation.navigate('AddCurrency');
                   }}
-                  style={styles.button}>
+                  style={styles.button}
+                >
                   <Icon name="md-add" style={styles.actionButtonIcon} />
                 </TouchableOpacity>
               </Fragment>
@@ -321,7 +323,8 @@ class Converter extends Component<Props, State> {
             style={{
               flex: 1,
               justifyContent: 'center',
-            }}>
+            }}
+          >
             <ActivityIndicator size="large" color={textColor} />
           </View>
         )}
