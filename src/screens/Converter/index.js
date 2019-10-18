@@ -235,43 +235,87 @@ class Converter extends Component<Props, State> {
         {this.props.currencies.length ? (
           <Fragment>
             <Card key={`${this.props.language}${this.props.country}`}>
-              {/* <TableSection> */}
-              <FlatList
-                ref={this.listRef}
-                data={[...this.props.presetCurrencies]}
-                extraData={this.props}
-                ListHeaderComponent={
-                  <Header headerText={strings('converter.header')} />
-                }
-                renderItem={({ item, index }) => (
-                  <CurrencyInput
-                    // placeholder={item.name}
-                    label={item.charCode}
-                    name={this.props.language === 0 ? item.name : item.nameEng}
-                    onChangeText={(input: string) => {
-                      this.onPresetCurrencyChangeWithDivider(
-                        index,
-                        input,
-                        this.props.presetCurrencies,
-                      );
-                    }}
-                    onFocus={() => this.onFocus(index)}
-                    onBlur={() => this.onBlur(index)}
-                    appInputStyle={{ color: this.state.inputStyle[index] }}
-                    value={`${item.input}`}
-                  />
-                )}
-                keyExtractor={item => item.charCode}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={this.onRefresh}
-                  />
-                }
-              />
-              {/* </TableSection> */}
+              <TableSection>
+                <FlatList
+                  ref={this.listRef}
+                  data={[...this.props.presetCurrencies]}
+                  extraData={this.props}
+                  ListHeaderComponent={
+                    <Header headerText={strings('converter.header')} />
+                  }
+                  renderItem={({ item, index }) => (
+                    <CurrencyInput
+                      // placeholder={item.name}
+                      label={item.charCode}
+                      name={
+                        this.props.language === 0 ? item.name : item.nameEng
+                      }
+                      onChangeText={(input: string) => {
+                        this.onPresetCurrencyChangeWithDivider(
+                          index,
+                          input,
+                          this.props.presetCurrencies,
+                        );
+                      }}
+                      onFocus={() => this.onFocus(index)}
+                      onBlur={() => this.onBlur(index)}
+                      appInputStyle={{ color: this.state.inputStyle[index] }}
+                      value={`${item.input}`}
+                    />
+                  )}
+                  keyExtractor={item => item.charCode}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.refreshing}
+                      onRefresh={this.onRefresh}
+                    />
+                  }
+                  // ListFooterComponent={<View style={{ minHeight: 32 }} />}
+                />
+              </TableSection>
             </Card>
             <View style={{ minHeight: 32 }} />
+            {this.props.currencies[1] && !this.state.keyboard && (
+              <Fragment>
+                <View style={styles.footerView}>
+                  <Text style={styles.footerText}>
+                    {/* {` ${strings('converter.lastUpdate')} ${new Date(
+                    Date.parse(this.props.currencies[1].updatedAt),
+                  ).toLocaleString(currentLocale, { hour12: false })}`} */}
+                    {/* {`${strings('converter.lastUpdate')} ${DateTime.fromJSDate(
+                    new Date(Date.parse(this.props.currencies[1].updatedAt)),
+                  )
+                    .setLocale('ru')
+                    .toLocaleString(DateTime.DATE_SHORT)}`} */}
+                    {`${strings('converter.lastUpdate')} ${initDate(
+                      new Date(Date.parse(this.props.currencies[1].updatedAt)),
+                    )} ${new Date(
+                      Date.parse(this.props.currencies[1].updatedAt) -
+                        new Date().getTimezoneOffset() * 1000,
+                    ).toLocaleTimeString()}`}
+                    {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                    - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
+                    {/* {new Date().toUTCString()} */}
+                    {/* {new Date(
+                    new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                      - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                        - new Date(Date.parse(new Date().toUTCString())).valueOf()),
+                  ).toLocaleTimeString()} */}
+                    {/* {`${strings('converter.lastUpdate')} ${DateTime.fromISO(
+                    this.props.currencies[1].updatedAt,
+                    { locale: this.props.language === 0 ? 'ru' : 'en' },
+                  ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('AddCurrency');
+                  }}
+                  style={styles.button}>
+                  <Icon name="md-add" style={styles.actionButtonIcon} />
+                </TouchableOpacity>
+              </Fragment>
+            )}
           </Fragment>
         ) : (
           <View
@@ -281,47 +325,6 @@ class Converter extends Component<Props, State> {
             }}>
             <ActivityIndicator size="large" color={textColor} />
           </View>
-        )}
-        {this.props.currencies[1] && !this.state.keyboard && (
-          <Fragment>
-            <View style={styles.footerView}>
-              <Text style={styles.footerText}>
-                {/* {` ${strings('converter.lastUpdate')} ${new Date(
-                  Date.parse(this.props.currencies[1].updatedAt),
-                ).toLocaleString(currentLocale, { hour12: false })}`} */}
-                {/* {`${strings('converter.lastUpdate')} ${DateTime.fromJSDate(
-                  new Date(Date.parse(this.props.currencies[1].updatedAt)),
-                )
-                  .setLocale('ru')
-                  .toLocaleString(DateTime.DATE_SHORT)}`} */}
-                {`${strings('converter.lastUpdate')} ${initDate(
-                  new Date(Date.parse(this.props.currencies[1].updatedAt)),
-                )} ${new Date(
-                  Date.parse(this.props.currencies[1].updatedAt) -
-                    new Date().getTimezoneOffset() * 1000,
-                ).toLocaleTimeString()}`}
-                {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
-                  - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
-                {/* {new Date().toUTCString()} */}
-                {/* {new Date(
-                  new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
-                    - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
-                      - new Date(Date.parse(new Date().toUTCString())).valueOf()),
-                ).toLocaleTimeString()} */}
-                {/* {`${strings('converter.lastUpdate')} ${DateTime.fromISO(
-                  this.props.currencies[1].updatedAt,
-                  { locale: this.props.language === 0 ? 'ru' : 'en' },
-                ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate('AddCurrency');
-              }}
-              style={styles.button}>
-              <Icon name="md-add" style={styles.actionButtonIcon} />
-            </TouchableOpacity>
-          </Fragment>
         )}
       </Fragment>
     );
