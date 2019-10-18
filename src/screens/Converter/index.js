@@ -73,7 +73,7 @@ class Converter extends Component<Props, State> {
     refreshing: false,
   };
 
-  listRef: ?FlatList<any>;
+  listRef: { current: null | FlatList<Object> } = React.createRef();
 
   componentDidMount() {
     this.handlePreset();
@@ -211,7 +211,9 @@ class Converter extends Component<Props, State> {
   };
 
   scrollToIndex = (index: number) => {
-    this.listRef.scrollToIndex({ animated: true, index: index });
+    if (this.listRef.current) {
+      this.listRef.current.scrollToIndex({ animated: true, index: index });
+    }
   };
 
   render() {
@@ -235,9 +237,7 @@ class Converter extends Component<Props, State> {
             <Card key={`${this.props.language}${this.props.country}`}>
               {/* <TableSection> */}
               <FlatList
-                ref={listRef => {
-                  this.listRef = listRef;
-                }}
+                ref={this.listRef}
                 data={[...this.props.presetCurrencies]}
                 extraData={this.props}
                 ListHeaderComponent={

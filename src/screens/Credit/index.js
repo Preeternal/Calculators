@@ -140,7 +140,7 @@ class Credit extends Component<Props, State> {
     commission: !!this.props.calculated.comPayments,
   };
 
-  scrollView: any;
+  scrollView: {| current: null | any |} = React.createRef();
 
   componentDidMount() {
     // InteractionManager.runAfterInteractions(() => {
@@ -294,6 +294,18 @@ class Credit extends Component<Props, State> {
     this.setState(prevState => ({
       commission: !prevState.commission,
     }));
+  };
+
+  scrollToIndex = () => {
+    if (this.scrollView.current) {
+      this.state.detailsHeaderMargin === 0
+        ? this.scrollView.current.scrollToEnd({ animated: true })
+        : this.scrollView.current.scrollTo({
+            x: 0,
+            y: 0,
+            animated: true,
+          });
+    }
   };
 
   handleScroll = (event: Object) => {
@@ -744,20 +756,9 @@ class Credit extends Component<Props, State> {
               <ScrollView
                 horizontal
                 onScroll={this.handleScroll}
-                ref={scrollView => {
-                  this.scrollView = scrollView;
-                }}>
+                ref={this.scrollView}>
                 <Card>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.state.detailsHeaderMargin === 0
-                        ? this.scrollView.scrollToEnd({ animated: true })
-                        : this.scrollView.scrollTo({
-                            x: 0,
-                            y: 0,
-                            animated: true,
-                          })
-                    }>
+                  <TouchableOpacity onPress={this.scrollToIndex}>
                     {/* <Header headerText="Выписка со счёта" /> */}
                     <Header
                       headerText={
