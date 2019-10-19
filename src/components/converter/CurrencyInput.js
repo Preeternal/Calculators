@@ -1,8 +1,6 @@
 // @flow
 import React from 'react';
-import {
-  TextInput, View, Text, TouchableOpacity,
-} from 'react-native';
+import { TextInput, View, Text, TouchableOpacity } from 'react-native';
 
 type CurrencyType = {
   label: string,
@@ -56,7 +54,7 @@ const CurrencyInput = ({
           <TextInput
             secureTextEntry={secureTextEntry}
             placeholder={placeholder}
-            selectTextOnFocus
+            // selectTextOnFocus
             style={[inputTextStyle, appInputStyle]}
             value={value}
             onChangeText={onChangeText}
@@ -83,6 +81,16 @@ const styles = {
     borderColor: '#ddd',
     minHeight: 52,
     flexDirection: 'row',
+    marginLeft: 5,
+    marginRight: 5,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+    borderRadius: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
   },
   labelStyle: {
     flex: 1,

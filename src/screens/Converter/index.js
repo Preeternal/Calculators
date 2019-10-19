@@ -13,7 +13,7 @@ import { Icon, Button } from 'native-base';
 import 'number-to-locale-string';
 import type { NavigationStackScreenOptions } from 'react-navigation';
 
-import { Card, Header, TableSection } from '../../components/common';
+import { Header } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
 import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
@@ -21,8 +21,6 @@ import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
 import storeCurrencies from '../../lib/storeCurrencies';
 
-const textColor = '#525050';
-const activeTextColor = '#000000';
 type Props = {
   language: number,
   country: number,
@@ -40,6 +38,9 @@ type State = {
   keyboard: boolean,
   refreshing: boolean,
 };
+
+const textColor = '#525050';
+const activeTextColor = '#000000';
 
 class Converter extends Component<Props, State> {
   static navigationOptions = ({
@@ -234,47 +235,48 @@ class Converter extends Component<Props, State> {
         />
         {this.props.currencies.length ? (
           <Fragment>
-            <Card key={`${this.props.language}${this.props.country}`}>
-              <TableSection>
-                <FlatList
-                  ref={this.listRef}
-                  data={[...this.props.presetCurrencies]}
-                  extraData={this.props}
-                  ListHeaderComponent={
-                    <Header headerText={strings('converter.header')} />
-                  }
-                  renderItem={({ item, index }) => (
-                    <CurrencyInput
-                      // placeholder={item.name}
-                      label={item.charCode}
-                      name={
-                        this.props.language === 0 ? item.name : item.nameEng
-                      }
-                      onChangeText={(input: string) => {
-                        this.onPresetCurrencyChangeWithDivider(
-                          index,
-                          input,
-                          this.props.presetCurrencies,
-                        );
-                      }}
-                      onFocus={() => this.onFocus(index)}
-                      onBlur={() => this.onBlur(index)}
-                      appInputStyle={{ color: this.state.inputStyle[index] }}
-                      value={`${item.input}`}
-                    />
-                  )}
-                  keyExtractor={item => item.charCode}
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={this.state.refreshing}
-                      onRefresh={this.onRefresh}
-                    />
-                  }
-                  // ListFooterComponent={<View style={{ minHeight: 32 }} />}
-                />
-              </TableSection>
-            </Card>
-            <View style={{ minHeight: 32 }} />
+            <View
+              key={`${this.props.language}${this.props.country}`}
+              style={{ flex: 1 }}
+            >
+              <FlatList
+                ref={this.listRef}
+                data={[...this.props.presetCurrencies]}
+                extraData={this.props}
+                ListHeaderComponent={
+                  <Header
+                    headerText={strings('converter.header')}
+                    headerStyle={styles.header}
+                  />
+                }
+                renderItem={({ item, index }) => (
+                  <CurrencyInput
+                    // placeholder={item.name}
+                    label={item.charCode}
+                    name={this.props.language === 0 ? item.name : item.nameEng}
+                    onChangeText={(input: string) => {
+                      this.onPresetCurrencyChangeWithDivider(
+                        index,
+                        input,
+                        this.props.presetCurrencies,
+                      );
+                    }}
+                    onFocus={() => this.onFocus(index)}
+                    onBlur={() => this.onBlur(index)}
+                    appInputStyle={{ color: this.state.inputStyle[index] }}
+                    value={`${item.input}`}
+                  />
+                )}
+                keyExtractor={item => item.charCode}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.onRefresh}
+                  />
+                }
+                ListFooterComponent={<View style={{ minHeight: 32 }} />}
+              />
+            </View>
             {this.props.currencies[1] && !this.state.keyboard && (
               <Fragment>
                 <View style={styles.footerView}>
@@ -349,6 +351,11 @@ const styles = {
     height: 56,
     backgroundColor: 'rgba(231,76,60,1)',
     borderRadius: 30,
+  },
+  header: {
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
   },
   footerView: {
     minHeight: 32,
