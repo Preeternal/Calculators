@@ -17,8 +17,8 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
-import { type NavigationDrawerScreenOptions } from 'react-navigation';
 import 'number-to-locale-string';
+import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import {
   creditPrincipalChanged,
@@ -298,13 +298,15 @@ class Credit extends Component<Props, State> {
 
   scrollToIndex = () => {
     if (this.scrollView.current) {
-      this.state.detailsHeaderMargin === 0
-        ? this.scrollView.current.scrollToEnd({ animated: true })
-        : this.scrollView.current.scrollTo({
-            x: 0,
-            y: 0,
-            animated: true,
-          });
+      if (this.state.detailsHeaderMargin === 0) {
+        this.scrollView.current.scrollToEnd({ animated: true });
+      } else {
+        this.scrollView.current.scrollTo({
+          x: 0,
+          y: 0,
+          animated: true,
+        });
+      }
     }
   };
 
@@ -512,14 +514,16 @@ class Credit extends Component<Props, State> {
                 addStyle={{
                   backgroundColor: '#f1f1f1',
                   justifyContent: 'center',
-                }}>
+                }}
+              >
                 <TouchableOpacity
                   style={{
                     flexDirection: 'row',
                     flex: 1,
                     justifyContent: 'center',
                   }}
-                  onPress={this.onCommissionTouch}>
+                  onPress={this.onCommissionTouch}
+                >
                   <Text>{`${strings('credit.result.comPayments')}  `}</Text>
                   <Icon
                     name={
@@ -719,7 +723,8 @@ class Credit extends Component<Props, State> {
                         style={{
                           flex: 1.9,
                           justifyContent: 'center',
-                        }}>
+                        }}
+                      >
                         <Text>
                           {/* итого к оплате */}
                           {strings('credit.result.vsego')}
@@ -756,7 +761,8 @@ class Credit extends Component<Props, State> {
               <ScrollView
                 horizontal
                 onScroll={this.handleScroll}
-                ref={this.scrollView}>
+                ref={this.scrollView}
+              >
                 <Card>
                   <TouchableOpacity onPress={this.scrollToIndex}>
                     {/* <Header headerText="Выписка со счёта" /> */}

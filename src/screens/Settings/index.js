@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, Fragment } from 'react';
 import { ScrollView, Platform, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import { Icon, Button } from 'native-base';
 import i18n from 'i18n-js';
 import * as RNIap from 'react-native-iap';
 import 'number-to-locale-string';
+import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { languageChanged, countryChanged } from '../../actions';
 import {
@@ -19,6 +21,20 @@ import {
 import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
 
+type Props = {
+  navigation: Object,
+  language: number,
+  country: number,
+  languageChanged: Function,
+  countryChanged: Function,
+};
+
+type State = {
+  iapConnection: boolean,
+  products: Array<Object>,
+  purchased: boolean,
+};
+
 const prodItems = Platform.select({
   android: [
     'android.banoka.donat1',
@@ -30,8 +46,10 @@ const prodItems = Platform.select({
 let purchaseUpdateSubscription;
 let purchaseErrorSubscription;
 
-class Settings extends Component {
-  static navigationOptions = ({ navigation }) => {
+class Settings extends Component<Props, State> {
+  static navigationOptions = ({
+    navigation,
+  }: Object): NavigationDrawerScreenOptions => {
     const { params } = navigation.state;
     return {
       title: strings('settings.settings'), // drawer label initialization
@@ -55,30 +73,33 @@ class Settings extends Component {
 
   async componentDidMount() {
     if (Platform.OS === 'android') {
-      if (purchaseUpdateSubscription) {
-        purchaseUpdateSubscription.remove();
-        purchaseUpdateSubscription = null;
-      }
-      if (purchaseErrorSubscription) {
-        console.log(purchaseErrorSubscription);
-        purchaseErrorSubscription.remove();
-        purchaseErrorSubscription = null;
-      }
-      purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(purchase => {
-        // console.log('purchaseUpdatedListener', purchase);
-        if (purchase.transactionReceipt) {
-          this.setState(prevState => ({
-            products: prevState.products.filter(
-              product => purchase.productId !== product.productId,
-            ),
-            purchased: true,
-          }));
-        }
-      });
-      purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
-        console.log('purchaseErrorListener', error);
-        Alert.alert('purchase error', JSON.stringify(error));
-      });
+      RNIap.initConnection();
+      // if (purchaseUpdateSubscription) {
+      //   purchaseUpdateSubscription.remove();
+      //   purchaseUpdateSubscription = null;
+      // }
+      // if (purchaseErrorSubscription) {
+      //   console.log(purchaseErrorSubscription);
+      //   purchaseErrorSubscription.remove();
+      //   purchaseErrorSubscription = null;
+      // }
+      // purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(purchase => {
+      //   // console.log('purchaseUpdatedListener', purchase);
+      //   console.log(this.state.products);
+      //   console.log(this.state.products.length);
+      //   if (purchase.transactionReceipt && this.state.products.length) {
+      //     // this.setState(prevState => ({
+      //     //   products: prevState.products.filter(
+      //     //     product => purchase.productId !== product.productId,
+      //     //   ),
+      //     //   purchased: true,
+      //     // }));
+      //   }
+      // });
+      // purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
+      //   console.log('purchaseErrorListener', error);
+      //   Alert.alert('purchase error', JSON.stringify(error));
+      // });
       try {
         const iapConnection = await RNIap.initConnection();
         const products = await RNIap.getProducts(prodItems);
@@ -97,7 +118,7 @@ class Settings extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.language !== prevProps.language) {
       this.props.navigation.setParams({ DLabel: strings('settings.settings') });
       const setDepoLabel = NavigationActions.setParams({
@@ -126,7 +147,9 @@ class Settings extends Component {
   }
 
   componentWillUnmount() {
-    RNIap.endConnection();
+    if (this.state.iapConnection) {
+      RNIap.endConnection();
+    }
   }
 
   // resetScreens = (screen) => {
@@ -139,24 +162,42 @@ class Settings extends Component {
   //   this.props.navigation.dispatch(action);
   // };
 
-  buyItem = async sku => {
+  buyItem = async (sku: string) => {
     try {
       await RNIap.requestPurchase(sku);
+      purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(purchase => {
+        // console.log('purchaseUpdatedListener', purchase);
+        console.log(this.state.products);
+        console.log(this.state.products.length);
+        if (purchase.transactionReceipt && this.state.products.length) {
+          this.setState(prevState => ({
+            products: prevState.products.filter(
+              product => purchase.productId !== product.productId,
+            ),
+            purchased: true,
+          }));
+        }
+      });
     } catch (err) {
       console.warn(err.code, err.message);
+      purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
+        console.log('purchaseErrorListener', error);
+        Alert.alert('purchase error', JSON.stringify(error));
+      });
     }
   };
 
-  onLanguageChange = value => {
+  onLanguageChange = (value: number) => {
     this.props.languageChanged(value);
     i18n.locale = value === 0 ? 'ru' : 'en';
   };
 
-  onCountryChange = value => {
+  onCountryChange = (value: number) => {
     this.props.countryChanged(value);
   };
 
   render() {
+    console.log(this.state.iapConnection);
     return (
       <Fragment>
         <CustomHeader
@@ -247,7 +288,7 @@ const mapStateToProps = state => ({
   language: state.settings.language,
   country: state.settings.country,
 });
-export default connect(
+export default connect<any, any, any, any, any, any>(
   mapStateToProps,
   {
     languageChanged,

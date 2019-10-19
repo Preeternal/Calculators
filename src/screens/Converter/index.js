@@ -274,7 +274,7 @@ class Converter extends Component<Props, State> {
                     onRefresh={this.onRefresh}
                   />
                 }
-                ListFooterComponent={<View style={{ minHeight: 32 }} />}
+                ListFooterComponent={<View style={{ minHeight: 44 }} />}
               />
             </View>
             {this.props.currencies[1] && !this.state.keyboard && (
