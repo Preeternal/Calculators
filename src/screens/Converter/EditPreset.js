@@ -67,7 +67,7 @@ class EditPreset extends Component<Props, State> {
 
   state = { preset: this.props.preset ? this.props.preset : [] };
 
-  componentWillMount() {
+  componentDidMount() {
     if (
       this.props.navigation.state.key[
         this.props.navigation.state.key.length - 1

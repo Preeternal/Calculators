@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  ScrollView, Platform, Text, Alert,
-} from 'react-native';
+import { ScrollView, Platform, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -12,7 +10,11 @@ import 'number-to-locale-string';
 
 import { languageChanged, countryChanged } from '../../actions';
 import {
-  InputPicker, Card, Header, TableSection, CardSection,
+  InputPicker,
+  Card,
+  Header,
+  TableSection,
+  CardSection,
 } from '../../components/common';
 import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
@@ -51,20 +53,18 @@ class Settings extends Component {
   //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
   // }
 
-  componentWillMount() {
-    if (purchaseUpdateSubscription) {
-      purchaseUpdateSubscription.remove();
-      purchaseUpdateSubscription = null;
-    }
-    if (purchaseErrorSubscription) {
-      purchaseErrorSubscription.remove();
-      purchaseErrorSubscription = null;
-    }
-  }
-
   async componentDidMount() {
     if (Platform.OS === 'android') {
-      purchaseUpdateSubscription = RNIap.purchaseUpdatedListener((purchase) => {
+      if (purchaseUpdateSubscription) {
+        purchaseUpdateSubscription.remove();
+        purchaseUpdateSubscription = null;
+      }
+      if (purchaseErrorSubscription) {
+        console.log(purchaseErrorSubscription);
+        purchaseErrorSubscription.remove();
+        purchaseErrorSubscription = null;
+      }
+      purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(purchase => {
         // console.log('purchaseUpdatedListener', purchase);
         if (purchase.transactionReceipt) {
           this.setState(prevState => ({
@@ -75,7 +75,7 @@ class Settings extends Component {
           }));
         }
       });
-      purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
+      purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
         console.log('purchaseErrorListener', error);
         Alert.alert('purchase error', JSON.stringify(error));
       });
@@ -85,7 +85,7 @@ class Settings extends Component {
         const purchases = await RNIap.getAvailablePurchases();
         if (purchases.length) {
           // await RNIap.consumeAllItemsAndroid(); did not work as expected, need to open issue
-          purchases.map(async (purchase) => {
+          purchases.map(async purchase => {
             await RNIap.consumePurchaseAndroid(purchase.purchaseToken);
           });
         }
@@ -139,7 +139,7 @@ class Settings extends Component {
   //   this.props.navigation.dispatch(action);
   // };
 
-  buyItem = async (sku) => {
+  buyItem = async sku => {
     try {
       await RNIap.requestPurchase(sku);
     } catch (err) {
@@ -147,12 +147,12 @@ class Settings extends Component {
     }
   };
 
-  onLanguageChange = (value) => {
+  onLanguageChange = value => {
     this.props.languageChanged(value);
     i18n.locale = value === 0 ? 'ru' : 'en';
   };
 
-  onCountryChange = (value) => {
+  onCountryChange = value => {
     this.props.countryChanged(value);
   };
 
@@ -185,47 +185,53 @@ class Settings extends Component {
               />
             </TableSection>
           </Card>
-          {Platform.OS === 'android' && this.state.iapConnection && this.state.products && (
-            <Card>
-              <Header headerText={strings('settings.donat.header')} />
-              {this.state.purchased && (
-                <CardSection>
-                  <Text style={{ fontSize: 17, margin: 10, textAlign: 'center' }}>
-                    {strings('settings.donat.thanks')}
-                  </Text>
-                </CardSection>
-              )}
-              {this.state.products.map((product, i) => (
-                <CardSection key={i.toString()}>
-                  <Text
-                    style={{
-                      marginTop: 10,
-                      textAlign: 'center',
-                    }}
-                  >
-                    {`${strings('settings.donat.header')} ${strings('settings.donat.for')} ${
-                      product.localizedPrice
-                    }`}
-                  </Text>
-                  <Button
-                    rounded
-                    // block
-                    onPress={() => this.buyItem(product.productId)}
-                    style={{
-                      marginTop: 10,
-                      paddingLeft: 5,
-                      paddingRight: 5,
-                      alignSelf: 'center',
-                      backgroundColor: '#525050',
-                    }}
-                  >
-                    <Icon type="FontAwesome5" name="donate" />
-                    <Text style={{ color: 'white' }}>{product.localizedPrice}</Text>
-                  </Button>
-                </CardSection>
-              ))}
-            </Card>
-          )}
+          {Platform.OS === 'android' &&
+            this.state.iapConnection &&
+            this.state.products && (
+              <Card>
+                <Header headerText={strings('settings.donat.header')} />
+                {this.state.purchased && (
+                  <CardSection>
+                    <Text
+                      style={{ fontSize: 17, margin: 10, textAlign: 'center' }}
+                    >
+                      {strings('settings.donat.thanks')}
+                    </Text>
+                  </CardSection>
+                )}
+                {this.state.products.map((product, i) => (
+                  <CardSection key={i.toString()}>
+                    <Text
+                      style={{
+                        marginTop: 10,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {`${strings('settings.donat.header')} ${strings(
+                        'settings.donat.for',
+                      )} ${product.localizedPrice}`}
+                    </Text>
+                    <Button
+                      rounded
+                      // block
+                      onPress={() => this.buyItem(product.productId)}
+                      style={{
+                        marginTop: 10,
+                        paddingLeft: 5,
+                        paddingRight: 5,
+                        alignSelf: 'center',
+                        backgroundColor: '#525050',
+                      }}
+                    >
+                      <Icon type="FontAwesome5" name="donate" />
+                      <Text style={{ color: 'white' }}>
+                        {product.localizedPrice}
+                      </Text>
+                    </Button>
+                  </CardSection>
+                ))}
+              </Card>
+            )}
         </ScrollView>
       </Fragment>
     );
