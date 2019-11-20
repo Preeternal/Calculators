@@ -17,6 +17,7 @@ import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
+import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import {
   principalChanged,
@@ -88,7 +89,7 @@ type Props = {
   countryIpTriggered: Function,
 
   calculated: typeof calculate,
-  navigation: Function,
+  navigation: Object,
 };
 
 const textColor = '#525050';
@@ -113,13 +114,21 @@ const pickerValue = (locale: string) => {
 };
 
 class Depo extends Component<Props, State> {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({
+    navigation,
+  }: {
+    navigation: Object,
+  }): NavigationDrawerScreenOptions => {
     const { params } = navigation.state;
     return {
       title: strings('header'), // drawer label initialization
       drawerLabel: params && params.DLabel,
       drawerIcon: ({ tintColor }) => (
-        <Icon type="Entypo" name="wallet" style={{ fontSize: 24, color: tintColor }} />
+        <Icon
+          type="Entypo"
+          name="wallet"
+          style={{ fontSize: 24, color: tintColor }}
+        />
       ),
     };
   };
@@ -139,7 +148,7 @@ class Depo extends Component<Props, State> {
     if (!this.props.countryIP) {
       fetch(config.ipUrl)
         .then(response => response.json())
-        .then((responseJson) => {
+        .then(responseJson => {
           this.setState({
             userCountryCode: responseJson.country_code,
           });
@@ -155,9 +164,11 @@ class Depo extends Component<Props, State> {
           }
           this.onCountryIpTrigger(true);
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line no-console
-          console.warn(`There has been a problem with your fetch operation: ${error.message}`);
+          console.warn(
+            `There has been a problem with your fetch operation: ${error.message}`,
+          );
         });
     }
     // // 1: Component is mounted off-screen
@@ -202,7 +213,7 @@ class Depo extends Component<Props, State> {
     }
   };
 
-  onFocus = (input, text) => {
+  onFocus = (input: string, text: string) => {
     this.setState({
       [`${input}Color`]: activeTextColor,
     });
@@ -213,14 +224,15 @@ class Depo extends Component<Props, State> {
     }
   };
 
-  onBlur = (input, text) => {
+  onBlur = (input: string, text: string) => {
     this.setState({
       [`${input}Color`]: textColor,
     });
     if (text === '') {
       this.props[`${input}Changed`]('0');
     } else {
-      const minimumFractionDigits = Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
+      const minimumFractionDigits =
+        Math.ceil(Number(text)) !== Number(text) ? 2 : 0;
       this.props[`${input}Changed`](
         Number(number(text)).toLocaleString('ru-RU', {
           minimumFractionDigits,
@@ -230,75 +242,81 @@ class Depo extends Component<Props, State> {
     }
   };
 
-  setDatePickerVisible = (value) => {
+  setDatePickerVisible = (value: boolean) => {
     this.setState({
       isDatePickerVisible: value,
     });
   };
 
-  setDatePicker2Visible = (value) => {
+  setDatePicker2Visible = (value: boolean) => {
     this.setState({
       isDatePicker2Visible: value,
     });
   };
 
-  onPrincipalChange = (text) => {
+  onPrincipalChange = (text: string) => {
     this.props.principalChanged(number(text));
   };
 
-  onDateOpenChange = (date) => {
+  onDateOpenChange = (date: Date) => {
     this.setDatePickerVisible(false);
     this.props.dateOpenChanged(date.valueOf());
   };
 
-  onDateClosedChange = (date) => {
+  onDateClosedChange = (date: Date) => {
     this.setDatePicker2Visible(false);
     this.props.dateClosedChanged(date.valueOf());
   };
 
-  onInterest1Change = (text) => {
+  onInterest1Change = (text: string) => {
     this.props.interest1Changed(number(text));
   };
 
-  onInterest2Change = (text) => {
+  onInterest2Change = (text: string) => {
     this.props.interest2Changed(number(text));
   };
 
-  onPlatezChange = (text) => {
-    this.props.platezChanged(text);
+  onPlatezChange = (value: number) => {
+    this.props.platezChanged(value);
   };
 
-  onPlusperiodChange = (text) => {
-    this.props.plusperiodChanged(text);
+  onPlusperiodChange = (value: number) => {
+    this.props.plusperiodChanged(value);
   };
 
-  onPrinplusChange = (text) => {
+  onPrinplusChange = (text: string) => {
     this.props.prinplusChanged(number(text));
   };
 
-  onRadioPress = (value) => {
+  onRadioPress = (value: number) => {
     this.props.radioPressed(value);
   };
 
-  onTaxSelect = (value) => {
+  onTaxSelect = (value: number) => {
     this.props.taxSelected(value);
   };
 
-  onTaxRateSelect = (value) => {
+  onTaxRateSelect = (value: number) => {
     this.props.taxRateSelected(value);
   };
 
-  onCountryChange = (value) => {
+  onCountryChange = (value: number) => {
     this.props.countryChanged(value);
   };
 
-  onCountryIpTrigger = (value) => {
-    this.props.countryIpTriggered(value);
+  onCountryIpTrigger = (bool: boolean) => {
+    this.props.countryIpTriggered(bool);
   };
 
   render() {
     const {
-      topImage, welcome, radioStyle, pieContainer, pie, gauge, gaugeText,
+      topImage,
+      welcome,
+      radioStyle,
+      pieContainer,
+      pie,
+      gauge,
+      gaugeText,
     } = styles;
 
     const {
@@ -344,7 +362,10 @@ class Depo extends Component<Props, State> {
           drawerOpen={() => this.props.navigation.openDrawer()}
         />
         {/* { this.state.didFinishInitialAnimation ? ( */}
-        <ScrollView key={`${this.props.language}${this.props.country}`} style={{ flex: 1 }}>
+        <ScrollView
+          key={`${this.props.language}${this.props.country}`}
+          style={{ flex: 1 }}
+        >
           <Card>
             {/* <Header headerText="Депозитный калькулятор" /> */}
             <Header headerText={strings('header')} />
@@ -372,7 +393,7 @@ class Depo extends Component<Props, State> {
                 labelColor="#757171"
                 selectedLabelColor="#525050"
                 animation
-                onPress={(value) => {
+                onPress={value => {
                   this.onRadioPress(value);
                 }}
               />
@@ -383,9 +404,9 @@ class Depo extends Component<Props, State> {
                 // placeholder="введите сумму"
                 placeholder={strings('input.principal.placeholder')}
                 // label="Сумма вклада"
-                label={`${strings('input.principal.label')}, ${radio[this.props.radio].label.charAt(
-                  0,
-                )}`}
+                label={`${strings('input.principal.label')}, ${radio[
+                  this.props.radio
+                ].label.charAt(0)}`}
                 onChangeText={this.onPrincipalChange}
                 onFocus={() => this.onFocus('principal', this.props.principal)}
                 onBlur={() => this.onBlur('principal', this.props.principal)}
@@ -443,7 +464,9 @@ class Depo extends Component<Props, State> {
                   label={strings('input.interest2.label')}
                   onChangeText={this.onInterest2Change}
                   onBlur={() => this.onBlur('interest2', this.props.interest2)}
-                  onFocus={() => this.onFocus('interest2', this.props.interest2)}
+                  onFocus={() =>
+                    this.onFocus('interest2', this.props.interest2)
+                  }
                   appInputStyle={{ color: this.state.interest2Color }}
                   value={this.props.interest2}
                 />
@@ -453,7 +476,10 @@ class Depo extends Component<Props, State> {
                 // label="Капитализация процентов (ежемесячно)"
                 label={strings('input.platez.label')}
                 // options={['да', 'нет']}
-                options={[strings('input.platez.options.yes'), strings('input.platez.options.no')]}
+                options={[
+                  strings('input.platez.options.yes'),
+                  strings('input.platez.options.no'),
+                ]}
                 selectedValue={this.props.platez}
                 onValueChange={this.onPlatezChange}
               />
@@ -483,7 +509,10 @@ class Depo extends Component<Props, State> {
                   onChangeText={this.onPrinplusChange}
                   onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
                   onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
-                  appInputStyle={{ color: this.state.prinplusColor, height: 52 }}
+                  appInputStyle={{
+                    color: this.state.prinplusColor,
+                    height: 52,
+                  }}
                   value={this.props.prinplus}
                 />
               )}
@@ -505,7 +534,10 @@ class Depo extends Component<Props, State> {
                   // label="Ставка налога"
                   label={strings('input.taxRate')}
                   // options={['резидент РФ', 'нерезидент РФ']}
-                  options={[strings('settings.resident'), strings('settings.non-resident')]}
+                  options={[
+                    strings('settings.resident'),
+                    strings('settings.non-resident'),
+                  ]}
                   selectedValue={this.props.taxRate}
                   onValueChange={this.onTaxRateSelect}
                 />
@@ -543,7 +575,10 @@ class Depo extends Component<Props, State> {
                 <Result
                   // label="Сумма пополнений"
                   label={strings('result.adjunctionAll')}
-                  resultData={adjunctionAll.toLocaleString(currentLocale, optionsN)}
+                  resultData={adjunctionAll.toLocaleString(
+                    currentLocale,
+                    optionsN,
+                  )}
                   resultPieStyle={{
                     borderLeftWidth: 5,
                     borderColor: '#a2aaa4',
@@ -595,7 +630,8 @@ class Depo extends Component<Props, State> {
                         radius={65}
                         innerRadius={59}
                         series={[
-                          (Number(number(this.props.principal)) * 100) / (principal1 + tax),
+                          (Number(number(this.props.principal)) * 100) /
+                            (principal1 + tax),
                           (adjunctionAll * 100) / (principal1 + tax),
                           (principal2 * 100) / (principal1 + tax),
                           (tax * 100) / (principal1 + tax),
@@ -739,7 +775,7 @@ const mapDispatchToActions = {
   countryChanged,
   countryIpTriggered,
 };
-export default connect(
+export default connect<any, any, any, any, any, any>(
   mapStateToProps,
   mapDispatchToActions,
 )(Depo);

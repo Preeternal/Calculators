@@ -64,13 +64,17 @@ export default createSelector(
 
     const days = Math.round((dClosed.getTime() - dOpen.getTime()) / oneDay);
     const dni: string = daysString(days); // '', день, дня, дней
-    const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(dOpen, dClosed);
+    const DaysAfterMonths: { days1: number, cf: number } = daysAfterMonths(
+      dOpen,
+      dClosed,
+    );
     const { days1, cf } = DaysAfterMonths;
     const dni1: string = daysString(days1); // '', день, дня, дней
 
-    const months = (dClosed.getFullYear() - dOpen.getFullYear()) * 12
-      + (dClosed.getMonth() + 1 - (dOpen.getMonth() + 1))
-      - cf;
+    const months =
+      (dClosed.getFullYear() - dOpen.getFullYear()) * 12 +
+      (dClosed.getMonth() + 1 - (dOpen.getMonth() + 1)) -
+      cf;
     const mesyacyi: string = monthsString(months); // '',  месяц , месяца, месяцев
 
     const ili: string = strings('result.srok.ili');
@@ -160,9 +164,14 @@ export default createSelector(
               totalinterest1 -= 0.195 * totalinterest1;
             } else if (country === 0 && interest1 > interestLimit) {
               // налог Россия
-              tax += ((interest1 - interestLimit) / interest1) * totalinterest1 * taxForRF;
-              totalinterest1
-                -= ((interest1 - interestLimit) / interest1) * totalinterest1 * taxForRF;
+              tax +=
+                ((interest1 - interestLimit) / interest1) *
+                totalinterest1 *
+                taxForRF;
+              totalinterest1 -=
+                ((interest1 - interestLimit) / interest1) *
+                totalinterest1 *
+                taxForRF;
             }
           }
           // dateY1.setTime(dateY.getTime());
@@ -187,9 +196,14 @@ export default createSelector(
               totalinterest1 -= 0.195 * totalinterest1;
             } else if (country === 0 && interest2 > interestLimit) {
               // налог Россия
-              tax += ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
-              totalinterest1
-                -= ((interest2 - interestLimit) / interest2) * totalinterest1 * taxForRF;
+              tax +=
+                ((interest2 - interestLimit) / interest2) *
+                totalinterest1 *
+                taxForRF;
+              totalinterest1 -=
+                ((interest2 - interestLimit) / interest2) *
+                totalinterest1 *
+                taxForRF;
             }
           }
           // вклад + процент за последний месяц в цикле:
