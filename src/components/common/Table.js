@@ -8,32 +8,39 @@ const options = {
   maximumFractionDigits: 2,
 };
 
-const row = rows => rows.map((value, index) => (
-  // eslint-disable-next-line react/no-array-index-key
-  <View key={index + value[4]} style={styles.renderStyle}>
-    <View style={styles.col1Style}>
-      <Text style={styles.textStyle}>{value[0]}</Text>
+const row = rows =>
+  rows.map((value, index) => (
+    // eslint-disable-next-line react/no-array-index-key
+    <View key={index + value[4]} style={styles.renderStyle}>
+      <View style={styles.col1Style}>
+        <Text style={styles.textStyle}>{value[0]}</Text>
+      </View>
+      <View style={styles.col2Style}>
+        <Text style={styles.textStyle}>{value[1]}</Text>
+      </View>
+      <View style={styles.col3Style}>
+        <Text style={styles.textStyle}>
+          {value[2].toLocaleString(currentLocale, options)}
+        </Text>
+      </View>
+      <View style={styles.col4Style}>
+        <Text style={styles.textStyle}>{value[3]}</Text>
+      </View>
+      <View style={styles.col5Style}>
+        <Text style={styles.textStyle}>
+          {value[4].toLocaleString(currentLocale, options)}
+        </Text>
+      </View>
+      <View style={styles.col6Style}>
+        <Text style={styles.textStyle}>
+          {value[5].toLocaleString(currentLocale, options)}
+        </Text>
+      </View>
     </View>
-    <View style={styles.col2Style}>
-      <Text style={styles.textStyle}>{value[1]}</Text>
-    </View>
-    <View style={styles.col3Style}>
-      <Text style={styles.textStyle}>{value[2].toLocaleString(currentLocale, options)}</Text>
-    </View>
-    <View style={styles.col4Style}>
-      <Text style={styles.textStyle}>{value[3]}</Text>
-    </View>
-    <View style={styles.col5Style}>
-      <Text style={styles.textStyle}>{value[4].toLocaleString(currentLocale, options)}</Text>
-    </View>
-    <View style={styles.col6Style}>
-      <Text style={styles.textStyle}>{value[5].toLocaleString(currentLocale, options)}</Text>
-    </View>
-  </View>
-));
+  ));
 
 const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
-const Table = (props) => {
+const Table = props => {
   const {
     containerStyle,
     headerStyle,
