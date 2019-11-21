@@ -64,6 +64,7 @@ const Navigator = createDrawerNavigator(
     // initialRouteName: 'ConverterStack',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
+    overlayColor: 'rgba(52, 52, 52, 0.5)',
     // drawerBackgroundColor: 'transparent',
     // unmountInactiveRoutes: true,
     contentOptions: {
