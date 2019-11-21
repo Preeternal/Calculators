@@ -11,6 +11,7 @@ import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
 import 'number-to-locale-string';
 
+import { anyTypeAnnotation } from '@babel/types';
 import Depo from './Depo';
 import Credit from './Credit';
 import Converter from './Converter';
@@ -138,7 +139,7 @@ const Navigator = createDrawerNavigator(
 //   },
 // );
 
-const AppContainer = createAppContainer(Navigator);
+const AppContainer = createAppContainer<any, any>(Navigator);
 
 type Props = {
   language: string,
