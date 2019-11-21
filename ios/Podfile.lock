@@ -38,20 +38,10 @@ PODS:
     - React-RCTSettings (= 0.61.2)
     - React-RCTText (= 0.61.2)
     - React-RCTVibration (= 0.61.2)
-  - React-ART (0.61.2):
-    - React-Core/ARTHeaders (= 0.61.2)
   - React-Core (0.61.2):
     - Folly (= 2018.10.22.00)
     - glog
     - React-Core/Default (= 0.61.2)
-    - React-cxxreact (= 0.61.2)
-    - React-jsi (= 0.61.2)
-    - React-jsiexecutor (= 0.61.2)
-    - Yoga
-  - React-Core/ARTHeaders (0.61.2):
-    - Folly (= 2018.10.22.00)
-    - glog
-    - React-Core/Default
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - React-jsiexecutor (= 0.61.2)
@@ -227,9 +217,11 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
+  - ReactNativeART (1.0.3):
+    - React
   - RNGestureHandler (1.4.1):
     - React
-  - RNIap (3.5.9):
+  - RNIap (4.3.0):
     - React
   - RNLanguages (3.0.2):
     - React
@@ -246,7 +238,6 @@ DEPENDENCIES:
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
-  - React-ART (from `../node_modules/react-native/Libraries/ART`)
   - React-Core (from `../node_modules/react-native/`)
   - React-Core/DevSupport (from `../node_modules/react-native/`)
   - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
@@ -266,6 +257,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
   - RNLanguages (from `../node_modules/react-native-languages`)
@@ -293,8 +285,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/TypeSafety"
   React:
     :path: "../node_modules/react-native/"
-  React-ART:
-    :path: "../node_modules/react-native/Libraries/ART"
   React-Core:
     :path: "../node_modules/react-native/"
   React-CoreModules:
@@ -327,6 +317,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeART:
+    :path: "../node_modules/@react-native-community/art"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNIap:
@@ -348,7 +340,6 @@ SPEC CHECKSUMS:
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
   RCTTypeSafety: dc23fb655d6c77667c78e327bf661bc11e3b8aec
   React: 7e586e5d7bec12b91c1a096826b0fc9ab1da7865
-  React-ART: 4893375cb803d3158fd2845ea9cdc33b535c5ff5
   React-Core: 8ddb9770b4a30a6ab4a754e6ed5ec76454e3d699
   React-CoreModules: b3d9eece8ad7df36c917a41f05c1168c52fe0b34
   React-cxxreact: 1f972757c0bd08d962ef78068e06613c27489a3f
@@ -365,12 +356,13 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
+  ReactNativeART: 7d65fa7e1469cbcfa351070cdd3b6135ad60c799
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
-  RNIap: 9e69c8d9ecfdd1f0882363366e85d2e1683ecc89
+  RNIap: e75200c18ed318479a52db633dc2db2facce77ea
   RNLanguages: 962e562af0d34ab1958d89bcfdb64fafc37c513e
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 3d347ed808cd13c9ef57d1e3a5603d1f0feb10bb
+PODFILE CHECKSUM: f06fa1dda586c3e1bb27cd2abc0d24f67fb23637
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4
