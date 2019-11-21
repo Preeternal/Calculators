@@ -81,7 +81,14 @@
   },
   "table": {
     "header": "Account statement",
-    "tableHead": ["№", "date", "% current month", "days", "accrued % total", "total amount"]
+    "tableHead": [
+      "№",
+      "date",
+      "% current month",
+      "days",
+      "accrued % total",
+      "total amount"
+    ]
   },
   "credit": {
     "go": "Enter information about the credit:",
@@ -137,7 +144,6 @@
       "comPayments": "Commission payments",
       "pereplata": "Overpayment amount",
       "vsego": "Total for payment",
-
       "payment": "Среднее значение начисленных процентов в месяц",
       "principal2": "Начисленные проценты",
       "taxes": "Налоги",
@@ -184,6 +190,7 @@
     "resident": "resident of the Russian Federation",
     "non-resident": "non-resident of the Russian Federation",
     "donat": {
+      "investments": "Investments",
       "header": "Support the project",
       "for": "for",
       "thanks": "Thank you for the support!"

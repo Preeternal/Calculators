@@ -43,8 +43,6 @@ const prodItems = Platform.select({
     // 'android.test.purchased',
   ],
 });
-let purchaseUpdateSubscription;
-let purchaseErrorSubscription;
 
 class Settings extends Component<Props, State> {
   static navigationOptions = ({
@@ -66,6 +64,10 @@ class Settings extends Component<Props, State> {
     purchased: false,
   };
 
+  purchaseUpdateSubscription = null;
+
+  purchaseErrorSubscription = null;
+
   // no need to preset drawer label because we define title in navigationOptions
   // componentWillMount() {
   //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
@@ -73,36 +75,10 @@ class Settings extends Component<Props, State> {
 
   async componentDidMount() {
     if (Platform.OS === 'android') {
-      RNIap.initConnection();
-      // if (purchaseUpdateSubscription) {
-      //   purchaseUpdateSubscription.remove();
-      //   purchaseUpdateSubscription = null;
-      // }
-      // if (purchaseErrorSubscription) {
-      //   console.log(purchaseErrorSubscription);
-      //   purchaseErrorSubscription.remove();
-      //   purchaseErrorSubscription = null;
-      // }
-      // purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(purchase => {
-      //   // console.log('purchaseUpdatedListener', purchase);
-      //   console.log(this.state.products);
-      //   console.log(this.state.products.length);
-      //   if (purchase.transactionReceipt && this.state.products.length) {
-      //     // this.setState(prevState => ({
-      //     //   products: prevState.products.filter(
-      //     //     product => purchase.productId !== product.productId,
-      //     //   ),
-      //     //   purchased: true,
-      //     // }));
-      //   }
-      // });
-      // purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
-      //   console.log('purchaseErrorListener', error);
-      //   Alert.alert('purchase error', JSON.stringify(error));
-      // });
       try {
         const iapConnection = await RNIap.initConnection();
         const products = await RNIap.getProducts(prodItems);
+        this.setState({ iapConnection, products });
         const purchases = await RNIap.getAvailablePurchases();
         if (purchases.length) {
           // await RNIap.consumeAllItemsAndroid(); did not work as expected, need to open issue
@@ -110,7 +86,22 @@ class Settings extends Component<Props, State> {
             await RNIap.consumePurchaseAndroid(purchase.purchaseToken);
           });
         }
-        this.setState({ iapConnection, products });
+        this.purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
+          purchase => {
+            if (purchase.transactionReceipt && this.state.products.length) {
+              this.setState(prevState => ({
+                products: prevState.products.filter(
+                  product => purchase.productId !== product.productId,
+                ),
+                purchased: true,
+              }));
+            }
+          },
+        );
+        this.purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
+          console.log('purchaseErrorListener', error);
+          Alert.alert('purchase error', JSON.stringify(error));
+        });
       } catch (err) {
         console.warn(err.code, err.message);
         // throw new Error('Ошибка');
@@ -147,8 +138,13 @@ class Settings extends Component<Props, State> {
   }
 
   componentWillUnmount() {
-    if (this.state.iapConnection) {
-      RNIap.endConnection();
+    if (this.purchaseUpdateSubscription) {
+      this.purchaseUpdateSubscription.remove();
+      this.purchaseUpdateSubscription = null;
+    }
+    if (this.purchaseErrorSubscription) {
+      this.purchaseErrorSubscription.remove();
+      this.purchaseErrorSubscription = null;
     }
   }
 
@@ -165,22 +161,21 @@ class Settings extends Component<Props, State> {
   buyItem = async (sku: string) => {
     try {
       await RNIap.requestPurchase(sku);
-      purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(purchase => {
-        // console.log('purchaseUpdatedListener', purchase);
-        console.log(this.state.products);
-        console.log(this.state.products.length);
-        if (purchase.transactionReceipt && this.state.products.length) {
-          this.setState(prevState => ({
-            products: prevState.products.filter(
-              product => purchase.productId !== product.productId,
-            ),
-            purchased: true,
-          }));
-        }
-      });
+      this.purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
+        purchase => {
+          if (purchase.transactionReceipt && this.state.products.length) {
+            this.setState(prevState => ({
+              products: prevState.products.filter(
+                product => purchase.productId !== product.productId,
+              ),
+              purchased: true,
+            }));
+          }
+        },
+      );
     } catch (err) {
       console.warn(err.code, err.message);
-      purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
+      this.purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
         console.log('purchaseErrorListener', error);
         Alert.alert('purchase error', JSON.stringify(error));
       });
@@ -197,7 +192,6 @@ class Settings extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.state.iapConnection);
     return (
       <Fragment>
         <CustomHeader
@@ -230,7 +224,7 @@ class Settings extends Component<Props, State> {
             this.state.iapConnection &&
             this.state.products && (
               <Card>
-                <Header headerText={strings('settings.donat.header')} />
+                <Header headerText={strings('settings.donat.investments')} />
                 {this.state.purchased && (
                   <CardSection>
                     <Text
