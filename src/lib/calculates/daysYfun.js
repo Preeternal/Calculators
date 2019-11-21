@@ -22,7 +22,12 @@
 //   return new Date(year, month + 1, day);
 // };
 
-export const daysYfun = (dateY: Date, dateY1: Date, dateOpen: Date, oneDay: number): number => {
+export const daysYfun = (
+  dateY: Date,
+  dateY1: Date,
+  dateOpen: Date,
+  oneDay: number,
+): number => {
   // dateY = addMonth(dateY1);
   dateY.setMonth(dateY1.getMonth() + 1);
 
