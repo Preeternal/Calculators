@@ -464,7 +464,7 @@ class Credit extends Component<Props, State> {
                 isVisible={this.state.isDatePickerVisible}
                 onConfirm={this.onCreditDateOpenChange}
                 onCancel={() => this.setDatePickerVisible(false)}
-                datePickerModeAndroid="spinner"
+                display="spinner"
               />
 
               <InputTextPicker

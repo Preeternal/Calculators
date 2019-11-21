@@ -426,7 +426,7 @@ class Depo extends Component<Props, State> {
                 isVisible={this.state.isDatePickerVisible}
                 onConfirm={this.onDateOpenChange}
                 onCancel={() => this.setDatePickerVisible(false)}
-                datePickerModeAndroid="spinner"
+                display="spinner"
               />
 
               <InputDate
@@ -441,7 +441,7 @@ class Depo extends Component<Props, State> {
                 isVisible={this.state.isDatePicker2Visible}
                 onConfirm={this.onDateClosedChange}
                 onCancel={() => this.setDatePicker2Visible(false)}
-                datePickerModeAndroid="spinner"
+                display="spinner"
               />
 
               <Input
