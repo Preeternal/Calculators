@@ -2,17 +2,22 @@ import { createSelector } from 'reselect';
 import { DateTime } from 'luxon';
 import { initDate, number } from '.';
 
-const getCreditPrincipal = state => Number(number(state.credit.creditPrincipal));
-const getCreditInterest = state => Number(number(state.credit.creditInterest)) / 365 / 100;
+const getCreditPrincipal = state =>
+  Number(number(state.credit.creditPrincipal));
+const getCreditInterest = state =>
+  Number(number(state.credit.creditInterest)) / 365 / 100;
 const getCreditDateOpen = state => new Date(state.credit.creditDateOpen);
 const getCreditSrok = state => Number(number(state.credit.creditSrok));
 const getCreditSrokOption = state => state.credit.creditSrokOption;
 const getCreditPlatez = state => state.credit.creditPlatez;
 const getCreditEdinCom = state => Number(number(state.credit.creditEdinCom));
 const getCreditEdinComOption = state => state.credit.creditEdinComOption;
-const getCreditStartCostCom = state => Number(number(state.credit.creditStartCostCom));
-const getCreditFinCostCom = state => Number(number(state.credit.creditFinCostCom));
-const getCreditAcCountCom = state => Number(number(state.credit.creditAcCountCom));
+const getCreditStartCostCom = state =>
+  Number(number(state.credit.creditStartCostCom));
+const getCreditFinCostCom = state =>
+  Number(number(state.credit.creditFinCostCom));
+const getCreditAcCountCom = state =>
+  Number(number(state.credit.creditAcCountCom));
 // const getRadio = state => state.depo.radio;
 
 const ceilMethod = value => Number(value.toFixed(2));
@@ -46,7 +51,8 @@ export default createSelector(
     creditAcCountCom: number,
     // radio: number,
   ) => {
-    const payments = creditSrokOption === 0 ? Number(creditSrok) : Number(creditSrok) * 12;
+    const payments =
+      creditSrokOption === 0 ? Number(creditSrok) : Number(creditSrok) * 12;
     // prettier-ignore
     const edinCom = creditEdinComOption === 0
       ? (creditPrincipal * creditEdinCom) / 100
@@ -114,9 +120,10 @@ export default createSelector(
       if (creditPlatez === 0) {
         const x = (1 + (creditInterest * 365) / 12) ** payments;
         // равный месячный платёж - аннуитет
-        const monthly = creditInterest === 0
-          ? creditPrincipal / payments
-          : (creditPrincipal * x * creditInterest * 365) / 12 / (x - 1);
+        const monthly =
+          creditInterest === 0
+            ? creditPrincipal / payments
+            : (creditPrincipal * x * creditInterest * 365) / 12 / (x - 1);
         for (let i = 0; i < payments; i++) {
           ostatok -= monthly - (ostatok * creditInterest * 365) / 12;
           payStart = (creditPrincipal * creditStartCostCom) / 100;

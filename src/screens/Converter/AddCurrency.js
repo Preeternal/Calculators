@@ -1,8 +1,6 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import {
-  FlatList, Text, TouchableOpacity, View,
-} from 'react-native';
+import { FlatList, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
@@ -15,7 +13,7 @@ type Props = {
   preset: Array<string>,
   currencies: Array<Object>,
   presetChanged: Function,
-  navigation: Function,
+  navigation: Object,
 };
 
 type State = {
@@ -42,9 +40,11 @@ const styles = {
 };
 
 class AddCurrency extends Component<Props, State> {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({ navigation }: { navigation: Object }) => ({
     drawerLockMode: 'locked-closed',
-    headerTitle: <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>,
+    headerTitle: (
+      <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>
+    ),
     headerStyle: {
       // backgroundColor: '#f4511e',
       backgroundColor: '#525050',
@@ -65,8 +65,15 @@ class AddCurrency extends Component<Props, State> {
     ),
     // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
     headerRight: (
-      <TouchableOpacity style={styles.rightButton} onPress={navigation.getParam('handleSave')}>
-        <Icon type="MaterialIcons" name="done" style={styles.actionButtonIcon} />
+      <TouchableOpacity
+        style={styles.rightButton}
+        onPress={navigation.getParam('handleSave')}
+      >
+        <Icon
+          type="MaterialIcons"
+          name="done"
+          style={styles.actionButtonIcon}
+        />
         {/* md-checkmark */}
       </TouchableOpacity>
     ),
@@ -76,7 +83,9 @@ class AddCurrency extends Component<Props, State> {
 
   componentDidMount() {
     const { preset, currencies } = this.props;
-    const filter = currencies.filter(currency => !preset.includes(currency.charCode));
+    const filter = currencies.filter(
+      currency => !preset.includes(currency.charCode),
+    );
     this.setState({
       additionalCurrencies: [...filter],
       checked: filter.map(() => null),
@@ -84,8 +93,8 @@ class AddCurrency extends Component<Props, State> {
     this.props.navigation.setParams({ handleSave: this.saveDetails });
   }
 
-  handleClick = (charCode, index) => {
-    this.setState((prevState) => {
+  handleClick = (charCode: string, index: number) => {
+    this.setState(prevState => {
       const checked = [...prevState.checked];
       checked[index] = prevState.checked[index] === charCode ? null : charCode;
       return { checked };
@@ -99,7 +108,7 @@ class AddCurrency extends Component<Props, State> {
     this.props.navigation.goBack();
   };
 
-  onPresetChange = (array) => {
+  onPresetChange = (array: Array<string | null>) => {
     this.props.presetChanged(array);
   };
 
@@ -134,7 +143,7 @@ const mapDispatchToActions = {
   presetChanged,
 };
 
-export default connect(
+export default connect<any, any, any, any, any, any>(
   mapStateToProps,
   mapDispatchToActions,
 )(AddCurrency);

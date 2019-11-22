@@ -1,5 +1,9 @@
 // @flow
-import { LANGUAGE_CHANGED, COUNTRY_CHANGED, COUNTRY_IP_TRIGGERED } from './types';
+import {
+  LANGUAGE_CHANGED,
+  COUNTRY_CHANGED,
+  COUNTRY_IP_TRIGGERED,
+} from './types';
 import type { Action } from './types';
 
 export const languageChanged = (value: number): Action => ({

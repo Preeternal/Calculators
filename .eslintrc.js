@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'airbnb',
+  extends: ['airbnb', 'plugin:prettier/recommended'],
   parser: 'babel-eslint',
   plugins: ['react', 'flowtype', 'jsx-a11y', 'import'],
   env: {
@@ -18,6 +18,9 @@ module.exports = {
     'react/require-default-props': 0,
     'react/prop-types': 'off',
     'react/jsx-wrap-multilines': [1, { prop: 'ignore' }],
+    'react/state-in-constructor': 0,
+    'react/jsx-curly-newline': 0,
+    'react/jsx-fragments': 0,
     'import/extensions': [1, 'never', { svg: 'always' }],
     'import/first': 1,
     'import/prefer-default-export': 0,
@@ -31,5 +34,7 @@ module.exports = {
     ],
     'flowtype/require-valid-file-annotation': 0,
     'flowtype/no-types-missing-file-annotation': 0,
+    
+    // 'arrow-parens': ['error', 'as-needed'],
   },
 };

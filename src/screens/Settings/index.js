@@ -1,7 +1,6 @@
+// @flow
 import React, { Component, Fragment } from 'react';
-import {
-  ScrollView, Platform, Text, Alert,
-} from 'react-native';
+import { ScrollView, Platform, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -9,13 +8,32 @@ import { Icon, Button } from 'native-base';
 import i18n from 'i18n-js';
 import * as RNIap from 'react-native-iap';
 import 'number-to-locale-string';
+import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { languageChanged, countryChanged } from '../../actions';
 import {
-  InputPicker, Card, Header, TableSection, CardSection,
+  InputPicker,
+  Card,
+  Header,
+  TableSection,
+  CardSection,
 } from '../../components/common';
 import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
+
+type Props = {
+  navigation: Object,
+  language: number,
+  country: number,
+  languageChanged: Function,
+  countryChanged: Function,
+};
+
+type State = {
+  iapConnection: boolean,
+  products: Array<Object>,
+  purchased: boolean,
+};
 
 const prodItems = Platform.select({
   android: [
@@ -25,11 +43,11 @@ const prodItems = Platform.select({
     // 'android.test.purchased',
   ],
 });
-let purchaseUpdateSubscription;
-let purchaseErrorSubscription;
 
-class Settings extends Component {
-  static navigationOptions = ({ navigation }) => {
+class Settings extends Component<Props, State> {
+  static navigationOptions = ({
+    navigation,
+  }: Object): NavigationDrawerScreenOptions => {
     const { params } = navigation.state;
     return {
       title: strings('settings.settings'), // drawer label initialization
@@ -46,50 +64,44 @@ class Settings extends Component {
     purchased: false,
   };
 
+  purchaseUpdateSubscription = null;
+
+  purchaseErrorSubscription = null;
+
   // no need to preset drawer label because we define title in navigationOptions
   // componentWillMount() {
   //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
   // }
 
-  componentWillMount() {
-    if (purchaseUpdateSubscription) {
-      purchaseUpdateSubscription.remove();
-      purchaseUpdateSubscription = null;
-    }
-    if (purchaseErrorSubscription) {
-      purchaseErrorSubscription.remove();
-      purchaseErrorSubscription = null;
-    }
-  }
-
   async componentDidMount() {
     if (Platform.OS === 'android') {
-      purchaseUpdateSubscription = RNIap.purchaseUpdatedListener((purchase) => {
-        // console.log('purchaseUpdatedListener', purchase);
-        if (purchase.transactionReceipt) {
-          this.setState(prevState => ({
-            products: prevState.products.filter(
-              product => purchase.productId !== product.productId,
-            ),
-            purchased: true,
-          }));
-        }
-      });
-      purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
-        console.log('purchaseErrorListener', error);
-        Alert.alert('purchase error', JSON.stringify(error));
-      });
       try {
         const iapConnection = await RNIap.initConnection();
         const products = await RNIap.getProducts(prodItems);
+        this.setState({ iapConnection, products });
         const purchases = await RNIap.getAvailablePurchases();
         if (purchases.length) {
           // await RNIap.consumeAllItemsAndroid(); did not work as expected, need to open issue
-          purchases.map(async (purchase) => {
+          purchases.map(async purchase => {
             await RNIap.consumePurchaseAndroid(purchase.purchaseToken);
           });
         }
-        this.setState({ iapConnection, products });
+        this.purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
+          purchase => {
+            if (purchase.transactionReceipt && this.state.products.length) {
+              this.setState(prevState => ({
+                products: prevState.products.filter(
+                  product => purchase.productId !== product.productId,
+                ),
+                purchased: true,
+              }));
+            }
+          },
+        );
+        this.purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
+          console.log('purchaseErrorListener', error);
+          Alert.alert('purchase error', JSON.stringify(error));
+        });
       } catch (err) {
         console.warn(err.code, err.message);
         // throw new Error('Ошибка');
@@ -97,7 +109,7 @@ class Settings extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.language !== prevProps.language) {
       this.props.navigation.setParams({ DLabel: strings('settings.settings') });
       const setDepoLabel = NavigationActions.setParams({
@@ -126,7 +138,14 @@ class Settings extends Component {
   }
 
   componentWillUnmount() {
-    RNIap.endConnection();
+    if (this.purchaseUpdateSubscription) {
+      this.purchaseUpdateSubscription.remove();
+      this.purchaseUpdateSubscription = null;
+    }
+    if (this.purchaseErrorSubscription) {
+      this.purchaseErrorSubscription.remove();
+      this.purchaseErrorSubscription = null;
+    }
   }
 
   // resetScreens = (screen) => {
@@ -139,20 +158,36 @@ class Settings extends Component {
   //   this.props.navigation.dispatch(action);
   // };
 
-  buyItem = async (sku) => {
+  buyItem = async (sku: string) => {
     try {
       await RNIap.requestPurchase(sku);
+      this.purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
+        purchase => {
+          if (purchase.transactionReceipt && this.state.products.length) {
+            this.setState(prevState => ({
+              products: prevState.products.filter(
+                product => purchase.productId !== product.productId,
+              ),
+              purchased: true,
+            }));
+          }
+        },
+      );
     } catch (err) {
       console.warn(err.code, err.message);
+      this.purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
+        console.log('purchaseErrorListener', error);
+        Alert.alert('purchase error', JSON.stringify(error));
+      });
     }
   };
 
-  onLanguageChange = (value) => {
+  onLanguageChange = (value: number) => {
     this.props.languageChanged(value);
     i18n.locale = value === 0 ? 'ru' : 'en';
   };
 
-  onCountryChange = (value) => {
+  onCountryChange = (value: number) => {
     this.props.countryChanged(value);
   };
 
@@ -185,47 +220,53 @@ class Settings extends Component {
               />
             </TableSection>
           </Card>
-          {Platform.OS === 'android' && this.state.iapConnection && this.state.products && (
-            <Card>
-              <Header headerText={strings('settings.donat.header')} />
-              {this.state.purchased && (
-                <CardSection>
-                  <Text style={{ fontSize: 17, margin: 10, textAlign: 'center' }}>
-                    {strings('settings.donat.thanks')}
-                  </Text>
-                </CardSection>
-              )}
-              {this.state.products.map((product, i) => (
-                <CardSection key={i.toString()}>
-                  <Text
-                    style={{
-                      marginTop: 10,
-                      textAlign: 'center',
-                    }}
-                  >
-                    {`${strings('settings.donat.header')} ${strings('settings.donat.for')} ${
-                      product.localizedPrice
-                    }`}
-                  </Text>
-                  <Button
-                    rounded
-                    // block
-                    onPress={() => this.buyItem(product.productId)}
-                    style={{
-                      marginTop: 10,
-                      paddingLeft: 5,
-                      paddingRight: 5,
-                      alignSelf: 'center',
-                      backgroundColor: '#525050',
-                    }}
-                  >
-                    <Icon type="FontAwesome5" name="donate" />
-                    <Text style={{ color: 'white' }}>{product.localizedPrice}</Text>
-                  </Button>
-                </CardSection>
-              ))}
-            </Card>
-          )}
+          {Platform.OS === 'android' &&
+            this.state.iapConnection &&
+            this.state.products && (
+              <Card>
+                <Header headerText={strings('settings.donat.investments')} />
+                {this.state.purchased && (
+                  <CardSection>
+                    <Text
+                      style={{ fontSize: 17, margin: 10, textAlign: 'center' }}
+                    >
+                      {strings('settings.donat.thanks')}
+                    </Text>
+                  </CardSection>
+                )}
+                {this.state.products.map((product, i) => (
+                  <CardSection key={i.toString()}>
+                    <Text
+                      style={{
+                        marginTop: 10,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {`${strings('settings.donat.header')} ${strings(
+                        'settings.donat.for',
+                      )} ${product.localizedPrice}`}
+                    </Text>
+                    <Button
+                      rounded
+                      // block
+                      onPress={() => this.buyItem(product.productId)}
+                      style={{
+                        marginTop: 10,
+                        paddingLeft: 5,
+                        paddingRight: 5,
+                        alignSelf: 'center',
+                        backgroundColor: '#525050',
+                      }}
+                    >
+                      <Icon type="FontAwesome5" name="donate" />
+                      <Text style={{ color: 'white' }}>
+                        {product.localizedPrice}
+                      </Text>
+                    </Button>
+                  </CardSection>
+                ))}
+              </Card>
+            )}
         </ScrollView>
       </Fragment>
     );
@@ -241,7 +282,7 @@ const mapStateToProps = state => ({
   language: state.settings.language,
   country: state.settings.country,
 });
-export default connect(
+export default connect<any, any, any, any, any, any>(
   mapStateToProps,
   {
     languageChanged,

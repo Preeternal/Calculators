@@ -20,7 +20,6 @@ import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
-import { number } from '../lib';
 import storeCurrencies from '../lib/storeCurrencies';
 
 const ConverterStack = createStackNavigator(
@@ -65,6 +64,7 @@ const Navigator = createDrawerNavigator(
     // initialRouteName: 'ConverterStack',
     contentComponent: DrawerScreen,
     drawerWidth: 300,
+    overlayColor: 'rgba(52, 52, 52, 0.5)',
     // drawerBackgroundColor: 'transparent',
     // unmountInactiveRoutes: true,
     contentOptions: {
@@ -138,7 +138,7 @@ const Navigator = createDrawerNavigator(
 //   },
 // );
 
-const AppContainer = createAppContainer(Navigator);
+const AppContainer = createAppContainer<any, any>(Navigator);
 
 type Props = {
   language: string,
@@ -155,7 +155,7 @@ class App extends Component<Props> {
     RNLanguages.removeEventListener('change', this.handleLanguageChange);
   }
 
-  handleLanguageChange = ({ language }) => {
+  handleLanguageChange = ({ language }: { language: string }) => {
     i18n.locale = language;
     if (this.props.language !== this.pickerValue(i18n.currentLocale())) {
       this.props.languageChanged(this.pickerValue(i18n.currentLocale()));
@@ -169,13 +169,14 @@ class App extends Component<Props> {
     return 1;
   };
 
-  getLocalInput = (input) => {
-    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
-    return Number(number(`${input}`)).toLocaleString('ru-RU', {
-      minimumFractionDigits,
-      maximumFractionDigits: minimumFractionDigits,
-    });
-  };
+  // getLocalInput = input => {
+  //   const minimumFractionDigits =
+  //     Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
+  //   return Number(number(`${input}`)).toLocaleString('ru-RU', {
+  //     minimumFractionDigits,
+  //     maximumFractionDigits: minimumFractionDigits,
+  //   });
+  // };
 
   render() {
     // console.log(new Date().getTimezoneOffset());
@@ -188,7 +189,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToActions = { languageChanged };
 
-export default connect(
+export default connect<any, any, any, any, any, any>(
   mapStateToProps,
   mapDispatchToActions,
 )(App);

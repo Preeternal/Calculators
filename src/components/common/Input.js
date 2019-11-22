@@ -1,7 +1,19 @@
+//@flow
 import React from 'react';
-import {
-  TextInput, View, Text, TouchableOpacity,
-} from 'react-native';
+import { TextInput, View, Text, TouchableOpacity } from 'react-native';
+
+type InputType = {
+  label: string,
+  value: string,
+  onChangeText: Function,
+  placeholder?: string,
+  secureTextEntry?: boolean,
+  onSelectionChange?: Function,
+  onSubmitEditing?: Function,
+  onFocus: Function,
+  onBlur: Function,
+  appInputStyle: Object,
+};
 
 const Input = ({
   label,
@@ -14,15 +26,19 @@ const Input = ({
   onFocus,
   onBlur,
   appInputStyle,
-}) => {
+}: InputType) => {
   const {
-    containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle,
+    containerStyle,
+    labelStyle,
+    labelTextStyle,
+    inputStyle,
+    inputTextStyle,
   } = styles;
 
-  let textInput = null;
+  const textInput = React.createRef();
 
   function handleClick() {
-    textInput.focus();
+    if (textInput.current) textInput.current.focus();
   }
 
   return (
@@ -45,9 +61,7 @@ const Input = ({
             onBlur={onBlur}
             keyboardType="numeric"
             underlineColorAndroid="transparent"
-            ref={(input) => {
-              textInput = input;
-            }}
+            ref={textInput}
           />
         </View>
       </View>

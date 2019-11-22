@@ -1,5 +1,9 @@
 // @flow
-import { PRESET_CHANGED, CURRENCIES_CHANGED, PRESET_CURRENCIES_CHANGED } from '../actions/types';
+import {
+  PRESET_CHANGED,
+  CURRENCIES_CHANGED,
+  PRESET_CURRENCIES_CHANGED,
+} from '../actions/types';
 import type { ConverterActionsTypes as Action } from '../actions/types';
 
 type State = {
@@ -9,7 +13,18 @@ type State = {
 };
 
 const INITIAL_STATE: State = {
-  preset: ['UAH', 'RUB', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'BYN', 'BRL', 'CAD'],
+  preset: [
+    'UAH',
+    'RUB',
+    'USD',
+    'EUR',
+    'GBP',
+    'JPY',
+    'AUD',
+    'BYN',
+    'BRL',
+    'CAD',
+  ],
   currencies: [],
   presetCurrencies: [],
 };

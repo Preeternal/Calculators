@@ -34,7 +34,8 @@ export const CREDIT_SROK_VALUE_CHANGED = 'credit_srok_value_changed';
 export const CREDIT_SROK_OPTION_SELECTED = 'credit_srok_option_selected';
 export const CREDIT_PLATEZ_SELECTED = 'credit_platez_selected';
 export const CREDIT_EDIN_COM_VALUE_CHANGED = 'credit_edin_com_value_changed';
-export const CREDIT_EDIN_COM_OPTION_SELECTED = 'credit_edin_com_option_selected';
+export const CREDIT_EDIN_COM_OPTION_SELECTED =
+  'credit_edin_com_option_selected';
 export const CREDIT_START_COST_COM_CHANGED = 'credit_start_cost_com_changed';
 export const CREDIT_FIN_COST_COM_CHANGED = 'credit_fin_cost_com_changed';
 export const CREDIT_AC_COUNT_COM_CHANGED = 'credit_ac_count_com_changed';

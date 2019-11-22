@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const InputDate = ({
-  label, value, onPress, onRootPress,
-}) => {
+const InputDate = ({ label, value, onPress, onRootPress }) => {
   const {
-    containerStyle, labelStyle, labelTextStyle, inputStyle, inputTextStyle,
+    containerStyle,
+    labelStyle,
+    labelTextStyle,
+    inputStyle,
+    inputTextStyle,
   } = styles;
   return (
     <TouchableOpacity onPress={onRootPress}>

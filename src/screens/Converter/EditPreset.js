@@ -53,7 +53,9 @@ const styles = {
 class EditPreset extends Component<Props, State> {
   static navigationOptions = () => ({
     drawerLockMode: 'locked-closed',
-    headerTitle: <Text style={styles.headerText}>{strings('converter.changeCurr')}</Text>,
+    headerTitle: (
+      <Text style={styles.headerText}>{strings('converter.changeCurr')}</Text>
+    ),
     headerStyle: {
       backgroundColor: '#525050',
     },
@@ -65,14 +67,18 @@ class EditPreset extends Component<Props, State> {
 
   state = { preset: this.props.preset ? this.props.preset : [] };
 
-  componentWillMount() {
-    if (this.props.navigation.state.key[this.props.navigation.state.key.length - 1] === '1') {
+  componentDidMount() {
+    if (
+      this.props.navigation.state.key[
+        this.props.navigation.state.key.length - 1
+      ] === '1'
+    ) {
       this.props.navigation.replace('EditPreset');
     }
   }
 
-  deleteListItem = (item) => {
-    this.setState((prevState) => {
+  deleteListItem = (item: string) => {
+    this.setState(prevState => {
       const preset = prevState.preset.filter(i => i !== item);
       return {
         preset,
@@ -80,10 +86,12 @@ class EditPreset extends Component<Props, State> {
     });
   };
 
-  onDelete = (item) => {
+  onDelete = (item: string) => {
     Alert.alert(
       `${strings('converter.delete')} ${item}`,
-      `${strings('converter.remove')} ${item} ${strings('converter.fromTheList')}`,
+      `${strings('converter.remove')} ${item} ${strings(
+        'converter.fromTheList',
+      )}`,
       [
         {
           text: strings('common.cancel'),
@@ -103,11 +111,11 @@ class EditPreset extends Component<Props, State> {
     );
   };
 
-  onPresetChange = (preset) => {
+  onPresetChange = (preset: Object) => {
     this.props.presetChanged(preset);
   };
 
-  onMoveEnd = ({ data }) => {
+  onMoveEnd = ({ data }: { data: Object }) => {
     this.setState({ preset: data });
     // this.onPresetChange({ data });
     // console.log(this.props.preset);
@@ -121,7 +129,15 @@ class EditPreset extends Component<Props, State> {
   };
 
   renderItem = ({
-    item, move, moveEnd, isActive,
+    item,
+    move,
+    moveEnd,
+    isActive,
+  }: {
+    item: string,
+    move: Function,
+    moveEnd: Function,
+    isActive: boolean,
   }) => (
     <CurrencyPreset
       char={item}
@@ -161,7 +177,7 @@ const mapDispatchToActions = {
   presetChanged,
 };
 
-export default connect(
+export default connect<any, any, any, any, any, any>(
   mapStateToProps,
   mapDispatchToActions,
 )(EditPreset);

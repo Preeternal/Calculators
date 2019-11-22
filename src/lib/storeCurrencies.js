@@ -18,7 +18,8 @@ const dailyEnUrl = 'https://www.cbr.ru/scripts/XML_daily_eng.asp';
 const storeCurrencies = () => {
   const selectCurrencies = state => state.converter.currencies;
   const currencies = selectCurrencies(store.getState());
-  const newLocal = currencies instanceof Object ? typeof currencies[2] : undefined;
+  const newLocal =
+    currencies instanceof Object ? typeof currencies[2] : undefined;
   let comprasion;
   if (newLocal === 'object' && currencies[2].nameEng !== undefined) {
     comprasion = [...currencies];
@@ -29,10 +30,10 @@ const storeCurrencies = () => {
       url: dailyEnUrl,
       responseType: 'arraybuffer',
     })
-      .then((res) => {
+      .then(res => {
         const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
         return parseString(result, (err, data) => {
-          const parsed = data.ValCurs.Valute.map((element) => {
+          const parsed = data.ValCurs.Valute.map(element => {
             const nameEng = element.Name[0];
             const charCode = element.CharCode[0];
             return {
@@ -43,79 +44,87 @@ const storeCurrencies = () => {
           comprasion = [...parsed];
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }
 
-  const getLocalInput = (input) => {
-    const minimumFractionDigits = Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
+  const getLocalInput = input => {
+    const minimumFractionDigits =
+      Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
     return Number(number(`${input}`)).toLocaleString('ru-RU', {
       minimumFractionDigits,
       maximumFractionDigits: minimumFractionDigits,
     });
   };
 
-  const getFrontendRequest = () => axios({
-    method: 'get',
-    url: dailyUrl,
-    responseType: 'arraybuffer',
-  })
-    .then((res) => {
-      const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
-      const updatedAt = new Date().toJSON();
-      return parseString(result, (err, data) => {
-        const parsed = data.ValCurs.Valute.map((element) => {
-          const charCode = element.CharCode[0];
-          const name = element.Name[0];
-          const nominal = Number(element.Nominal[0]);
-          const value = Number(
-            element.Value[0].match(',') ? element.Value[0].replace(',', '.') : element.Value[0],
-          );
-          const { id, input, nameEng } = comprasion.find(el => el.charCode === charCode);
-          return {
-            id,
-            input,
-            name,
-            nameEng,
-            charCode,
-            nominal,
-            updatedAt,
-            value,
-          };
-        });
-        store.dispatch(
-          currenciesChanged([
-            {
-              id: '1',
-              name: 'Российский рубль',
-              nameEng: 'Russian ruble',
-              charCode: 'RUB',
-              nominal: 1,
-              updatedAt,
-              value: 1,
-              __typename: 'Currency',
-              input: 1,
-            },
-            ...parsed,
-          ]),
-        );
-      });
+  const getFrontendRequest = () =>
+    axios({
+      method: 'get',
+      url: dailyUrl,
+      responseType: 'arraybuffer',
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then(res => {
+        const result = iconv.decode(Buffer.from(res.data), 'windows-1251');
+        const updatedAt = new Date().toJSON();
+        return parseString(result, (err, data) => {
+          const parsed = data.ValCurs.Valute.map(element => {
+            const charCode = element.CharCode[0];
+            const name = element.Name[0];
+            const nominal = Number(element.Nominal[0]);
+            const value = Number(
+              element.Value[0].match(',')
+                ? element.Value[0].replace(',', '.')
+                : element.Value[0],
+            );
+            const { id, input, nameEng } = comprasion.find(
+              el => el.charCode === charCode,
+            );
+            return {
+              id,
+              input,
+              name,
+              nameEng,
+              charCode,
+              nominal,
+              updatedAt,
+              value,
+            };
+          });
+          store.dispatch(
+            currenciesChanged([
+              {
+                id: '1',
+                name: 'Российский рубль',
+                nameEng: 'Russian ruble',
+                charCode: 'RUB',
+                nominal: 1,
+                updatedAt,
+                value: 1,
+                __typename: 'Currency',
+                input: 1,
+              },
+              ...parsed,
+            ]),
+          );
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
   client
     .query({
       query: getCurrencies,
     })
-    .then((response) => {
-      const currenciesWithInputField = response.data.currencies.map((currency) => {
-        const curr = { ...currency };
-        curr.input = getLocalInput(curr.nominal / curr.value);
-        return curr;
-      });
+    .then(response => {
+      const currenciesWithInputField = response.data.currencies.map(
+        currency => {
+          const curr = { ...currency };
+          curr.input = getLocalInput(curr.nominal / curr.value);
+          return curr;
+        },
+      );
       const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
       if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
         getFrontendRequest();
@@ -138,7 +147,7 @@ const storeCurrencies = () => {
         );
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       const dt = DateTime.fromISO(currencies[1].updatedAt);
       if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
