@@ -15,7 +15,6 @@ const Start = () => (
   <ApolloProvider client={client}>
     <Provider store={store}>
       <PersistGate loading={<Screen />} persistor={persistor}>
-        {console.log(!!global.HermesInternal)}
         <App />
       </PersistGate>
     </Provider>
