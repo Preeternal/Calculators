@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'native-base';
+// import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 import type { NavigationStackScreenOptions } from 'react-navigation';
 
@@ -304,9 +305,9 @@ class Converter extends Component<Props, State> {
                         - new Date(Date.parse(new Date().toUTCString())).valueOf()),
                   ).toLocaleTimeString()} */}
                     {/* {`${strings('converter.lastUpdate')} ${DateTime.fromISO(
-                    this.props.currencies[1].updatedAt,
-                    { locale: this.props.language === 0 ? 'ru' : 'en' },
-                  ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
+                      this.props.currencies[1].updatedAt,
+                      { locale: this.props.language === 0 ? 'ru' : 'en' },
+                    ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
                   </Text>
                 </View>
                 <TouchableOpacity
