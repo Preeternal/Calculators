@@ -734,13 +734,23 @@ class Credit extends Component<Props, State> {
                         <Pie
                           radius={65}
                           innerRadius={59}
-                          series={[
-                            (Number(number(this.props.creditPrincipal)) * 100) /
-                              vsego,
-                            (interestPayments * 100) / vsego,
-                            (comPayments * 100) / vsego,
+                          sections={[
+                            {
+                              percentage:
+                                (Number(number(this.props.creditPrincipal)) *
+                                  100) /
+                                vsego,
+                              color: '#ddd',
+                            },
+                            {
+                              percentage: (interestPayments * 100) / vsego,
+                              color: '#a2aaa4',
+                            },
+                            {
+                              percentage: (comPayments * 100) / vsego,
+                              color: '#569e69',
+                            },
                           ]}
-                          colors={['#ddd', '#a2aaa4', '#569e69']}
                           backgroundColor="#ddd"
                         />
                         <View style={gauge}>

@@ -629,14 +629,27 @@ class Depo extends Component<Props, State> {
                       <Pie
                         radius={65}
                         innerRadius={59}
-                        series={[
-                          (Number(number(this.props.principal)) * 100) /
-                            (principal1 + tax),
-                          (adjunctionAll * 100) / (principal1 + tax),
-                          (principal2 * 100) / (principal1 + tax),
-                          (tax * 100) / (principal1 + tax),
+                        sections={[
+                          {
+                            percentage:
+                              (Number(number(this.props.principal)) * 100) /
+                              (principal1 + tax),
+                            color: '#ddd',
+                          },
+                          {
+                            percentage:
+                              (adjunctionAll * 100) / (principal1 + tax),
+                            color: '#a2aaa4',
+                          },
+                          {
+                            percentage: (principal2 * 100) / (principal1 + tax),
+                            color: '#569e69',
+                          },
+                          {
+                            percentage: (tax * 100) / (principal1 + tax),
+                            color: '#db2323',
+                          },
                         ]}
-                        colors={['#ddd', '#a2aaa4', '#569e69', '#db2323']}
                         backgroundColor="#ddd"
                       />
                       <View style={gauge}>
