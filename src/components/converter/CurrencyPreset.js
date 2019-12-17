@@ -1,8 +1,6 @@
 // @flow
 import React from 'react';
-import {
-  View, Text, TouchableOpacity, Dimensions,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { Icon } from 'native-base';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { strings } from '../../../locales/i18n';
@@ -10,8 +8,8 @@ import { strings } from '../../../locales/i18n';
 type Props = {
   char: string,
   onDelete: Function,
-  // onMove: Function,
-  onLongPress: Function,
+  onMove: Function,
+  // onLongPress: Function,
   onPressOut: Function,
   isActive: boolean,
   deleteListItem: Function,
@@ -62,8 +60,9 @@ const CurrencyPreset = (props: Props) => {
         <TouchableOpacity
           activeOpacity={1}
           style={moveStyle}
+          onPressIn={props.onMove}
           // onPress={props.onMove}
-          onLongPress={props.onLongPress}
+          // onLongPress={props.onLongPress}
           onPressOut={props.onPressOut}
         >
           <Icon type="FontAwesome" name="sort" style={iconStyle} />

@@ -143,8 +143,8 @@ class EditPreset extends Component<Props, State> {
       char={item}
       onDelete={() => this.onDelete(item)}
       deleteListItem={() => this.deleteListItem(item)}
-      // onMove={move}
-      onLongPress={move}
+      onMove={move}
+      // onLongPress={move}
       onPressOut={moveEnd}
       isActive={isActive}
     />
