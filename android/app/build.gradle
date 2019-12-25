@@ -131,8 +131,8 @@ android {
         applicationId "com.banoka"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4000113
-        versionName "1.13"
+        versionCode 4000114
+        versionName "1.14"
     }
     signingConfigs {
         release {
@@ -210,3 +210,9 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+configurations.all {
+     resolutionStrategy {
+       force "com.facebook.soloader:soloader:0.8.0"
+     }
+}
