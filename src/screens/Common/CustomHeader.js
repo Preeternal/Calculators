@@ -1,13 +1,16 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import {
-  Header, Body, Title, Left, Icon, Right, Button,
-} from 'native-base';
+import { Header, Body, Title, Left, Icon, Right, Button } from 'native-base';
 
 const CustomHeader = props => (
   <Header
-    key={props.navigation.state.params ? props.navigation.state.params.DLabel : 'header'}
+    key={
+      props.navigation.state.params
+        ? props.navigation.state.params.DLabel
+        : 'header'
+    }
     androidStatusBarColor="#757171"
     style={{
       backgroundColor: '#525050',
@@ -27,6 +30,7 @@ const CustomHeader = props => (
         style={{
           color: 'white',
           textAlign: 'left',
+          width: 0.5 * Dimensions.get('window').width,
         }}
       >
         {props.title}

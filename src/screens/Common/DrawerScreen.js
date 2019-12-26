@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { DrawerItems } from 'react-navigation';
 import PropTypes from 'prop-types';
@@ -7,19 +8,24 @@ import {
   // StatusBar,
   // View, Text,
 } from 'react-native';
-import {
-  Container, Content, Header, Body,
-} from 'native-base';
+import { Container, Content, Header, Body } from 'native-base';
 
 import images from '../../images';
 
 const DrawerScreen = props => (
   <Container>
-    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'always', horizontal: 'never' }}>
+    <SafeAreaView
+      style={{ flex: 1 }}
+      forceInset={{ top: 'always', horizontal: 'never' }}
+    >
       {/* <StatusBar barStyle="dark-content" backgroundColor="#757171" /> */}
       <Header androidStatusBarColor="#757171" style={styles.drawerHeader}>
         <Body>
-          <Image resizeMode="cover" style={styles.drawerImage} source={images.logo} />
+          <Image
+            resizeMode="cover"
+            style={styles.drawerImage}
+            source={images.logo}
+          />
         </Body>
       </Header>
       <Content>

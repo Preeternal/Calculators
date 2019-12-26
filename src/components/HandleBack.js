@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { withNavigation } from 'react-navigation';
-import type { NavigationStateRoute, NavigationScreenProp } from 'react-navigation';
+import type {
+  NavigationStateRoute,
+  NavigationScreenProp,
+} from 'react-navigation';
 // import { BackHandler } from 'react-native';
 
 type Props = {
