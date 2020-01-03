@@ -771,6 +771,7 @@ class Credit extends Component<Props, State> {
               <ScrollView
                 horizontal
                 onScroll={this.handleScroll}
+                scrollEventThrottle={16}
                 ref={this.scrollView}
               >
                 <Card>
