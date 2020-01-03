@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Container, Content, Header, Body } from 'native-base';
 
-import images from '../../images';
+import images from '../../assets/images';
 
 const DrawerScreen = props => (
   <Container>

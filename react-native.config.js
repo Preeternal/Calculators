@@ -1,6 +1,6 @@
 module.exports = {
   // config for a library is scoped under "dependency" key
-  assets: ['src/images/'], // stays the same
+  assets: ['src/assets/'], // stays the same
   // dependency: {
   //   // platforms: {
   //   //   ios: {},
