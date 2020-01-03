@@ -56,7 +56,7 @@ import creditCalculate from '../../lib/creditCalculate';
 
 import CustomHeader from '../Common/CustomHeader';
 
-import images from '../../images';
+import images from '../../assets/images';
 
 type Props = {
   creditPrincipal: string,

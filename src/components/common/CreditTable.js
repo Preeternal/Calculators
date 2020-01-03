@@ -8,7 +8,7 @@ const options = {
   maximumFractionDigits: 2,
 };
 
-const CreditTable = (props) => {
+const CreditTable = props => {
   const {
     containerStyle,
     headerStyle,
@@ -23,47 +23,60 @@ const CreditTable = (props) => {
     col8Style,
     col9Style,
   } = styles;
-    // const tableHead = ['№', 'дата платежа', 'дни', 'погашение тела кредита',
-    // 'платёж по процентам','комиссионные платежи', 'общая сумма платежа',
-    // 'основной остаток долга', 'переплата'];
+  // const tableHead = ['№', 'дата платежа', 'дни', 'погашение тела кредита',
+  // 'платёж по процентам','комиссионные платежи', 'общая сумма платежа',
+  // 'основной остаток долга', 'переплата'];
   const tableHead = strings('credit.table.tableHead');
-  const row = rows => rows.map((value, index) => (
-    <View
-      // eslint-disable-next-line react/no-array-index-key
-      key={index + value[3] + value[6]}
-      style={[styles.renderStyle, { width: props.width }]}
-    >
-      <View style={styles.col1Style}>
-        <Text style={styles.textStyle}>{value[0]}</Text>
+  const row = rows =>
+    rows.map((value, index) => (
+      <View
+        // eslint-disable-next-line react/no-array-index-key
+        key={index + value[3] + value[6]}
+        style={[styles.renderStyle, { width: props.width }]}
+      >
+        <View style={styles.col1Style}>
+          <Text style={styles.textStyle}>{value[0]}</Text>
+        </View>
+        <View style={styles.col2Style}>
+          <Text style={styles.textStyle}>{value[1]}</Text>
+        </View>
+        <View style={styles.col3Style}>
+          <Text style={styles.textStyle}>{value[2]}</Text>
+        </View>
+        <View style={styles.col4Style}>
+          <Text style={styles.textStyle}>
+            {value[3].toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        <View style={styles.col5Style}>
+          <Text style={styles.textStyle}>
+            {value[4].toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        {props.value.comPayments > 0 && (
+          <View style={styles.col6Style}>
+            <Text style={styles.textStyle}>
+              {value[5].toLocaleString(currentLocale, options)}
+            </Text>
+          </View>
+        )}
+        <View style={styles.col7Style}>
+          <Text style={styles.textStyle}>
+            {value[6].toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        <View style={styles.col8Style}>
+          <Text style={styles.textStyle}>
+            {value[7].toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
+        <View style={styles.col9Style}>
+          <Text style={styles.textStyle}>
+            {value[8].toLocaleString(currentLocale, options)}
+          </Text>
+        </View>
       </View>
-      <View style={styles.col2Style}>
-        <Text style={styles.textStyle}>{value[1]}</Text>
-      </View>
-      <View style={styles.col3Style}>
-        <Text style={styles.textStyle}>{value[2]}</Text>
-      </View>
-      <View style={styles.col4Style}>
-        <Text style={styles.textStyle}>{value[3].toLocaleString(currentLocale, options)}</Text>
-      </View>
-      <View style={styles.col5Style}>
-        <Text style={styles.textStyle}>{value[4].toLocaleString(currentLocale, options)}</Text>
-      </View>
-      {props.value.comPayments > 0 && (
-      <View style={styles.col6Style}>
-        <Text style={styles.textStyle}>{value[5].toLocaleString(currentLocale, options)}</Text>
-      </View>
-      )}
-      <View style={styles.col7Style}>
-        <Text style={styles.textStyle}>{value[6].toLocaleString(currentLocale, options)}</Text>
-      </View>
-      <View style={styles.col8Style}>
-        <Text style={styles.textStyle}>{value[7].toLocaleString(currentLocale, options)}</Text>
-      </View>
-      <View style={styles.col9Style}>
-        <Text style={styles.textStyle}>{value[8].toLocaleString(currentLocale, options)}</Text>
-      </View>
-    </View>
-  ));
+    ));
   const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
   const reverse = transpose([
     props.value.n,
@@ -109,15 +122,15 @@ const CreditTable = (props) => {
           </Text>
         </View>
         {props.value.comPayments > 0 && (
-        <View style={col6Style}>
-          <Text style={textStyle}>
-            {`${tableHead[5]}, ${
-              props.currency.substring(1) === 'руб' && props.language === 0
-                ? props.currency.substring(1)
-                : props.currency.charAt(0)
-            }`}
-          </Text>
-        </View>
+          <View style={col6Style}>
+            <Text style={textStyle}>
+              {`${tableHead[5]}, ${
+                props.currency.substring(1) === 'руб' && props.language === 0
+                  ? props.currency.substring(1)
+                  : props.currency.charAt(0)
+              }`}
+            </Text>
+          </View>
         )}
         <View style={col7Style}>
           <Text style={textStyle}>
@@ -150,7 +163,9 @@ const CreditTable = (props) => {
       </View>
       {rows}
       <View style={[headerStyle, { width: props.width }]}>
-        <View style={{ flex: 0.3, borderRightWidth: 1, borderColor: '#f1f1f1' }} />
+        <View
+          style={{ flex: 0.3, borderRightWidth: 1, borderColor: '#f1f1f1' }}
+        />
         <View style={{ flex: 1, borderRightWidth: 1, borderColor: '#f1f1f1' }}>
           <Text style={textStyle}>{strings('credit.table.total')}</Text>
         </View>
@@ -162,15 +177,18 @@ const CreditTable = (props) => {
         </View>
         <View style={col5Style}>
           <Text style={textStyle}>
-            {props.value.interestPayments.toLocaleString(currentLocale, options)}
+            {props.value.interestPayments.toLocaleString(
+              currentLocale,
+              options,
+            )}
           </Text>
         </View>
         {props.value.comPayments > 0 && (
-        <View style={col6Style}>
-          <Text style={textStyle}>
-            {props.value.comPayments.toLocaleString(currentLocale, options)}
-          </Text>
-        </View>
+          <View style={col6Style}>
+            <Text style={textStyle}>
+              {props.value.comPayments.toLocaleString(currentLocale, options)}
+            </Text>
+          </View>
         )}
         <View style={col7Style}>
           <Text style={textStyle}>
@@ -178,9 +196,7 @@ const CreditTable = (props) => {
           </Text>
         </View>
         <View style={col8Style}>
-          <Text style={textStyle}>
-           -
-          </Text>
+          <Text style={textStyle}>-</Text>
         </View>
         <View style={col9Style}>
           <Text style={textStyle}>
@@ -215,6 +231,7 @@ const styles = {
   textStyle: {
     fontSize: 12,
     textAlign: 'center',
+    fontFamily: 'Ubuntu',
   },
   col1Style: {
     flex: 0.3,
