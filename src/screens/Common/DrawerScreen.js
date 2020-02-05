@@ -18,10 +18,10 @@ const DrawerScreen = props => (
       style={{ flex: 1 }}
       forceInset={{ top: 'always', horizontal: 'never' }}
     >
-      {/* <StatusBar barStyle="dark-content" backgroundColor="#757171" /> */}
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#525050" /> */}
       <Header
-        iosBarStyle="dark-content"
-        androidStatusBarColor="#757171"
+        // iosBarStyle="dark-content"
+        androidStatusBarColor="#525050"
         style={styles.drawerHeader}
       >
         <Body>
