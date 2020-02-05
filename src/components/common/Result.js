@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Result = ({
-  label, resultData, labelPieStyle, resultPieStyle,
-}) => {
+const Result = ({ label, resultData, labelPieStyle, resultPieStyle }) => {
   const {
-    containerStyle, labelStyle, labelTextStyle, resultStyle, resultDataStyle,
+    containerStyle,
+    labelStyle,
+    labelTextStyle,
+    resultStyle,
+    resultDataStyle,
   } = styles;
 
   return (
@@ -30,6 +32,7 @@ const styles = {
     flexDirection: 'row',
   },
   labelStyle: {
+    fontFamily: 'Ubuntu',
     flex: 1.9,
     justifyContent: 'center',
   },
@@ -44,6 +47,7 @@ const styles = {
     justifyContent: 'center',
   },
   resultDataStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 5,
   },

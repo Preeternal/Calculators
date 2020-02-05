@@ -28,6 +28,7 @@ const CustomHeader = props => (
     <Body>
       <Title
         style={{
+          fontFamily: 'Ubuntu',
           color: 'white',
           textAlign: 'left',
           width: 0.5 * Dimensions.get('window').width,

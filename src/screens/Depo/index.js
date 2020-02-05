@@ -620,7 +620,7 @@ class Depo extends Component<Props, State> {
                         justifyContent: 'center',
                       }}
                     >
-                      <Text>
+                      <Text style={{ fontFamily: 'Ubuntu' }}>
                         {/* Сумма вклада с процентами */}
                         {strings('result.pie')}
                       </Text>
@@ -692,6 +692,7 @@ class Depo extends Component<Props, State> {
 
 const styles = {
   welcome: {
+    fontFamily: 'Ubuntu',
     fontSize: 17,
     margin: 10,
     textAlign: 'center',
@@ -725,6 +726,7 @@ const styles = {
     justifyContent: 'center',
   },
   gaugeText: {
+    fontFamily: 'Ubuntu',
     backgroundColor: 'transparent',
   },
 };

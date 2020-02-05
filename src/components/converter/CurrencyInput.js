@@ -97,6 +97,7 @@ const styles = {
     justifyContent: 'center',
   },
   labelTextStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 10,
   },
@@ -109,7 +110,12 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 10,
   },
-  nameStyle: { paddingRight: 10, paddingBottom: 10, fontSize: 13 },
+  nameStyle: {
+    fontFamily: 'Ubuntu',
+    paddingRight: 10,
+    paddingBottom: 10,
+    fontSize: 13,
+  },
 };
 
 export { CurrencyInput };

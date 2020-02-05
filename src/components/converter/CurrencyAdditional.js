@@ -11,7 +11,10 @@ type CurrencyType = {
 };
 
 const CurrencyAdditional = ({
-  name, char, checked, handleClick,
+  name,
+  char,
+  checked,
+  handleClick,
 }: CurrencyType) => {
   const {
     containerStyle,
@@ -69,6 +72,7 @@ const styles = {
     alignItems: 'flex-start',
   },
   nameTextStyle: {
+    fontFamily: 'Ubuntu',
     // paddingLeft: 10,
     fontSize: 13,
   },
@@ -77,6 +81,7 @@ const styles = {
     justifyContent: 'center',
   },
   charTextStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 10,
   },

@@ -35,7 +35,7 @@ class Help extends PureComponent {
           <Card>
             <Header headerText={strings('help.definitions')} />
             <CardSection>
-              <Text style={[bold, { marginTop: 10 }]}>
+              <Text style={[bold, { fontFamily: 'Ubuntu', marginTop: 10 }]}>
                 {strings('help.paymentType.header')}
               </Text>
               <Text style={main}>
@@ -84,9 +84,9 @@ class Help extends PureComponent {
             <Header headerText={strings('help.guarantees')} />
             <CardSection>
               <Text style={main}>
-                Приложение предоставляется на условиях `КАК ЕСТЬ`, без каких
-                либо явных или подразумеваемых гарантий. Правообладатель не
-                предоставляет никаких гарантий в отношении безошибочной и
+                Приложение предоставляется на условиях &#34;КАК ЕСТЬ&#34;, без
+                каких либо явных или подразумеваемых гарантий. Правообладатель
+                не предоставляет никаких гарантий в отношении безошибочной и
                 бесперебойной работы приложения, соответствия содержимого
                 приложения конкретным целям пользователя.
               </Text>
@@ -100,10 +100,12 @@ class Help extends PureComponent {
 
 const styles = {
   main: {
+    fontFamily: 'Ubuntu',
     margin: 10,
     textAlign: 'justify',
   },
   bold: {
+    fontFamily: 'Ubuntu',
     marginLeft: 10,
     marginRight: 10,
     fontWeight: 'bold',

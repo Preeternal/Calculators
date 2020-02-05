@@ -524,7 +524,9 @@ class Credit extends Component<Props, State> {
                   }}
                   onPress={this.onCommissionTouch}
                 >
-                  <Text>{`${strings('credit.result.comPayments')}  `}</Text>
+                  <Text style={{ fontFamily: 'Ubuntu' }}>
+                    {`${strings('credit.result.comPayments')}  `}
+                  </Text>
                   <Icon
                     name={
                       !this.state.commission
@@ -725,7 +727,7 @@ class Credit extends Component<Props, State> {
                           justifyContent: 'center',
                         }}
                       >
-                        <Text>
+                        <Text style={{ fontFamily: 'Ubuntu' }}>
                           {/* итого к оплате */}
                           {strings('credit.result.vsego')}
                         </Text>
@@ -819,6 +821,7 @@ class Credit extends Component<Props, State> {
 
 const styles = {
   welcome: {
+    fontFamily: 'Ubuntu',
     fontSize: 17,
     margin: 10,
     textAlign: 'center',
@@ -852,6 +855,7 @@ const styles = {
     justifyContent: 'center',
   },
   gaugeText: {
+    fontFamily: 'Ubuntu',
     backgroundColor: 'transparent',
   },
 };

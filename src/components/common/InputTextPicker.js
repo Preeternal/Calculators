@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  View, Text, TextInput, Platform,
-} from 'react-native';
+import { View, Text, TextInput, Platform } from 'react-native';
 import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
 
@@ -97,6 +95,7 @@ const styles = {
     // justifyContent: 'flex-start',
   },
   componentLabelTextStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 5,
     alignSelf: 'center',

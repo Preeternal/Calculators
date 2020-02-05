@@ -70,6 +70,11 @@ const Navigator = createDrawerNavigator(
     contentOptions: {
       activeTintColor: '#000000',
       inactiveTintColor: '#525050',
+      labelStyle: {
+        fontFamily: 'Ubuntu Condensed',
+        // fontStyle: 'italic',
+        fontWeight: 'normal',
+      },
     },
   },
 );

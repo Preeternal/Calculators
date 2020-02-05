@@ -7,11 +7,16 @@ const ViewItem = props => (
   </View>
 );
 
-const column = (col, style) => col.map((value, index) => (
-  <ViewItem key={parseInt(index.toString(), 10) + value} value={value} style={style} />
-));
+const column = (col, style) =>
+  col.map((value, index) => (
+    <ViewItem
+      key={parseInt(index.toString(), 10) + value}
+      value={value}
+      style={style}
+    />
+  ));
 
-const Table = (props) => {
+const Table = props => {
   const {
     containerStyle,
     headerStyle,
@@ -25,7 +30,14 @@ const Table = (props) => {
     col5Style,
     col6Style,
   } = styles;
-  const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого', 'общая сумма'];
+  const tableHead = [
+    '№',
+    'дата',
+    'начислено %',
+    'дни',
+    'начислено  % итого',
+    'общая сумма',
+  ];
   const col1 = column(props.col1, ViewItemStyle);
   const col2 = column(props.col2, ViewItemStyle);
   const col3 = column(props.col3, ViewItemStyle);
@@ -88,6 +100,7 @@ const styles = {
     flexDirection: 'row',
   },
   textStyle: {
+    fontFamily: 'Ubuntu',
     fontSize: 12,
     textAlign: 'center',
   },

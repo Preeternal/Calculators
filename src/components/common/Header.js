@@ -27,6 +27,7 @@ const styles = {
     position: 'relative',
   },
   textStyle: {
+    fontFamily: 'Ubuntu',
     fontSize: 18,
     color: '#ffffff',
     textAlign: 'center',

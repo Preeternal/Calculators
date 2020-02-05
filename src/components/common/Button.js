@@ -13,6 +13,7 @@ const Button = ({ onPress, children }) => {
 
 const styles = {
   textStyle: {
+    fontFamily: 'Ubuntu',
     alignSelf: 'center',
     color: '#575859',
     fontSize: 16,

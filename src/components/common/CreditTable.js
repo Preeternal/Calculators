@@ -231,7 +231,7 @@ const styles = {
   textStyle: {
     fontSize: 12,
     textAlign: 'center',
-    fontFamily: 'Ubuntu',
+    fontFamily: 'Ubuntu Condensed',
   },
   col1Style: {
     flex: 0.3,

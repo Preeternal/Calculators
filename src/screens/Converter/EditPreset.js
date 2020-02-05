@@ -31,6 +31,7 @@ type State = { preset: Array<string> };
 
 const styles = {
   headerText: {
+    fontFamily: 'Ubuntu',
     color: '#ffffff',
     fontSize: 18,
   },

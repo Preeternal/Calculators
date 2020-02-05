@@ -228,7 +228,12 @@ class Settings extends Component<Props, State> {
                 {this.state.purchased && (
                   <CardSection>
                     <Text
-                      style={{ fontSize: 17, margin: 10, textAlign: 'center' }}
+                      style={{
+                        fontFamily: 'Ubuntu',
+                        fontSize: 17,
+                        margin: 10,
+                        textAlign: 'center',
+                      }}
                     >
                       {strings('settings.donat.thanks')}
                     </Text>
@@ -238,6 +243,7 @@ class Settings extends Component<Props, State> {
                   <CardSection key={i.toString()}>
                     <Text
                       style={{
+                        fontFamily: 'Ubuntu',
                         marginTop: 10,
                         textAlign: 'center',
                       }}
@@ -259,7 +265,7 @@ class Settings extends Component<Props, State> {
                       }}
                     >
                       <Icon type="FontAwesome5" name="donate" />
-                      <Text style={{ color: 'white' }}>
+                      <Text style={{ fontFamily: 'Ubuntu', color: 'white' }}>
                         {product.localizedPrice}
                       </Text>
                     </Button>
@@ -282,10 +288,7 @@ const mapStateToProps = state => ({
   language: state.settings.language,
   country: state.settings.country,
 });
-export default connect<any, any, any, any, any, any>(
-  mapStateToProps,
-  {
-    languageChanged,
-    countryChanged,
-  },
-)(Settings);
+export default connect<any, any, any, any, any, any>(mapStateToProps, {
+  languageChanged,
+  countryChanged,
+})(Settings);
