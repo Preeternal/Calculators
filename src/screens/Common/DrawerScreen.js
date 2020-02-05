@@ -19,7 +19,7 @@ const DrawerScreen = props => (
       forceInset={{ top: 'always', horizontal: 'never' }}
     >
       {/* <StatusBar barStyle="dark-content" backgroundColor="#757171" /> */}
-      <Header androidStatusBarColor="#757171" style={styles.drawerHeader}>
+      <Header iosBarStyle="dark-content" androidStatusBarColor="#757171" style={styles.drawerHeader}>
         <Body>
           <Image
             resizeMode="cover"

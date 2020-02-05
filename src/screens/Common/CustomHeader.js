@@ -12,6 +12,7 @@ const CustomHeader = props => (
         : 'header'
     }
     androidStatusBarColor="#757171"
+    iosBarStyle="light-content"
     style={{
       backgroundColor: '#525050',
       shadowColor: '#000',
@@ -20,6 +21,7 @@ const CustomHeader = props => (
       elevation: 2,
     }}
   >
+    {/* <StatusBar barStyle="dark-content" translucent={true} backgroundColor="#757171" /> */}
     <Left>
       <Button transparent onPress={() => props.drawerOpen()}>
         <Icon name="ios-menu" style={{ fontSize: 30, color: 'white' }} />
