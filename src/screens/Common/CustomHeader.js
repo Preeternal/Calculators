@@ -11,7 +11,7 @@ const CustomHeader = props => (
         ? props.navigation.state.params.DLabel
         : 'header'
     }
-    androidStatusBarColor="#757171"
+    androidStatusBarColor="#525050"
     iosBarStyle="light-content"
     style={{
       backgroundColor: '#525050',
