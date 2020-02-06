@@ -71,7 +71,7 @@ const Navigator = createDrawerNavigator(
       activeTintColor: '#000000',
       inactiveTintColor: '#525050',
       labelStyle: {
-        fontFamily: 'Ubuntu Condensed',
+        fontFamily: 'Ubuntu',
         // fontStyle: 'italic',
         fontWeight: 'normal',
       },
