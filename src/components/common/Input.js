@@ -96,6 +96,8 @@ const styles = {
   inputTextStyle: {
     paddingLeft: 10,
     paddingRight: 5,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
   },
 };
 

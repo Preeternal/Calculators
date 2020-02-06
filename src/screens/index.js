@@ -72,8 +72,8 @@ const Navigator = createDrawerNavigator(
       inactiveTintColor: '#525050',
       labelStyle: {
         fontFamily: 'Ubuntu',
-        // fontStyle: 'italic',
         fontWeight: '700',
+        // fontStyle: 'italic'
       },
     },
   },

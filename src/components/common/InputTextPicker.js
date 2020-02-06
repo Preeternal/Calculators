@@ -45,6 +45,8 @@ const InputTextPicker = ({
           textStyle={{
             color: '#525050',
             fontSize: Platform.OS === 'ios' ? 13 : 15,
+            fontFamily: 'Ubuntu',
+            fontWeight: 'normal',
           }}
           // mode='dropdown'
           options={options}
@@ -110,6 +112,8 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 5,
     flex: 1,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
   },
   pickerStyle: {
     flex: 0.9,

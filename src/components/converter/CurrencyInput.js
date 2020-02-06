@@ -109,6 +109,8 @@ const styles = {
   inputTextStyle: {
     paddingLeft: 10,
     paddingRight: 10,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
   },
   nameStyle: {
     fontFamily: 'Ubuntu',

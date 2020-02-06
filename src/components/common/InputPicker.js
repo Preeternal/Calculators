@@ -37,6 +37,8 @@ const InputPicker = ({
           textStyle={{
             color: '#525050',
             fontSize: Platform.OS === 'ios' ? 13 : 15,
+            fontFamily: 'Ubuntu',
+            fontWeight: 'normal',
           }}
           // mode='dropdown'
           mode="dialog"
