@@ -27,6 +27,7 @@ const styles = {
     justifyContent: 'center',
   },
   labelTextStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 5,
     textAlign: 'center',

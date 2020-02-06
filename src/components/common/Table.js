@@ -131,6 +131,7 @@ const styles = {
     borderColor: '#ddd',
   },
   textStyle: {
+    fontFamily: 'Ubuntu',
     fontSize: 12,
     textAlign: 'center',
   },

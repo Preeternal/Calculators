@@ -88,7 +88,7 @@ const styles = {
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  absoluteCellText: { marginRight: 15, color: '#FFF' },
+  absoluteCellText: { fontFamily: 'Ubuntu', marginRight: 15, color: '#FFF' },
   containerStyle: {
     width,
     borderBottomWidth: 1,
@@ -119,6 +119,7 @@ const styles = {
     alignItems: 'flex-start',
   },
   charTextStyle: {
+    fontFamily: 'Ubuntu',
     fontSize: 13,
   },
   moveStyle: {

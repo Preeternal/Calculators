@@ -23,6 +23,7 @@ type State = {
 
 const styles = {
   headerText: {
+    fontFamily: 'Ubuntu',
     color: '#ffffff',
     fontSize: 18,
   },

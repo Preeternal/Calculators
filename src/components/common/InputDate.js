@@ -41,6 +41,7 @@ const styles = {
     justifyContent: 'center',
   },
   labelTextStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 5,
   },
@@ -49,6 +50,7 @@ const styles = {
     justifyContent: 'center',
   },
   inputTextStyle: {
+    fontFamily: 'Ubuntu',
     color: '#525050',
     paddingLeft: 10,
     paddingRight: 5,

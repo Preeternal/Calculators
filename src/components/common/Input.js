@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React from 'react';
 import { TextInput, View, Text, TouchableOpacity } from 'react-native';
 
@@ -85,6 +85,7 @@ const styles = {
     justifyContent: 'center',
   },
   labelTextStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 5,
   },
@@ -95,6 +96,8 @@ const styles = {
   inputTextStyle: {
     paddingLeft: 10,
     paddingRight: 5,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
   },
 };
 

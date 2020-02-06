@@ -369,6 +369,7 @@ const styles = {
     justifyContent: 'center',
   },
   footerText: {
+    fontFamily: 'Ubuntu',
     fontSize: 14,
     color: '#ffffff',
     marginLeft: 5,

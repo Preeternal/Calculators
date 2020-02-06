@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Container, Content, Header, Body } from 'native-base';
 
-import images from '../../images';
+import images from '../../assets/images';
 
 const DrawerScreen = props => (
   <Container>
@@ -18,8 +18,12 @@ const DrawerScreen = props => (
       style={{ flex: 1 }}
       forceInset={{ top: 'always', horizontal: 'never' }}
     >
-      {/* <StatusBar barStyle="dark-content" backgroundColor="#757171" /> */}
-      <Header androidStatusBarColor="#757171" style={styles.drawerHeader}>
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#525050" /> */}
+      <Header
+        // iosBarStyle="dark-content"
+        androidStatusBarColor="#525050"
+        style={styles.drawerHeader}
+      >
         <Body>
           <Image
             resizeMode="cover"

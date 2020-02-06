@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  View, Text, TextInput, Platform,
-} from 'react-native';
+import { View, Text, TextInput, Platform } from 'react-native';
 import { Picker, Icon } from 'native-base';
 import { strings } from '../../../locales/i18n';
 
@@ -47,6 +45,8 @@ const InputTextPicker = ({
           textStyle={{
             color: '#525050',
             fontSize: Platform.OS === 'ios' ? 13 : 15,
+            fontFamily: 'Ubuntu',
+            fontWeight: 'normal',
           }}
           // mode='dropdown'
           options={options}
@@ -97,6 +97,7 @@ const styles = {
     // justifyContent: 'flex-start',
   },
   componentLabelTextStyle: {
+    fontFamily: 'Ubuntu',
     paddingLeft: 10,
     paddingRight: 5,
     alignSelf: 'center',
@@ -111,6 +112,8 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 5,
     flex: 1,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
   },
   pickerStyle: {
     flex: 0.9,

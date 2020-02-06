@@ -56,7 +56,7 @@ import creditCalculate from '../../lib/creditCalculate';
 
 import CustomHeader from '../Common/CustomHeader';
 
-import images from '../../images';
+import images from '../../assets/images';
 
 type Props = {
   creditPrincipal: string,
@@ -524,7 +524,9 @@ class Credit extends Component<Props, State> {
                   }}
                   onPress={this.onCommissionTouch}
                 >
-                  <Text>{`${strings('credit.result.comPayments')}  `}</Text>
+                  <Text style={{ fontFamily: 'Ubuntu' }}>
+                    {`${strings('credit.result.comPayments')}  `}
+                  </Text>
                   <Icon
                     name={
                       !this.state.commission
@@ -725,7 +727,7 @@ class Credit extends Component<Props, State> {
                           justifyContent: 'center',
                         }}
                       >
-                        <Text>
+                        <Text style={{ fontFamily: 'Ubuntu' }}>
                           {/* итого к оплате */}
                           {strings('credit.result.vsego')}
                         </Text>
@@ -771,6 +773,7 @@ class Credit extends Component<Props, State> {
               <ScrollView
                 horizontal
                 onScroll={this.handleScroll}
+                scrollEventThrottle={16}
                 ref={this.scrollView}
               >
                 <Card>
@@ -818,6 +821,7 @@ class Credit extends Component<Props, State> {
 
 const styles = {
   welcome: {
+    fontFamily: 'Ubuntu',
     fontSize: 17,
     margin: 10,
     textAlign: 'center',
@@ -851,6 +855,7 @@ const styles = {
     justifyContent: 'center',
   },
   gaugeText: {
+    fontFamily: 'Ubuntu',
     backgroundColor: 'transparent',
   },
 };
