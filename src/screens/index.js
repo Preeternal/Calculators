@@ -73,7 +73,7 @@ const Navigator = createDrawerNavigator(
       labelStyle: {
         fontFamily: 'Ubuntu',
         // fontStyle: 'italic',
-        fontWeight: 'normal',
+        fontWeight: '700',
       },
     },
   },
