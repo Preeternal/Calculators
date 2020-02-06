@@ -17,7 +17,6 @@ import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
-import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import {
   principalChanged,
@@ -114,16 +113,12 @@ const pickerValue = (locale: string) => {
 };
 
 class Depo extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: Object,
-  }): NavigationDrawerScreenOptions => {
+  static navigationOptions = ({ navigation }: { navigation: Object }) => {
     const { params } = navigation.state;
     return {
       title: strings('header'), // drawer label initialization
       drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }) => (
+      drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
         <Icon
           type="Entypo"
           name="wallet"

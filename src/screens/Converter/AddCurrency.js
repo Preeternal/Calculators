@@ -43,7 +43,7 @@ const styles = {
 class AddCurrency extends Component<Props, State> {
   static navigationOptions = ({ navigation }: { navigation: Object }) => ({
     drawerLockMode: 'locked-closed',
-    headerTitle: (
+    headerTitle: () => (
       <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>
     ),
     headerStyle: {
@@ -54,7 +54,7 @@ class AddCurrency extends Component<Props, State> {
     headerTitleStyle: {
       fontWeight: 'bold',
     },
-    headerLeft: (
+    headerLeft: () => (
       <TouchableOpacity
         style={styles.leftButton}
         onPress={() => {
@@ -65,7 +65,7 @@ class AddCurrency extends Component<Props, State> {
       </TouchableOpacity>
     ),
     // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
-    headerRight: (
+    headerRight: () => (
       <TouchableOpacity
         style={styles.rightButton}
         onPress={navigation.getParam('handleSave')}

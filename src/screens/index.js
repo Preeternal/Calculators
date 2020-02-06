@@ -1,11 +1,11 @@
 // @flow
+import React, { Component } from 'react';
 import {
-  createDrawerNavigator,
-  createStackNavigator,
   createAppContainer,
   getActiveChildNavigationOptions,
 } from 'react-navigation';
-import React, { Component } from 'react';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';

@@ -54,7 +54,7 @@ const styles = {
 class EditPreset extends Component<Props, State> {
   static navigationOptions = () => ({
     drawerLockMode: 'locked-closed',
-    headerTitle: (
+    headerTitle: () => (
       <Text style={styles.headerText}>{strings('converter.changeCurr')}</Text>
     ),
     headerStyle: {

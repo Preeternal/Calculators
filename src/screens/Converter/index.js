@@ -51,7 +51,7 @@ class Converter extends Component<Props, State> {
   }): NavigationStackScreenOptions => {
     const { params } = navigation.state;
     return {
-      header: null,
+      headerShown: false,
       headerStyle: {
         backgroundColor: '#525050',
       },

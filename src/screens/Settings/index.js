@@ -8,7 +8,6 @@ import { Icon, Button } from 'native-base';
 import i18n from 'i18n-js';
 import * as RNIap from 'react-native-iap';
 import 'number-to-locale-string';
-import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { languageChanged, countryChanged } from '../../actions';
 import {
@@ -45,14 +44,12 @@ const prodItems = Platform.select({
 });
 
 class Settings extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation,
-  }: Object): NavigationDrawerScreenOptions => {
+  static navigationOptions = ({ navigation }: Object) => {
     const { params } = navigation.state;
     return {
       title: strings('settings.settings'), // drawer label initialization
       drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }) => (
+      drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
         <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
       ),
     };
@@ -99,7 +96,7 @@ class Settings extends Component<Props, State> {
           },
         );
         this.purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
-          console.log('purchaseErrorListener', error);
+          console.warn('purchaseErrorListener', error);
           Alert.alert('purchase error', JSON.stringify(error));
         });
       } catch (err) {
@@ -176,7 +173,7 @@ class Settings extends Component<Props, State> {
     } catch (err) {
       console.warn(err.code, err.message);
       this.purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
-        console.log('purchaseErrorListener', error);
+        console.warn('purchaseErrorListener', error);
         Alert.alert('purchase error', JSON.stringify(error));
       });
     }

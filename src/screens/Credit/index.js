@@ -18,7 +18,6 @@ import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
-import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import {
   creditPrincipalChanged,
@@ -109,16 +108,12 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Credit extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: Object,
-  }): NavigationDrawerScreenOptions => {
+  static navigationOptions = ({ navigation }: { navigation: Object }) => {
     const { params } = navigation.state;
     return {
       title: strings('headerCredit'), // drawer label initialization
       drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }) => (
+      drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
         <Icon name="md-download" style={{ fontSize: 24, color: tintColor }} />
       ),
     };

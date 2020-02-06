@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { DrawerItems } from 'react-navigation';
+import { DrawerNavigatorItems } from 'react-navigation-drawer';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -33,7 +33,7 @@ const DrawerScreen = props => (
         </Body>
       </Header>
       <Content>
-        <DrawerItems {...props} />
+        <DrawerNavigatorItems {...props} />
       </Content>
     </SafeAreaView>
   </Container>
