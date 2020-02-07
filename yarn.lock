@@ -6081,9 +6081,10 @@ react-native-modal-datetime-picker@8.1.2:
   dependencies:
     prop-types "^15.7.2"
 
-"react-native-pie@https://github.com/Preeternal/react-native-pie":
-  version "1.1.0"
-  resolved "https://github.com/Preeternal/react-native-pie#748fba16c80f76d2968b118a8910f64daa9dc318"
+react-native-pie@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-pie/-/react-native-pie-1.1.1.tgz#5aa353f71ca7c3627d63feea73ac9b7125552856"
+  integrity sha512-l79uZC3I/6UWqyVI03tZEEPjTQu0fwRT/CEKJ/kkuTRE4NJG0JfrpxxAGTtqC3ocC9fGmDabJQgu/3cWthrfUA==
 
 react-native-reanimated@^1.7.0:
   version "1.7.0"
