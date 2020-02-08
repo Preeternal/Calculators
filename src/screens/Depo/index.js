@@ -113,7 +113,7 @@ const pickerValue = (locale: string) => {
 };
 
 class Depo extends Component<Props, State> {
-  static navigationOptions = ({ navigation }: { navigation: Object }) => {
+  static Options = ({ navigation }: { navigation: Object }) => {
     const { params } = navigation.state;
     return {
       title: strings('header'), // drawer label initialization

@@ -69,13 +69,13 @@ class EditPreset extends Component<Props, State> {
   state = { preset: this.props.preset ? this.props.preset : [] };
 
   componentDidMount() {
-    if (
-      this.props.navigation.state.key[
-        this.props.navigation.state.key.length - 1
-      ] === '1'
-    ) {
-      this.props.navigation.replace('EditPreset');
-    }
+    // if (
+    //   this.props.navigation.state.key[
+    //     this.props.navigation.state.key.length - 1
+    //   ] === '1'
+    // ) {
+    //   this.props.navigation.replace('EditPreset');
+    // }
   }
 
   deleteListItem = (item: string) => {

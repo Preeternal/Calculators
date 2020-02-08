@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import {
+  NavigationContainer,
   createAppContainer,
   getActiveChildNavigationOptions,
 } from '@react-navigation/native';
@@ -10,6 +11,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
+import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
 import Depo from './Depo';
@@ -22,6 +24,7 @@ import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
+import { strings } from '../../locales/i18n';
 
 const Stack = createStackNavigator();
 
@@ -35,17 +38,17 @@ const ConverterStack = () => {
       headerMode="float"
     >
       <Stack.Screen
-        // name="Home"
+        name="Converter"
         component={Converter}
         // options={{ title: 'My app' }}
       />
       <Stack.Screen
-        // name="Profile"
+        name="AddCurrency"
         component={AddCurrency}
         // initialParams={{ user: 'me' }}
       />
       <Stack.Screen
-        // name="Profile"
+        name="EditPreset"
         component={EditPreset}
         // initialParams={{ user: 'me' }}
       />
@@ -114,15 +117,54 @@ const Drawer = createDrawerNavigator();
 
 const Navigator = () => {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Feed" component={Depo} />
-      <Drawer.Screen name="Article" component={Credit} />
-      {/* <Drawer.Screen component={Credit} /> */}
+    <Drawer.Navigator
+      initialRouteName="Depo"
+      drawerContent={DrawerScreen}
+      drawerContentOptions={{
+        activeTintColor: '#000000',
+        inactiveTintColor: '#525050',
+        labelStyle: {
+          fontFamily: 'Ubuntu',
+          fontWeight: '700',
+          // fontStyle: 'italic'
+        },
+      }}
+      // minSwipeDistance={300}
+      drawerStyle={
+        {
+          // backgroundColor: '#c6cbef',
+          // width: 300,
+        }
+      }
+      // overlayColor="rgba(52, 52, 52, 0.5)"
+      // hideStatusBar
+    >
+      <Drawer.Screen
+        name="Depo"
+        component={Depo}
+        options={{
+          title: strings('header'),
+          drawerIcon: ({ focused, color, size }) => (
+            <Icon type="Entypo" name="wallet" style={{ fontSize: 24, color }} />
+          ),
+        }}
+      />
+      <Drawer.Screen name="Credit" component={Credit} />
+      <Drawer.Screen name="Converter" component={ConverterStack} />
+      <Drawer.Screen name="Settings" component={Settings} />
+      <Drawer.Screen name="Help" component={Help} />
     </Drawer.Navigator>
   );
 };
 
-const AppContainer = createAppContainer<any, any>(Navigator);
+// const AppContainer = createAppContainer<any, any>(Navigator);
+const AppContainer = () => {
+  return (
+    <NavigationContainer>
+      <Navigator />
+    </NavigationContainer>
+  );
+};
 
 type Props = {
   language: string,
