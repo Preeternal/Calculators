@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import type {
   NavigationStateRoute,
   NavigationScreenProp,
-} from 'react-navigation';
+} from '@react-navigation/native';
 // import { BackHandler } from 'react-native';
 
 type Props = {

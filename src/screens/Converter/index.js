@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { Icon, Button } from 'native-base';
 // import { DateTime } from 'luxon';
 import 'number-to-locale-string';
-import type { NavigationStackScreenOptions } from 'react-navigation';
+import type { NavigationStackScreenOptions } from '@react-navigation/native';
 
 import { Header } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';

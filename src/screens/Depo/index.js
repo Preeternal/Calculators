@@ -8,7 +8,7 @@ import {
   // InteractionManager,
   // ActivityIndicator,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';

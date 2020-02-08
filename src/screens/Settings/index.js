@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { ScrollView, Platform, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions } from '@react-navigation/compat';
 import { Icon, Button } from 'native-base';
 import i18n from 'i18n-js';
 import * as RNIap from 'react-native-iap';

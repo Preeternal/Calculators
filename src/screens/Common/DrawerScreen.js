@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { DrawerNavigatorItems } from 'react-navigation-drawer';
+import { DrawerNavigatorItems } from '@react-navigation/drawer';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -38,41 +38,6 @@ const DrawerScreen = props => (
     </SafeAreaView>
   </Container>
 );
-
-// class DrawerScreen extends Component {
-//   navigateToScreen = route => () => {
-//     const navigateAction = NavigationActions.navigate({
-//       routeName: route,
-//     });
-//     this.props.navigation.dispatch(navigateAction);
-//     this.props.navigation.dispatch(DrawerActions.closeDrawer());
-//   };
-
-//   render() {
-//     return (
-//       <Container>
-//         <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'always', horizontal: 'never' }}>
-//           <Header androidStatusBarColor="#757171" style={styles.drawerHeader}>
-//             <Body>
-//               <Image resizeMode="cover" style={styles.drawerImage} source={images.logo} />
-//             </Body>
-//           </Header>
-//           <Content>
-//             <View style={styles.menuItem}>
-//               <Text onPress={this.navigateToScreen('Depo')}>{strings('header')}</Text>
-//             </View>
-//             <View style={styles.menuItem}>
-//               <Text onPress={this.navigateToScreen('Credit')}>{strings('headerCredit')}</Text>
-//             </View>
-//             <View style={styles.menuItem}>
-//               <Text onPress={this.navigateToScreen('Settings')}>Settings</Text>
-//             </View>
-//           </Content>
-//         </SafeAreaView>
-//       </Container>
-//     );
-//   }
-// }
 
 DrawerScreen.propTypes = {
   navigation: PropTypes.object,

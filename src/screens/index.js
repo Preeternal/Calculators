@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import {
   createAppContainer,
   getActiveChildNavigationOptions,
-} from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+} from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+// import { createCompatNavigatorFactory } from '@react-navigation/compat';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
@@ -22,126 +23,104 @@ import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
 
-const ConverterStack = createStackNavigator(
-  {
-    Converter,
-    AddCurrency,
-    EditPreset,
-  },
-  {
-    mode: 'modal',
-    // headerMode: 'none',
-    headerMode: 'float',
-  },
-);
+const Stack = createStackNavigator();
 
-const Navigator = createDrawerNavigator(
-  {
-    Depo,
-    Credit,
-    ConverterStack: {
-      screen: ConverterStack,
-      // navigationOptions: {
-      //   title: strings('converter.header'), // drawer label initialization
-      //   drawerLabel: navigation.state.params && navigation.state.params.DLabel,
-      //   drawerIcon: ({ tintColor }) => (
-      //     <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
-      //   ),
-      // },
-      navigationOptions: ({ navigation, screenProps }) => ({
-        // you can put fallback values before here, eg: a default tabBarLabel
-        ...getActiveChildNavigationOptions(navigation, screenProps),
-        // put other navigationOptions that you don't want the active child to
-        // be able to override here!
-      }),
-    },
-    // Converter,
-    Settings,
-    Help,
-  },
-  {
-    initialRouteName: 'Depo',
-    // initialRouteName: 'ConverterStack',
-    contentComponent: DrawerScreen,
-    drawerWidth: 300,
-    overlayColor: 'rgba(52, 52, 52, 0.5)',
-    // drawerBackgroundColor: 'transparent',
-    // unmountInactiveRoutes: true,
-    contentOptions: {
-      activeTintColor: '#000000',
-      inactiveTintColor: '#525050',
-      labelStyle: {
-        fontFamily: 'Ubuntu',
-        fontWeight: '700',
-        // fontStyle: 'italic'
-      },
-    },
-  },
-);
+const ConverterStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Converter"
+      // screenOptions={{ gestureEnabled: false }}
+      mode="modal"
+      // headerMode: 'none',
+      headerMode="float"
+    >
+      <Stack.Screen
+        // name="Home"
+        component={Converter}
+        // options={{ title: 'My app' }}
+      />
+      <Stack.Screen
+        // name="Profile"
+        component={AddCurrency}
+        // initialParams={{ user: 'me' }}
+      />
+      <Stack.Screen
+        // name="Profile"
+        component={EditPreset}
+        // initialParams={{ user: 'me' }}
+      />
+    </Stack.Navigator>
+  );
+};
 
-// const DepoStack = createStackNavigator(
+// const ConverterStack = createCompatNavigatorFactory(createStackNavigator)(
 //   {
-//     Depo,
-//     // Email: { screen: EmailScreen },
+//     Converter,
+//     AddCurrency,
+//     EditPreset,
 //   },
 //   {
-//     navigationOptions: {
-//       drawerLabel: strings('header'),
-//       drawerIcon: ({ tintColor }) => (
-//         <Icon type="Entypo" name="wallet" style={{ fontSize: 24, color: tintColor }} />
-//       ),
-//     },
-//   },
-// );
-
-// const CreditStack = createStackNavigator(
-//   {
-//     Credit,
-//     // Email: { screen: EmailScreen },
-//   },
-//   {
-//     navigationOptions: {
-//       drawerLabel: strings('headerCredit'),
-//       drawerIcon: ({ tintColor }) => (
-//     import 'number-to-locale-string';ad" style={{ fontSize: 24, color: tintColor }} />
-//     import 'number-to-locale-string';
-//     import 'number-to-locale-string';
-//   },import 'number-to-locale-string';
-// );
-
-// const SettingsStack = createStackNavigator(
-//   {
-//     Settings,
-//     // Email: { screen: EmailScreen },
-//   },
-//   {
-//     navigationOptions: {
-//       // headerTitle: strings('settings.settings'),
-//       title: strings('settings.settings'),
-//       drawerLabel: strings('settings.settings'), // Settings
-//       drawerIcon: ({ tintColor }) => (
-//         <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
-//       ),
-//     },
+//     mode: 'modal',
+//     // headerMode: 'none',
+//     headerMode: 'float',
 //   },
 // );
 
 // const Navigator = createDrawerNavigator(
 //   {
-//     DepoStack,
-//     CreditStack,
-//     SettingsStack,
+//     Depo,
+//     Credit,
+//     ConverterStack: {
+//       screen: ConverterStack,
+//       // navigationOptions: {
+//       //   title: strings('converter.header'), // drawer label initialization
+//       //   drawerLabel: navigation.state.params && navigation.state.params.DLabel,
+//       //   drawerIcon: ({ tintColor }) => (
+//       //     <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
+//       //   ),
+//       // },
+//       navigationOptions: ({ navigation, screenProps }) => ({
+//         // you can put fallback values before here, eg: a default tabBarLabel
+//         ...getActiveChildNavigationOptions(navigation, screenProps),
+//         // put other navigationOptions that you don't want the active child to
+//         // be able to override here!
+//       }),
+//     },
+//     // Converter,
+//     Settings,
+//     Help,
 //   },
 //   {
-//     // initialRouteName: 'Depo',
+//     initialRouteName: 'Depo',
+//     // initialRouteName: 'ConverterStack',
 //     contentComponent: DrawerScreen,
 //     drawerWidth: 300,
+//     overlayColor: 'rgba(52, 52, 52, 0.5)',
+//     // drawerBackgroundColor: 'transparent',
+//     // unmountInactiveRoutes: true,
 //     contentOptions: {
 //       activeTintColor: '#000000',
 //       inactiveTintColor: '#525050',
+//       labelStyle: {
+//         fontFamily: 'Ubuntu',
+//         fontWeight: '700',
+//         // fontStyle: 'italic'
+//       },
 //     },
 //   },
 // );
+
+const Drawer = createDrawerNavigator();
+
+const Navigator = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Feed" component={Depo} />
+      <Drawer.Screen name="Article" component={Credit} />
+      {/* <Drawer.Screen component={Credit} /> */}
+    </Drawer.Navigator>
+  );
+};
 
 const AppContainer = createAppContainer<any, any>(Navigator);
 

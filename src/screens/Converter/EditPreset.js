@@ -10,7 +10,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 //   NavigationStateRoute,
 //   NavigationReplaceAction,
 //   NavigationScreenProp,
-// } from 'react-navigation';
+// } from '@react-navigation/native';
 
 import CurrencyPreset from '../../components/converter/CurrencyPreset';
 import { strings } from '../../../locales/i18n';
