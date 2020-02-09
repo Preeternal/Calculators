@@ -5,6 +5,7 @@ import {
   createAppContainer,
   getActiveChildNavigationOptions,
 } from '@react-navigation/native';
+import { enableScreens } from 'react-native-screens';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { createCompatNavigatorFactory } from '@react-navigation/compat';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -25,6 +26,8 @@ import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
 import { strings } from '../../locales/i18n';
+
+enableScreens();
 
 const Stack = createStackNavigator();
 
@@ -145,7 +148,11 @@ const Navigator = () => {
         options={{
           title: strings('header'),
           drawerIcon: ({ focused, color, size }) => (
-            <Icon type="Entypo" name="wallet" style={{ fontSize: 24, color }} />
+            <Icon
+              type={focused ? 'Entypo' : 'FontAwesome5'}
+              name="wallet"
+              style={{ fontSize: focused ? size + 2 : size, color }}
+            />
           ),
         }}
       />
