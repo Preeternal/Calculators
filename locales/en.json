@@ -6,7 +6,7 @@
       "delimiter": ","
     }
   },
-  "header": "Deposit calculator",
+  "headerDeposit": "Deposit calculator",
   "headerCredit": "Credit calculator",
   "titleDeposit": "Deposit",
   "titleCredit": "Credit",

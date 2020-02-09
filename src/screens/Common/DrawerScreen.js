@@ -56,7 +56,7 @@ const DrawerScreen = props => {
         source={images.logo}
       />
       {/* <DrawerItem
-        label={strings('header')}
+        label={strings('headerDeposit')}
         // focused
         // activeTintColor="#000000"
         // inactiveTintColor="#525050"

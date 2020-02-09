@@ -129,8 +129,10 @@ const Navigator = () => {
         labelStyle: {
           fontFamily: 'Ubuntu',
           fontWeight: '700',
+          // textAlign: 'right',
           // fontStyle: 'italic'
         },
+        // itemStyle: { alignSelf: 'flex-start', justifyContent: 'flex-start' },
       }}
       // minSwipeDistance={300}
       drawerStyle={
@@ -146,17 +148,32 @@ const Navigator = () => {
         name="Depo"
         component={Depo}
         options={{
-          title: strings('header'),
+          title: strings('headerDeposit'),
           drawerIcon: ({ focused, color, size }) => (
             <Icon
-              type={focused ? 'Entypo' : 'FontAwesome5'}
+              // type={focused ? 'Entypo' : 'FontAwesome5'}
+              type="Entypo"
               name="wallet"
-              style={{ fontSize: focused ? size + 2 : size, color }}
+              // style={{ fontSize: focused ? size + 3 : size, color }}
+              style={{ fontSize: size, color }}
             />
           ),
         }}
       />
-      <Drawer.Screen name="Credit" component={Credit} />
+      <Drawer.Screen
+        name="Credit"
+        component={Credit}
+        options={{
+          title: strings('headerCredit'),
+          drawerIcon: ({ focused, color, size }) => (
+            <Icon
+              // type={focused ? 'Entypo' : 'FontAwesome5'}
+              name="md-download"
+              style={{ fontSize: size, color }}
+            />
+          ),
+        }}
+      />
       <Drawer.Screen name="Converter" component={ConverterStack} />
       <Drawer.Screen name="Settings" component={Settings} />
       <Drawer.Screen name="Help" component={Help} />

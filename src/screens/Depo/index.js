@@ -113,20 +113,20 @@ const pickerValue = (locale: string) => {
 };
 
 class Depo extends Component<Props, State> {
-  static Options = ({ navigation }: { navigation: Object }) => {
-    const { params } = navigation.state;
-    return {
-      title: strings('header'), // drawer label initialization
-      drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
-        <Icon
-          type="Entypo"
-          name="wallet"
-          style={{ fontSize: 24, color: tintColor }}
-        />
-      ),
-    };
-  };
+  // static Options = ({ navigation }: { navigation: Object }) => {
+  //   const { params } = navigation.state;
+  //   return {
+  //     title: strings('headerDeposit'), // drawer label initialization
+  //     drawerLabel: params && params.DLabel,
+  //     drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
+  //       <Icon
+  //         type="Entypo"
+  //         name="wallet"
+  //         style={{ fontSize: 24, color: tintColor }}
+  //       />
+  //     ),
+  //   };
+  // };
 
   state = {
     // didFinishInitialAnimation: false,
@@ -184,7 +184,7 @@ class Depo extends Component<Props, State> {
   handleLanguageChange = () => {
     if (this.props.language !== pickerValue(i18n.currentLocale())) {
       i18n.locale = this.props.language === 0 ? 'ru' : 'en';
-      this.props.navigation.setParams({ DLabel: strings('header') });
+      this.props.navigation.setParams({ DLabel: strings('headerDeposit') });
       const setCreditLabel = NavigationActions.setParams({
         params: { DLabel: strings('headerCredit') },
         key: 'Credit',
@@ -363,7 +363,7 @@ class Depo extends Component<Props, State> {
         >
           <Card>
             {/* <Header headerText="Депозитный калькулятор" /> */}
-            <Header headerText={strings('header')} />
+            <Header headerText={strings('headerDeposit')} />
             <CardSection>
               <Image source={images.logo} style={topImage} />
               <Text style={welcome}>

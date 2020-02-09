@@ -110,7 +110,7 @@ class Settings extends Component<Props, State> {
     if (this.props.language !== prevProps.language) {
       this.props.navigation.setParams({ DLabel: strings('settings.settings') });
       const setDepoLabel = NavigationActions.setParams({
-        params: { DLabel: strings('header') },
+        params: { DLabel: strings('headerDeposit') },
         key: 'Depo',
       });
       this.props.navigation.dispatch(setDepoLabel);

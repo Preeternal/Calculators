@@ -108,16 +108,16 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Credit extends Component<Props, State> {
-  static navigationOptions = ({ navigation }: { navigation: Object }) => {
-    const { params } = navigation.state;
-    return {
-      title: strings('headerCredit'), // drawer label initialization
-      drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
-        <Icon name="md-download" style={{ fontSize: 24, color: tintColor }} />
-      ),
-    };
-  };
+  // static navigationOptions = ({ navigation }: { navigation: Object }) => {
+  //   const { params } = navigation.state;
+  //   return {
+  //     title: strings('headerCredit'), // drawer label initialization
+  //     drawerLabel: params && params.DLabel,
+  //     drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
+  //       <Icon name="md-download" style={{ fontSize: 24, color: tintColor }} />
+  //     ),
+  //   };
+  // };
 
   state = {
     // didFinishInitialAnimation: false,
