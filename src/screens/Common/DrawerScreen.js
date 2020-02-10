@@ -51,8 +51,8 @@ const DrawerScreen = props => {
   return (
     <DrawerContentScrollView {...props}>
       <Image
-        // resizeMode="cover"
-        resizeMethod="auto"
+        resizeMode="cover" // contain
+        // resizeMethod="auto"
         style={styles.drawerImage}
         source={images.logo}
       />
@@ -86,6 +86,7 @@ const styles = {
   drawerImage: {
     marginTop: -5,
     alignSelf: 'center',
+    // resizeMode: 'cover',
     height: 180, // 229
     width: 300,
     marginBottom: 10,
