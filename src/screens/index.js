@@ -192,8 +192,32 @@ const Navigator = () => {
           ),
         }}
       />
-      <Drawer.Screen name="Settings" component={Settings} />
-      <Drawer.Screen name="Help" component={Help} />
+      <Drawer.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          title: strings('settings.settings'),
+          drawerIcon: ({ focused, color, size }) => (
+            <Icon
+              name="md-settings"
+              style={iconStyle(focused, color, size - 2)}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Help"
+        component={Help}
+        options={{
+          title: strings('help.header'),
+          drawerIcon: ({ focused, color, size }) => (
+            <Icon
+              name="md-help-circle"
+              style={iconStyle(focused, color, size - 2)}
+            />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 };

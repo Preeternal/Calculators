@@ -44,16 +44,16 @@ const prodItems = Platform.select({
 });
 
 class Settings extends Component<Props, State> {
-  static navigationOptions = ({ navigation }: Object) => {
-    const { params } = navigation.state;
-    return {
-      title: strings('settings.settings'), // drawer label initialization
-      drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
-        <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
-      ),
-    };
-  };
+  // static navigationOptions = ({ navigation }: Object) => {
+  //   const { params } = navigation.state;
+  //   return {
+  //     title: strings('settings.settings'), // drawer label initialization
+  //     drawerLabel: params && params.DLabel,
+  //     drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
+  //       <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
+  //     ),
+  //   };
+  // };
 
   state = {
     iapConnection: false,
@@ -107,31 +107,31 @@ class Settings extends Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.language !== prevProps.language) {
-      this.props.navigation.setParams({ DLabel: strings('settings.settings') });
-      const setDepoLabel = NavigationActions.setParams({
-        params: { DLabel: strings('headerDeposit') },
-        key: 'Depo',
-      });
-      this.props.navigation.dispatch(setDepoLabel);
-      const setCreditLabel = NavigationActions.setParams({
-        params: { DLabel: strings('headerCredit') },
-        key: 'Credit',
-      });
-      this.props.navigation.dispatch(setCreditLabel);
-      const setConverterLabel = NavigationActions.setParams({
-        params: { DLabel: strings('converter.header') },
-        key: 'ConverterStack',
-      });
-      this.props.navigation.dispatch(setConverterLabel);
-      const setHelpLabel = NavigationActions.setParams({
-        params: { DLabel: strings('help.header') },
-        key: 'Help',
-      });
-      this.props.navigation.dispatch(setHelpLabel);
-      // const screens = ['Depo', 'Credit', 'Help', 'Settings'];
-      // screens.forEach(this.resetScreens);
-    }
+    // if (this.props.language !== prevProps.language) {
+    //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
+    //   const setDepoLabel = NavigationActions.setParams({
+    //     params: { DLabel: strings('headerDeposit') },
+    //     key: 'Depo',
+    //   });
+    //   this.props.navigation.dispatch(setDepoLabel);
+    //   const setCreditLabel = NavigationActions.setParams({
+    //     params: { DLabel: strings('headerCredit') },
+    //     key: 'Credit',
+    //   });
+    //   this.props.navigation.dispatch(setCreditLabel);
+    //   const setConverterLabel = NavigationActions.setParams({
+    //     params: { DLabel: strings('converter.header') },
+    //     key: 'ConverterStack',
+    //   });
+    //   this.props.navigation.dispatch(setConverterLabel);
+    //   const setHelpLabel = NavigationActions.setParams({
+    //     params: { DLabel: strings('help.header') },
+    //     key: 'Help',
+    //   });
+    //   this.props.navigation.dispatch(setHelpLabel);
+    //   // const screens = ['Depo', 'Credit', 'Help', 'Settings'];
+    //   // screens.forEach(this.resetScreens);
+    // }
   }
 
   componentWillUnmount() {

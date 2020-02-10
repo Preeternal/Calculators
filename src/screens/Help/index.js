@@ -9,19 +9,19 @@ import CustomHeader from '../Common/CustomHeader';
 import { CardSection, Card, Header } from '../../components/common';
 
 class Help extends PureComponent {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      title: strings('help.header'), // drawer label initialization
-      drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }) => (
-        <Icon
-          name="md-help-circle"
-          style={{ fontSize: 24, color: tintColor }}
-        />
-      ),
-    };
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   const { params } = navigation.state;
+  //   return {
+  //     title: strings('help.header'), // drawer label initialization
+  //     drawerLabel: params && params.DLabel,
+  //     drawerIcon: ({ tintColor }) => (
+  //       <Icon
+  //         name="md-help-circle"
+  //         style={{ fontSize: 24, color: tintColor }}
+  //       />
+  //     ),
+  //   };
+  // };
 
   render() {
     const { main, bold } = styles;
