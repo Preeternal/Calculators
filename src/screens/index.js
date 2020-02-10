@@ -127,12 +127,16 @@ const Navigator = () => {
         activeTintColor: '#000000',
         inactiveTintColor: '#525050',
         labelStyle: {
+          // flex: 2,
           fontFamily: 'Ubuntu',
           fontWeight: '700',
           // textAlign: 'right',
           // fontStyle: 'italic'
         },
-        // itemStyle: { alignSelf: 'flex-start', justifyContent: 'flex-start' },
+        itemStyle: {
+          // alignSelf: 'flex-end', justifyContent: 'flex-end'
+          // flex: 1,
+        },
       }}
       // minSwipeDistance={300}
       drawerStyle={
@@ -149,13 +153,21 @@ const Navigator = () => {
         component={Depo}
         options={{
           title: strings('headerDeposit'),
-          drawerIcon: ({ focused, color, size }) => (
+          drawerLabel: strings('headerDeposit'),
+          drawerIcon: ({ color, size }) => (
             <Icon
               // type={focused ? 'Entypo' : 'FontAwesome5'}
               type="Entypo"
               name="wallet"
               // style={{ fontSize: focused ? size + 3 : size, color }}
-              style={{ fontSize: size, color }}
+              style={{
+                alignItems: 'center',
+                alignSelf: 'center',
+                justifyContent: 'center',
+                width: 30,
+                fontSize: size,
+                color,
+              }}
             />
           ),
         }}
@@ -165,11 +177,19 @@ const Navigator = () => {
         component={Credit}
         options={{
           title: strings('headerCredit'),
-          drawerIcon: ({ focused, color, size }) => (
+          drawerLabel: strings('headerCredit'),
+          drawerIcon: ({ color, size }) => (
             <Icon
               // type={focused ? 'Entypo' : 'FontAwesome5'}
               name="md-download"
-              style={{ fontSize: size, color }}
+              style={{
+                alignItems: 'center',
+                alignSelf: 'center',
+                justifyContent: 'center',
+                width: 30,
+                fontSize: size,
+                color,
+              }}
             />
           ),
         }}
