@@ -145,10 +145,12 @@ const Navigator = () => {
       // minSwipeDistance={300}
       drawerStyle={
         {
+          // marginTop: 10,
           // backgroundColor: '#c6cbef',
           // width: 300,
         }
       }
+      // style={{ marginTop: 10 }}
       // overlayColor="rgba(52, 52, 52, 0.5)"
       // hideStatusBar
     >

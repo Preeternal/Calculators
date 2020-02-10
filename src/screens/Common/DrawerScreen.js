@@ -47,7 +47,6 @@ import { strings } from '../../../locales/i18n';
 // );
 
 const DrawerScreen = props => {
-  console.log('props', props);
   return (
     <DrawerContentScrollView {...props}>
       <Image
@@ -87,8 +86,9 @@ const styles = {
     backgroundColor: 'white',
   },
   drawerImage: {
+    marginTop: -5,
     height: 180, // 229
     width: 300,
-    // alignSelf: 'center',
+    marginBottom: 10,
   },
 };
