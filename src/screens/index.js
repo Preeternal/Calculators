@@ -147,7 +147,7 @@ const Navigator = () => {
         {
           // marginTop: 10,
           // backgroundColor: '#c6cbef',
-          // width: 300,
+          // width: 300.5,
         }
       }
       // style={{ marginTop: 10 }}

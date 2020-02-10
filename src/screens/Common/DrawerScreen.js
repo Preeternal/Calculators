@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   // StatusBar,
   View,
+
   // Text,
 } from 'react-native';
 import { Container, Content, Header, Body, Icon } from 'native-base';
@@ -50,7 +51,8 @@ const DrawerScreen = props => {
   return (
     <DrawerContentScrollView {...props}>
       <Image
-        resizeMode="cover"
+        // resizeMode="cover"
+        resizeMethod="auto"
         style={styles.drawerImage}
         source={images.logo}
       />
@@ -69,10 +71,6 @@ const DrawerScreen = props => {
   );
 };
 
-DrawerScreen.propTypes = {
-  navigation: PropTypes.object,
-};
-
 export default DrawerScreen;
 
 const styles = {
@@ -87,6 +85,7 @@ const styles = {
   },
   drawerImage: {
     marginTop: -5,
+    alignSelf: 'center',
     height: 180, // 229
     width: 300,
     marginBottom: 10,
