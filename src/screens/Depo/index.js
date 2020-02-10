@@ -184,27 +184,27 @@ class Depo extends Component<Props, State> {
   handleLanguageChange = () => {
     if (this.props.language !== pickerValue(i18n.currentLocale())) {
       i18n.locale = this.props.language === 0 ? 'ru' : 'en';
-      this.props.navigation.setParams({ DLabel: strings('headerDeposit') });
-      const setCreditLabel = NavigationActions.setParams({
-        params: { DLabel: strings('headerCredit') },
-        key: 'Credit',
-      });
-      this.props.navigation.dispatch(setCreditLabel);
-      const setConverterLabel = NavigationActions.setParams({
-        params: { DLabel: strings('converter.header') },
-        key: 'ConverterStack',
-      });
-      this.props.navigation.dispatch(setConverterLabel);
-      const setSettingsLabel = NavigationActions.setParams({
-        params: { DLabel: strings('settings.settings') },
-        key: 'Settings',
-      });
-      this.props.navigation.dispatch(setSettingsLabel);
-      const setHelpLabel = NavigationActions.setParams({
-        params: { DLabel: strings('help.header') },
-        key: 'Help',
-      });
-      this.props.navigation.dispatch(setHelpLabel);
+      //   this.props.navigation.setParams({ DLabel: strings('headerDeposit') });
+      //   const setCreditLabel = NavigationActions.setParams({
+      //     params: { DLabel: strings('headerCredit') },
+      //     key: 'Credit',
+      //   });
+      //   this.props.navigation.dispatch(setCreditLabel);
+      //   const setConverterLabel = NavigationActions.setParams({
+      //     params: { DLabel: strings('converter.header') },
+      //     key: 'ConverterStack',
+      //   });
+      //   this.props.navigation.dispatch(setConverterLabel);
+      //   const setSettingsLabel = NavigationActions.setParams({
+      //     params: { DLabel: strings('settings.settings') },
+      //     key: 'Settings',
+      //   });
+      //   this.props.navigation.dispatch(setSettingsLabel);
+      //   const setHelpLabel = NavigationActions.setParams({
+      //     params: { DLabel: strings('help.header') },
+      //     key: 'Help',
+      //   });
+      //   this.props.navigation.dispatch(setHelpLabel);
     }
   };
 

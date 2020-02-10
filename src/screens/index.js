@@ -37,19 +37,61 @@ const ConverterStack = () => {
       initialRouteName="Converter"
       // screenOptions={{ gestureEnabled: false }}
       mode="modal"
-      // headerMode: 'none',
+      // headerMode="none"
       headerMode="float"
     >
       <Stack.Screen
         name="Converter"
         component={Converter}
-        // options={{ title: 'My app' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="AddCurrency"
         component={AddCurrency}
         // initialParams={{ user: 'me' }}
+        options={{
+          title: strings('converter.addCurrency'),
+          // headerTitle: () => (
+          //   <Text style={styles.headerText}>
+          //     {strings('converter.addCurrency')}
+          //   </Text>
+          // ),
+          headerStyle: {
+            backgroundColor: '#525050',
+          },
+          headerTitleStyle: {
+            // fontWeight: 'bold',
+            fontFamily: 'Ubuntu',
+            color: '#ffffff',
+            fontSize: 18,
+          },
+          headerTintColor: '#fff',
+
+          // header: ({ scene, previous, navigation }) => {
+          //   const { options } = scene.descriptor;
+          //   const title =
+          //     options.headerTitle !== undefined
+          //       ? options.headerTitle
+          //       : options.title !== undefined
+          //       ? options.title
+          //       : scene.route.name;
+
+          //   return (
+          //     <MyHeader
+          //       title={title}
+          //       leftButton={
+          //         previous ? (
+          //           <MyBackButton onPress={navigation.goBack} />
+          //         ) : (
+          //           undefined
+          //         )
+          //       }
+          //     />
+          //   );
+          // },
+        }}
       />
+
       <Stack.Screen
         name="EditPreset"
         component={EditPreset}

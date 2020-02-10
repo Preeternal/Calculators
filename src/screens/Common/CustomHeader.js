@@ -11,11 +11,7 @@ const CustomHeader = props => (
   <>
     {/* <StatusBar barStyle="dark-content" backgroundColor="#525050" /> */}
     <Header
-      key={
-        props.navigation.state.params
-          ? props.navigation.state.params.DLabel
-          : 'header'
-      }
+      key="header"
       androidStatusBarColor="#525050"
       // iosBarStyle="dark-content"
       style={{
