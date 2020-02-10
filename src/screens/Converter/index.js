@@ -44,29 +44,29 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Converter extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: Object,
-  }): NavigationStackScreenOptions => {
-    const { params } = navigation.state;
-    return {
-      headerShown: false,
-      headerStyle: {
-        backgroundColor: '#525050',
-      },
-      title: strings('converter.header'), // drawer label initialization
-      headerBackTitle: null,
-      drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }) => (
-        <Icon
-          type="FontAwesome"
-          name="retweet"
-          style={{ fontSize: 22, color: tintColor }}
-        />
-      ),
-    };
-  };
+  // static navigationOptions = ({
+  //   navigation,
+  // }: {
+  //   navigation: Object,
+  // }): NavigationStackScreenOptions => {
+  //   const { params } = navigation.state;
+  //   return {
+  //     headerShown: false,
+  //     headerStyle: {
+  //       backgroundColor: '#525050',
+  //     },
+  //     title: strings('converter.header'), // drawer label initialization
+  //     headerBackTitle: null,
+  //     drawerLabel: params && params.DLabel,
+  //     drawerIcon: ({ tintColor }) => (
+  //       <Icon
+  //         type="FontAwesome"
+  //         name="retweet"
+  //         style={{ fontSize: 22, color: tintColor }}
+  //       />
+  //     ),
+  //   };
+  // };
 
   state = {
     inputStyle: [],

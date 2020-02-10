@@ -118,6 +118,13 @@ const ConverterStack = () => {
 
 const Drawer = createDrawerNavigator();
 
+const iconStyle = (focused, color, size) => ({
+  textAlign: 'center',
+  width: 30,
+  fontSize: size,
+  color: focused ? color : 'gray',
+});
+
 const Navigator = () => {
   return (
     <Drawer.Navigator
@@ -127,11 +134,8 @@ const Navigator = () => {
         activeTintColor: '#000000',
         inactiveTintColor: '#525050',
         labelStyle: {
-          // flex: 2,
           fontFamily: 'Ubuntu',
           fontWeight: '700',
-          // textAlign: 'right',
-          // fontStyle: 'italic'
         },
         itemStyle: {
           // alignSelf: 'flex-end', justifyContent: 'flex-end'
@@ -153,21 +157,13 @@ const Navigator = () => {
         component={Depo}
         options={{
           title: strings('headerDeposit'),
-          drawerLabel: strings('headerDeposit'),
-          drawerIcon: ({ color, size }) => (
+          // drawerLabel: strings('headerDeposit'),
+          drawerIcon: ({ focused, color, size }) => (
             <Icon
               // type={focused ? 'Entypo' : 'FontAwesome5'}
               type="Entypo"
               name="wallet"
-              // style={{ fontSize: focused ? size + 3 : size, color }}
-              style={{
-                alignItems: 'center',
-                alignSelf: 'center',
-                justifyContent: 'center',
-                width: 30,
-                fontSize: size,
-                color,
-              }}
+              style={iconStyle(focused, color, size)}
             />
           ),
         }}
@@ -177,24 +173,25 @@ const Navigator = () => {
         component={Credit}
         options={{
           title: strings('headerCredit'),
-          drawerLabel: strings('headerCredit'),
-          drawerIcon: ({ color, size }) => (
+          drawerIcon: ({ focused, color, size }) => (
+            <Icon name="md-download" style={iconStyle(focused, color, size)} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Converter"
+        component={ConverterStack}
+        options={{
+          title: strings('converter.header'),
+          drawerIcon: ({ focused, color, size }) => (
             <Icon
-              // type={focused ? 'Entypo' : 'FontAwesome5'}
-              name="md-download"
-              style={{
-                alignItems: 'center',
-                alignSelf: 'center',
-                justifyContent: 'center',
-                width: 30,
-                fontSize: size,
-                color,
-              }}
+              type="FontAwesome"
+              name="retweet"
+              style={iconStyle(focused, color, size - 2)}
             />
           ),
         }}
       />
-      <Drawer.Screen name="Converter" component={ConverterStack} />
       <Drawer.Screen name="Settings" component={Settings} />
       <Drawer.Screen name="Help" component={Help} />
     </Drawer.Navigator>
