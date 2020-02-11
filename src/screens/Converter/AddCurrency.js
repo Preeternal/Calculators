@@ -83,7 +83,7 @@ class AddCurrency extends Component<Props, State> {
   state = { additionalCurrencies: [], checked: [] };
 
   componentDidMount() {
-    const { preset, currencies } = this.props;
+    const { preset, currencies, navigation } = this.props;
     const filter = currencies.filter(
       currency => !preset.includes(currency.charCode),
     );
@@ -91,7 +91,18 @@ class AddCurrency extends Component<Props, State> {
       additionalCurrencies: [...filter],
       checked: filter.map(() => null),
     });
-    this.props.navigation.setParams({ handleSave: this.saveDetails });
+    // navigation.setParams({ handleSave: this.saveDetails });
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity style={styles.rightButton} onPress={this.saveDetails}>
+          <Icon
+            type="MaterialIcons"
+            name="done"
+            style={styles.actionButtonIcon}
+          />
+        </TouchableOpacity>
+      ),
+    });
   }
 
   handleClick = (charCode: string, index: number) => {

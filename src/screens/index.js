@@ -32,19 +32,7 @@ enableScreens();
 
 const Stack = createStackNavigator();
 
-const styles = {
-  rightButton: {
-    marginRight: 15,
-  },
-  actionButtonIcon: {
-    fontSize: 25,
-    height: 22,
-    color: 'white',
-  },
-};
-
-const ConverterStack = ({ route }) => {
-  // console.log(route);
+const ConverterStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Converter"
@@ -62,54 +50,18 @@ const ConverterStack = ({ route }) => {
         name="AddCurrency"
         component={AddCurrency}
         // initialParams={{ user: 'me' }}
-        options={{
-          title: strings('converter.addCurrency'),
-          headerStyle: {
-            backgroundColor: '#525050',
-          },
-          headerTitleStyle: {
-            fontFamily: 'Ubuntu',
-            color: '#ffffff',
-            fontSize: 18,
-          },
-          headerTintColor: '#fff',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={route?.state?.routes[1]?.params?.handleSave}
-              style={styles.rightButton}
-            >
-              {console.log(route?.state?.routes[1]?.params)}
-              <Icon
-                type="MaterialIcons"
-                name="done"
-                style={styles.actionButtonIcon}
-              />
-            </TouchableOpacity>
-          ),
-
-          // header: ({ scene, previous, navigation }) => {
-          //   const { options } = scene.descriptor;
-          //   const title =
-          //     options.headerTitle !== undefined
-          //       ? options.headerTitle
-          //       : options.title !== undefined
-          //       ? options.title
-          //       : scene.route.name;
-
-          //   return (
-          //     <MyHeader
-          //       title={title}
-          //       leftButton={
-          //         previous ? (
-          //           <MyBackButton onPress={navigation.goBack} />
-          //         ) : (
-          //           undefined
-          //         )
-          //       }
-          //     />
-          //   );
-          // },
-        }}
+        // options={{
+        //   title: strings('converter.addCurrency'),
+        //   headerStyle: {
+        //     backgroundColor: '#525050',
+        //   },
+        //   headerTitleStyle: {
+        //     fontFamily: 'Ubuntu',
+        //     color: '#ffffff',
+        //     fontSize: 18,
+        //   },
+        //   headerTintColor: '#fff',
+        // }}
       />
 
       <Stack.Screen
