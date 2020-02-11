@@ -37,9 +37,9 @@ const ConverterStack = () => {
     <Stack.Navigator
       initialRouteName="Converter"
       // screenOptions={{ gestureEnabled: false }}
-      mode="modal"
+      // mode="modal"
       // headerMode="none"
-      headerMode="float"
+      // headerMode="float"
     >
       <Stack.Screen
         name="Converter"
@@ -49,19 +49,18 @@ const ConverterStack = () => {
       <Stack.Screen
         name="AddCurrency"
         component={AddCurrency}
-        // initialParams={{ user: 'me' }}
-        // options={{
-        //   title: strings('converter.addCurrency'),
-        //   headerStyle: {
-        //     backgroundColor: '#525050',
-        //   },
-        //   headerTitleStyle: {
-        //     fontFamily: 'Ubuntu',
-        //     color: '#ffffff',
-        //     fontSize: 18,
-        //   },
-        //   headerTintColor: '#fff',
-        // }}
+        options={{
+          title: strings('converter.addCurrency'),
+          headerStyle: {
+            backgroundColor: '#525050',
+          },
+          headerTitleStyle: {
+            fontFamily: 'Ubuntu',
+            color: '#ffffff',
+            fontSize: 18,
+          },
+          headerTintColor: '#fff',
+        }}
       />
 
       <Stack.Screen
