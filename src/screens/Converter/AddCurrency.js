@@ -41,44 +41,44 @@ const styles = {
 };
 
 class AddCurrency extends Component<Props, State> {
-  static navigationOptions = ({ navigation }: { navigation: Object }) => ({
-    drawerLockMode: 'locked-closed',
-    headerTitle: () => (
-      <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>
-    ),
-    headerStyle: {
-      // backgroundColor: '#f4511e',
-      backgroundColor: '#525050',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerLeft: () => (
-      <TouchableOpacity
-        style={styles.leftButton}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
-        <Icon name="md-close" style={styles.actionButtonIcon} />
-      </TouchableOpacity>
-    ),
-    // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
-    headerRight: () => (
-      <TouchableOpacity
-        style={styles.rightButton}
-        onPress={navigation.getParam('handleSave')}
-      >
-        <Icon
-          type="MaterialIcons"
-          name="done"
-          style={styles.actionButtonIcon}
-        />
-        {/* md-checkmark */}
-      </TouchableOpacity>
-    ),
-  });
+  // static navigationOptions = ({ navigation }: { navigation: Object }) => ({
+  //   drawerLockMode: 'locked-closed',
+  //   headerTitle: () => (
+  //     <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>
+  //   ),
+  //   headerStyle: {
+  //     // backgroundColor: '#f4511e',
+  //     backgroundColor: '#525050',
+  //   },
+  //   headerTintColor: '#fff',
+  //   headerTitleStyle: {
+  //     fontWeight: 'bold',
+  //   },
+  //   headerLeft: () => (
+  //     <TouchableOpacity
+  //       style={styles.leftButton}
+  //       onPress={() => {
+  //         navigation.goBack();
+  //       }}
+  //     >
+  //       <Icon name="md-close" style={styles.actionButtonIcon} />
+  //     </TouchableOpacity>
+  //   ),
+  //   // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
+  //   headerRight: () => (
+  //     <TouchableOpacity
+  //       style={styles.rightButton}
+  //       onPress={navigation.getParam('handleSave')}
+  //     >
+  //       <Icon
+  //         type="MaterialIcons"
+  //         name="done"
+  //         style={styles.actionButtonIcon}
+  //       />
+  //       {/* md-checkmark */}
+  //     </TouchableOpacity>
+  //   ),
+  // });
 
   state = { additionalCurrencies: [], checked: [] };
 

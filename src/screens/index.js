@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { TouchableOpacity } from 'react-native';
 import {
   NavigationContainer,
   createAppContainer,
@@ -31,7 +32,19 @@ enableScreens();
 
 const Stack = createStackNavigator();
 
-const ConverterStack = () => {
+const styles = {
+  rightButton: {
+    marginRight: 15,
+  },
+  actionButtonIcon: {
+    fontSize: 25,
+    height: 22,
+    color: 'white',
+  },
+};
+
+const ConverterStack = ({ route }) => {
+  // console.log(route);
   return (
     <Stack.Navigator
       initialRouteName="Converter"
@@ -51,21 +64,28 @@ const ConverterStack = () => {
         // initialParams={{ user: 'me' }}
         options={{
           title: strings('converter.addCurrency'),
-          // headerTitle: () => (
-          //   <Text style={styles.headerText}>
-          //     {strings('converter.addCurrency')}
-          //   </Text>
-          // ),
           headerStyle: {
             backgroundColor: '#525050',
           },
           headerTitleStyle: {
-            // fontWeight: 'bold',
             fontFamily: 'Ubuntu',
             color: '#ffffff',
             fontSize: 18,
           },
           headerTintColor: '#fff',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={route?.state?.routes[1]?.params?.handleSave}
+              style={styles.rightButton}
+            >
+              {console.log(route?.state?.routes[1]?.params)}
+              <Icon
+                type="MaterialIcons"
+                name="done"
+                style={styles.actionButtonIcon}
+              />
+            </TouchableOpacity>
+          ),
 
           // header: ({ scene, previous, navigation }) => {
           //   const { options } = scene.descriptor;
