@@ -7,7 +7,8 @@ import {
   getActiveChildNavigationOptions,
 } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
-import { createStackNavigator } from '@react-navigation/stack';
+// import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { createCompatNavigatorFactory } from '@react-navigation/compat';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
@@ -30,7 +31,8 @@ import { strings } from '../../locales/i18n';
 
 enableScreens();
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const ConverterStack = () => {
   return (
