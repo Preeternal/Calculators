@@ -110,11 +110,11 @@ class Settings extends Component<Props, State> {
   componentDidUpdate(prevProps: Props) {
     const { navigation } = this.props;
     if (this.props.language !== prevProps.language) {
-      navigation.dispatch({
-        ...CommonActions.setParams({ DLabel: strings('headerDeposit') }),
-        name: 'Depo',
-      });
-      //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
+      // navigation.dispatch({
+      //   ...CommonActions.setParams({ DLabel: strings('headerDeposit') }),
+      //   name: 'Depo',
+      // });
+      // this.props.navigation.setParams({ DLabel: strings('settings.settings') });
       //   const setDepoLabel = NavigationActions.setParams({
       //     params: { DLabel: strings('headerDeposit') },
       //     key: 'Depo',

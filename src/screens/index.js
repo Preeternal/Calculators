@@ -28,7 +28,7 @@ import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
-import { strings } from '../../locales/i18n';
+import { strings, currentLocale } from '../../locales/i18n';
 
 enableScreens();
 const styles = {
@@ -152,6 +152,8 @@ const iconStyle = (focused, color, size) => ({
 });
 
 const Navigator = () => {
+  const { t } = React.useContext(LocalizationContext);
+  console.log(t('headerDeposit'));
   return (
     <Drawer.Navigator
       initialRouteName="Depo"
@@ -255,11 +257,23 @@ const Navigator = () => {
 };
 
 // const AppContainer = createAppContainer<any, any>(Navigator);
+const LocalizationContext = React.createContext<Function>();
 const AppContainer = () => {
+  const [locale, setLocale] = React.useState(RNLanguages.language);
+  const localizationContext = React.useMemo(
+    () => ({
+      t: (scope, options) => i18n.t(scope, { locale, ...options }),
+      locale,
+      setLocale,
+    }),
+    [locale],
+  );
   return (
-    <NavigationContainer>
-      <Navigator />
-    </NavigationContainer>
+    <LocalizationContext.Provider value={localizationContext}>
+      <NavigationContainer>
+        <Navigator />
+      </NavigationContainer>
+    </LocalizationContext.Provider>
   );
 };
 
@@ -304,7 +318,9 @@ class App extends Component<Props> {
 
   render() {
     // console.log(new Date().getTimezoneOffset());
+
     return <AppContainer />;
+    // key={this.props.language} />;
   }
 }
 
