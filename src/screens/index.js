@@ -5,6 +5,7 @@ import {
   NavigationContainer,
   createAppContainer,
   getActiveChildNavigationOptions,
+  useNavigationState,
 } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 // import { createStackNavigator } from '@react-navigation/stack';
@@ -182,9 +183,9 @@ const Navigator = () => {
       <Drawer.Screen
         name="Depo"
         component={Depo}
-        options={{
+        options={({ route }) => ({
           title: strings('headerDeposit'),
-          // drawerLabel: strings('headerDeposit'),
+          drawerLabel: route.params && route.params.DLabel,
           drawerIcon: ({ focused, color, size }) => (
             <Icon
               // type={focused ? 'Entypo' : 'FontAwesome5'}
@@ -193,17 +194,18 @@ const Navigator = () => {
               style={iconStyle(focused, color, size)}
             />
           ),
-        }}
+        })}
       />
       <Drawer.Screen
         name="Credit"
         component={Credit}
-        options={{
+        options={({ route }) => ({
           title: strings('headerCredit'),
+          drawerLabel: route.params && route.params.DLabel,
           drawerIcon: ({ focused, color, size }) => (
             <Icon name="md-download" style={iconStyle(focused, color, size)} />
           ),
-        }}
+        })}
       />
       <Drawer.Screen
         name="Converter"
@@ -267,7 +269,6 @@ class App extends Component<Props> {
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
     storeCurrencies();
-    // this.handleLanguageChange();
   }
 
   componentWillUnmount() {

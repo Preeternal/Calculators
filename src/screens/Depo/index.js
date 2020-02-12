@@ -9,6 +9,7 @@ import {
   // ActivityIndicator,
 } from 'react-native';
 import { NavigationActions } from '@react-navigation/compat';
+import { CommonActions } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -182,14 +183,22 @@ class Depo extends Component<Props, State> {
   }
 
   handleLanguageChange = () => {
+    const { navigation } = this.props;
     if (this.props.language !== pickerValue(i18n.currentLocale())) {
       i18n.locale = this.props.language === 0 ? 'ru' : 'en';
-      //   this.props.navigation.setParams({ DLabel: strings('headerDeposit') });
-      //   const setCreditLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('headerCredit') },
-      //     key: 'Credit',
-      //   });
-      //   this.props.navigation.dispatch(setCreditLabel);
+      // navigation.setParams({ DLabel: strings('headerDeposit') });
+      navigation.dispatch(
+        CommonActions.setParams({ DLabel: strings('headerDeposit') }),
+      );
+      navigation.dispatch({
+        ...CommonActions.setParams({ DLabel: strings('headerCredit') }),
+        name: 'Credit',
+      });
+      // const setCreditLabel = NavigationActions.setParams({
+      //   params: { DLabel: strings('headerCredit') },
+      //   key: 'Credit',
+      // });
+      // this.props.navigation.dispatch(setCreditLabel);
       //   const setConverterLabel = NavigationActions.setParams({
       //     params: { DLabel: strings('converter.header') },
       //     key: 'ConverterStack',
