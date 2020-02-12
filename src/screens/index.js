@@ -30,11 +30,22 @@ import storeCurrencies from '../lib/storeCurrencies';
 import { strings } from '../../locales/i18n';
 
 enableScreens();
-
+const styles = {
+  headerStyle: {
+    backgroundColor: '#525050',
+  },
+  headerTitleStyle: {
+    fontFamily: 'Ubuntu',
+    color: '#ffffff',
+    fontSize: 18,
+  },
+  headerTintColor: '#fff',
+};
 // const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
 
 const ConverterStack = () => {
+  const { headerStyle, headerTitleStyle, headerTintColor } = styles;
   return (
     <Stack.Navigator
       initialRouteName="Converter"
@@ -53,22 +64,21 @@ const ConverterStack = () => {
         component={AddCurrency}
         options={{
           title: strings('converter.addCurrency'),
-          headerStyle: {
-            backgroundColor: '#525050',
-          },
-          headerTitleStyle: {
-            fontFamily: 'Ubuntu',
-            color: '#ffffff',
-            fontSize: 18,
-          },
-          headerTintColor: '#fff',
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
         }}
       />
 
       <Stack.Screen
         name="EditPreset"
         component={EditPreset}
-        // initialParams={{ user: 'me' }}
+        options={{
+          title: strings('converter.changeCurr'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+        }}
       />
     </Stack.Navigator>
   );
@@ -257,6 +267,7 @@ class App extends Component<Props> {
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
     storeCurrencies();
+    // this.handleLanguageChange();
   }
 
   componentWillUnmount() {
@@ -264,6 +275,7 @@ class App extends Component<Props> {
   }
 
   handleLanguageChange = ({ language }: { language: string }) => {
+    console.log('language', language);
     i18n.locale = language;
     if (this.props.language !== this.pickerValue(i18n.currentLocale())) {
       this.props.languageChanged(this.pickerValue(i18n.currentLocale()));
