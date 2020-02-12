@@ -184,16 +184,21 @@ class Depo extends Component<Props, State> {
 
   handleLanguageChange = () => {
     const { navigation } = this.props;
+    console.log(this.props);
     if (this.props.language !== pickerValue(i18n.currentLocale())) {
       i18n.locale = this.props.language === 0 ? 'ru' : 'en';
       // navigation.setParams({ DLabel: strings('headerDeposit') });
       navigation.dispatch(
         CommonActions.setParams({ DLabel: strings('headerDeposit') }),
       );
-      navigation.dispatch({
-        ...CommonActions.setParams({ DLabel: strings('headerCredit') }),
-        name: 'Credit',
-      });
+      // navigation.dispatch({
+      //   ...CommonActions.setParams({ DLabel: strings('headerCredit') }),
+      //   source: '"Credit-EeUzx3wYE',
+      // });
+      // navigation.dispatch({
+      //   ...CommonActions.setParams({ DLabel: strings('converter.header') }),
+      //   source: 'Converter-hrSPfGRwB',
+      // });
       // const setCreditLabel = NavigationActions.setParams({
       //   params: { DLabel: strings('headerCredit') },
       //   key: 'Credit',

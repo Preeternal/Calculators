@@ -210,8 +210,9 @@ const Navigator = () => {
       <Drawer.Screen
         name="Converter"
         component={ConverterStack}
-        options={{
+        options={({ route }) => ({
           title: strings('converter.header'),
+          drawerLabel: route.params && route.params.DLabel,
           drawerIcon: ({ focused, color, size }) => (
             <Icon
               type="FontAwesome"
@@ -219,33 +220,35 @@ const Navigator = () => {
               style={iconStyle(focused, color, size - 2)}
             />
           ),
-        }}
+        })}
       />
       <Drawer.Screen
         name="Settings"
         component={Settings}
-        options={{
+        options={({ route }) => ({
           title: strings('settings.settings'),
+          drawerLabel: route.params && route.params.DLabel,
           drawerIcon: ({ focused, color, size }) => (
             <Icon
               name="md-settings"
               style={iconStyle(focused, color, size - 2)}
             />
           ),
-        }}
+        })}
       />
       <Drawer.Screen
         name="Help"
         component={Help}
-        options={{
+        options={({ route }) => ({
           title: strings('help.header'),
+          drawerLabel: route.params && route.params.DLabel,
           drawerIcon: ({ focused, color, size }) => (
             <Icon
               name="md-help-circle"
               style={iconStyle(focused, color, size - 2)}
             />
           ),
-        }}
+        })}
       />
     </Drawer.Navigator>
   );
