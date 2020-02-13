@@ -3,8 +3,6 @@ import React, { Component, Fragment } from 'react';
 import { ScrollView, Platform, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavigationActions } from '@react-navigation/compat';
-import { CommonActions } from '@react-navigation/native';
 import { Icon, Button } from 'native-base';
 import i18n from 'i18n-js';
 import * as RNIap from 'react-native-iap';
@@ -107,38 +105,38 @@ class Settings extends Component<Props, State> {
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
-    const { navigation } = this.props;
-    if (this.props.language !== prevProps.language) {
-      // navigation.dispatch({
-      //   ...CommonActions.setParams({ DLabel: strings('headerDeposit') }),
-      //   name: 'Depo',
-      // });
-      // this.props.navigation.setParams({ DLabel: strings('settings.settings') });
-      //   const setDepoLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('headerDeposit') },
-      //     key: 'Depo',
-      //   });
-      //   this.props.navigation.dispatch(setDepoLabel);
-      //   const setCreditLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('headerCredit') },
-      //     key: 'Credit',
-      //   });
-      //   this.props.navigation.dispatch(setCreditLabel);
-      //   const setConverterLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('converter.header') },
-      //     key: 'ConverterStack',
-      //   });
-      //   this.props.navigation.dispatch(setConverterLabel);
-      //   const setHelpLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('help.header') },
-      //     key: 'Help',
-      //   });
-      //   this.props.navigation.dispatch(setHelpLabel);
-      //   // const screens = ['Depo', 'Credit', 'Help', 'Settings'];
-      //   // screens.forEach(this.resetScreens);
-    }
-  }
+  // componentDidUpdate(prevProps: Props) {
+  // const { navigation } = this.props;
+  // if (this.props.language !== prevProps.language) {
+  // navigation.dispatch({
+  //   ...CommonActions.setParams({ DLabel: strings('headerDeposit') }),
+  //   name: 'Depo',
+  // });
+  // this.props.navigation.setParams({ DLabel: strings('settings.settings') });
+  //   const setDepoLabel = NavigationActions.setParams({
+  //     params: { DLabel: strings('headerDeposit') },
+  //     key: 'Depo',
+  //   });
+  //   this.props.navigation.dispatch(setDepoLabel);
+  //   const setCreditLabel = NavigationActions.setParams({
+  //     params: { DLabel: strings('headerCredit') },
+  //     key: 'Credit',
+  //   });
+  //   this.props.navigation.dispatch(setCreditLabel);
+  //   const setConverterLabel = NavigationActions.setParams({
+  //     params: { DLabel: strings('converter.header') },
+  //     key: 'ConverterStack',
+  //   });
+  //   this.props.navigation.dispatch(setConverterLabel);
+  //   const setHelpLabel = NavigationActions.setParams({
+  //     params: { DLabel: strings('help.header') },
+  //     key: 'Help',
+  //   });
+  //   this.props.navigation.dispatch(setHelpLabel);
+  //   // const screens = ['Depo', 'Credit', 'Help', 'Settings'];
+  //   // screens.forEach(this.resetScreens);
+  // }
+  // }
 
   componentWillUnmount() {
     if (this.purchaseUpdateSubscription) {
@@ -187,7 +185,9 @@ class Settings extends Component<Props, State> {
 
   onLanguageChange = (value: number) => {
     this.props.languageChanged(value);
+    this.context.setLocale(value === 0 ? 'ru' : 'en');
     i18n.locale = value === 0 ? 'ru' : 'en';
+    console.log(this.context);
   };
 
   onCountryChange = (value: number) => {
@@ -286,6 +286,10 @@ Settings.propTypes = {
   language: PropTypes.number,
   country: PropTypes.number,
 };
+
+export const LocalizationContext = React.createContext<null, Function>();
+
+Settings.contextType = LocalizationContext;
 
 const mapStateToProps = state => ({
   language: state.settings.language,

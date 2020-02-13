@@ -1,22 +1,12 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-  // InteractionManager,
-  // ActivityIndicator,
-} from 'react-native';
-import { NavigationActions } from '@react-navigation/compat';
-import { CommonActions } from '@react-navigation/native';
+import { Text, View, Image, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
-import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
 import {
@@ -183,7 +173,7 @@ class Depo extends Component<Props, State> {
   }
 
   handleLanguageChange = () => {
-    const { navigation } = this.props;
+    // const { navigation } = this.props;
     if (this.props.language !== pickerValue(i18n.currentLocale())) {
       i18n.locale = this.props.language === 0 ? 'ru' : 'en';
       // // navigation.setParams({ DLabel: strings('headerDeposit') });

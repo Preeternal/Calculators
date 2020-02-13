@@ -1,16 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
-import {
-  NavigationContainer,
-  createAppContainer,
-  getActiveChildNavigationOptions,
-  useNavigationState,
-} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
-// import { createStackNavigator } from '@react-navigation/stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import { createCompatNavigatorFactory } from '@react-navigation/compat';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
@@ -23,7 +15,7 @@ import Credit from './Credit';
 import Converter from './Converter';
 import AddCurrency from './Converter/AddCurrency';
 import EditPreset from './Converter/EditPreset';
-import Settings from './Settings';
+import Settings, { LocalizationContext } from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
@@ -152,7 +144,8 @@ const iconStyle = (focused, color, size) => ({
 });
 
 const Navigator = () => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
+  console.log('locale', locale);
   console.log(t('headerDeposit'));
   return (
     <Drawer.Navigator
@@ -257,9 +250,9 @@ const Navigator = () => {
 };
 
 // const AppContainer = createAppContainer<any, any>(Navigator);
-const LocalizationContext = React.createContext<Function>();
+
 const AppContainer = () => {
-  const [locale, setLocale] = React.useState(RNLanguages.language);
+  const [locale, setLocale] = React.useState(currentLocale);
   const localizationContext = React.useMemo(
     () => ({
       t: (scope, options) => i18n.t(scope, { locale, ...options }),
