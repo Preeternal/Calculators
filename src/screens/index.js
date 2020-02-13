@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
@@ -262,11 +263,13 @@ const AppContainer = () => {
     [locale],
   );
   return (
-    <LocalizationContext.Provider value={localizationContext}>
-      <NavigationContainer>
-        <Navigator />
-      </NavigationContainer>
-    </LocalizationContext.Provider>
+    <SafeAreaProvider>
+      <LocalizationContext.Provider value={localizationContext}>
+        <NavigationContainer>
+          <Navigator />
+        </NavigationContainer>
+      </LocalizationContext.Provider>
+    </SafeAreaProvider>
   );
 };
 
