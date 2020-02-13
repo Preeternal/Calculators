@@ -15,7 +15,7 @@ type Props = {
 
 class EditPreset extends Component<Props> {
   deleteListItem = (item: string) => {
-    const prevPreset = this.props.preset;
+    const prevPreset = this.props.preset || [];
     const preset = prevPreset.filter(i => i !== item);
     this.props.presetChanged(preset);
   };

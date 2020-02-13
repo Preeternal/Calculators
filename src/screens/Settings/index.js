@@ -54,6 +54,9 @@ class Settings extends Component<Props, State> {
   //   };
   // };
 
+  // eslint-disable-next-line react/static-property-placement
+  contextType = LocalizationContext;
+
   state = {
     iapConnection: false,
     products: [],
@@ -287,9 +290,7 @@ Settings.propTypes = {
   country: PropTypes.number,
 };
 
-export const LocalizationContext = React.createContext<null, Function>();
-
-Settings.contextType = LocalizationContext;
+export const LocalizationContext = React.createContext<Function>();
 
 const mapStateToProps = state => ({
   language: state.settings.language,
