@@ -146,9 +146,7 @@ const iconStyle = (focused, color, size) => ({
 });
 
 const Navigator = () => {
-  const { t, locale } = React.useContext(LocalizationContext);
-  console.log('locale', locale);
-  console.log(t('headerDeposit'));
+  // const { t, locale } = React.useContext(LocalizationContext);
   return (
     <Drawer.Navigator
       initialRouteName="Depo"
