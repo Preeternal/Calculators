@@ -1,3 +1,5 @@
+/* eslint-disable react/sort-comp */
+/* eslint-disable react/static-property-placement */
 // @flow
 import React, { Component, Fragment } from 'react';
 import { ScrollView, Platform, Text, Alert } from 'react-native';
@@ -18,6 +20,7 @@ import {
 } from '../../components/common';
 import { strings } from '../../../locales/i18n';
 import CustomHeader from '../Common/CustomHeader';
+import { LocalizationContext } from '../../Context';
 
 type Props = {
   navigation: Object,
@@ -54,8 +57,7 @@ class Settings extends Component<Props, State> {
   //   };
   // };
 
-  // eslint-disable-next-line react/static-property-placement
-  contextType = LocalizationContext;
+  static contextType = LocalizationContext;
 
   state = {
     iapConnection: false,
@@ -289,8 +291,6 @@ Settings.propTypes = {
   language: PropTypes.number,
   country: PropTypes.number,
 };
-
-export const LocalizationContext = React.createContext<Function>();
 
 const mapStateToProps = state => ({
   language: state.settings.language,

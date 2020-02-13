@@ -16,12 +16,13 @@ import Credit from './Credit';
 import Converter from './Converter';
 import AddCurrency from './Converter/AddCurrency';
 import EditPreset from './Converter/EditPreset';
-import Settings, { LocalizationContext } from './Settings';
+import Settings from './Settings';
 import Help from './Help';
 import DrawerScreen from './Common/DrawerScreen';
 import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
 import { strings, currentLocale } from '../../locales/i18n';
+import { LocalizationContext } from '../Context';
 
 enableScreens();
 const styles = {
