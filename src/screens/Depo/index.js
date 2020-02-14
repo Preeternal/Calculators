@@ -361,10 +361,10 @@ class Depo extends Component<Props, State> {
 
     return (
       <Fragment>
-        <CustomHeader
+        {/* <CustomHeader
           title={strings('titleDeposit')}
           drawerOpen={() => this.props.navigation.openDrawer()}
-        />
+        /> */}
         {/* { this.state.didFinishInitialAnimation ? ( */}
         <ScrollView
           key={`${this.props.language}${this.props.country}`}

@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
@@ -24,7 +25,6 @@ import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
 import { strings, currentLocale } from '../../locales/i18n';
 import { LocalizationContext } from '../Context';
-import images from '../assets/images';
 
 enableScreens();
 const styles = {
@@ -141,6 +141,16 @@ const ConverterStack = () => {
 //   },
 // );
 
+const Stack2 = createStackNavigator();
+
+const DepoStack = () => {
+  return (
+    <Stack2.Navigator>
+      <Stack.Screen name="Depo" component={Depo} />
+    </Stack2.Navigator>
+  );
+};
+
 const Drawer = createDrawerNavigator();
 
 const iconStyle = (focused, color, size) => ({
@@ -185,7 +195,7 @@ const Navigator = () => {
       >
         <Drawer.Screen
           name="Depo"
-          component={Depo}
+          component={DepoStack}
           options={({ route }) => ({
             title: strings('headerDeposit'),
             drawerLabel: route.params && route.params.DLabel,
