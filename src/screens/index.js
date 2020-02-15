@@ -23,7 +23,6 @@ import { DrawerButton, DrawerScreen } from './Common';
 import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
 import { store } from '../store';
-import { currentLocale } from '../../locales/i18n';
 import { LocalizationContext } from '../Context';
 
 enableScreens();
@@ -41,6 +40,9 @@ const styles = {
   headerLeftContainerStyle: {
     marginLeft: 20,
   },
+  headerRightContainerStyle: {
+    marginRight: 20,
+  },
 };
 const Stack = createStackNavigator();
 
@@ -51,8 +53,7 @@ const DepoStack = ({ navigation }) => {
     headerTintColor,
     headerLeftContainerStyle,
   } = styles;
-  const { t, locale } = React.useContext(LocalizationContext);
-  console.log(locale);
+  const { t } = React.useContext(LocalizationContext);
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -65,7 +66,7 @@ const DepoStack = ({ navigation }) => {
           headerTintColor,
           headerLeftContainerStyle,
           headerStatusBarHeight: 23,
-          headerLeft: () => <DrawerButton navigation={navigation} />,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
         })}
       />
     </Stack.Navigator>
@@ -92,7 +93,7 @@ const CreditStack = ({ navigation }) => {
           headerTintColor,
           headerLeftContainerStyle,
           headerStatusBarHeight: 23,
-          headerLeft: () => <DrawerButton navigation={navigation} />,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
         })}
       />
     </Stack.Navigator>
@@ -105,6 +106,7 @@ const ConverterStack = ({ navigation }) => {
     headerTitleStyle,
     headerTintColor,
     headerLeftContainerStyle,
+    headerRightContainerStyle,
   } = styles;
   const { t } = React.useContext(LocalizationContext);
   return (
@@ -119,20 +121,31 @@ const ConverterStack = ({ navigation }) => {
           headerTitleStyle,
           headerTintColor,
           headerLeftContainerStyle,
+          headerRightContainerStyle,
           headerStatusBarHeight: 23,
-          headerLeft: () => <DrawerButton navigation={navigation} />,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+          headerRight: () => (
+            <DrawerButton
+              name="md-create"
+              onPress={() => navigation.navigate('EditPreset')}
+            />
+          ),
         }}
       />
       <Stack.Screen
         name="AddCurrency"
         component={AddCurrency}
-        options={{
+        options={options => ({
           title: t('converter.addCurrency'),
           headerStyle,
           headerTitleStyle,
           headerTintColor,
+          headerLeftContainerStyle,
           headerStatusBarHeight: 23,
-        }}
+          headerLeft: () => (
+            <DrawerButton name="md-close" onPress={options.navigation.goBack} />
+          ),
+        })}
       />
       <Stack.Screen
         name="EditPreset"
@@ -169,7 +182,7 @@ const SettingsStack = ({ navigation }) => {
           headerTintColor,
           headerLeftContainerStyle,
           headerStatusBarHeight: 23,
-          headerLeft: () => <DrawerButton navigation={navigation} />,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
         })}
       />
     </Stack.Navigator>
@@ -196,7 +209,7 @@ const HelpStack = ({ navigation }) => {
           headerTintColor,
           headerLeftContainerStyle,
           headerStatusBarHeight: 23,
-          headerLeft: () => <DrawerButton navigation={navigation} />,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
         })}
       />
     </Stack.Navigator>
@@ -324,8 +337,6 @@ const AppContainer = () => {
   const language = selectLanguage(store.getState());
   const reduxLocale = language === 0 ? 'ru' : 'en';
   const [locale, setLocale] = React.useState(reduxLocale);
-  console.log('2', locale);
-  console.log('currentLocale', currentLocale);
   const localizationContext = React.useMemo(
     () => ({
       t: (scope, options) => i18n.t(scope, { locale, ...options }),

@@ -25,7 +25,7 @@ const styles = {
     marginRight: 20,
   },
   actionButtonIcon: {
-    fontSize: 24,
+    fontSize: 25,
     color: 'white',
   },
 };
@@ -46,8 +46,8 @@ class AddCurrency extends Component<Props, State> {
       headerRight: () => (
         <TouchableOpacity style={styles.rightButton} onPress={this.saveDetails}>
           <Icon
-            type="FontAwesome"
-            name="save"
+            type="MaterialIcons"
+            name="done"
             style={styles.actionButtonIcon}
           />
         </TouchableOpacity>
