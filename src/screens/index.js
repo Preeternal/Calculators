@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -20,10 +19,11 @@ import AddCurrency from './Converter/AddCurrency';
 import EditPreset from './Converter/EditPreset';
 import Settings from './Settings';
 import Help from './Help';
-import DrawerScreen from './Common/DrawerScreen';
+import { DrawerButton, DrawerScreen } from './Common';
 import { languageChanged } from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
-import { strings, currentLocale } from '../../locales/i18n';
+import { store } from '../store';
+import { currentLocale } from '../../locales/i18n';
 import { LocalizationContext } from '../Context';
 
 enableScreens();
@@ -35,119 +35,171 @@ const styles = {
     fontFamily: 'Ubuntu',
     color: '#ffffff',
     fontSize: 18,
+    textAlignVertical: 'center',
   },
   headerTintColor: '#fff',
+  headerLeftContainerStyle: {
+    marginLeft: 20,
+  },
 };
-// const Stack = createStackNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-const ConverterStack = () => {
-  const { headerStyle, headerTitleStyle, headerTintColor } = styles;
+const DepoStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t, locale } = React.useContext(LocalizationContext);
+  console.log(locale);
   return (
-    <>
-      <StatusBar
-        animated
-        translucent
-
-        // barStyle="light-content"
-        // backgroundColor="#525050"
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Depo"
+        component={Depo}
+        options={() => ({
+          title: t('titleDeposit'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton navigation={navigation} />,
+        })}
       />
-      <Stack.Navigator initialRouteName="Converter">
-        <Stack.Screen
-          name="Converter"
-          component={Converter}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AddCurrency"
-          component={AddCurrency}
-          options={{
-            title: strings('converter.addCurrency'),
-            headerStyle,
-            headerTitleStyle,
-            headerTintColor,
-          }}
-        />
-
-        <Stack.Screen
-          name="EditPreset"
-          component={EditPreset}
-          options={{
-            title: strings('converter.changeCurr'),
-            headerStyle,
-            headerTitleStyle,
-            headerTintColor,
-          }}
-        />
-      </Stack.Navigator>
-    </>
+    </Stack.Navigator>
   );
 };
 
-// const ConverterStack = createCompatNavigatorFactory(createStackNavigator)(
-//   {
-//     Converter,
-//     AddCurrency,
-//     EditPreset,
-//   },
-//   {
-//     mode: 'modal',
-//     // headerMode: 'none',
-//     headerMode: 'float',
-//   },
-// );
-
-// const Navigator = createDrawerNavigator(
-//   {
-//     Depo,
-//     Credit,
-//     ConverterStack: {
-//       screen: ConverterStack,
-//       // navigationOptions: {
-//       //   title: strings('converter.header'), // drawer label initialization
-//       //   drawerLabel: navigation.state.params && navigation.state.params.DLabel,
-//       //   drawerIcon: ({ tintColor }) => (
-//       //     <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
-//       //   ),
-//       // },
-//       navigationOptions: ({ navigation, screenProps }) => ({
-//         // you can put fallback values before here, eg: a default tabBarLabel
-//         ...getActiveChildNavigationOptions(navigation, screenProps),
-//         // put other navigationOptions that you don't want the active child to
-//         // be able to override here!
-//       }),
-//     },
-//     // Converter,
-//     Settings,
-//     Help,
-//   },
-//   {
-//     initialRouteName: 'Depo',
-//     // initialRouteName: 'ConverterStack',
-//     contentComponent: DrawerScreen,
-//     drawerWidth: 300,
-//     overlayColor: 'rgba(52, 52, 52, 0.5)',
-//     // drawerBackgroundColor: 'transparent',
-//     // unmountInactiveRoutes: true,
-//     contentOptions: {
-//       activeTintColor: '#000000',
-//       inactiveTintColor: '#525050',
-//       labelStyle: {
-//         fontFamily: 'Ubuntu',
-//         fontWeight: '700',
-//         // fontStyle: 'italic'
-//       },
-//     },
-//   },
-// );
-
-const Stack2 = createStackNavigator();
-
-const DepoStack = () => {
+const CreditStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t } = React.useContext(LocalizationContext);
   return (
-    <Stack2.Navigator>
-      <Stack.Screen name="Depo" component={Depo} />
-    </Stack2.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Credit"
+        component={Credit}
+        options={() => ({
+          title: t('titleCredit'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton navigation={navigation} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const ConverterStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator initialRouteName="Converter">
+      <Stack.Screen
+        name="Converter"
+        component={Converter}
+        options={{
+          title: t('converter.title'),
+          headerLargeTitle: true,
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton navigation={navigation} />,
+        }}
+      />
+      <Stack.Screen
+        name="AddCurrency"
+        component={AddCurrency}
+        options={{
+          title: t('converter.addCurrency'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerStatusBarHeight: 23,
+        }}
+      />
+      <Stack.Screen
+        name="EditPreset"
+        component={EditPreset}
+        options={{
+          title: t('converter.changeCurr'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerStatusBarHeight: 23,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const SettingsStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={() => ({
+          title: t('settings.settings'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton navigation={navigation} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const HelpStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Help"
+        component={Help}
+        options={() => ({
+          title: t('help.header'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton navigation={navigation} />,
+        })}
+      />
+    </Stack.Navigator>
   );
 };
 
@@ -157,11 +209,11 @@ const iconStyle = (focused, color, size) => ({
   textAlign: 'center',
   width: 30,
   fontSize: size,
-  color: focused ? color : 'gray',
+  color: focused ? color : '#757171',
 });
 
 const Navigator = () => {
-  // const { t, locale } = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   return (
     <>
       {/* <SafeAreaView
@@ -170,7 +222,7 @@ const Navigator = () => {
       > */}
       <StatusBar animated translucent backgroundColor="rgba(0, 0, 0, 0)" />
       <Drawer.Navigator
-        initialRouteName="Depo"
+        initialRouteName="DepoStack"
         drawerContent={DrawerScreen}
         drawerContentOptions={{
           activeTintColor: '#000000',
@@ -194,14 +246,13 @@ const Navigator = () => {
         }
       >
         <Drawer.Screen
-          name="Depo"
+          name="DepoStack"
           component={DepoStack}
           options={({ route }) => ({
-            title: strings('headerDeposit'),
+            title: t('headerDeposit'),
             drawerLabel: route.params && route.params.DLabel,
             drawerIcon: ({ focused, color, size }) => (
               <Icon
-                // type={focused ? 'Entypo' : 'FontAwesome5'}
                 type="Entypo"
                 name="wallet"
                 style={iconStyle(focused, color, size)}
@@ -210,11 +261,10 @@ const Navigator = () => {
           })}
         />
         <Drawer.Screen
-          name="Credit"
-          component={Credit}
-          options={({ route }) => ({
-            title: strings('headerCredit'),
-            drawerLabel: route.params && route.params.DLabel,
+          name="CreditStack"
+          component={CreditStack}
+          options={() => ({
+            title: t('headerCredit'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 name="md-download"
@@ -224,11 +274,10 @@ const Navigator = () => {
           })}
         />
         <Drawer.Screen
-          name="Converter"
+          name="ConverterStack"
           component={ConverterStack}
-          options={({ route }) => ({
-            title: strings('converter.header'),
-            drawerLabel: route.params && route.params.DLabel,
+          options={() => ({
+            title: t('converter.header'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 type="FontAwesome"
@@ -239,11 +288,10 @@ const Navigator = () => {
           })}
         />
         <Drawer.Screen
-          name="Settings"
-          component={Settings}
-          options={({ route }) => ({
-            title: strings('settings.settings'),
-            drawerLabel: route.params && route.params.DLabel,
+          name="SettingsStack"
+          component={SettingsStack}
+          options={() => ({
+            title: t('settings.settings'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 name="md-settings"
@@ -253,11 +301,10 @@ const Navigator = () => {
           })}
         />
         <Drawer.Screen
-          name="Help"
-          component={Help}
-          options={({ route }) => ({
-            title: strings('help.header'),
-            drawerLabel: route.params && route.params.DLabel,
+          name="HelpStack"
+          component={HelpStack}
+          options={() => ({
+            title: t('help.header'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 name="md-help-circle"
@@ -272,10 +319,13 @@ const Navigator = () => {
   );
 };
 
-// const AppContainer = createAppContainer<any, any>(Navigator);
-
 const AppContainer = () => {
-  const [locale, setLocale] = React.useState(currentLocale);
+  const selectLanguage = state => state.settings.language;
+  const language = selectLanguage(store.getState());
+  const reduxLocale = language === 0 ? 'ru' : 'en';
+  const [locale, setLocale] = React.useState(reduxLocale);
+  console.log('2', locale);
+  console.log('currentLocale', currentLocale);
   const localizationContext = React.useMemo(
     () => ({
       t: (scope, options) => i18n.t(scope, { locale, ...options }),
@@ -286,7 +336,7 @@ const AppContainer = () => {
   );
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" backgroundColor="#525050" />
+      {/* <StatusBar barStyle="light-content" backgroundColor="#525050" /> */}
       <LocalizationContext.Provider value={localizationContext}>
         <NavigationContainer>
           <Navigator />
@@ -312,7 +362,6 @@ class App extends Component<Props> {
   }
 
   handleLanguageChange = ({ language }: { language: string }) => {
-    console.log('language', language);
     i18n.locale = language;
     if (this.props.language !== this.pickerValue(i18n.currentLocale())) {
       this.props.languageChanged(this.pickerValue(i18n.currentLocale()));
@@ -339,7 +388,6 @@ class App extends Component<Props> {
     // console.log(new Date().getTimezoneOffset());
 
     return <AppContainer />;
-    // key={this.props.language} />;
   }
 }
 

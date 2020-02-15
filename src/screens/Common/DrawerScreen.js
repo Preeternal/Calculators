@@ -1,27 +1,13 @@
 // @flow
 /* eslint-disable react/jsx-props-no-spreading */
-
 import React from 'react';
 import {
   DrawerContentScrollView,
-  Header,
-  DrawerItem,
   DrawerItemList,
 } from '@react-navigation/drawer';
-// import { DrawerNavigatorItems } from '@react-navigation/drawer';
-import PropTypes from 'prop-types';
-import {
-  Image,
-  SafeAreaView,
-  // StatusBar,
-  View,
-
-  // Text,
-} from 'react-native';
-// import { Container, Content, Header, Body, Icon } from 'native-base';
+import { Image } from 'react-native';
 
 import images from '../../assets/images';
-import { strings } from '../../../locales/i18n';
 
 // const DrawerScreen = props => (
 //   <Container>
@@ -50,27 +36,14 @@ import { strings } from '../../../locales/i18n';
 //   </Container>
 // );
 
-const DrawerScreen = props => {
+const DrawerScreen = (props: any) => {
   return (
     <DrawerContentScrollView {...props}>
-      {/* <Header> */}
       <Image
-        resizeMode="cover" // contain
-        // resizeMethod="auto"
+        resizeMode="cover"
         style={styles.drawerImage}
         source={images.logo}
       />
-      {/* </Header> */}
-      {/* <DrawerItem
-        label={strings('headerDeposit')}
-        // focused
-        // activeTintColor="#000000"
-        // inactiveTintColor="#525050"
-        Icon={({ focused, color, size }) => (
-          <Icon type="Entypo" name="wallet" style={{ fontSize: 24, color }} />
-        )}
-        // onPress={() => Linking.openUrl('https://mywebsite.com/help')}
-      /> */}
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
   );

@@ -46,17 +46,6 @@ const prodItems = Platform.select({
 });
 
 class Settings extends Component<Props, State> {
-  // static navigationOptions = ({ navigation }: Object) => {
-  //   const { params } = navigation.state;
-  //   return {
-  //     title: strings('settings.settings'), // drawer label initialization
-  //     drawerLabel: params && params.DLabel,
-  //     drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
-  //       <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
-  //     ),
-  //   };
-  // };
-
   static contextType = LocalizationContext;
 
   state = {
@@ -192,7 +181,6 @@ class Settings extends Component<Props, State> {
     this.props.languageChanged(value);
     this.context.setLocale(value === 0 ? 'ru' : 'en');
     i18n.locale = value === 0 ? 'ru' : 'en';
-    console.log(this.context);
   };
 
   onCountryChange = (value: number) => {
@@ -202,11 +190,11 @@ class Settings extends Component<Props, State> {
   render() {
     return (
       <Fragment>
-        <CustomHeader
+        {/* <CustomHeader
           // title="Settings"
           title={strings('settings.settings')}
           drawerOpen={() => this.props.navigation.openDrawer()}
-        />
+        /> */}
         <ScrollView style={{ flex: 1 }}>
           <Card>
             {/* <Header headerText="Локальные данные" /> */}

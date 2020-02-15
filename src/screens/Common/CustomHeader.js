@@ -1,11 +1,21 @@
 import React from 'react';
 import { View, Dimensions, StatusBar } from 'react-native';
 import { withNavigation } from '@react-navigation/compat';
+import { Header } from '@react-navigation/native';
 
-import { Header, Body, Title, Left, Icon, Right, Button } from 'native-base';
+import {
+  // Header,
+  Body,
+  Title,
+  Left,
+  Icon,
+  Right,
+  Button,
+} from 'native-base';
 
 const CustomHeader = props => (
   <>
+    {/* <Header> */}
     {/* <StatusBar barStyle="dark-content" backgroundColor="#525050" /> */}
     <View
       style={{
@@ -56,6 +66,7 @@ const CustomHeader = props => (
       <Right>{props.right}</Right>
       {/* </Header> */}
     </View>
+    {/* </Header> */}
   </>
 );
 

@@ -12,10 +12,10 @@ class Help extends PureComponent {
     const { main, bold } = styles;
     return (
       <View key={this.props.language} style={{ flex: 1 }}>
-        <CustomHeader
+        {/* <CustomHeader
           title={strings('help.header')}
           drawerOpen={() => this.props.navigation.openDrawer()}
-        />
+        /> */}
         <ScrollView style={{ flex: 1 }}>
           <Card>
             <Header headerText={strings('help.definitions')} />

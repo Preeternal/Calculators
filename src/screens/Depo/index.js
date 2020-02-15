@@ -1,3 +1,5 @@
+/* eslint-disable react/sort-comp */
+/* eslint-disable react/static-property-placement */
 // @flow
 import React, { Component, Fragment } from 'react';
 import { Text, View, Image, ScrollView } from 'react-native';
@@ -39,13 +41,12 @@ import {
 } from '../../components/common';
 
 import { strings, currentLocale } from '../../../locales/i18n';
+import { LocalizationContext } from '../../Context';
 
 import config from '../../../config';
 
 import { initDate, number } from '../../lib';
 import calculate from '../../lib/calculate';
-
-import CustomHeader from '../Common/CustomHeader';
 
 import images from '../../assets/images';
 
@@ -79,7 +80,6 @@ type Props = {
   countryIpTriggered: Function,
 
   calculated: typeof calculate,
-  navigation: Object,
 };
 
 const textColor = '#525050';
@@ -104,20 +104,7 @@ const pickerValue = (locale: string) => {
 };
 
 class Depo extends Component<Props, State> {
-  // static Options = ({ navigation }: { navigation: Object }) => {
-  //   const { params } = navigation.state;
-  //   return {
-  //     title: strings('headerDeposit'), // drawer label initialization
-  //     drawerLabel: params && params.DLabel,
-  //     drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
-  //       <Icon
-  //         type="Entypo"
-  //         name="wallet"
-  //         style={{ fontSize: 24, color: tintColor }}
-  //       />
-  //     ),
-  //   };
-  // };
+  static contextType = LocalizationContext;
 
   state = {
     // didFinishInitialAnimation: false,
@@ -173,47 +160,9 @@ class Depo extends Component<Props, State> {
   }
 
   handleLanguageChange = () => {
-    // const { navigation } = this.props;
     if (this.props.language !== pickerValue(i18n.currentLocale())) {
       i18n.locale = this.props.language === 0 ? 'ru' : 'en';
-      // // navigation.setParams({ DLabel: strings('headerDeposit') });
-      // navigation.dispatch(
-      //   CommonActions.setParams({ DLabel: strings('headerDeposit') }),
-      // );
-      // navigation.dispatch(
-      //   CommonActions.setParams({
-      //     name: 'Credit',
-      //     params: { DLabel: strings('headerDeposit') },
-      //   }),
-      // );
-      // navigation.dispatch({
-      //   ...CommonActions.setParams({ DLabel: strings('headerCredit') }),
-      //   source: '"Credit-EeUzx3wYE',
-      // });
-      // navigation.dispatch({
-      //   ...CommonActions.setParams({ DLabel: strings('converter.header') }),
-      //   source: 'Converter-hrSPfGRwB',
-      // });
-      // const setCreditLabel = NavigationActions.setParams({
-      //   params: { DLabel: strings('headerCredit') },
-      //   key: 'Credit',
-      // });
-      // this.props.navigation.dispatch(setCreditLabel);
-      //   const setConverterLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('converter.header') },
-      //     key: 'ConverterStack',
-      //   });
-      //   this.props.navigation.dispatch(setConverterLabel);
-      //   const setSettingsLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('settings.settings') },
-      //     key: 'Settings',
-      //   });
-      //   this.props.navigation.dispatch(setSettingsLabel);
-      //   const setHelpLabel = NavigationActions.setParams({
-      //     params: { DLabel: strings('help.header') },
-      //     key: 'Help',
-      //   });
-      //   this.props.navigation.dispatch(setHelpLabel);
+      this.context.setLocale(this.props.language === 0 ? 'ru' : 'en');
     }
   };
 
@@ -361,10 +310,6 @@ class Depo extends Component<Props, State> {
 
     return (
       <Fragment>
-        {/* <CustomHeader
-          title={strings('titleDeposit')}
-          drawerOpen={() => this.props.navigation.openDrawer()}
-        /> */}
         {/* { this.state.didFinishInitialAnimation ? ( */}
         <ScrollView
           key={`${this.props.language}${this.props.country}`}

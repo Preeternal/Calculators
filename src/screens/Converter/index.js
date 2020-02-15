@@ -220,7 +220,7 @@ class Converter extends Component<Props, State> {
   render() {
     return (
       <Fragment>
-        <CustomHeader
+        {/* <CustomHeader
           title={strings('converter.title')}
           drawerOpen={() => this.props.navigation.openDrawer()}
           right={
@@ -233,7 +233,7 @@ class Converter extends Component<Props, State> {
               <Icon name="md-create" style={{ fontSize: 30, color: 'white' }} />
             </Button>
           }
-        />
+        /> */}
         {this.props.currencies.length ? (
           <Fragment>
             <View
