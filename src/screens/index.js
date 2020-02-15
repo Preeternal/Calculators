@@ -55,6 +55,10 @@ const DepoStack = ({ navigation }) => {
   } = styles;
   const { t } = React.useContext(LocalizationContext);
   return (
+     <SafeAreaView
+        style={{ flex: 1, backgroundColor: '#525050' }}
+        forceInset={{ top: 'always', horizontal: 'never' }}
+      > 
     <Stack.Navigator>
       <Stack.Screen
         name="Depo"
@@ -70,6 +74,7 @@ const DepoStack = ({ navigation }) => {
         })}
       />
     </Stack.Navigator>
+    </SafeAreaView>
   );
 };
 
@@ -348,7 +353,7 @@ const AppContainer = () => {
   );
   return (
     <SafeAreaProvider>
-      {/* <StatusBar barStyle="light-content" backgroundColor="#525050" /> */}
+      <StatusBar barStyle="light-content" backgroundColor="#525050" />
       <LocalizationContext.Provider value={localizationContext}>
         <NavigationContainer>
           <Navigator />
