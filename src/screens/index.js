@@ -55,25 +55,28 @@ const DepoStack = ({ navigation }) => {
   } = styles;
   const { t } = React.useContext(LocalizationContext);
   return (
-     <SafeAreaView
-        style={{ flex: 1, backgroundColor: '#525050' }}
-        forceInset={{ top: 'always', horizontal: 'never' }}
-      > 
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Depo"
-        component={Depo}
-        options={() => ({
-          title: t('titleDeposit'),
-          headerStyle,
-          headerTitleStyle,
-          headerTintColor,
-          headerLeftContainerStyle,
-          headerStatusBarHeight: 23,
-          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
-        })}
-      />
-    </Stack.Navigator>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#525050',
+      }}
+      // forceInset={{ top: 'always', horizontal: 'never' }}
+    >
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Depo"
+          component={Depo}
+          options={() => ({
+            title: t('titleDeposit'),
+            headerStyle,
+            headerTitleStyle,
+            headerTintColor,
+            headerLeftContainerStyle,
+            headerStatusBarHeight: 23,
+            headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+          })}
+        />
+      </Stack.Navigator>
     </SafeAreaView>
   );
 };
@@ -236,8 +239,8 @@ const Navigator = () => {
   return (
     <>
       {/* <SafeAreaView
-        style={{ flex: 1 }}
-        forceInset={{ top: 'always', horizontal: 'never' }}
+        // style={{ flex: 1 }}
+        // forceInset={{ top: 'always', horizontal: 'never' }}
       > */}
       <StatusBar animated translucent backgroundColor="rgba(0, 0, 0, 0)" />
       <Drawer.Navigator
@@ -256,13 +259,10 @@ const Navigator = () => {
           },
         }}
         // minSwipeDistance={300}
-        drawerStyle={
-          {
-            // marginTop: 10,
-            // backgroundColor: '#c6cbef',
-            // width: 300.5,
-          }
-        }
+        drawerStyle={{
+          // backgroundColor: '#c6cbef',
+          width: 280,
+        }}
       >
         <Drawer.Screen
           name="DepoStack"
