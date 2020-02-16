@@ -39,19 +39,19 @@ import images from '../../assets/images';
 const DrawerScreen = (props: any) => {
   return (
     <>
-     <Image
-        resizeMode="cover"
-        style={styles.drawerImage}
-        source={images.logo}
-      />
-    <DrawerContentScrollView {...props}>
       <Image
         resizeMode="cover"
         style={styles.drawerImage}
         source={images.logo}
       />
-      <DrawerItemList {...props} />
-    </DrawerContentScrollView>
+      <DrawerContentScrollView {...props}>
+        <Image
+          resizeMode="cover"
+          style={styles.drawerImage}
+          source={images.logo}
+        />
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
     </>
   );
 };
