@@ -108,7 +108,6 @@ class Depo extends Component<Props, State> {
   static contextType = LocalizationContext;
 
   state = {
-    // didFinishInitialAnimation: false,
     principalColor: textColor,
     interest1Color: textColor,
     interest2Color: textColor,
@@ -145,17 +144,7 @@ class Depo extends Component<Props, State> {
           );
         });
     }
-    // // 1: Component is mounted off-screen
-    // InteractionManager.runAfterInteractions(() => {
-    //   // 2: Component is done animating
-    //   // 3: Start fetching the data
-    //   // this.props.dispatchDataFetchStart();
-    //   // 4: set didFinishInitialAnimation to false
-    //   // This will render the navigation bar and a list of players
-    //   this.setState({
-    //     didFinishInitialAnimation: true,
-    //   });
-    // });
+   
 
     setTimeout(this.handleLanguageChange, 10);
   }
@@ -310,18 +299,19 @@ class Depo extends Component<Props, State> {
     };
 
     return (
-      // <SafeAreaView
-      //   style={{
-      //     flex: 1,
-      //     // backgroundColor: '#525050',
-      //   }}
-      // >
-      <>
-        {/* { this.state.didFinishInitialAnimation ? ( */}
+      
+      
+
         <ScrollView
           key={`${this.props.language}${this.props.country}`}
           style={{ flex: 1 }}
         >
+          <SafeAreaView
+        style={{
+          flex: 1,
+          // backgroundColor: '#525050',
+        }}
+       >
           <Card>
             {/* <Header headerText="Депозитный калькулятор" /> */}
             <Header headerText={strings('headerDeposit')} />
@@ -630,25 +620,13 @@ class Depo extends Component<Props, State> {
                 language={this.props.language}
               />
             </Card>
-          )}
-          <SafeAreaView
-            style={{
-              flex: 1,
-              // backgroundColor: '#525050',
-            }}
-          />
+          )}  
+          </SafeAreaView>
         </ScrollView>
-        {/* ) : (
-          <View style={{
-            flex: 1,
-            justifyContent: 'center',
-          }}
-          >
-            <ActivityIndicator size="large" color={textColor} />
-          </View>
-        )} */}
-        {/* </SafeAreaView> */}
-      </>
+   
+        
+      
+     
     );
   }
 }
