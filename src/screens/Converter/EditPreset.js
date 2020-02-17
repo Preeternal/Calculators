@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import CurrencyPreset from '../../components/converter/CurrencyPreset';
-import { strings } from '../../../locales/i18n';
+import { LocalizationContext } from '../../Context';
 import { presetChanged } from '../../actions';
 
 type Props = {
@@ -21,18 +21,17 @@ class EditPreset extends Component<Props> {
   };
 
   onDelete = (item: string) => {
+    const { t } = this.context;
     Alert.alert(
-      `${strings('converter.delete')} ${item}`,
-      `${strings('converter.remove')} ${item} ${strings(
-        'converter.fromTheList',
-      )}`,
+      `${t('converter.delete')} ${item}`,
+      `${t('converter.remove')} ${item} ${t('converter.fromTheList')}`,
       [
         {
-          text: strings('common.cancel'),
+          text: t('common.cancel'),
           style: 'cancel',
         },
         {
-          text: strings('common.ok'),
+          text: t('common.ok'),
           onPress: () => {
             this.deleteListItem(item);
           },
@@ -70,6 +69,8 @@ class EditPreset extends Component<Props> {
       isActive={isActive}
     />
   );
+
+  static contextType = LocalizationContext;
 
   render() {
     return (
