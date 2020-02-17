@@ -144,7 +144,6 @@ class Depo extends Component<Props, State> {
           );
         });
     }
-   
 
     setTimeout(this.handleLanguageChange, 10);
   }
@@ -299,19 +298,17 @@ class Depo extends Component<Props, State> {
     };
 
     return (
-      
-      
-
-        <ScrollView
-          key={`${this.props.language}${this.props.country}`}
-          style={{ flex: 1 }}
+      <ScrollView
+        key={`${this.props.language}${this.props.country}`}
+        style={{ flex: 1 }}
+      >
+        <SafeAreaView
+          forceInset={{ top: 'never', bottom: 'never' }}
+          style={{
+            flex: 1,
+            // backgroundColor: '#525050',
+          }}
         >
-          <SafeAreaView
-        style={{
-          flex: 1,
-          // backgroundColor: '#525050',
-        }}
-       >
           <Card>
             {/* <Header headerText="Депозитный калькулятор" /> */}
             <Header headerText={strings('headerDeposit')} />
@@ -620,13 +617,9 @@ class Depo extends Component<Props, State> {
                 language={this.props.language}
               />
             </Card>
-          )}  
-          </SafeAreaView>
-        </ScrollView>
-   
-        
-      
-     
+          )}
+        </SafeAreaView>
+      </ScrollView>
     );
   }
 }
