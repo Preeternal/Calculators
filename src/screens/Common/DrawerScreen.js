@@ -9,33 +9,6 @@ import { Image } from 'react-native';
 
 import images from '../../assets/images';
 
-// const DrawerScreen = props => (
-//   <Container>
-//     <SafeAreaView
-//       style={{ flex: 1 }}
-//       forceInset={{ top: 'always', horizontal: 'never' }}
-//     >
-//       {/* <StatusBar barStyle="dark-content" backgroundColor="#525050" /> */}
-//       <Header
-//         // iosBarStyle="dark-content"
-//         androidStatusBarColor="#525050"
-//         style={styles.drawerHeader}
-//       >
-//         <Body>
-//           <Image
-//             resizeMode="cover"
-//             style={styles.drawerImage}
-//             source={images.logo}
-//           />
-//         </Body>
-//       </Header>
-//       <Content>
-//         <DrawerNavigatorItems {...props} />
-//       </Content>
-//     </SafeAreaView>
-//   </Container>
-// );
-
 const DrawerScreen = (props: any) => {
   return (
     <>

@@ -1,5 +1,3 @@
-/* eslint-disable react/sort-comp */
-/* eslint-disable react/static-property-placement */
 // @flow
 import React, { Component } from 'react';
 import { Text, View, Image, ScrollView } from 'react-native';
@@ -40,7 +38,7 @@ import {
   TableSection,
 } from '../../components/common';
 
-import { strings, currentLocale } from '../../../locales/i18n';
+import { currentLocale } from '../../../locales/i18n';
 import { LocalizationContext } from '../../Context';
 
 import config from '../../../config';
@@ -104,8 +102,6 @@ const pickerValue = (locale: string) => {
 };
 
 class Depo extends Component<Props, State> {
-  static contextType = LocalizationContext;
-
   state = {
     principalColor: textColor,
     interest1Color: textColor,
@@ -143,16 +139,7 @@ class Depo extends Component<Props, State> {
           );
         });
     }
-
-    setTimeout(this.handleLanguageChange, 10);
   }
-
-  handleLanguageChange = () => {
-    if (this.props.language !== pickerValue(i18n.currentLocale())) {
-      i18n.locale = this.props.language === 0 ? 'ru' : 'en';
-      this.context.setLocale(this.props.language === 0 ? 'ru' : 'en');
-    }
-  };
 
   onFocus = (input: string, text: string) => {
     this.setState({
@@ -249,6 +236,8 @@ class Depo extends Component<Props, State> {
     this.props.countryIpTriggered(bool);
   };
 
+  static contextType = LocalizationContext;
+
   render() {
     const {
       topImage,
@@ -296,19 +285,18 @@ class Depo extends Component<Props, State> {
       maximumFractionDigits: 2,
     };
 
+    const { t } = this.context;
+
     return (
-      <ScrollView
-        key={`${this.props.language}${this.props.country}`}
-        style={{ flex: 1 }}
-      >
+      <ScrollView style={{ flex: 1 }}>
         <Card>
           {/* <Header headerText="Депозитный калькулятор" /> */}
-          <Header headerText={strings('headerDeposit')} />
+          <Header headerText={t('headerDeposit')} />
           <CardSection>
             <Image source={images.logo} style={topImage} />
             <Text style={welcome}>
               {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
-              {!srok ? strings('welcome.error') : strings('welcome.go')}
+              {!srok ? t('welcome.error') : t('welcome.go')}
             </Text>
 
             <RadioForm
@@ -337,9 +325,9 @@ class Depo extends Component<Props, State> {
           <TableSection>
             <Input
               // placeholder="введите сумму"
-              placeholder={strings('input.principal.placeholder')}
+              placeholder={t('input.principal.placeholder')}
               // label="Сумма вклада"
-              label={`${strings('input.principal.label')}, ${radio[
+              label={`${t('input.principal.label')}, ${radio[
                 this.props.radio
               ].label.charAt(0)}`}
               onChangeText={this.onPrincipalChange}
@@ -351,7 +339,7 @@ class Depo extends Component<Props, State> {
 
             <InputDate
               // label="Дата открытия вклада"
-              label={strings('input.dateOpen.label')}
+              label={t('input.dateOpen.label')}
               value={initDate(new Date(this.props.dateOpen))}
               onRootPress={() => this.setDatePickerVisible(true)}
               onPress={() => this.setDatePickerVisible(true)}
@@ -366,7 +354,7 @@ class Depo extends Component<Props, State> {
 
             <InputDate
               // label="Дата закрытия вклада"
-              label={strings('input.dateClosed.label')}
+              label={t('input.dateClosed.label')}
               value={initDate(new Date(this.props.dateClosed))}
               onRootPress={() => this.setDatePicker2Visible(true)}
               onPress={() => this.setDatePicker2Visible(true)}
@@ -381,9 +369,9 @@ class Depo extends Component<Props, State> {
 
             <Input
               // placeholder="введите ставку"
-              placeholder={strings('input.interest1.placeholder')}
+              placeholder={t('input.interest1.placeholder')}
               // label="Процентная ставка"
-              label={strings('input.interest1.label')}
+              label={t('input.interest1.label')}
               onChangeText={this.onInterest1Change}
               onBlur={() => this.onBlur('interest1', this.props.interest1)}
               onFocus={() => this.onFocus('interest1', this.props.interest1)}
@@ -394,9 +382,9 @@ class Depo extends Component<Props, State> {
             {days1 > 0 ? (
               <Input
                 // placeholder="введите ставку"
-                placeholder={strings('input.interest2.placeholder')}
+                placeholder={t('input.interest2.placeholder')}
                 // label="Процентная ставка при досрочном расторжении вклада (не полный месяц)"
-                label={strings('input.interest2.label')}
+                label={t('input.interest2.label')}
                 onChangeText={this.onInterest2Change}
                 onBlur={() => this.onBlur('interest2', this.props.interest2)}
                 onFocus={() => this.onFocus('interest2', this.props.interest2)}
@@ -407,11 +395,11 @@ class Depo extends Component<Props, State> {
 
             <InputPicker
               // label="Капитализация процентов (ежемесячно)"
-              label={strings('input.platez.label')}
+              label={t('input.platez.label')}
               // options={['да', 'нет']}
               options={[
-                strings('input.platez.options.yes'),
-                strings('input.platez.options.no'),
+                t('input.platez.options.yes'),
+                t('input.platez.options.no'),
               ]}
               selectedValue={this.props.platez}
               onValueChange={this.onPlatezChange}
@@ -419,13 +407,13 @@ class Depo extends Component<Props, State> {
 
             <InputPicker
               // label="Пополнение депозита"
-              label={strings('input.plusperiod.label')}
+              label={t('input.plusperiod.label')}
               // options={['нет', 'ежемесячно', 'ежеквартально', 'ежегодно']}
               options={[
-                strings('input.plusperiod.options.no'),
-                strings('input.plusperiod.options.monthly'),
-                strings('input.plusperiod.options.quarterly'),
-                strings('input.plusperiod.options.annually'),
+                t('input.plusperiod.options.no'),
+                t('input.plusperiod.options.monthly'),
+                t('input.plusperiod.options.quarterly'),
+                t('input.plusperiod.options.annually'),
               ]}
               selectedValue={this.props.plusperiod}
               onValueChange={this.onPlusperiodChange}
@@ -434,11 +422,11 @@ class Depo extends Component<Props, State> {
             {Number(this.props.plusperiod) === 0 ? null : (
               <Input
                 // label="На сумму"
-                label={`${strings('input.prinplus.label')}, ${radio[
+                label={`${t('input.prinplus.label')}, ${radio[
                   this.props.radio
                 ].label.charAt(0)}`}
                 // placeholder="введите сумму"
-                placeholder={strings('input.prinplus.placeholder')}
+                placeholder={t('input.prinplus.placeholder')}
                 onChangeText={this.onPrinplusChange}
                 onBlur={() => this.onBlur('prinplus', this.props.prinplus)}
                 onFocus={() => this.onFocus('prinplus', this.props.prinplus)}
@@ -452,11 +440,11 @@ class Depo extends Component<Props, State> {
             {this.props.country !== 1 ? (
               <InputPicker
                 // label="Налогооблажение вклада"
-                label={strings('input.taxation')}
+                label={t('input.taxation')}
                 // options={['да', 'нет']}
                 options={[
-                  strings('input.platez.options.yes'),
-                  strings('input.platez.options.no'),
+                  t('input.platez.options.yes'),
+                  t('input.platez.options.no'),
                 ]}
                 selectedValue={this.props.taxCheck}
                 onValueChange={this.onTaxSelect}
@@ -465,12 +453,9 @@ class Depo extends Component<Props, State> {
             {this.props.taxCheck === 0 && this.props.country === 0 && (
               <InputPicker
                 // label="Ставка налога"
-                label={strings('input.taxRate')}
+                label={t('input.taxRate')}
                 // options={['резидент РФ', 'нерезидент РФ']}
-                options={[
-                  strings('settings.resident'),
-                  strings('settings.non-resident'),
-                ]}
+                options={[t('settings.resident'), t('settings.non-resident')]}
                 selectedValue={this.props.taxRate}
                 onValueChange={this.onTaxRateSelect}
               />
@@ -481,16 +466,16 @@ class Depo extends Component<Props, State> {
         {srok && Number(number(this.props.principal)) !== 0 && (
           <Card>
             {/* <Header headerText="Информация о выплатах" /> */}
-            <Header headerText={strings('result.header')} />
+            <Header headerText={t('result.header')} />
 
             <ResultSrok
               // label={`Срок депозита ${srok}`}
-              label={`${strings('result.srok.srok')} ${srok}`}
+              label={`${t('result.srok.srok')} ${srok}`}
             />
 
             <Result
               // label="Сумма вклада
-              label={`${strings('input.principal.label')}`}
+              label={`${t('input.principal.label')}`}
               // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
@@ -507,7 +492,7 @@ class Depo extends Component<Props, State> {
             {adjunctionAll > 0 ? (
               <Result
                 // label="Сумма пополнений"
-                label={strings('result.adjunctionAll')}
+                label={t('result.adjunctionAll')}
                 resultData={adjunctionAll.toLocaleString(
                   currentLocale,
                   optionsN,
@@ -521,7 +506,7 @@ class Depo extends Component<Props, State> {
 
             <Result
               // label="Начисленные проценты"
-              label={strings('result.principal2')}
+              label={t('result.principal2')}
               // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
@@ -535,7 +520,7 @@ class Depo extends Component<Props, State> {
             {this.props.taxCheck === 0 && this.props.country !== 1 && (
               <Result
                 // label="Налоги"
-                label={strings('result.taxes')}
+                label={t('result.taxes')}
                 resultData={tax.toLocaleString(currentLocale, optionsN)}
                 resultPieStyle={{
                   borderLeftWidth: 5,
@@ -555,7 +540,7 @@ class Depo extends Component<Props, State> {
                   >
                     <Text style={{ fontFamily: 'Ubuntu' }}>
                       {/* Сумма вклада с процентами */}
-                      {strings('result.pie')}
+                      {t('result.pie')}
                     </Text>
                   </View>
                   <View style={pie}>
@@ -600,7 +585,7 @@ class Depo extends Component<Props, State> {
         {srok && Number(number(this.props.principal)) !== 0 && !!table && (
           <Card>
             {/* <Header headerText="Выписка со счёта" /> */}
-            <Header headerText={strings('table.header')} />
+            <Header headerText={t('table.header')} />
             <Table
               currency={radio[this.props.radio].label}
               value={table}
@@ -669,14 +654,6 @@ Depo.propTypes = {
   language: PropTypes.number,
   country: PropTypes.number,
   countryIP: PropTypes.bool,
-
-  // доработать
-  // days1: PropTypes.number,
-  // srok: PropTypes.string,
-  // principal2: PropTypes.number,
-  // principal1: PropTypes.number,
-  // adjunctionAll: PropTypes.number,
-  // table: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

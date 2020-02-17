@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Text, View, ScrollView } from 'react-native';
-import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../Context';
 import { CardSection, Card, Header } from '../../components/common';
@@ -94,7 +93,4 @@ const styles = {
   },
 };
 
-const mapStateToProps = state => ({
-  language: state.settings.language,
-});
-export default connect(mapStateToProps)(Help);
+export default Help;
