@@ -298,14 +298,21 @@ class Depo extends Component<Props, State> {
     };
 
     return (
+    //   <SafeAreaView
+    //   forceInset={{ vertical: 'never' }}
+    //   style={{
+    //     flex: 1,
+    //     // backgroundColor: '#525050',
+    //   }}
+    // >
       <ScrollView
         key={`${this.props.language}${this.props.country}`}
         style={{ flex: 1 }}
       >
         <SafeAreaView
-          forceInset={{ top: 'never', bottom: 'never' }}
+          forceInset={{ vertical: -10 }}
           style={{
-            flex: 1,
+            // flex: 1,
             // backgroundColor: '#525050',
           }}
         >
@@ -620,6 +627,7 @@ class Depo extends Component<Props, State> {
           )}
         </SafeAreaView>
       </ScrollView>
+     
     );
   }
 }
