@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { Icon } from 'native-base';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { strings } from '../../../locales/i18n';
+import { LocalizationContext } from '../../Context';
 
 type Props = {
   char: string,
@@ -38,6 +39,7 @@ const CurrencyPreset = (props: Props) => {
     moveStyle,
     iconStyle,
   } = styles;
+  const { t } = React.useContext(LocalizationContext);
   return (
     <SwipeRow
       style={listItem}
@@ -48,7 +50,7 @@ const CurrencyPreset = (props: Props) => {
       disableLeftSwipe
     >
       <View style={absoluteCell}>
-        <Text style={absoluteCellText}>{strings('converter.DELETE')}</Text>
+        <Text style={absoluteCellText}>{t('converter.DELETE')}</Text>
       </View>
       <View style={[containerStyle, props.isActive && active]}>
         <TouchableOpacity style={deleteStyle} onPress={props.onDelete}>
