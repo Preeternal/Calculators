@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, Platform } from 'react-native';
 import { Picker, Icon } from 'native-base';
-import { strings } from '../../../locales/i18n';
+import { LocalizationContext } from '../../Context';
 
 const InputTextPicker = ({
   label,
@@ -28,6 +28,7 @@ const InputTextPicker = ({
     pickerStyle,
     arrowIosStyle,
   } = styles;
+  const { t } = React.useContext(LocalizationContext);
 
   return (
     <View style={containerStyle}>
@@ -39,8 +40,8 @@ const InputTextPicker = ({
           onValueChange={onValueChange}
           // itemStyle={{ color: '#525050' }}
           itemTextStyle={{ color: '#525050' }}
-          iosHeader={strings('picker.iosHeader')}
-          headerBackButtonText={strings('picker.headerBackButtonText')}
+          iosHeader={t('picker.iosHeader')}
+          headerBackButtonText={t('picker.headerBackButtonText')}
           // headerStyle={{ color: '#525050' }}
           textStyle={{
             color: '#525050',

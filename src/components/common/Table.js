@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { LocalizationContext } from '../../Context';
 import { strings, currentLocale } from '../../../locales/i18n';
 import 'number-to-locale-string';
 
@@ -41,6 +42,7 @@ const row = rows =>
 
 const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
 const Table = props => {
+  const { t } = React.useContext(LocalizationContext);
   const {
     containerStyle,
     headerStyle,
@@ -53,7 +55,7 @@ const Table = props => {
     col6Style,
   } = styles;
   // const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого', 'общая сумма'];
-  const tableHead = strings('table.tableHead');
+  const tableHead = t('table.tableHead');
   const reverse = transpose([
     props.value.n,
     props.value.date,

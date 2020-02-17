@@ -328,6 +328,7 @@ const AppContainer = () => {
   const selectLanguage = state => state.settings.language;
   const language = selectLanguage(store.getState());
   const reduxLocale = language === 0 ? 'ru' : 'en';
+  i18n.locale = reduxLocale;
   const [locale, setLocale] = React.useState(reduxLocale);
   const localizationContext = React.useMemo(
     () => ({

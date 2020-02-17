@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { strings, currentLocale } from '../../../locales/i18n';
+import { LocalizationContext } from '../../Context';
+import { currentLocale } from '../../../locales/i18n';
 import 'number-to-locale-string';
 
 const options = {
@@ -9,6 +10,7 @@ const options = {
 };
 
 const CreditTable = props => {
+  const { t } = React.useContext(LocalizationContext);
   const {
     containerStyle,
     headerStyle,
@@ -26,7 +28,7 @@ const CreditTable = props => {
   // const tableHead = ['№', 'дата платежа', 'дни', 'погашение тела кредита',
   // 'платёж по процентам','комиссионные платежи', 'общая сумма платежа',
   // 'основной остаток долга', 'переплата'];
-  const tableHead = strings('credit.table.tableHead');
+  const tableHead = t('credit.table.tableHead');
   const row = rows =>
     rows.map((value, index) => (
       <View
@@ -167,7 +169,7 @@ const CreditTable = props => {
           style={{ flex: 0.3, borderRightWidth: 1, borderColor: '#f1f1f1' }}
         />
         <View style={{ flex: 1, borderRightWidth: 1, borderColor: '#f1f1f1' }}>
-          <Text style={textStyle}>{strings('credit.table.total')}</Text>
+          <Text style={textStyle}>{t('credit.table.total')}</Text>
         </View>
         <View style={col3Style} />
         <View style={col4Style}>
