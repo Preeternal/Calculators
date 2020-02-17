@@ -1,3 +1,4 @@
+import i18n from 'i18n-js';
 import { createSelector } from 'reselect';
 import { DateTime } from 'luxon';
 import { strings } from '../../locales/i18n';
@@ -49,6 +50,7 @@ export default createSelector(
     country: number,
     language: number,
   ) => {
+    i18n.locale = language === 0 ? 'ru' : 'en';
     // const dOpen: Date = changeDate(dateOpen);
     // const dClosed: Date = changeDate(dateClosed);
     const oneMinute = 60 * 1000;
