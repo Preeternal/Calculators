@@ -8,8 +8,6 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
-  // InteractionManager,
-  // ActivityIndicator,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
@@ -53,8 +51,6 @@ import { strings, currentLocale } from '../../../locales/i18n';
 import { initDate, number } from '../../lib';
 import creditCalculate from '../../lib/creditCalculate';
 
-import CustomHeader from '../Common/CustomHeader';
-
 import images from '../../assets/images';
 
 type Props = {
@@ -85,7 +81,6 @@ type Props = {
   radioPressed: typeof radioPressed,
 
   calculated: typeof creditCalculate,
-  navigation: Object,
 };
 
 type State = {
@@ -108,19 +103,7 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Credit extends Component<Props, State> {
-  // static navigationOptions = ({ navigation }: { navigation: Object }) => {
-  //   const { params } = navigation.state;
-  //   return {
-  //     title: strings('headerCredit'), // drawer label initialization
-  //     drawerLabel: params && params.DLabel,
-  //     drawerIcon: ({ tintColor }: { tintColor: ?string }) => (
-  //       <Icon name="md-download" style={{ fontSize: 24, color: tintColor }} />
-  //     ),
-  //   };
-  // };
-
   state = {
-    // didFinishInitialAnimation: false,
     creditPrincipalColor: textColor,
     creditInterestColor: textColor,
     creditSrokValueColor: textColor,
@@ -138,11 +121,6 @@ class Credit extends Component<Props, State> {
   scrollView: {| current: null | any |} = React.createRef();
 
   componentDidMount() {
-    // InteractionManager.runAfterInteractions(() => {
-    //   this.setState({
-    //     didFinishInitialAnimation: true,
-    //   });
-    // });
     this.getOrientation();
     Dimensions.addEventListener('change', this.getOrientation);
   }
@@ -375,11 +353,6 @@ class Credit extends Component<Props, State> {
 
     return (
       <Fragment>
-        {/* <CustomHeader
-          title={strings('titleCredit')}
-          drawerOpen={() => this.props.navigation.openDrawer()}
-        /> */}
-        {/* { this.state.didFinishInitialAnimation ? ( */}
         <ScrollView key={this.props.language} style={{ flex: 1 }}>
           <Card>
             {/* <Header headerText="Депозитный калькулятор" /> */}

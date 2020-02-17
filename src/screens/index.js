@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
@@ -55,13 +55,6 @@ const DepoStack = ({ navigation }) => {
   } = styles;
   const { t } = React.useContext(LocalizationContext);
   return (
-    // <SafeAreaView
-    //   style={{
-    //     flex: 1,
-    //     backgroundColor: '#525050',
-    //   }}
-    //   // forceInset={{ top: 'always', horizontal: 'never' }}
-    // >
     <Stack.Navigator>
       <Stack.Screen
         name="Depo"
@@ -77,7 +70,6 @@ const DepoStack = ({ navigation }) => {
         })}
       />
     </Stack.Navigator>
-    // </SafeAreaView>
   );
 };
 
@@ -238,10 +230,6 @@ const Navigator = () => {
   const { t } = React.useContext(LocalizationContext);
   return (
     <>
-      {/* <SafeAreaView
-        // style={{ flex: 1 }}
-        // forceInset={{ top: 'always', horizontal: 'never' }}
-      > */}
       <StatusBar animated translucent backgroundColor="rgba(0, 0, 0, 0)" />
       <Drawer.Navigator
         initialRouteName="DepoStack"
@@ -258,7 +246,6 @@ const Navigator = () => {
             // flex: 1,
           },
         }}
-        // minSwipeDistance={300}
         drawerStyle={{
           // backgroundColor: '#c6cbef',
           width: 280,
@@ -333,7 +320,6 @@ const Navigator = () => {
           })}
         />
       </Drawer.Navigator>
-      {/* </SafeAreaView> */}
     </>
   );
 };

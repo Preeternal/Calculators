@@ -1,5 +1,3 @@
-/* eslint-disable react/sort-comp */
-/* eslint-disable react/static-property-placement */
 // @flow
 import React, { Component, Fragment } from 'react';
 import { ScrollView, Platform, Text, Alert } from 'react-native';
@@ -18,12 +16,10 @@ import {
   TableSection,
   CardSection,
 } from '../../components/common';
-import { strings } from '../../../locales/i18n';
-import CustomHeader from '../Common/CustomHeader';
+
 import { LocalizationContext } from '../../Context';
 
 type Props = {
-  navigation: Object,
   language: number,
   country: number,
   languageChanged: Function,
@@ -46,8 +42,6 @@ const prodItems = Platform.select({
 });
 
 class Settings extends Component<Props, State> {
-  static contextType = LocalizationContext;
-
   state = {
     iapConnection: false,
     products: [],
@@ -57,11 +51,6 @@ class Settings extends Component<Props, State> {
   purchaseUpdateSubscription = null;
 
   purchaseErrorSubscription = null;
-
-  // no need to preset drawer label because we define title in navigationOptions
-  // componentWillMount() {
-  //   this.props.navigation.setParams({ DLabel: strings('settings.settings') });
-  // }
 
   async componentDidMount() {
     if (Platform.OS === 'android') {
@@ -94,43 +83,9 @@ class Settings extends Component<Props, State> {
         });
       } catch (err) {
         console.warn(err.code, err.message);
-        // throw new Error('Ошибка');
       }
     }
   }
-
-  // componentDidUpdate(prevProps: Props) {
-  // const { navigation } = this.props;
-  // if (this.props.language !== prevProps.language) {
-  // navigation.dispatch({
-  //   ...CommonActions.setParams({ DLabel: strings('headerDeposit') }),
-  //   name: 'Depo',
-  // });
-  // this.props.navigation.setParams({ DLabel: strings('settings.settings') });
-  //   const setDepoLabel = NavigationActions.setParams({
-  //     params: { DLabel: strings('headerDeposit') },
-  //     key: 'Depo',
-  //   });
-  //   this.props.navigation.dispatch(setDepoLabel);
-  //   const setCreditLabel = NavigationActions.setParams({
-  //     params: { DLabel: strings('headerCredit') },
-  //     key: 'Credit',
-  //   });
-  //   this.props.navigation.dispatch(setCreditLabel);
-  //   const setConverterLabel = NavigationActions.setParams({
-  //     params: { DLabel: strings('converter.header') },
-  //     key: 'ConverterStack',
-  //   });
-  //   this.props.navigation.dispatch(setConverterLabel);
-  //   const setHelpLabel = NavigationActions.setParams({
-  //     params: { DLabel: strings('help.header') },
-  //     key: 'Help',
-  //   });
-  //   this.props.navigation.dispatch(setHelpLabel);
-  //   // const screens = ['Depo', 'Credit', 'Help', 'Settings'];
-  //   // screens.forEach(this.resetScreens);
-  // }
-  // }
 
   componentWillUnmount() {
     if (this.purchaseUpdateSubscription) {
@@ -142,16 +97,6 @@ class Settings extends Component<Props, State> {
       this.purchaseErrorSubscription = null;
     }
   }
-
-  // resetScreens = (screen) => {
-  //   const action = NavigationActions.navigate({
-  //     routeName: screen,
-  //     params: {},
-  //     // action: NavigationActions.init(),
-  //     action: this.forceUpdate(),
-  //   });
-  //   this.props.navigation.dispatch(action);
-  // };
 
   buyItem = async (sku: string) => {
     try {
@@ -187,29 +132,27 @@ class Settings extends Component<Props, State> {
     this.props.countryChanged(value);
   };
 
+  static contextType = LocalizationContext;
+
   render() {
+    const { t } = this.context;
     return (
       <Fragment>
-        {/* <CustomHeader
-          // title="Settings"
-          title={strings('settings.settings')}
-          drawerOpen={() => this.props.navigation.openDrawer()}
-        /> */}
         <ScrollView style={{ flex: 1 }}>
           <Card>
             {/* <Header headerText="Локальные данные" /> */}
-            <Header headerText={strings('settings.localization')} />
+            <Header headerText={t('settings.localization')} />
             <TableSection>
               <InputPicker
                 // label="Язык"
-                label={strings('settings.language')}
+                label={t('settings.language')}
                 options={['русский', 'english']}
                 selectedValue={this.props.language}
                 onValueChange={this.onLanguageChange}
               />
               <InputPicker
                 // label="Страна"
-                label={strings('settings.country')}
+                label={t('settings.country')}
                 options={['Россия', 'Other', 'Украина']}
                 selectedValue={this.props.country}
                 onValueChange={this.onCountryChange}
@@ -220,7 +163,7 @@ class Settings extends Component<Props, State> {
             this.state.iapConnection &&
             this.state.products && (
               <Card>
-                <Header headerText={strings('settings.donat.investments')} />
+                <Header headerText={t('settings.donat.investments')} />
                 {this.state.purchased && (
                   <CardSection>
                     <Text
@@ -231,7 +174,7 @@ class Settings extends Component<Props, State> {
                         textAlign: 'center',
                       }}
                     >
-                      {strings('settings.donat.thanks')}
+                      {t('settings.donat.thanks')}
                     </Text>
                   </CardSection>
                 )}
@@ -244,7 +187,7 @@ class Settings extends Component<Props, State> {
                         textAlign: 'center',
                       }}
                     >
-                      {`${strings('settings.donat.header')} ${strings(
+                      {`${t('settings.donat.header')} ${t(
                         'settings.donat.for',
                       )} ${product.localizedPrice}`}
                     </Text>

@@ -9,15 +9,13 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon, Button } from 'native-base';
+import { Icon } from 'native-base';
 // import { DateTime } from 'luxon';
 import 'number-to-locale-string';
-import type { NavigationStackScreenOptions } from '@react-navigation/native';
 
 import { Header } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
 import { strings } from '../../../locales/i18n';
-import CustomHeader from '../Common/CustomHeader';
 import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
 import storeCurrencies from '../../lib/storeCurrencies';
@@ -44,30 +42,6 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Converter extends Component<Props, State> {
-  // static navigationOptions = ({
-  //   navigation,
-  // }: {
-  //   navigation: Object,
-  // }): NavigationStackScreenOptions => {
-  //   const { params } = navigation.state;
-  //   return {
-  //     headerShown: false,
-  //     headerStyle: {
-  //       backgroundColor: '#525050',
-  //     },
-  //     title: strings('converter.header'), // drawer label initialization
-  //     headerBackTitle: null,
-  //     drawerLabel: params && params.DLabel,
-  //     drawerIcon: ({ tintColor }) => (
-  //       <Icon
-  //         type="FontAwesome"
-  //         name="retweet"
-  //         style={{ fontSize: 22, color: tintColor }}
-  //       />
-  //     ),
-  //   };
-  // };
-
   state = {
     inputStyle: [],
     keyboard: false,
@@ -220,20 +194,6 @@ class Converter extends Component<Props, State> {
   render() {
     return (
       <Fragment>
-        {/* <CustomHeader
-          title={strings('converter.title')}
-          drawerOpen={() => this.props.navigation.openDrawer()}
-          right={
-            <Button
-              transparent
-              onPress={() => {
-                this.props.navigation.navigate('EditPreset');
-              }}
-            >
-              <Icon name="md-create" style={{ fontSize: 30, color: 'white' }} />
-            </Button>
-          }
-        /> */}
         {this.props.currencies.length ? (
           <Fragment>
             <View

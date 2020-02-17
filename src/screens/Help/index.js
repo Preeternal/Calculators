@@ -2,48 +2,45 @@ import React, { PureComponent } from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { strings } from '../../../locales/i18n';
-
-import CustomHeader from '../Common/CustomHeader';
+import { LocalizationContext } from '../../Context';
 import { CardSection, Card, Header } from '../../components/common';
 
 class Help extends PureComponent {
+  static contextType = LocalizationContext;
+
   render() {
     const { main, bold } = styles;
+    const { t } = this.context;
     return (
-      <View key={this.props.language} style={{ flex: 1 }}>
-        {/* <CustomHeader
-          title={strings('help.header')}
-          drawerOpen={() => this.props.navigation.openDrawer()}
-        /> */}
+      <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
           <Card>
-            <Header headerText={strings('help.definitions')} />
+            <Header headerText={t('help.definitions')} />
             <CardSection>
               <Text style={[bold, { fontFamily: 'Ubuntu', marginTop: 10 }]}>
-                {strings('help.paymentType.header')}
+                {t('help.paymentType.header')}
               </Text>
               <Text style={main}>
-                {strings('help.paymentType.text')}
+                {t('help.paymentType.text')}
                 {'\n'}
-                {strings('help.paymentType.text2')}
+                {t('help.paymentType.text2')}
               </Text>
-              <Text style={bold}>{strings('help.edinCom.header')}</Text>
-              <Text style={main}>{strings('help.edinCom.text')}</Text>
-              <Text style={bold}>{strings('help.startCostCom.header')}</Text>
-              <Text style={main}>{strings('help.startCostCom.text')}</Text>
-              <Text style={bold}>{strings('help.finCostCom.header')}</Text>
-              <Text style={main}>{strings('help.finCostCom.text')}</Text>
-              <Text style={bold}>{strings('help.acCountCom.header')}</Text>
-              <Text style={main}>{strings('help.acCountCom.text')}</Text>
-              <Text style={bold}>{strings('help.payment.header')}</Text>
-              <Text style={main}>{strings('help.payment.text')}</Text>
-              <Text style={bold}>{strings('help.overpayment.header')}</Text>
-              <Text style={main}>{strings('help.overpayment.text')}</Text>
+              <Text style={bold}>{t('help.edinCom.header')}</Text>
+              <Text style={main}>{t('help.edinCom.text')}</Text>
+              <Text style={bold}>{t('help.startCostCom.header')}</Text>
+              <Text style={main}>{t('help.startCostCom.text')}</Text>
+              <Text style={bold}>{t('help.finCostCom.header')}</Text>
+              <Text style={main}>{t('help.finCostCom.text')}</Text>
+              <Text style={bold}>{t('help.acCountCom.header')}</Text>
+              <Text style={main}>{t('help.acCountCom.text')}</Text>
+              <Text style={bold}>{t('help.payment.header')}</Text>
+              <Text style={main}>{t('help.payment.text')}</Text>
+              <Text style={bold}>{t('help.overpayment.header')}</Text>
+              <Text style={main}>{t('help.overpayment.text')}</Text>
             </CardSection>
           </Card>
           <Card>
-            <Header headerText={strings('help.eula')} />
+            <Header headerText={t('help.eula')} />
             <CardSection>
               <Text style={main}>
                 Использование Приложения означает безоговорочное согласие
@@ -66,7 +63,7 @@ class Help extends PureComponent {
             </CardSection>
           </Card>
           <Card>
-            <Header headerText={strings('help.guarantees')} />
+            <Header headerText={t('help.guarantees')} />
             <CardSection>
               <Text style={main}>
                 Приложение предоставляется на условиях &#34;КАК ЕСТЬ&#34;, без
