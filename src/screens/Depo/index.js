@@ -3,6 +3,7 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import { Text, View, Image, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -309,7 +310,13 @@ class Depo extends Component<Props, State> {
     };
 
     return (
-      <Fragment>
+      // <SafeAreaView
+      //   style={{
+      //     flex: 1,
+      //     // backgroundColor: '#525050',
+      //   }}
+      // >
+      <>
         {/* { this.state.didFinishInitialAnimation ? ( */}
         <ScrollView
           key={`${this.props.language}${this.props.country}`}
@@ -624,6 +631,12 @@ class Depo extends Component<Props, State> {
               />
             </Card>
           )}
+          <SafeAreaView
+            style={{
+              flex: 1,
+              // backgroundColor: '#525050',
+            }}
+          />
         </ScrollView>
         {/* ) : (
           <View style={{
@@ -634,7 +647,8 @@ class Depo extends Component<Props, State> {
             <ActivityIndicator size="large" color={textColor} />
           </View>
         )} */}
-      </Fragment>
+        {/* </SafeAreaView> */}
+      </>
     );
   }
 }

@@ -55,29 +55,29 @@ const DepoStack = ({ navigation }) => {
   } = styles;
   const { t } = React.useContext(LocalizationContext);
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: '#525050',
-      }}
-      // forceInset={{ top: 'always', horizontal: 'never' }}
-    >
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Depo"
-          component={Depo}
-          options={() => ({
-            title: t('titleDeposit'),
-            headerStyle,
-            headerTitleStyle,
-            headerTintColor,
-            headerLeftContainerStyle,
-            headerStatusBarHeight: 23,
-            headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
-          })}
-        />
-      </Stack.Navigator>
-    </SafeAreaView>
+    // <SafeAreaView
+    //   style={{
+    //     flex: 1,
+    //     backgroundColor: '#525050',
+    //   }}
+    //   // forceInset={{ top: 'always', horizontal: 'never' }}
+    // >
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Depo"
+        component={Depo}
+        options={() => ({
+          title: t('titleDeposit'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+        })}
+      />
+    </Stack.Navigator>
+    // </SafeAreaView>
   );
 };
 
