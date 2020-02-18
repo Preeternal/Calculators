@@ -13,12 +13,12 @@ import images from '../../assets/images';
 
 type Props = any;
 type State = {
-  isPortrait: ?boolean,
+  isLandscape: ?boolean,
 };
 
 class DrawerScreen extends Component<Props, State> {
   state = {
-    isPortrait: null,
+    isLandscape: false,
   };
 
   componentDidMount() {
@@ -31,23 +31,23 @@ class DrawerScreen extends Component<Props, State> {
   }
 
   handle = () => {
-    this.setState({ isPortrait: this.isPortrait() });
+    this.setState({ isLandscape: this.isLandscape() });
   };
 
-  isPortrait = () => {
+  isLandscape = () => {
     const dim = Dimensions.get('screen');
-    return dim.height >= dim.width;
+    return dim.width >= dim.height;
   };
 
   render() {
     const { drawerImage, contentContainerStyle, menuItem } = styles;
-    const { isPortrait } = this.state;
+    const { isLandscape } = this.state;
 
     return (
       <>
         <Image
           resizeMode="cover"
-          style={[drawerImage, { height: isPortrait ? 215 : 50 }]}
+          style={[drawerImage, { height: isLandscape ? 50 : 215 }]}
           source={images.logo}
         />
         <DrawerContentScrollView
@@ -57,7 +57,7 @@ class DrawerScreen extends Component<Props, State> {
           <View style={{ justifyContent: 'flex-start' }}>
             <DrawerItemList {...this.props} />
           </View>
-          {isPortrait && (
+          {!isLandscape && (
             <View style={menuItem}>
               <Text>
                 {`${strings('appVersion')} ${VersionNumber.appVersion || ''}`}
