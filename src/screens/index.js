@@ -232,7 +232,7 @@ const Navigator = () => {
     <>
       <StatusBar animated translucent backgroundColor="rgba(0, 0, 0, 0)" />
       <Drawer.Navigator
-        initialRouteName="DepoStack"
+        initialRouteName="ConverterStack"
         drawerContent={DrawerScreen}
         drawerContentOptions={{
           activeTintColor: '#000000',
@@ -251,6 +251,20 @@ const Navigator = () => {
           width: 280,
         }}
       >
+        <Drawer.Screen
+          name="ConverterStack"
+          component={ConverterStack}
+          options={() => ({
+            title: t('converter.header'),
+            drawerIcon: ({ focused, color, size }) => (
+              <Icon
+                type="FontAwesome"
+                name="retweet"
+                style={iconStyle(focused, color, size - 2)}
+              />
+            ),
+          })}
+        />
         <Drawer.Screen
           name="DepoStack"
           component={DepoStack}
@@ -275,20 +289,6 @@ const Navigator = () => {
               <Icon
                 name="md-download"
                 style={iconStyle(focused, color, size)}
-              />
-            ),
-          })}
-        />
-        <Drawer.Screen
-          name="ConverterStack"
-          component={ConverterStack}
-          options={() => ({
-            title: t('converter.header'),
-            drawerIcon: ({ focused, color, size }) => (
-              <Icon
-                type="FontAwesome"
-                name="retweet"
-                style={iconStyle(focused, color, size - 2)}
               />
             ),
           })}
@@ -379,18 +379,7 @@ class App extends Component<Props> {
     return 1;
   };
 
-  // getLocalInput = input => {
-  //   const minimumFractionDigits =
-  //     Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
-  //   return Number(number(`${input}`)).toLocaleString('ru-RU', {
-  //     minimumFractionDigits,
-  //     maximumFractionDigits: minimumFractionDigits,
-  //   });
-  // };
-
   render() {
-    // console.log(new Date().getTimezoneOffset());
-
     return <AppContainer />;
   }
 }
