@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { LocalizationContext } from '../../Context';
-import { currentLocale } from '../../../locales/i18n';
 import 'number-to-locale-string';
 
 const options = {
@@ -10,7 +9,7 @@ const options = {
 };
 
 const CreditTable = props => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const {
     containerStyle,
     headerStyle,
@@ -47,34 +46,34 @@ const CreditTable = props => {
         </View>
         <View style={styles.col4Style}>
           <Text style={styles.textStyle}>
-            {value[3].toLocaleString(currentLocale, options)}
+            {value[3].toLocaleString(locale, options)}
           </Text>
         </View>
         <View style={styles.col5Style}>
           <Text style={styles.textStyle}>
-            {value[4].toLocaleString(currentLocale, options)}
+            {value[4].toLocaleString(locale, options)}
           </Text>
         </View>
         {props.value.comPayments > 0 && (
           <View style={styles.col6Style}>
             <Text style={styles.textStyle}>
-              {value[5].toLocaleString(currentLocale, options)}
+              {value[5].toLocaleString(locale, options)}
             </Text>
           </View>
         )}
         <View style={styles.col7Style}>
           <Text style={styles.textStyle}>
-            {value[6].toLocaleString(currentLocale, options)}
+            {value[6].toLocaleString(locale, options)}
           </Text>
         </View>
         <View style={styles.col8Style}>
           <Text style={styles.textStyle}>
-            {value[7].toLocaleString(currentLocale, options)}
+            {value[7].toLocaleString(locale, options)}
           </Text>
         </View>
         <View style={styles.col9Style}>
           <Text style={styles.textStyle}>
-            {value[8].toLocaleString(currentLocale, options)}
+            {value[8].toLocaleString(locale, options)}
           </Text>
         </View>
       </View>
@@ -174,27 +173,24 @@ const CreditTable = props => {
         <View style={col3Style} />
         <View style={col4Style}>
           <Text style={textStyle}>
-            {props.value.principal.toLocaleString(currentLocale, options)}
+            {props.value.principal.toLocaleString(locale, options)}
           </Text>
         </View>
         <View style={col5Style}>
           <Text style={textStyle}>
-            {props.value.interestPayments.toLocaleString(
-              currentLocale,
-              options,
-            )}
+            {props.value.interestPayments.toLocaleString(locale, options)}
           </Text>
         </View>
         {props.value.comPayments > 0 && (
           <View style={col6Style}>
             <Text style={textStyle}>
-              {props.value.comPayments.toLocaleString(currentLocale, options)}
+              {props.value.comPayments.toLocaleString(locale, options)}
             </Text>
           </View>
         )}
         <View style={col7Style}>
           <Text style={textStyle}>
-            {props.value.vsego.toLocaleString(currentLocale, options)}
+            {props.value.vsego.toLocaleString(locale, options)}
           </Text>
         </View>
         <View style={col8Style}>
@@ -202,7 +198,7 @@ const CreditTable = props => {
         </View>
         <View style={col9Style}>
           <Text style={textStyle}>
-            {props.value.pereplataA.toLocaleString(currentLocale, options)}
+            {props.value.pereplataA.toLocaleString(locale, options)}
           </Text>
         </View>
       </View>

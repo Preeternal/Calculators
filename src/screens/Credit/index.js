@@ -46,7 +46,6 @@ import {
   TableSection,
 } from '../../components/common';
 
-import { currentLocale } from '../../../locales/i18n';
 import { LocalizationContext } from '../../Context';
 
 import { initDate, number } from '../../lib';
@@ -350,7 +349,7 @@ class Credit extends Component<Props, State> {
       maximumFractionDigits: 2,
     };
 
-    const { t } = this.context;
+    const { t, locale } = this.context;
 
     return (
       <ScrollView
@@ -616,10 +615,7 @@ class Credit extends Component<Props, State> {
                       ? t('credit.result.monthlyAll_2')
                       : t('credit.result.monthlyAll_0')
                   }
-                  resultData={monthlyAll.toLocaleString(
-                    currentLocale,
-                    optionsN,
-                  )}
+                  resultData={monthlyAll.toLocaleString(locale, optionsN)}
                   resultPieStyle={{
                     borderLeftWidth: 5,
                     borderColor: '#ddd',
@@ -631,7 +627,7 @@ class Credit extends Component<Props, State> {
                 // На оплату процентов
                 label={t('credit.result.interestPayments')}
                 resultData={Number(interestPayments).toLocaleString(
-                  currentLocale,
+                  locale,
                   optionsN,
                 )}
                 resultPieStyle={{
@@ -645,10 +641,7 @@ class Credit extends Component<Props, State> {
                   <Result
                     // Комиссионные платежи
                     label={t('credit.result.comPayments')}
-                    resultData={comPayments.toLocaleString(
-                      currentLocale,
-                      optionsN,
-                    )}
+                    resultData={comPayments.toLocaleString(locale, optionsN)}
                     resultPieStyle={{
                       borderLeftWidth: 5,
                       borderColor: '#569e69',
@@ -657,10 +650,7 @@ class Credit extends Component<Props, State> {
                   <Result
                     // Сумма переплаты
                     label={t('credit.result.pereplata')}
-                    resultData={pereplata.toLocaleString(
-                      currentLocale,
-                      optionsN,
-                    )}
+                    resultData={pereplata.toLocaleString(locale, optionsN)}
                     labelPieStyle={{
                       borderRightWidth: 2.7,
                       borderColor: '#a2aaa4',
@@ -712,7 +702,7 @@ class Credit extends Component<Props, State> {
                       />
                       <View style={gauge}>
                         <Text style={gaugeText}>
-                          {vsego.toLocaleString(currentLocale, optionsN)}
+                          {vsego.toLocaleString(locale, optionsN)}
                         </Text>
                       </View>
                     </View>

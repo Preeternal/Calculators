@@ -94,13 +94,6 @@ type State = {
   userCountryCode?: string,
 };
 
-const pickerValue = (locale: string) => {
-  if (locale.substring(0, 2) === 'ru') {
-    return 0;
-  }
-  return 1;
-};
-
 class Depo extends Component<Props, State> {
   state = {
     principalColor: textColor,
@@ -285,7 +278,7 @@ class Depo extends Component<Props, State> {
       maximumFractionDigits: 2,
     };
 
-    const { t } = this.context;
+    const { t, locale } = this.context;
 
     return (
       <ScrollView style={{ flex: 1 }}>
@@ -480,7 +473,7 @@ class Depo extends Component<Props, State> {
               //   2
               // )}`}
               resultData={Number(number(this.props.principal)).toLocaleString(
-                currentLocale,
+                locale,
                 optionsN,
               )}
               resultPieStyle={{
@@ -493,10 +486,7 @@ class Depo extends Component<Props, State> {
               <Result
                 // label="Сумма пополнений"
                 label={t('result.adjunctionAll')}
-                resultData={adjunctionAll.toLocaleString(
-                  currentLocale,
-                  optionsN,
-                )}
+                resultData={adjunctionAll.toLocaleString(locale, optionsN)}
                 resultPieStyle={{
                   borderLeftWidth: 5,
                   borderColor: '#a2aaa4',
@@ -510,7 +500,7 @@ class Depo extends Component<Props, State> {
               // resultData={`${radio[this.props.radio].label.charAt(0)}${principal2.toFixed(
               //   2
               // )}`}
-              resultData={principal2.toLocaleString(currentLocale, optionsN)}
+              resultData={principal2.toLocaleString(locale, optionsN)}
               resultPieStyle={{
                 borderLeftWidth: 5,
                 borderColor: '#569e69',
@@ -521,7 +511,7 @@ class Depo extends Component<Props, State> {
               <Result
                 // label="Налоги"
                 label={t('result.taxes')}
-                resultData={tax.toLocaleString(currentLocale, optionsN)}
+                resultData={tax.toLocaleString(locale, optionsN)}
                 resultPieStyle={{
                   borderLeftWidth: 5,
                   borderColor: '#db2323',
@@ -572,7 +562,7 @@ class Depo extends Component<Props, State> {
                     />
                     <View style={gauge}>
                       <Text style={gaugeText}>
-                        {principal1.toLocaleString(currentLocale, optionsN)}
+                        {principal1.toLocaleString(locale, optionsN)}
                       </Text>
                     </View>
                   </View>
