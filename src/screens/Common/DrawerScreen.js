@@ -13,7 +13,7 @@ import images from '../../assets/images';
 
 type Props = any;
 type State = {
-  isLandscape: ?boolean,
+  isLandscape: boolean,
 };
 
 class DrawerScreen extends Component<Props, State> {
