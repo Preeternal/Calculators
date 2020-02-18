@@ -1,4 +1,5 @@
 {
+  "appVersion": "App version:",
   "format": {
     "number": {
       "precision": "2",

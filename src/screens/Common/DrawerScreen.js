@@ -1,12 +1,14 @@
 // @flow
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import { Image, View, Text } from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import { Image } from 'react-native';
+import VersionNumber from 'react-native-version-number';
 
+import { strings } from '../../../locales/i18n';
 import images from '../../assets/images';
 
 const DrawerScreen = (props: any) => {
@@ -19,6 +21,9 @@ const DrawerScreen = (props: any) => {
       />
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
+        <View>
+          <Text>{`${strings('appVersion')} ${VersionNumber.appVersion}`}</Text>
+        </View>
       </DrawerContentScrollView>
     </>
   );
