@@ -19,10 +19,17 @@ const DrawerScreen = (props: any) => {
         style={styles.drawerImage}
         source={images.logo}
       />
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView
+        contentContainerStyle={{ justifyContent: 'space-between' }}
+        // style={{ justifyContent: 'space-between' }}
+        {...props}
+      >
         <DrawerItemList {...props} />
-        <View>
-          <Text>{`${strings('appVersion')} ${VersionNumber.appVersion}`}</Text>
+
+        <View style={{ alignSelf: 'center' }}>
+          <Text>
+            {`${strings('appVersion')} ${VersionNumber.appVersion || ''}`}
+          </Text>
         </View>
       </DrawerContentScrollView>
     </>
