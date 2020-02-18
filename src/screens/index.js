@@ -256,6 +256,7 @@ const Navigator = () => {
           component={ConverterStack}
           options={() => ({
             title: t('converter.header'),
+            // drawerLabel: t('converter.header'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 type="FontAwesome"
@@ -271,6 +272,7 @@ const Navigator = () => {
           options={({ route }) => ({
             title: t('headerDeposit'),
             drawerLabel: route.params && route.params.DLabel,
+            // drawerLabel: t('headerDeposit'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 type="Entypo"
