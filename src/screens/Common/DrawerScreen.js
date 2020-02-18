@@ -12,21 +12,18 @@ import { strings } from '../../../locales/i18n';
 import images from '../../assets/images';
 
 const DrawerScreen = (props: any) => {
+  const { drawerImage, contentContainerStyle, menuItem } = styles;
   return (
     <>
-      <Image
-        resizeMode="cover"
-        style={styles.drawerImage}
-        source={images.logo}
-      />
+      <Image resizeMode="cover" style={drawerImage} source={images.logo} />
       <DrawerContentScrollView
-        contentContainerStyle={{ justifyContent: 'space-between' }}
-        // style={{ justifyContent: 'space-between' }}
+        contentContainerStyle={contentContainerStyle}
         {...props}
       >
-        <DrawerItemList {...props} />
-
-        <View style={{ alignSelf: 'center' }}>
+        <View style={{ justifyContent: 'flex-start' }}>
+          <DrawerItemList {...props} />
+        </View>
+        <View style={menuItem}>
           <Text>
             {`${strings('appVersion')} ${VersionNumber.appVersion || ''}`}
           </Text>
@@ -39,19 +36,19 @@ const DrawerScreen = (props: any) => {
 export default DrawerScreen;
 
 const styles = {
-  menuItem: {
-    padding: 10,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
-  },
-  drawerHeader: {
-    height: 180,
-    backgroundColor: 'white',
-  },
   drawerImage: {
     alignSelf: 'center',
-    // resizeMode: 'cover',
     height: 215,
     width: 280,
+  },
+  contentContainerStyle: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
+  menuItem: {
+    justifyContent: 'flex-end',
+    alignSelf: 'center',
+    marginBottom: 10,
   },
 };
