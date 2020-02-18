@@ -352,10 +352,7 @@ class Credit extends Component<Props, State> {
     const { t, locale } = this.context;
 
     return (
-      <ScrollView
-        // key={this.props.language}
-        style={{ flex: 1 }}
-      >
+      <ScrollView key={this.props.language} style={{ flex: 1 }}>
         <Card>
           {/* <Header headerText="Депозитный калькулятор" /> */}
           <Header headerText={t('headerCredit')} />

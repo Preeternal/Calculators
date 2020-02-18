@@ -25,7 +25,7 @@ import storeCurrencies from '../../lib/storeCurrencies';
 
 type Props = {
   language: number,
-  // country: number,
+  country: number,
   navigation: Object,
   preset: Array<string>,
   currencies: Array<Object>,
@@ -203,7 +203,7 @@ class Converter extends Component<Props, State> {
         {this.props.currencies.length ? (
           <Fragment>
             <View
-              // key={`${this.props.language}${this.props.country}`}
+              key={`${this.props.language}${this.props.country}`}
               style={{ flex: 1 }}
             >
               <FlatList

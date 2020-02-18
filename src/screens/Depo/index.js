@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
-import i18n from 'i18n-js';
 import Pie from 'react-native-pie';
 import 'number-to-locale-string';
 
@@ -281,7 +280,10 @@ class Depo extends Component<Props, State> {
     const { t, locale } = this.context;
 
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView
+        key={`${this.props.language}${this.props.country}`}
+        style={{ flex: 1 }}
+      >
         <Card>
           {/* <Header headerText="Депозитный калькулятор" /> */}
           <Header headerText={t('headerDeposit')} />

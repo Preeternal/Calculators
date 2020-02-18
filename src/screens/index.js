@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 // @flow
 import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
@@ -233,7 +234,7 @@ const Navigator = () => {
       <StatusBar animated translucent backgroundColor="rgba(0, 0, 0, 0)" />
       <Drawer.Navigator
         initialRouteName="ConverterStack"
-        drawerContent={DrawerScreen}
+        drawerContent={props => <DrawerScreen {...props} />}
         drawerContentOptions={{
           activeTintColor: '#000000',
           inactiveTintColor: '#525050',
@@ -256,7 +257,7 @@ const Navigator = () => {
           component={ConverterStack}
           options={() => ({
             title: t('converter.header'),
-            // drawerLabel: t('converter.header'),
+            drawerLabel: t('converter.header'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 type="FontAwesome"
@@ -269,10 +270,10 @@ const Navigator = () => {
         <Drawer.Screen
           name="DepoStack"
           component={DepoStack}
-          options={({ route }) => ({
+          options={() => ({
             title: t('headerDeposit'),
-            drawerLabel: route.params && route.params.DLabel,
-            // drawerLabel: t('headerDeposit'),
+            // drawerLabel: route.params && route.params.DLabel,
+            drawerLabel: t('headerDeposit'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 type="Entypo"
@@ -287,6 +288,7 @@ const Navigator = () => {
           component={CreditStack}
           options={() => ({
             title: t('headerCredit'),
+            drawerLabel: t('headerCredit'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 name="md-download"
@@ -300,6 +302,7 @@ const Navigator = () => {
           component={SettingsStack}
           options={() => ({
             title: t('settings.settings'),
+            drawerLabel: t('settings.settings'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 name="md-settings"
@@ -313,6 +316,7 @@ const Navigator = () => {
           component={HelpStack}
           options={() => ({
             title: t('help.header'),
+            drawerLabel: t('help.header'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 name="md-help-circle"
