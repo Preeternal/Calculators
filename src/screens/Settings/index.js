@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, useNavigationState } from '@react-navigation/native';
 import i18n from 'i18n-js';
 import 'number-to-locale-string';
 
@@ -39,6 +39,14 @@ class Settings extends Component<Props> {
     // this.props.navigation.setParams({ DLabel: '123' });
     console.log(this.props);
     console.log(navigation.dangerouslyGetParent().dangerouslyGetState());
+    const O = navigation.dangerouslyGetParent().dangerouslyGetState().routes[0];
+    console.log(O);
+    navigation.dispatch({
+      ...CommonActions.setParams({ DLabel: '12345' }),
+      source: navigation.dangerouslyGetParent().dangerouslyGetState().routes[0]
+        .key,
+    });
+    console.log('parrent', navigation.dangerouslyGetParent());
   };
 
   onCountryChange = (value: number) => {
@@ -88,6 +96,7 @@ const mapStateToProps = state => ({
   language: state.settings.language,
   country: state.settings.country,
 });
+
 export default connect<any, any, any, any, any, any>(mapStateToProps, {
   languageChanged,
   countryChanged,
