@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 import i18n from 'i18n-js';
 import 'number-to-locale-string';
 
@@ -21,13 +22,23 @@ type Props = {
   country: number,
   languageChanged: Function,
   countryChanged: Function,
+  navigation: Object,
+  route: Object,
 };
 
 class Settings extends Component<Props> {
   onLanguageChange = (value: number) => {
+    const { navigation, route } = this.props;
     this.props.languageChanged(value);
     this.context.setLocale(value === 0 ? 'ru' : 'en');
     i18n.locale = value === 0 ? 'ru' : 'en';
+    navigation.dispatch({
+      ...CommonActions.setParams({ DLabel: '123' }),
+      source: route.key,
+    });
+    // this.props.navigation.setParams({ DLabel: '123' });
+    console.log(this.props);
+    console.log(navigation.dangerouslyGetParent().dangerouslyGetState());
   };
 
   onCountryChange = (value: number) => {
@@ -38,6 +49,7 @@ class Settings extends Component<Props> {
 
   render() {
     const { t } = this.context;
+
     return (
       <Fragment>
         <ScrollView style={{ flex: 1 }}>

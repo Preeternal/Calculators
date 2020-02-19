@@ -118,7 +118,8 @@ const ConverterStack = ({ navigation }) => {
         component={Converter}
         options={{
           title: t('converter.title'),
-          headerLargeTitle: true,
+          headerBackTitle: t('converter.title'),
+          // headerLargeTitle: true,
           headerStyle,
           headerTitleStyle,
           headerTintColor,
@@ -323,9 +324,10 @@ const Navigator = () => {
         <Drawer.Screen
           name="SettingsStack"
           component={SettingsStack}
-          options={() => ({
+          options={({ route }) => ({
             title: t('settings.settings'),
-            drawerLabel: t('settings.settings'),
+            // drawerLabel: t('settings.settings'),
+            drawerLabel: route.params && route.params.DLabel,
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 name="md-settings"
