@@ -10,16 +10,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
-import { DateTime } from 'luxon';
+// import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 
 import { Header } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
 import { LocalizationContext } from '../../Context';
-import {
-  number,
-  //  initDate
-} from '../../lib';
+import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
 import storeCurrencies from '../../lib/storeCurrencies';
 
@@ -257,12 +254,12 @@ class Converter extends Component<Props, State> {
                     .setLocale('ru')
                     .toLocaleString(DateTime.DATE_SHORT)}`} */}
 
-                    {/* {`${t('converter.lastUpdate')} ${initDate(
+                    {`${t('converter.lastUpdate')} ${initDate(
                       new Date(Date.parse(this.props.currencies[1].updatedAt)),
                     )} ${new Date(
                       Date.parse(this.props.currencies[1].updatedAt) -
                         new Date().getTimezoneOffset() * 1000,
-                    ).toLocaleTimeString()}`} */}
+                    ).toLocaleTimeString()}`}
 
                     {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                     - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
@@ -272,10 +269,10 @@ class Converter extends Component<Props, State> {
                       - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                         - new Date(Date.parse(new Date().toUTCString())).valueOf()),
                   ).toLocaleTimeString()} */}
-                    {`${t('converter.lastUpdate')} ${DateTime.fromISO(
+                    {/* {`${t('converter.lastUpdate')} ${DateTime.fromISO(
                       this.props.currencies[1].updatedAt,
                       { locale },
-                    ).toLocaleString(DateTime.DATETIME_SHORT)}`}
+                    ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
                   </Text>
                 </View>
                 <TouchableOpacity
