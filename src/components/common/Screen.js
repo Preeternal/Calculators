@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Image } from 'react-native';
-import images from '../../assets/images';
+import images from '../../images';
 
 const Screen = () => (
   <Image source={images.screen} style={styles.containerStyle} />

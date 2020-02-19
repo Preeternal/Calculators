@@ -9,7 +9,7 @@ import {
 import VersionNumber from 'react-native-version-number';
 
 import { strings } from '../../../locales/i18n';
-import images from '../../assets/images';
+import images from '../../images';
 
 type Props = any;
 type State = {

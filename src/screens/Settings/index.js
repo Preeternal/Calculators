@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import i18n from 'i18n-js';
 import 'number-to-locale-string';
@@ -12,6 +12,7 @@ import {
   Header,
   TableSection,
 } from '../../components/common';
+import images from '../../images';
 
 import { LocalizationContext } from '../../Context';
 
@@ -36,6 +37,7 @@ const Settings = () => {
       <Card>
         {/* <Header headerText="Локальные данные" /> */}
         <Header headerText={t('settings.localization')} />
+
         <TableSection>
           <InputPicker
             // label="Язык"
@@ -52,9 +54,28 @@ const Settings = () => {
             onValueChange={onCountryChange}
           />
         </TableSection>
+        <View style={styles.container}>
+          <Image
+            resizeMode="cover"
+            source={images.banoka}
+            style={styles.topImage}
+          />
+        </View>
       </Card>
     </ScrollView>
   );
+};
+
+const styles = {
+  container: {
+    backgroundColor: 'white',
+  },
+  topImage: {
+    // width: 270,
+    height: 400,
+    flex: 1,
+    alignSelf: 'flex-end',
+  },
 };
 
 export default Settings;

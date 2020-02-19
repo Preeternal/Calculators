@@ -45,7 +45,7 @@ import config from '../../../config';
 import { initDate, number } from '../../lib';
 import calculate from '../../lib/calculate';
 
-import images from '../../assets/images';
+import images from '../../images';
 
 type Props = {
   principal: string,
@@ -288,7 +288,7 @@ class Depo extends Component<Props, State> {
           {/* <Header headerText="Депозитный калькулятор" /> */}
           <Header headerText={t('headerDeposit')} />
           <CardSection>
-            <Image source={images.logo} style={topImage} />
+            <Image source={images.depo} style={topImage} />
             <Text style={welcome}>
               {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
               {!srok ? t('welcome.error') : t('welcome.go')}
@@ -598,8 +598,9 @@ const styles = {
     textAlign: 'center',
   },
   topImage: {
-    width: 193,
-    height: 110,
+    width: 270,
+    height: 150,
+    // flex: 1,
     alignSelf: 'center',
   },
   radioStyle: {

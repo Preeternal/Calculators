@@ -51,7 +51,7 @@ import { LocalizationContext } from '../../Context';
 import { initDate, number } from '../../lib';
 import creditCalculate from '../../lib/creditCalculate';
 
-import images from '../../assets/images';
+import images from '../../images';
 
 type Props = {
   creditPrincipal: string,
@@ -357,7 +357,7 @@ class Credit extends Component<Props, State> {
           {/* <Header headerText="Депозитный калькулятор" /> */}
           <Header headerText={t('headerCredit')} />
           <CardSection>
-            <Image source={images.logo} style={topImage} />
+            <Image source={images.credit} style={topImage} />
             <Text style={welcome}>
               {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
               {!Number(this.props.creditSrok)
@@ -759,8 +759,8 @@ const styles = {
     textAlign: 'center',
   },
   topImage: {
-    width: 193,
-    height: 110,
+    width: 270,
+    height: 170,
     alignSelf: 'center',
   },
   radioStyle: {
