@@ -19,6 +19,7 @@ import Converter from './Converter';
 import AddCurrency from './Converter/AddCurrency';
 import EditPreset from './Converter/EditPreset';
 import Settings from './Settings';
+import Investments from './Settings/Investments';
 import Help from './Help';
 import { DrawerButton, DrawerScreen } from './Common';
 import { languageChanged } from '../actions';
@@ -189,8 +190,8 @@ const SettingsStack = ({ navigation }) => {
           headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
           headerRight: () => (
             <DrawerButton
-              type="FontAwesome5"
-              name="donate"
+              type="MaterialIcons"
+              name="payment"
               onPress={() => navigation.navigate('Investments')}
             />
           ),
@@ -198,9 +199,9 @@ const SettingsStack = ({ navigation }) => {
       />
       <Stack.Screen
         name="Investments"
-        component={Settings}
+        component={Investments}
         options={() => ({
-          title: t('settings.settings'),
+          title: t('settings.donat.investments'),
           headerStyle,
           headerTitleStyle,
           headerTintColor,
