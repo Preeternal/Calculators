@@ -170,6 +170,7 @@ const SettingsStack = ({ navigation }) => {
     headerTitleStyle,
     headerTintColor,
     headerLeftContainerStyle,
+    headerRightContainerStyle,
   } = styles;
   const { t } = React.useContext(LocalizationContext);
   return (
@@ -183,8 +184,29 @@ const SettingsStack = ({ navigation }) => {
           headerTitleStyle,
           headerTintColor,
           headerLeftContainerStyle,
+          headerRightContainerStyle,
           headerStatusBarHeight: 23,
           headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+          headerRight: () => (
+            <DrawerButton
+              type="FontAwesome5"
+              name="donate"
+              onPress={() => navigation.navigate('Investments')}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="Investments"
+        component={Settings}
+        options={() => ({
+          title: t('settings.settings'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          // headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          // headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
         })}
       />
     </Stack.Navigator>
@@ -270,10 +292,10 @@ const Navigator = () => {
         <Drawer.Screen
           name="DepoStack"
           component={DepoStack}
-          options={() => ({
+          options={({ route }) => ({
             title: t('headerDeposit'),
-            // drawerLabel: route.params && route.params.DLabel,
-            drawerLabel: t('headerDeposit'),
+            drawerLabel: route.params && route.params.DLabel,
+            // drawerLabel: t('headerDeposit'),
             drawerIcon: ({ focused, color, size }) => (
               <Icon
                 type="Entypo"
