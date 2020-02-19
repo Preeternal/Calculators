@@ -55,10 +55,11 @@ const DepoStack = ({ navigation }) => {
     headerTintColor,
     headerLeftContainerStyle,
   } = styles;
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   return (
     <Stack.Navigator>
       <Stack.Screen
+        key={locale}
         name="Depo"
         component={Depo}
         options={() => ({
@@ -82,10 +83,11 @@ const CreditStack = ({ navigation }) => {
     headerTintColor,
     headerLeftContainerStyle,
   } = styles;
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   return (
     <Stack.Navigator>
       <Stack.Screen
+        key={locale}
         name="Credit"
         component={Credit}
         options={() => ({
@@ -110,16 +112,15 @@ const ConverterStack = ({ navigation }) => {
     headerLeftContainerStyle,
     headerRightContainerStyle,
   } = styles;
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   return (
     <Stack.Navigator initialRouteName="Converter">
       <Stack.Screen
+        key={locale}
         name="Converter"
         component={Converter}
         options={{
           title: t('converter.title'),
-          headerBackTitle: t('converter.title'),
-          // headerLargeTitle: true,
           headerStyle,
           headerTitleStyle,
           headerTintColor,
@@ -174,10 +175,11 @@ const SettingsStack = ({ navigation }) => {
     headerLeftContainerStyle,
     headerRightContainerStyle,
   } = styles;
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   return (
     <Stack.Navigator>
       <Stack.Screen
+        key={locale}
         name="Settings"
         component={Settings}
         options={() => ({
@@ -222,10 +224,11 @@ const HelpStack = ({ navigation }) => {
     headerTintColor,
     headerLeftContainerStyle,
   } = styles;
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   return (
     <Stack.Navigator>
       <Stack.Screen
+        key={locale}
         name="Help"
         component={Help}
         options={() => ({
