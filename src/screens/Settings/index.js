@@ -12,7 +12,7 @@ import {
   Header,
   TableSection,
 } from '../../components/common';
-import images from '../../images';
+import images from '../../assets/images';
 
 import { LocalizationContext } from '../../Context';
 

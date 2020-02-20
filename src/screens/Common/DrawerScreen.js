@@ -11,7 +11,7 @@ import VersionNumber from 'react-native-version-number';
 
 import { screenOrientationChanged } from '../../actions';
 import { strings } from '../../../locales/i18n';
-import images from '../../images';
+import images from '../../assets/images';
 
 type Props = any;
 type State = {

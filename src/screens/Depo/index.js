@@ -40,7 +40,7 @@ import { LocalizationContext } from '../../Context';
 import { initDate, number } from '../../lib';
 import calculate from '../../lib/calculate';
 
-import images from '../../images';
+import images from '../../assets/images';
 
 type Props = {
   principal: string,

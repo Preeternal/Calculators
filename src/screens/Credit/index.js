@@ -51,7 +51,7 @@ import { LocalizationContext } from '../../Context';
 import { initDate, number } from '../../lib';
 import creditCalculate from '../../lib/creditCalculate';
 
-import images from '../../images';
+import images from '../../assets/images';
 
 type Props = {
   creditPrincipal: string,
