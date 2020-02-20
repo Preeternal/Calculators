@@ -123,7 +123,11 @@ const ConverterStack = ({ navigation }) => {
   } = styles;
   const { t, locale } = React.useContext(LocalizationContext);
   return (
-    <Stack.Navigator initialRouteName="Converter">
+    <Stack.Navigator
+      initialRouteName="Converter"
+      mode="modal"
+      headerMode="float"
+    >
       <Stack.Screen
         key={locale + isLandscape}
         name="Converter"
@@ -200,15 +204,15 @@ const SettingsStack = ({ navigation }) => {
           headerRightContainerStyle,
           headerStatusBarHeight: 23,
           headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
-          headerRight: () => (
-            Platform === 'android' && (<DrawerButton
-              type="MaterialIcons"
-              name="payment"
-              onPress={() => navigation.navigate('Investments')}
-            />)
-          ),
-        
-      })}
+          headerRight: () =>
+            Platform === 'android' && (
+              <DrawerButton
+                type="MaterialIcons"
+                name="payment"
+                onPress={() => navigation.navigate('Investments')}
+              />
+            ),
+        })}
       />
       <Stack.Screen
         name="Investments"
