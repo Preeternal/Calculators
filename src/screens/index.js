@@ -123,11 +123,7 @@ const ConverterStack = ({ navigation }) => {
   } = styles;
   const { t, locale } = React.useContext(LocalizationContext);
   return (
-    <Stack.Navigator
-      initialRouteName="Converter"
-      mode="modal"
-      headerMode="float"
-    >
+    <Stack.Navigator initialRouteName="Converter">
       <Stack.Screen
         key={locale + isLandscape}
         name="Converter"
