@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 // @flow
 import React, { Component } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { enableScreens } from 'react-native-screens';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -201,13 +201,14 @@ const SettingsStack = ({ navigation }) => {
           headerStatusBarHeight: 23,
           headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
           headerRight: () => (
-            <DrawerButton
+            Platform === 'android' && (<DrawerButton
               type="MaterialIcons"
               name="payment"
               onPress={() => navigation.navigate('Investments')}
-            />
+            />)
           ),
-        })}
+        
+      })}
       />
       <Stack.Screen
         name="Investments"
