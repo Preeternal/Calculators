@@ -2,12 +2,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import { Image, View, Text, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
 import VersionNumber from 'react-native-version-number';
 
+import { screenOrientationChanged } from '../../actions';
 import { strings } from '../../../locales/i18n';
 import images from '../../images';
 
@@ -36,7 +38,9 @@ class DrawerScreen extends Component<Props, State> {
 
   isLandscape = () => {
     const dim = Dimensions.get('screen');
-    return dim.width >= dim.height;
+    const isLandscape = dim.width >= dim.height;
+    this.props.screenOrientationChanged(isLandscape);
+    return isLandscape;
   };
 
   render() {
@@ -70,7 +74,12 @@ class DrawerScreen extends Component<Props, State> {
   }
 }
 
-export default DrawerScreen;
+const mapDispatchToActions = { screenOrientationChanged };
+
+export default connect<any, any, any, any, any, any>(
+  null,
+  mapDispatchToActions,
+)(DrawerScreen);
 
 const styles = {
   drawerImage: {

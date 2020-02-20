@@ -48,6 +48,9 @@ const styles = {
 };
 const Stack = createStackNavigator();
 
+const selectOrientation = state => state.settings.isLandscape;
+const isLandscape = selectOrientation(store.getState());
+
 const DepoStack = ({ navigation }) => {
   const {
     headerStyle,
@@ -59,7 +62,7 @@ const DepoStack = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        key={locale}
+        key={locale + isLandscape}
         name="Depo"
         component={Depo}
         options={() => ({
@@ -87,7 +90,7 @@ const CreditStack = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        key={locale}
+        key={locale + isLandscape}
         name="Credit"
         component={Credit}
         options={() => ({
@@ -116,7 +119,7 @@ const ConverterStack = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="Converter">
       <Stack.Screen
-        key={locale}
+        key={locale + isLandscape}
         name="Converter"
         component={Converter}
         options={{
@@ -179,7 +182,7 @@ const SettingsStack = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        key={locale}
+        key={locale + isLandscape}
         name="Settings"
         component={Settings}
         options={() => ({
@@ -228,7 +231,7 @@ const HelpStack = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        key={locale}
+        key={locale + isLandscape}
         name="Help"
         component={Help}
         options={() => ({
