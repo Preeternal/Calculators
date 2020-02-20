@@ -169,7 +169,9 @@ const ConverterStack = ({ navigation }) => {
         component={EditPreset}
         options={{
           title: t('converter.changeCurr'),
-          // headerBackTitle: '',
+          headerBackTitle: null,
+          headerBackTitleVisible: false,
+          headerTruncatedBackTitle: null,
           headerStyle,
           headerTitleStyle,
           headerTintColor,
