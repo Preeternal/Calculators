@@ -203,7 +203,7 @@ const SettingsStack = ({ navigation }) => {
           headerStatusBarHeight: 23,
           headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
           headerRight: () =>
-            Platform === 'android' && (
+            Platform.OS === 'android' && (
               <DrawerButton
                 type="MaterialIcons"
                 name="payment"
