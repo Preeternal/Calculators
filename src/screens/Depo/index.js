@@ -20,8 +20,6 @@ import {
   radioPressed,
   taxSelected,
   taxRateSelected,
-  countryChanged,
-  countryIpTriggered,
 } from '../../actions';
 
 import {
@@ -37,10 +35,7 @@ import {
   TableSection,
 } from '../../components/common';
 
-import { currentLocale } from '../../../locales/i18n';
 import { LocalizationContext } from '../../Context';
-
-import config from '../../../config';
 
 import { initDate, number } from '../../lib';
 import calculate from '../../lib/calculate';
@@ -61,7 +56,6 @@ type Props = {
   taxRate: number,
   language: number,
   country: number,
-  countryIP: boolean,
   principalChanged: Function,
   dateOpenChanged: Function,
   dateClosedChanged: Function,
@@ -73,8 +67,6 @@ type Props = {
   radioPressed: Function,
   taxSelected: Function,
   taxRateSelected: Function,
-  countryChanged: Function,
-  countryIpTriggered: Function,
 
   calculated: typeof calculate,
 };
@@ -101,37 +93,7 @@ class Depo extends Component<Props, State> {
     prinplusColor: textColor,
     isDatePickerVisible: false,
     isDatePicker2Visible: false,
-    userCountryCode: currentLocale.substring(3),
   };
-
-  componentDidMount() {
-    if (!this.props.countryIP) {
-      fetch(config.ipUrl)
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState({
-            userCountryCode: responseJson.country_code,
-          });
-          switch (this.state.userCountryCode) {
-            case 'RU':
-              this.onCountryChange(0);
-              break;
-            case 'UA':
-              this.onCountryChange(2);
-              break;
-            default:
-              this.onCountryChange(1);
-          }
-          this.onCountryIpTrigger(true);
-        })
-        .catch(error => {
-          // eslint-disable-next-line no-console
-          console.warn(
-            `There has been a problem with your fetch operation: ${error.message}`,
-          );
-        });
-    }
-  }
 
   onFocus = (input: string, text: string) => {
     this.setState({
@@ -218,14 +180,6 @@ class Depo extends Component<Props, State> {
 
   onTaxRateSelect = (value: number) => {
     this.props.taxRateSelected(value);
-  };
-
-  onCountryChange = (value: number) => {
-    this.props.countryChanged(value);
-  };
-
-  onCountryIpTrigger = (bool: boolean) => {
-    this.props.countryIpTriggered(bool);
   };
 
   static contextType = LocalizationContext;
@@ -646,7 +600,6 @@ Depo.propTypes = {
   taxRate: PropTypes.number,
   language: PropTypes.number,
   country: PropTypes.number,
-  countryIP: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -663,7 +616,6 @@ const mapStateToProps = state => ({
   taxRate: state.depo.taxRate,
   language: state.settings.language,
   country: state.settings.country,
-  countryIP: state.settings.countryIP,
 
   calculated: calculate(state),
 });
@@ -680,8 +632,6 @@ const mapDispatchToActions = {
   radioPressed,
   taxSelected,
   taxRateSelected,
-  countryChanged,
-  countryIpTriggered,
 };
 export default connect<any, any, any, any, any, any>(
   mapStateToProps,

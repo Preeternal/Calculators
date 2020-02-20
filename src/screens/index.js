@@ -22,10 +22,16 @@ import Settings from './Settings';
 import Investments from './Settings/Investments';
 import Help from './Help';
 import { DrawerButton, DrawerScreen } from './Common';
-import { languageChanged } from '../actions';
+import {
+  languageChanged,
+  countryChanged,
+  countryIpTriggered,
+} from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
 import { store } from '../store';
+import config from '../../config';
 import { LocalizationContext } from '../Context';
+import { currentLocale } from '../../locales/i18n';
 
 enableScreens();
 const styles = {
@@ -389,13 +395,50 @@ const AppContainer = () => {
 
 type Props = {
   language: string,
+  countryIP: boolean,
   languageChanged: Function,
+  countryChanged: Function,
+  countryIpTriggered: Function,
 };
 
-class App extends Component<Props> {
+type State = {
+  userCountryCode?: string,
+};
+
+class App extends Component<Props, State> {
+  state = {
+    userCountryCode: currentLocale.substring(3),
+  };
+
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
     storeCurrencies();
+    if (!this.props.countryIP) {
+      fetch(config.ipUrl)
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState({
+            userCountryCode: responseJson.country_code,
+          });
+          switch (this.state.userCountryCode) {
+            case 'RU':
+              this.onCountryChange(0);
+              break;
+            case 'UA':
+              this.onCountryChange(2);
+              break;
+            default:
+              this.onCountryChange(1);
+          }
+          this.onCountryIpTrigger(true);
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.warn(
+            `There has been a problem with your fetch operation: ${error.message}`,
+          );
+        });
+    }
   }
 
   componentWillUnmount() {
@@ -416,6 +459,14 @@ class App extends Component<Props> {
     return 1;
   };
 
+  onCountryChange = (value: number) => {
+    this.props.countryChanged(value);
+  };
+
+  onCountryIpTrigger = (bool: boolean) => {
+    this.props.countryIpTriggered(bool);
+  };
+
   render() {
     return <AppContainer />;
   }
@@ -423,8 +474,13 @@ class App extends Component<Props> {
 
 const mapStateToProps = state => ({
   language: state.settings.language,
+  countryIP: state.settings.countryIP,
 });
-const mapDispatchToActions = { languageChanged };
+const mapDispatchToActions = {
+  languageChanged,
+  countryChanged,
+  countryIpTriggered,
+};
 
 export default connect<any, any, any, any, any, any>(
   mapStateToProps,
