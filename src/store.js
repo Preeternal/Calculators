@@ -3,6 +3,7 @@
 import { createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 // import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 // import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
@@ -21,14 +22,13 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = createStore(
-  // reducers,
   persistedReducer,
-  __DEV__ &&
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-    window.__REDUX_DEVTOOLS_EXTENSION__(),
+  composeWithDevTools(),
+  // __DEV__ &&
+  //   window.__REDUX_DEVTOOLS_EXTENSION__ &&
+  //   window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
 const persistor = persistStore(store);
-// export default store;
 
 export { store, persistor };

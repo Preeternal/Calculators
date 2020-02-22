@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AppRegistry, YellowBox } from 'react-native';
+import { AppRegistry, YellowBox, View } from 'react-native';
 
 import { ApolloProvider } from 'react-apollo';
 
