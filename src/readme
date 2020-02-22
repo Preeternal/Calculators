@@ -8,3 +8,6 @@ react-native bundle --entry-file index.js --platform ios --dev false --bundle-ou
 
 // to see what's stored in AsyncStorage run in RND console:
 showAsyncStorageContentInDev()
+
+// on error with ./gradlew bundleRelease
+npx jetify

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { strings, currentLocale } from '../../../locales/i18n';
+import { LocalizationContext } from '../../Context';
 import 'number-to-locale-string';
 
 const options = {
@@ -8,7 +8,7 @@ const options = {
   maximumFractionDigits: 2,
 };
 
-const row = rows =>
+const row = (rows, locale) =>
   rows.map((value, index) => (
     // eslint-disable-next-line react/no-array-index-key
     <View key={index + value[4]} style={styles.renderStyle}>
@@ -20,7 +20,7 @@ const row = rows =>
       </View>
       <View style={styles.col3Style}>
         <Text style={styles.textStyle}>
-          {value[2].toLocaleString(currentLocale, options)}
+          {value[2].toLocaleString(locale, options)}
         </Text>
       </View>
       <View style={styles.col4Style}>
@@ -28,12 +28,12 @@ const row = rows =>
       </View>
       <View style={styles.col5Style}>
         <Text style={styles.textStyle}>
-          {value[4].toLocaleString(currentLocale, options)}
+          {value[4].toLocaleString(locale, options)}
         </Text>
       </View>
       <View style={styles.col6Style}>
         <Text style={styles.textStyle}>
-          {value[5].toLocaleString(currentLocale, options)}
+          {value[5].toLocaleString(locale, options)}
         </Text>
       </View>
     </View>
@@ -41,6 +41,7 @@ const row = rows =>
 
 const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
 const Table = props => {
+  const { t, locale } = React.useContext(LocalizationContext);
   const {
     containerStyle,
     headerStyle,
@@ -53,7 +54,7 @@ const Table = props => {
     col6Style,
   } = styles;
   // const tableHead = ['№', 'дата', 'начислено %', 'дни', 'начислено  % итого', 'общая сумма'];
-  const tableHead = strings('table.tableHead');
+  const tableHead = t('table.tableHead');
   const reverse = transpose([
     props.value.n,
     props.value.date,
@@ -63,7 +64,7 @@ const Table = props => {
     props.value.principal1,
   ]);
 
-  const rows = row(reverse);
+  const rows = row(reverse, locale);
 
   return (
     <View style={containerStyle}>

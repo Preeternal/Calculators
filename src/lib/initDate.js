@@ -1,12 +1,12 @@
 // @flow
 // import { DateTime } from 'luxon';
-import { currentLocale } from '../../locales/i18n';
+import i18n from 'i18n-js';
 
 export const initDate = (dateL: Date): string => {
   // const date = DateTime.fromJSDate(dateL);
   const DD = dateL.getDate() < 10 ? '0' : 0;
   const MM = dateL.getMonth() < 9 ? '0' : 0;
-  if (currentLocale.indexOf('ru') === 0) {
+  if (i18n.locale.indexOf('ru') === 0) {
     return `${DD + dateL.getDate()}.${MM +
       (dateL.getMonth() + 1)}.${dateL.getFullYear()}`;
     // return date.setLocale('ru').toLocaleString(DateTime.DATE_SHORT);

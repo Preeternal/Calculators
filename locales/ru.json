@@ -1,4 +1,5 @@
 {
+  "appVersion": "Версия:",
   "format": {
     "number": {
       "precision": 2,
@@ -6,7 +7,7 @@
       "delimiter": " "
     }
   },
-  "header": "Депозитный калькулятор",
+  "headerDeposit": "Депозитный калькулятор",
   "headerCredit": "Кредитный калькулятор",
   "titleDeposit": "Депозит",
   "titleCredit": "Кредит",

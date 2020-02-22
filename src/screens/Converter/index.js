@@ -9,15 +9,13 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon, Button } from 'native-base';
+import { Icon } from 'native-base';
 // import { DateTime } from 'luxon';
 import 'number-to-locale-string';
-import type { NavigationStackScreenOptions } from 'react-navigation';
 
 import { Header } from '../../components/common';
 import { CurrencyInput } from '../../components/converter/CurrencyInput';
-import { strings } from '../../../locales/i18n';
-import CustomHeader from '../Common/CustomHeader';
+import { LocalizationContext } from '../../Context';
 import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
 import storeCurrencies from '../../lib/storeCurrencies';
@@ -44,30 +42,6 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Converter extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: Object,
-  }): NavigationStackScreenOptions => {
-    const { params } = navigation.state;
-    return {
-      header: null,
-      headerStyle: {
-        backgroundColor: '#525050',
-      },
-      title: strings('converter.header'), // drawer label initialization
-      headerBackTitle: null,
-      drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }) => (
-        <Icon
-          type="FontAwesome"
-          name="retweet"
-          style={{ fontSize: 22, color: tintColor }}
-        />
-      ),
-    };
-  };
-
   state = {
     inputStyle: [],
     keyboard: false,
@@ -85,6 +59,7 @@ class Converter extends Component<Props, State> {
       this.handlePreset();
     }
     if (this.props.currencies !== prevProps.currencies) {
+      this.handlePreset();
       this.handleRefresh();
     }
   }
@@ -217,23 +192,12 @@ class Converter extends Component<Props, State> {
     }
   };
 
+  static contextType = LocalizationContext;
+
   render() {
+    const { t, locale } = this.context;
     return (
       <Fragment>
-        <CustomHeader
-          title={strings('converter.title')}
-          drawerOpen={() => this.props.navigation.openDrawer()}
-          right={
-            <Button
-              transparent
-              onPress={() => {
-                this.props.navigation.navigate('EditPreset');
-              }}
-            >
-              <Icon name="md-create" style={{ fontSize: 30, color: 'white' }} />
-            </Button>
-          }
-        />
         {this.props.currencies.length ? (
           <Fragment>
             <View
@@ -246,7 +210,7 @@ class Converter extends Component<Props, State> {
                 extraData={this.props}
                 ListHeaderComponent={
                   <Header
-                    headerText={strings('converter.header')}
+                    headerText={t('converter.header')}
                     headerStyle={styles.header}
                   />
                 }
@@ -282,20 +246,22 @@ class Converter extends Component<Props, State> {
               <Fragment>
                 <View style={styles.footerView}>
                   <Text style={styles.footerText}>
-                    {/* {` ${strings('converter.lastUpdate')} ${new Date(
+                    {/* {` ${t('converter.lastUpdate')} ${new Date(
                     Date.parse(this.props.currencies[1].updatedAt),
                   ).toLocaleString(currentLocale, { hour12: false })}`} */}
-                    {/* {`${strings('converter.lastUpdate')} ${DateTime.fromJSDate(
+                    {/* {`${t('converter.lastUpdate')} ${DateTime.fromJSDate(
                     new Date(Date.parse(this.props.currencies[1].updatedAt)),
                   )
                     .setLocale('ru')
                     .toLocaleString(DateTime.DATE_SHORT)}`} */}
-                    {`${strings('converter.lastUpdate')} ${initDate(
+
+                    {`${t('converter.lastUpdate')} ${initDate(
                       new Date(Date.parse(this.props.currencies[1].updatedAt)),
                     )} ${new Date(
                       Date.parse(this.props.currencies[1].updatedAt) -
                         new Date().getTimezoneOffset() * 1000,
                     ).toLocaleTimeString()}`}
+
                     {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                     - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
                     {/* {new Date().toUTCString()} */}
@@ -304,9 +270,9 @@ class Converter extends Component<Props, State> {
                       - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                         - new Date(Date.parse(new Date().toUTCString())).valueOf()),
                   ).toLocaleTimeString()} */}
-                    {/* {`${strings('converter.lastUpdate')} ${DateTime.fromISO(
+                    {/* {`${t('converter.lastUpdate')} ${DateTime.fromISO(
                       this.props.currencies[1].updatedAt,
-                      { locale: this.props.language === 0 ? 'ru' : 'en' },
+                      { locale },
                     ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
                   </Text>
                 </View>

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -8,8 +8,6 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
-  // InteractionManager,
-  // ActivityIndicator,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
@@ -18,7 +16,6 @@ import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
 import 'number-to-locale-string';
-import type { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import {
   creditPrincipalChanged,
@@ -49,12 +46,10 @@ import {
   TableSection,
 } from '../../components/common';
 
-import { strings, currentLocale } from '../../../locales/i18n';
+import { LocalizationContext } from '../../Context';
 
 import { initDate, number } from '../../lib';
 import creditCalculate from '../../lib/creditCalculate';
-
-import CustomHeader from '../Common/CustomHeader';
 
 import images from '../../assets/images';
 
@@ -86,7 +81,6 @@ type Props = {
   radioPressed: typeof radioPressed,
 
   calculated: typeof creditCalculate,
-  navigation: Object,
 };
 
 type State = {
@@ -109,23 +103,7 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Credit extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: Object,
-  }): NavigationDrawerScreenOptions => {
-    const { params } = navigation.state;
-    return {
-      title: strings('headerCredit'), // drawer label initialization
-      drawerLabel: params && params.DLabel,
-      drawerIcon: ({ tintColor }) => (
-        <Icon name="md-download" style={{ fontSize: 24, color: tintColor }} />
-      ),
-    };
-  };
-
   state = {
-    // didFinishInitialAnimation: false,
     creditPrincipalColor: textColor,
     creditInterestColor: textColor,
     creditSrokValueColor: textColor,
@@ -143,11 +121,6 @@ class Credit extends Component<Props, State> {
   scrollView: {| current: null | any |} = React.createRef();
 
   componentDidMount() {
-    // InteractionManager.runAfterInteractions(() => {
-    //   this.setState({
-    //     didFinishInitialAnimation: true,
-    //   });
-    // });
     this.getOrientation();
     Dimensions.addEventListener('change', this.getOrientation);
   }
@@ -274,15 +247,11 @@ class Credit extends Component<Props, State> {
   };
 
   checkComValue = (value: string) => {
+    const { t } = this.context;
     if (Number(value) > 1) {
-      Alert.alert(
-        'Banoka',
-        strings('credit.input.alertCom'),
-        [{ text: 'OK' }],
-        {
-          cancelable: false,
-        },
-      );
+      Alert.alert('Banoka', t('credit.input.alertCom'), [{ text: 'OK' }], {
+        cancelable: false,
+      });
     }
   };
 
@@ -331,6 +300,8 @@ class Credit extends Component<Props, State> {
     }
   };
 
+  static contextType = LocalizationContext;
+
   render() {
     const {
       topImage,
@@ -378,443 +349,404 @@ class Credit extends Component<Props, State> {
       maximumFractionDigits: 2,
     };
 
+    const { t, locale } = this.context;
+
     return (
-      <Fragment>
-        <CustomHeader
-          title={strings('titleCredit')}
-          drawerOpen={() => this.props.navigation.openDrawer()}
-        />
-        {/* { this.state.didFinishInitialAnimation ? ( */}
-        <ScrollView key={this.props.language} style={{ flex: 1 }}>
-          <Card>
-            {/* <Header headerText="Депозитный калькулятор" /> */}
-            <Header headerText={strings('headerCredit')} />
-            <CardSection>
-              <Image source={images.logo} style={topImage} />
-              <Text style={welcome}>
-                {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
-                {!Number(this.props.creditSrok)
-                  ? strings('welcome.error')
-                  : strings('credit.go')}
-              </Text>
+      <ScrollView key={this.props.language} style={{ flex: 1 }}>
+        <Card>
+          {/* <Header headerText="Депозитный калькулятор" /> */}
+          <Header headerText={t('headerCredit')} />
+          <CardSection>
+            <Image source={images.credit} style={topImage} />
+            <Text style={welcome}>
+              {/* 'Проверьте правильность ввода:' : 'Введите информацию о депозите: */}
+              {!Number(this.props.creditSrok)
+                ? t('welcome.error')
+                : t('credit.go')}
+            </Text>
 
-              <RadioForm
-                key={this.props.radio}
-                style={radioStyle}
-                // ref="radioForm"
-                radio_props={radio}
-                initial={this.props.radio}
-                formHorizontal
-                labelHorizontal
-                buttonColor="#757171"
-                selectedButtonColor="#525050"
-                labelColor="#757171"
-                selectedLabelColor="#525050"
-                animation
-                onPress={value => {
-                  this.onRadioPress(value);
-                }}
-              />
-            </CardSection>
+            <RadioForm
+              key={this.props.radio}
+              style={radioStyle}
+              // ref="radioForm"
+              radio_props={radio}
+              initial={this.props.radio}
+              formHorizontal
+              labelHorizontal
+              buttonColor="#757171"
+              selectedButtonColor="#525050"
+              labelColor="#757171"
+              selectedLabelColor="#525050"
+              animation
+              onPress={value => {
+                this.onRadioPress(value);
+              }}
+            />
+          </CardSection>
 
-            <TableSection>
-              <Input
-                // placeholder="введите сумму"
-                placeholder={strings('input.principal.placeholder')}
-                // label="Сумма кредита"
-                label={`${strings('credit.input.principal.label')}, ${radio[
-                  this.props.radio
-                ].label.charAt(0)}`}
-                onChangeText={this.onCreditPrincipalChange}
-                onFocus={() =>
-                  this.onFocus('creditPrincipal', this.props.creditPrincipal)
-                }
-                onBlur={() =>
-                  this.onBlur('creditPrincipal', this.props.creditPrincipal)
-                }
-                appInputStyle={{ color: this.state.creditPrincipalColor }}
-                value={this.props.creditPrincipal}
-              />
+          <TableSection>
+            <Input
+              // placeholder="введите сумму"
+              placeholder={t('input.principal.placeholder')}
+              // label="Сумма кредита"
+              label={`${t('credit.input.principal.label')}, ${radio[
+                this.props.radio
+              ].label.charAt(0)}`}
+              onChangeText={this.onCreditPrincipalChange}
+              onFocus={() =>
+                this.onFocus('creditPrincipal', this.props.creditPrincipal)
+              }
+              onBlur={() =>
+                this.onBlur('creditPrincipal', this.props.creditPrincipal)
+              }
+              appInputStyle={{ color: this.state.creditPrincipalColor }}
+              value={this.props.creditPrincipal}
+            />
 
-              <Input
-                // placeholder="годовая процентная ставка"
-                placeholder={strings('input.interest1.placeholder')}
-                // label="Процентная ставка"
-                label={strings('credit.input.interest.label')}
-                onChangeText={this.onCreditInterestChange}
-                onBlur={() =>
-                  this.onBlur('creditInterest', this.props.creditInterest)
-                }
-                onFocus={() =>
-                  this.onFocus('creditInterest', this.props.creditInterest)
-                }
-                appInputStyle={{ color: this.state.creditInterestColor }}
-                value={this.props.creditInterest}
-              />
+            <Input
+              // placeholder="годовая процентная ставка"
+              placeholder={t('input.interest1.placeholder')}
+              // label="Процентная ставка"
+              label={t('credit.input.interest.label')}
+              onChangeText={this.onCreditInterestChange}
+              onBlur={() =>
+                this.onBlur('creditInterest', this.props.creditInterest)
+              }
+              onFocus={() =>
+                this.onFocus('creditInterest', this.props.creditInterest)
+              }
+              appInputStyle={{ color: this.state.creditInterestColor }}
+              value={this.props.creditInterest}
+            />
 
-              <InputDate
-                // label="Дата выдачи кредита"
-                label={strings('credit.input.dateOpen.label')}
-                value={initDate(new Date(this.props.creditDateOpen))}
-                onRootPress={() => this.setDatePickerVisible(true)}
-                onPress={() => this.setDatePickerVisible(true)}
-              />
-              <DateTimePicker
-                date={new Date(this.props.creditDateOpen)}
-                isVisible={this.state.isDatePickerVisible}
-                onConfirm={this.onCreditDateOpenChange}
-                onCancel={() => this.setDatePickerVisible(false)}
-                display="spinner"
-              />
+            <InputDate
+              // label="Дата выдачи кредита"
+              label={t('credit.input.dateOpen.label')}
+              value={initDate(new Date(this.props.creditDateOpen))}
+              onRootPress={() => this.setDatePickerVisible(true)}
+              onPress={() => this.setDatePickerVisible(true)}
+            />
+            <DateTimePicker
+              date={new Date(this.props.creditDateOpen)}
+              isVisible={this.state.isDatePickerVisible}
+              onConfirm={this.onCreditDateOpenChange}
+              onCancel={() => this.setDatePickerVisible(false)}
+              display="spinner"
+            />
 
-              <InputTextPicker
-                // placeholder="Срок кредита"
-                placeholder={strings('credit.input.srok.placeholder')}
-                // label="Процентная ставка"
-                label={strings('credit.input.srok.label')}
-                onChangeText={this.onCreditSrokValueChange}
-                onBlur={() =>
-                  this.onBlurTextPicker(
-                    'creditSrokValue',
-                    this.props.creditSrok,
-                  )
-                }
-                onFocus={() =>
-                  this.onFocusTextPicker(
-                    'creditSrokValue',
-                    this.props.creditSrok,
-                  )
-                }
-                appInputStyle={{ color: this.state.creditSrokValueColor }}
-                value={this.props.creditSrok}
-                // options={['месяцы', 'годы']}
-                options={[
-                  strings('credit.input.srok.options.months'),
-                  strings('credit.input.srok.options.years'),
-                ]}
-                selectedValue={this.props.creditSrokOption}
-                onValueChange={this.onCreditSrokOptionSelect}
-              />
+            <InputTextPicker
+              // placeholder="Срок кредита"
+              placeholder={t('credit.input.srok.placeholder')}
+              // label="Процентная ставка"
+              label={t('credit.input.srok.label')}
+              onChangeText={this.onCreditSrokValueChange}
+              onBlur={() =>
+                this.onBlurTextPicker('creditSrokValue', this.props.creditSrok)
+              }
+              onFocus={() =>
+                this.onFocusTextPicker('creditSrokValue', this.props.creditSrok)
+              }
+              appInputStyle={{ color: this.state.creditSrokValueColor }}
+              value={this.props.creditSrok}
+              // options={['месяцы', 'годы']}
+              options={[
+                t('credit.input.srok.options.months'),
+                t('credit.input.srok.options.years'),
+              ]}
+              selectedValue={this.props.creditSrokOption}
+              onValueChange={this.onCreditSrokOptionSelect}
+            />
 
-              <InputPicker
-                // label="Вид платежей"
-                label={strings('credit.input.platez.label')}
-                // options={['Аннуитет', 'Единовременно', 'Дифференцировано']}
-                options={[
-                  strings('credit.input.platez.options.annuity'),
-                  strings('credit.input.platez.options.lump'),
-                  strings('credit.input.platez.options.differentiated'),
-                ]}
-                pickerWidth={this.state.pickerWidth}
-                selectedValue={this.props.creditPlatez}
-                onValueChange={this.onCreditPlatezSelect}
-              />
+            <InputPicker
+              // label="Вид платежей"
+              label={t('credit.input.platez.label')}
+              // options={['Аннуитет', 'Единовременно', 'Дифференцировано']}
+              options={[
+                t('credit.input.platez.options.annuity'),
+                t('credit.input.platez.options.lump'),
+                t('credit.input.platez.options.differentiated'),
+              ]}
+              pickerWidth={this.state.pickerWidth}
+              selectedValue={this.props.creditPlatez}
+              onValueChange={this.onCreditPlatezSelect}
+            />
 
-              <CardSection
-                addStyle={{
-                  backgroundColor: '#f1f1f1',
+            <CardSection
+              addStyle={{
+                backgroundColor: '#f1f1f1',
+                justifyContent: 'center',
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
                   justifyContent: 'center',
                 }}
+                onPress={this.onCommissionTouch}
               >
-                <TouchableOpacity
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    justifyContent: 'center',
-                  }}
-                  onPress={this.onCommissionTouch}
-                >
-                  <Text style={{ fontFamily: 'Ubuntu' }}>
-                    {`${strings('credit.result.comPayments')}  `}
-                  </Text>
-                  <Icon
-                    name={
-                      !this.state.commission
-                        ? 'md-arrow-dropdown'
-                        : 'md-arrow-dropup'
-                    }
-                    style={{ fontSize: 20, color: '#525050' }}
-                  />
-                </TouchableOpacity>
-              </CardSection>
+                <Text style={{ fontFamily: 'Ubuntu' }}>
+                  {`${t('credit.result.comPayments')}  `}
+                </Text>
+                <Icon
+                  name={
+                    !this.state.commission
+                      ? 'md-arrow-dropdown'
+                      : 'md-arrow-dropup'
+                  }
+                  style={{ fontSize: 20, color: '#525050' }}
+                />
+              </TouchableOpacity>
+            </CardSection>
 
-              {this.state.commission && (
-                <InputTextPicker
-                  // placeholder="Единоразовая комиссия"
-                  placeholder={
-                    !this.props.creditEdinComOption
-                      ? strings('credit.input.startCostCom.placeholder')
-                      : strings('input.principal.placeholder')
-                  }
-                  label={strings('credit.input.edinСom.label')}
-                  labelTextStyle={{ flex: 2.5 }}
-                  onChangeText={this.onCreditEdinComValueChange}
-                  onBlur={() =>
-                    this.onBlur('creditEdinComValue', this.props.creditEdinCom)
-                  }
+            {this.state.commission && (
+              <InputTextPicker
+                // placeholder="Единоразовая комиссия"
+                placeholder={
+                  !this.props.creditEdinComOption
+                    ? t('credit.input.startCostCom.placeholder')
+                    : t('input.principal.placeholder')
+                }
+                label={t('credit.input.edinСom.label')}
+                labelTextStyle={{ flex: 2.5 }}
+                onChangeText={this.onCreditEdinComValueChange}
+                onBlur={() =>
+                  this.onBlur('creditEdinComValue', this.props.creditEdinCom)
+                }
+                onFocus={() =>
+                  this.onFocus('creditEdinComValue', this.props.creditEdinCom)
+                }
+                appInputStyle={{ color: this.state.creditEdinComColor }}
+                value={this.props.creditEdinCom}
+                // options={['%', '₽руб']}
+                options={['%', radio[this.props.radio].label.charAt(0)]}
+                selectedValue={this.props.creditEdinComOption}
+                onValueChange={this.onCreditEdinComOptionSelect}
+              />
+            )}
+            {this.props.creditPlatez !== 1 && this.state.commission && (
+              <View>
+                <Input
+                  placeholder={t('credit.input.startCostCom.placeholder')}
+                  // label="Ежемесячная комиссия на нач. стоимость"
+                  label={t('credit.input.startCostCom.label')}
+                  onChangeText={this.onCreditStartCostComChange}
                   onFocus={() =>
-                    this.onFocus('creditEdinComValue', this.props.creditEdinCom)
+                    this.onFocus(
+                      'creditStartCostCom',
+                      this.props.creditStartCostCom,
+                    )
                   }
-                  appInputStyle={{ color: this.state.creditEdinComColor }}
-                  value={this.props.creditEdinCom}
-                  // options={['%', '₽руб']}
-                  options={['%', radio[this.props.radio].label.charAt(0)]}
-                  selectedValue={this.props.creditEdinComOption}
-                  onValueChange={this.onCreditEdinComOptionSelect}
+                  onBlur={() =>
+                    this.onBlur(
+                      'creditStartCostCom',
+                      this.props.creditStartCostCom,
+                    )
+                  }
+                  appInputStyle={{
+                    color: this.state.creditStartCostComColor,
+                  }}
+                  value={this.props.creditStartCostCom}
+                />
+
+                <Input
+                  placeholder={t('credit.input.startCostCom.placeholder')}
+                  // label="Ежемесячная комиссия на остаток долга"
+                  label={t('credit.input.finCostCom.label')}
+                  onChangeText={this.onCreditFinCostComChange}
+                  onFocus={() =>
+                    this.onFocus(
+                      'creditFinCostCom',
+                      this.props.creditFinCostCom,
+                    )
+                  }
+                  onBlur={() =>
+                    this.onBlur('creditFinCostCom', this.props.creditFinCostCom)
+                  }
+                  appInputStyle={{ color: this.state.creditFinCostComColor }}
+                  value={this.props.creditFinCostCom}
+                />
+
+                <Input
+                  placeholder={t('input.principal.placeholder')}
+                  // label="Ежемесячная комиссия за ведение счёта"
+                  label={`${t('credit.input.acCountCom.label')} ${radio[
+                    this.props.radio
+                  ].label.charAt(0)}`}
+                  onChangeText={this.onCreditAcCountComChange}
+                  onFocus={() =>
+                    this.onFocus(
+                      'creditAcCountCom',
+                      this.props.creditAcCountCom,
+                    )
+                  }
+                  onBlur={() =>
+                    this.onBlur('creditAcCountCom', this.props.creditAcCountCom)
+                  }
+                  appInputStyle={{ color: this.state.creditAcCountComColor }}
+                  value={this.props.creditAcCountCom}
+                />
+              </View>
+            )}
+          </TableSection>
+        </Card>
+
+        {Number(this.props.creditSrok) > 0 &&
+          !!creditDateClosed &&
+          Number(number(this.props.creditPrincipal)) !== 0 && (
+            <Card>
+              {/* Информация о платежах */}
+              <Header headerText={t('credit.result.header')} />
+
+              <ResultSrok
+                // дата погашения кредита
+                label={`${t('credit.result.dateClosed')} ${initDate(
+                  creditDateClosed,
+                )}`}
+              />
+              {this.props.creditPlatez !== 1 && (
+                <Result
+                  // Ваш ежемесячный платёж
+                  label={
+                    this.props.creditPlatez === 2
+                      ? t('credit.result.monthlyAll_2')
+                      : t('credit.result.monthlyAll_0')
+                  }
+                  resultData={monthlyAll.toLocaleString(locale, optionsN)}
+                  resultPieStyle={{
+                    borderLeftWidth: 5,
+                    borderColor: '#ddd',
+                  }}
                 />
               )}
-              {this.props.creditPlatez !== 1 && this.state.commission && (
+
+              <Result
+                // На оплату процентов
+                label={t('credit.result.interestPayments')}
+                resultData={Number(interestPayments).toLocaleString(
+                  locale,
+                  optionsN,
+                )}
+                resultPieStyle={{
+                  borderLeftWidth: 5,
+                  borderColor: '#a2aaa4',
+                }}
+              />
+
+              {comPayments > 0 && (
                 <View>
-                  <Input
-                    placeholder={strings(
-                      'credit.input.startCostCom.placeholder',
-                    )}
-                    // label="Ежемесячная комиссия на нач. стоимость"
-                    label={strings('credit.input.startCostCom.label')}
-                    onChangeText={this.onCreditStartCostComChange}
-                    onFocus={() =>
-                      this.onFocus(
-                        'creditStartCostCom',
-                        this.props.creditStartCostCom,
-                      )
-                    }
-                    onBlur={() =>
-                      this.onBlur(
-                        'creditStartCostCom',
-                        this.props.creditStartCostCom,
-                      )
-                    }
-                    appInputStyle={{
-                      color: this.state.creditStartCostComColor,
+                  <Result
+                    // Комиссионные платежи
+                    label={t('credit.result.comPayments')}
+                    resultData={comPayments.toLocaleString(locale, optionsN)}
+                    resultPieStyle={{
+                      borderLeftWidth: 5,
+                      borderColor: '#569e69',
                     }}
-                    value={this.props.creditStartCostCom}
                   />
-
-                  <Input
-                    placeholder={strings(
-                      'credit.input.startCostCom.placeholder',
-                    )}
-                    // label="Ежемесячная комиссия на остаток долга"
-                    label={strings('credit.input.finCostCom.label')}
-                    onChangeText={this.onCreditFinCostComChange}
-                    onFocus={() =>
-                      this.onFocus(
-                        'creditFinCostCom',
-                        this.props.creditFinCostCom,
-                      )
-                    }
-                    onBlur={() =>
-                      this.onBlur(
-                        'creditFinCostCom',
-                        this.props.creditFinCostCom,
-                      )
-                    }
-                    appInputStyle={{ color: this.state.creditFinCostComColor }}
-                    value={this.props.creditFinCostCom}
-                  />
-
-                  <Input
-                    placeholder={strings('input.principal.placeholder')}
-                    // label="Ежемесячная комиссия за ведение счёта"
-                    label={`${strings('credit.input.acCountCom.label')} ${radio[
-                      this.props.radio
-                    ].label.charAt(0)}`}
-                    onChangeText={this.onCreditAcCountComChange}
-                    onFocus={() =>
-                      this.onFocus(
-                        'creditAcCountCom',
-                        this.props.creditAcCountCom,
-                      )
-                    }
-                    onBlur={() =>
-                      this.onBlur(
-                        'creditAcCountCom',
-                        this.props.creditAcCountCom,
-                      )
-                    }
-                    appInputStyle={{ color: this.state.creditAcCountComColor }}
-                    value={this.props.creditAcCountCom}
+                  <Result
+                    // Сумма переплаты
+                    label={t('credit.result.pereplata')}
+                    resultData={pereplata.toLocaleString(locale, optionsN)}
+                    labelPieStyle={{
+                      borderRightWidth: 2.7,
+                      borderColor: '#a2aaa4',
+                    }}
+                    resultPieStyle={{
+                      borderLeftWidth: 2.3,
+                      borderColor: '#569e69',
+                    }}
                   />
                 </View>
               )}
-            </TableSection>
-          </Card>
 
-          {Number(this.props.creditSrok) > 0 &&
-            !!creditDateClosed &&
-            Number(number(this.props.creditPrincipal)) !== 0 && (
-              <Card>
-                {/* Информация о платежах */}
-                <Header headerText={strings('credit.result.header')} />
-
-                <ResultSrok
-                  // дата погашения кредита
-                  label={`${strings('credit.result.dateClosed')} ${initDate(
-                    creditDateClosed,
-                  )}`}
-                />
-                {this.props.creditPlatez !== 1 && (
-                  <Result
-                    // Ваш ежемесячный платёж
-                    label={
-                      this.props.creditPlatez === 2
-                        ? strings('credit.result.monthlyAll_2')
-                        : strings('credit.result.monthlyAll_0')
-                    }
-                    resultData={monthlyAll.toLocaleString(
-                      currentLocale,
-                      optionsN,
-                    )}
-                    resultPieStyle={{
-                      borderLeftWidth: 5,
-                      borderColor: '#ddd',
-                    }}
-                  />
-                )}
-
-                <Result
-                  // На оплату процентов
-                  label={strings('credit.result.interestPayments')}
-                  resultData={Number(interestPayments).toLocaleString(
-                    currentLocale,
-                    optionsN,
-                  )}
-                  resultPieStyle={{
-                    borderLeftWidth: 5,
-                    borderColor: '#a2aaa4',
-                  }}
-                />
-
-                {comPayments > 0 && (
-                  <View>
-                    <Result
-                      // Комиссионные платежи
-                      label={strings('credit.result.comPayments')}
-                      resultData={comPayments.toLocaleString(
-                        currentLocale,
-                        optionsN,
-                      )}
-                      resultPieStyle={{
-                        borderLeftWidth: 5,
-                        borderColor: '#569e69',
+              {Number(number(this.props.creditPrincipal)) !== 0 && (
+                <CardSection>
+                  <View style={pieContainer}>
+                    <View
+                      style={{
+                        flex: 1.9,
+                        justifyContent: 'center',
                       }}
-                    />
-                    <Result
-                      // Сумма переплаты
-                      label={strings('credit.result.pereplata')}
-                      resultData={pereplata.toLocaleString(
-                        currentLocale,
-                        optionsN,
-                      )}
-                      labelPieStyle={{
-                        borderRightWidth: 2.7,
-                        borderColor: '#a2aaa4',
-                      }}
-                      resultPieStyle={{
-                        borderLeftWidth: 2.3,
-                        borderColor: '#569e69',
-                      }}
-                    />
-                  </View>
-                )}
-
-                {Number(number(this.props.creditPrincipal)) !== 0 && (
-                  <CardSection>
-                    <View style={pieContainer}>
-                      <View
-                        style={{
-                          flex: 1.9,
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Text style={{ fontFamily: 'Ubuntu' }}>
-                          {/* итого к оплате */}
-                          {strings('credit.result.vsego')}
+                    >
+                      <Text style={{ fontFamily: 'Ubuntu' }}>
+                        {/* итого к оплате */}
+                        {t('credit.result.vsego')}
+                      </Text>
+                    </View>
+                    <View style={pie}>
+                      <Pie
+                        radius={65}
+                        innerRadius={59}
+                        sections={[
+                          {
+                            percentage:
+                              (Number(number(this.props.creditPrincipal)) *
+                                100) /
+                              vsego,
+                            color: '#ddd',
+                          },
+                          {
+                            percentage: (interestPayments * 100) / vsego,
+                            color: '#a2aaa4',
+                          },
+                          {
+                            percentage: (comPayments * 100) / vsego,
+                            color: '#569e69',
+                          },
+                        ]}
+                        backgroundColor="#ddd"
+                      />
+                      <View style={gauge}>
+                        <Text style={gaugeText}>
+                          {vsego.toLocaleString(locale, optionsN)}
                         </Text>
                       </View>
-                      <View style={pie}>
-                        <Pie
-                          radius={65}
-                          innerRadius={59}
-                          sections={[
-                            {
-                              percentage:
-                                (Number(number(this.props.creditPrincipal)) *
-                                  100) /
-                                vsego,
-                              color: '#ddd',
-                            },
-                            {
-                              percentage: (interestPayments * 100) / vsego,
-                              color: '#a2aaa4',
-                            },
-                            {
-                              percentage: (comPayments * 100) / vsego,
-                              color: '#569e69',
-                            },
-                          ]}
-                          backgroundColor="#ddd"
-                        />
-                        <View style={gauge}>
-                          <Text style={gaugeText}>
-                            {vsego.toLocaleString(currentLocale, optionsN)}
-                          </Text>
-                        </View>
-                      </View>
                     </View>
-                  </CardSection>
-                )}
-              </Card>
-            )}
+                  </View>
+                </CardSection>
+              )}
+            </Card>
+          )}
 
-          {Number(this.props.creditSrok) > 0 &&
-            Number(number(this.props.creditPrincipal)) !== 0 &&
-            this.props.creditPlatez !== 1 && (
-              <ScrollView
-                horizontal
-                onScroll={this.handleScroll}
-                scrollEventThrottle={16}
-                ref={this.scrollView}
-              >
-                <Card>
-                  <TouchableOpacity onPress={this.scrollToIndex}>
-                    {/* <Header headerText="Выписка со счёта" /> */}
-                    <Header
-                      headerText={
-                        // eslint-disable-next-line no-nested-ternary
-                        Dimensions.get('window').width <
-                        Dimensions.get('window').height
-                          ? this.state.detailsHeaderMargin === 0
-                            ? `${strings('credit.table.header')} >>`
-                            : `<< ${strings('credit.table.header')}`
-                          : strings('credit.table.header')
-                      }
-                      innerStyle={{
-                        width: Dimensions.get('window').width - 10,
-                        marginLeft: this.state.detailsHeaderMargin,
-                      }}
-                    />
-                  </TouchableOpacity>
-                  <CreditTable
-                    currency={radio[this.props.radio].label}
-                    value={table}
-                    language={this.props.language}
-                    width={this.state.width}
+        {Number(this.props.creditSrok) > 0 &&
+          Number(number(this.props.creditPrincipal)) !== 0 &&
+          this.props.creditPlatez !== 1 && (
+            <ScrollView
+              horizontal
+              onScroll={this.handleScroll}
+              scrollEventThrottle={16}
+              ref={this.scrollView}
+            >
+              <Card>
+                <TouchableOpacity onPress={this.scrollToIndex}>
+                  {/* <Header headerText="Выписка со счёта" /> */}
+                  <Header
+                    headerText={
+                      // eslint-disable-next-line no-nested-ternary
+                      Dimensions.get('window').width <
+                      Dimensions.get('window').height
+                        ? this.state.detailsHeaderMargin === 0
+                          ? `${t('credit.table.header')} >>`
+                          : `<< ${t('credit.table.header')}`
+                        : t('credit.table.header')
+                    }
+                    innerStyle={{
+                      width: Dimensions.get('window').width - 10,
+                      marginLeft: this.state.detailsHeaderMargin,
+                    }}
                   />
-                </Card>
-              </ScrollView>
-            )}
-        </ScrollView>
-        {/* ) : (
-          <View style={{
-            flex: 1,
-            justifyContent: 'center',
-          }}
-          >
-            <ActivityIndicator size="large" color={textColor} />
-          </View>
-        )} */}
-      </Fragment>
+                </TouchableOpacity>
+                <CreditTable
+                  currency={radio[this.props.radio].label}
+                  value={table}
+                  language={this.props.language}
+                  width={this.state.width}
+                />
+              </Card>
+            </ScrollView>
+          )}
+      </ScrollView>
     );
   }
 }
@@ -827,8 +759,8 @@ const styles = {
     textAlign: 'center',
   },
   topImage: {
-    width: 193,
-    height: 110,
+    width: 270,
+    height: 170,
     alignSelf: 'center',
   },
   radioStyle: {

@@ -2,4 +2,5 @@
 <resources>
     <color name="banoka_dark">#525050</color>
     <color name="banoka_light">#e4dcdc</color>
+    <color name="banoka_white">#ffffff</color>
 </resources>

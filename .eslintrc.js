@@ -8,6 +8,13 @@ module.exports = {
   globals: {
     fetch: false,
   },
+  settings: {
+    'import/resolver': {
+      'node': {
+        extensions: ['.js', '.jsx', '.json', '.native.js']
+      }
+    },
+  },
   rules: {
     'no-use-before-define': 'off',
     'no-plusplus': 'off',
@@ -34,6 +41,7 @@ module.exports = {
     ],
     'flowtype/require-valid-file-annotation': 0,
     'flowtype/no-types-missing-file-annotation': 0,
+    'react/static-property-placement': 0
     
     // 'arrow-parens': ['error', 'as-needed'],
   },

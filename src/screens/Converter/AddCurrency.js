@@ -1,11 +1,10 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { FlatList, Text, TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
-import { strings } from '../../../locales/i18n';
 import { presetChanged } from '../../actions';
 
 type Props = {
@@ -22,68 +21,20 @@ type State = {
 };
 
 const styles = {
-  headerText: {
-    fontFamily: 'Ubuntu',
-    color: '#ffffff',
-    fontSize: 18,
-  },
   rightButton: {
-    marginRight: 15,
-  },
-  leftButton: {
-    marginLeft: 15,
+    marginRight: 20,
   },
   actionButtonIcon: {
     fontSize: 25,
-    height: 22,
     color: 'white',
   },
 };
 
 class AddCurrency extends Component<Props, State> {
-  static navigationOptions = ({ navigation }: { navigation: Object }) => ({
-    drawerLockMode: 'locked-closed',
-    headerTitle: (
-      <Text style={styles.headerText}>{strings('converter.addCurrency')}</Text>
-    ),
-    headerStyle: {
-      // backgroundColor: '#f4511e',
-      backgroundColor: '#525050',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerLeft: (
-      <TouchableOpacity
-        style={styles.leftButton}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
-        <Icon name="md-close" style={styles.actionButtonIcon} />
-      </TouchableOpacity>
-    ),
-    // headerBackImage: <Icon name="md-close" style={styles.actionButtonIcon} />,
-    headerRight: (
-      <TouchableOpacity
-        style={styles.rightButton}
-        onPress={navigation.getParam('handleSave')}
-      >
-        <Icon
-          type="MaterialIcons"
-          name="done"
-          style={styles.actionButtonIcon}
-        />
-        {/* md-checkmark */}
-      </TouchableOpacity>
-    ),
-  });
-
   state = { additionalCurrencies: [], checked: [] };
 
   componentDidMount() {
-    const { preset, currencies } = this.props;
+    const { preset, currencies, navigation } = this.props;
     const filter = currencies.filter(
       currency => !preset.includes(currency.charCode),
     );
@@ -91,7 +42,17 @@ class AddCurrency extends Component<Props, State> {
       additionalCurrencies: [...filter],
       checked: filter.map(() => null),
     });
-    this.props.navigation.setParams({ handleSave: this.saveDetails });
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity style={styles.rightButton} onPress={this.saveDetails}>
+          <Icon
+            type="MaterialIcons"
+            name="done"
+            style={styles.actionButtonIcon}
+          />
+        </TouchableOpacity>
+      ),
+    });
   }
 
   handleClick = (charCode: string, index: number) => {

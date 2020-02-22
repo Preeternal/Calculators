@@ -1,14 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
 // @flow
-import {
-  createDrawerNavigator,
-  createStackNavigator,
-  createAppContainer,
-  getActiveChildNavigationOptions,
-} from 'react-navigation';
 import React, { Component } from 'react';
+import { StatusBar, Platform } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { enableScreens } from 'react-native-screens';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
+import { Icon } from 'native-base';
 import 'number-to-locale-string';
 
 import Depo from './Depo';
@@ -17,143 +19,429 @@ import Converter from './Converter';
 import AddCurrency from './Converter/AddCurrency';
 import EditPreset from './Converter/EditPreset';
 import Settings from './Settings';
+import Investments from './Settings/Investments';
 import Help from './Help';
-import DrawerScreen from './Common/DrawerScreen';
-import { languageChanged } from '../actions';
+import { DrawerButton, DrawerScreen } from './Common';
+import {
+  languageChanged,
+  countryChanged,
+  countryIpTriggered,
+} from '../actions';
 import storeCurrencies from '../lib/storeCurrencies';
+import { store } from '../store';
+import config from '../../config';
+import { LocalizationContext } from '../Context';
+import { currentLocale } from '../../locales/i18n';
 
-const ConverterStack = createStackNavigator(
-  {
-    Converter,
-    AddCurrency,
-    EditPreset,
+enableScreens();
+const styles = {
+  headerStyle: {
+    backgroundColor: '#525050',
   },
-  {
-    mode: 'modal',
-    // headerMode: 'none',
-    headerMode: 'float',
+  headerTitleStyle: {
+    fontFamily: 'Ubuntu',
+    color: '#ffffff',
+    fontSize: 18,
+    textAlignVertical: 'center',
   },
-);
-
-const Navigator = createDrawerNavigator(
-  {
-    Depo,
-    Credit,
-    ConverterStack: {
-      screen: ConverterStack,
-      // navigationOptions: {
-      //   title: strings('converter.header'), // drawer label initialization
-      //   drawerLabel: navigation.state.params && navigation.state.params.DLabel,
-      //   drawerIcon: ({ tintColor }) => (
-      //     <Icon type="FontAwesome" name="retweet" style={{ fontSize: 22, color: tintColor }} />
-      //   ),
-      // },
-      navigationOptions: ({ navigation, screenProps }) => ({
-        // you can put fallback values before here, eg: a default tabBarLabel
-        ...getActiveChildNavigationOptions(navigation, screenProps),
-        // put other navigationOptions that you don't want the active child to
-        // be able to override here!
-      }),
-    },
-    // Converter,
-    Settings,
-    Help,
+  headerTintColor: '#fff',
+  headerLeftContainerStyle: {
+    marginLeft: 20,
   },
-  {
-    initialRouteName: 'Depo',
-    // initialRouteName: 'ConverterStack',
-    contentComponent: DrawerScreen,
-    drawerWidth: 300,
-    overlayColor: 'rgba(52, 52, 52, 0.5)',
-    // drawerBackgroundColor: 'transparent',
-    // unmountInactiveRoutes: true,
-    contentOptions: {
-      activeTintColor: '#000000',
-      inactiveTintColor: '#525050',
-      labelStyle: {
-        fontFamily: 'Ubuntu',
-        fontWeight: '700',
-        // fontStyle: 'italic'
-      },
-    },
+  headerRightContainerStyle: {
+    marginRight: 20,
   },
-);
+};
+const Stack = createStackNavigator();
 
-// const DepoStack = createStackNavigator(
-//   {
-//     Depo,
-//     // Email: { screen: EmailScreen },
-//   },
-//   {
-//     navigationOptions: {
-//       drawerLabel: strings('header'),
-//       drawerIcon: ({ tintColor }) => (
-//         <Icon type="Entypo" name="wallet" style={{ fontSize: 24, color: tintColor }} />
-//       ),
-//     },
-//   },
-// );
+const selectOrientation = state => state.settings.isLandscape;
+const isLandscape = selectOrientation(store.getState());
 
-// const CreditStack = createStackNavigator(
-//   {
-//     Credit,
-//     // Email: { screen: EmailScreen },
-//   },
-//   {
-//     navigationOptions: {
-//       drawerLabel: strings('headerCredit'),
-//       drawerIcon: ({ tintColor }) => (
-//     import 'number-to-locale-string';ad" style={{ fontSize: 24, color: tintColor }} />
-//     import 'number-to-locale-string';
-//     import 'number-to-locale-string';
-//   },import 'number-to-locale-string';
-// );
+const DepoStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t, locale } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        key={locale + isLandscape}
+        name="Depo"
+        component={Depo}
+        options={() => ({
+          title: t('titleDeposit'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
 
-// const SettingsStack = createStackNavigator(
-//   {
-//     Settings,
-//     // Email: { screen: EmailScreen },
-//   },
-//   {
-//     navigationOptions: {
-//       // headerTitle: strings('settings.settings'),
-//       title: strings('settings.settings'),
-//       drawerLabel: strings('settings.settings'), // Settings
-//       drawerIcon: ({ tintColor }) => (
-//         <Icon name="md-settings" style={{ fontSize: 24, color: tintColor }} />
-//       ),
-//     },
-//   },
-// );
+const CreditStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t, locale } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        key={locale + isLandscape}
+        name="Credit"
+        component={Credit}
+        options={() => ({
+          title: t('titleCredit'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
 
-// const Navigator = createDrawerNavigator(
-//   {
-//     DepoStack,
-//     CreditStack,
-//     SettingsStack,
-//   },
-//   {
-//     // initialRouteName: 'Depo',
-//     contentComponent: DrawerScreen,
-//     drawerWidth: 300,
-//     contentOptions: {
-//       activeTintColor: '#000000',
-//       inactiveTintColor: '#525050',
-//     },
-//   },
-// );
+const ConverterStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+    headerRightContainerStyle,
+  } = styles;
+  const { t, locale } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator initialRouteName="Converter">
+      <Stack.Screen
+        key={locale + isLandscape}
+        name="Converter"
+        component={Converter}
+        options={{
+          title: t('converter.title'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerRightContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+          headerRight: () => (
+            <DrawerButton
+              name="md-create"
+              onPress={() => navigation.navigate('EditPreset')}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="AddCurrency"
+        component={AddCurrency}
+        options={options => ({
+          title: t('converter.addCurrency'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => (
+            <DrawerButton name="md-close" onPress={options.navigation.goBack} />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="EditPreset"
+        component={EditPreset}
+        options={{
+          title: t('converter.changeCurr'),
+          headerBackTitle: null,
+          headerBackTitleVisible: false,
+          headerTruncatedBackTitle: null,
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerStatusBarHeight: 23,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
-const AppContainer = createAppContainer<any, any>(Navigator);
+const SettingsStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+    headerRightContainerStyle,
+  } = styles;
+  const { t, locale } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        key={locale + isLandscape}
+        name="Settings"
+        component={Settings}
+        options={() => ({
+          title: t('settings.settings'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerRightContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+          headerRight: () =>
+            Platform.OS === 'android' && (
+              <DrawerButton
+                type="MaterialIcons"
+                name="payment"
+                onPress={() => navigation.navigate('Investments')}
+              />
+            ),
+        })}
+      />
+      <Stack.Screen
+        name="Investments"
+        component={Investments}
+        options={() => ({
+          title: t('settings.donat.investments'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          // headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          // headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const HelpStack = ({ navigation }) => {
+  const {
+    headerStyle,
+    headerTitleStyle,
+    headerTintColor,
+    headerLeftContainerStyle,
+  } = styles;
+  const { t, locale } = React.useContext(LocalizationContext);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        key={locale + isLandscape}
+        name="Help"
+        component={Help}
+        options={() => ({
+          title: t('help.header'),
+          headerStyle,
+          headerTitleStyle,
+          headerTintColor,
+          headerLeftContainerStyle,
+          headerStatusBarHeight: 23,
+          headerLeft: () => <DrawerButton onPress={navigation.openDrawer} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const Drawer = createDrawerNavigator();
+
+const iconStyle = (focused, color, size) => ({
+  textAlign: 'center',
+  width: 30,
+  fontSize: size,
+  color: focused ? color : '#757171',
+});
+
+const Navigator = () => {
+  const { t } = React.useContext(LocalizationContext);
+  return (
+    <>
+      <StatusBar animated translucent backgroundColor="rgba(0, 0, 0, 0)" />
+      <Drawer.Navigator
+        initialRouteName="ConverterStack"
+        drawerContent={props => <DrawerScreen {...props} />}
+        drawerContentOptions={{
+          activeTintColor: '#000000',
+          inactiveTintColor: '#525050',
+          labelStyle: {
+            fontFamily: 'Ubuntu',
+            fontWeight: '700',
+          },
+          itemStyle: {
+            // alignSelf: 'flex-end', justifyContent: 'flex-end'
+            // flex: 1,
+          },
+        }}
+        drawerStyle={{
+          // backgroundColor: '#c6cbef',
+          width: 280,
+        }}
+      >
+        <Drawer.Screen
+          name="ConverterStack"
+          component={ConverterStack}
+          options={() => ({
+            title: t('converter.header'),
+            drawerLabel: t('converter.header'),
+            drawerIcon: ({ focused, color, size }) => (
+              <Icon
+                type="FontAwesome"
+                name="retweet"
+                style={iconStyle(focused, color, size - 2)}
+              />
+            ),
+          })}
+        />
+        <Drawer.Screen
+          name="DepoStack"
+          component={DepoStack}
+          options={({ route }) => ({
+            title: t('headerDeposit'),
+            drawerLabel: route.params && route.params.DLabel,
+            // drawerLabel: t('headerDeposit'),
+            drawerIcon: ({ focused, color, size }) => (
+              <Icon
+                type="Entypo"
+                name="wallet"
+                style={iconStyle(focused, color, size)}
+              />
+            ),
+          })}
+        />
+        <Drawer.Screen
+          name="CreditStack"
+          component={CreditStack}
+          options={() => ({
+            title: t('headerCredit'),
+            drawerLabel: t('headerCredit'),
+            drawerIcon: ({ focused, color, size }) => (
+              <Icon
+                name="md-download"
+                style={iconStyle(focused, color, size)}
+              />
+            ),
+          })}
+        />
+        <Drawer.Screen
+          name="SettingsStack"
+          component={SettingsStack}
+          options={({ route }) => ({
+            title: t('settings.settings'),
+            // drawerLabel: t('settings.settings'),
+            drawerLabel: route.params && route.params.DLabel,
+            drawerIcon: ({ focused, color, size }) => (
+              <Icon
+                name="md-settings"
+                style={iconStyle(focused, color, size - 2)}
+              />
+            ),
+          })}
+        />
+        <Drawer.Screen
+          name="HelpStack"
+          component={HelpStack}
+          options={() => ({
+            title: t('help.header'),
+            drawerLabel: t('help.header'),
+            drawerIcon: ({ focused, color, size }) => (
+              <Icon
+                name="md-help-circle"
+                style={iconStyle(focused, color, size - 2)}
+              />
+            ),
+          })}
+        />
+      </Drawer.Navigator>
+    </>
+  );
+};
+
+const AppContainer = () => {
+  const selectLanguage = state => state.settings.language;
+  const language = selectLanguage(store.getState());
+  const reduxLocale = language === 0 ? 'ru' : 'en';
+  i18n.locale = reduxLocale;
+  const [locale, setLocale] = React.useState(reduxLocale);
+  const localizationContext = React.useMemo(
+    () => ({
+      t: (scope, options) => i18n.t(scope, { locale, ...options }),
+      locale,
+      setLocale,
+    }),
+    [locale],
+  );
+  return (
+    <SafeAreaProvider>
+      <StatusBar barStyle="light-content" backgroundColor="#525050" />
+      <LocalizationContext.Provider value={localizationContext}>
+        <NavigationContainer>
+          <Navigator />
+        </NavigationContainer>
+      </LocalizationContext.Provider>
+    </SafeAreaProvider>
+  );
+};
 
 type Props = {
   language: string,
+  countryIP: boolean,
   languageChanged: Function,
+  countryChanged: Function,
+  countryIpTriggered: Function,
 };
 
-class App extends Component<Props> {
+type State = {
+  userCountryCode?: string,
+};
+
+class App extends Component<Props, State> {
+  state = {
+    userCountryCode: currentLocale.substring(3),
+  };
+
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
     storeCurrencies();
+    if (!this.props.countryIP) {
+      fetch(config.ipUrl)
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState({
+            userCountryCode: responseJson.country_code,
+          });
+          switch (this.state.userCountryCode) {
+            case 'RU':
+              this.onCountryChange(0);
+              break;
+            case 'UA':
+              this.onCountryChange(2);
+              break;
+            default:
+              this.onCountryChange(1);
+          }
+          this.onCountryIpTrigger(true);
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.warn(
+            `There has been a problem with your fetch operation: ${error.message}`,
+          );
+        });
+    }
   }
 
   componentWillUnmount() {
@@ -174,25 +462,28 @@ class App extends Component<Props> {
     return 1;
   };
 
-  // getLocalInput = input => {
-  //   const minimumFractionDigits =
-  //     Math.ceil(Number(input)) !== Number(input) ? 2 : 0;
-  //   return Number(number(`${input}`)).toLocaleString('ru-RU', {
-  //     minimumFractionDigits,
-  //     maximumFractionDigits: minimumFractionDigits,
-  //   });
-  // };
+  onCountryChange = (value: number) => {
+    this.props.countryChanged(value);
+  };
+
+  onCountryIpTrigger = (bool: boolean) => {
+    this.props.countryIpTriggered(bool);
+  };
 
   render() {
-    // console.log(new Date().getTimezoneOffset());
     return <AppContainer />;
   }
 }
 
 const mapStateToProps = state => ({
   language: state.settings.language,
+  countryIP: state.settings.countryIP,
 });
-const mapDispatchToActions = { languageChanged };
+const mapDispatchToActions = {
+  languageChanged,
+  countryChanged,
+  countryIpTriggered,
+};
 
 export default connect<any, any, any, any, any, any>(
   mapStateToProps,
