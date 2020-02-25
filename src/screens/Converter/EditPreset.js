@@ -50,12 +50,12 @@ class EditPreset extends Component<Props> {
 
   renderItem = ({
     item,
-    move,
+    drag,
     moveEnd,
     isActive,
   }: {
     item: string,
-    move: Function,
+    drag: Function,
     moveEnd: Function,
     isActive: boolean,
   }) => (
@@ -63,8 +63,8 @@ class EditPreset extends Component<Props> {
       char={item}
       onDelete={() => this.onDelete(item)}
       deleteListItem={() => this.deleteListItem(item)}
-      onMove={move}
-      // onLongPress={move}
+      onMove={drag}
+      // onLongPress={drag}
       onPressOut={moveEnd}
       isActive={isActive}
     />
@@ -79,8 +79,9 @@ class EditPreset extends Component<Props> {
         renderItem={this.renderItem}
         keyExtractor={item => item}
         horizontal={false}
-        scrollPercent={5}
-        onMoveEnd={this.onMoveEnd}
+        autoscrollThreshold={100}
+        onDragEnd={this.onMoveEnd}
+        activationDistance={10}
       />
     );
   }

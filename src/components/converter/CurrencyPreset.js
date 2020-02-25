@@ -36,6 +36,7 @@ const CurrencyPreset = (props: Props) => {
       leftOpenValue={width}
       stopLeftSwipe={width}
       onRowOpen={props.deleteListItem}
+      tension={20}
       disableLeftSwipe
     >
       <View style={absoluteCell}>
