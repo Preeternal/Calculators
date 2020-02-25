@@ -125,8 +125,9 @@ const storeCurrencies = () => {
           return curr;
         },
       );
+      const cdt = DateTime.local();
       const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
-      if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
+      if (cdt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
         getFrontendRequest();
       } else {
         store.dispatch(
