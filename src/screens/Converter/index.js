@@ -195,7 +195,7 @@ class Converter extends Component<Props, State> {
   static contextType = LocalizationContext;
 
   render() {
-    const { t, locale } = this.context;
+    const { t } = this.context;
     return (
       <Fragment>
         {this.props.currencies.length ? (

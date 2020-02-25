@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
 import { Icon } from 'native-base';
+import cron from 'node-cron';
+import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 
 import Depo from './Depo';
@@ -399,6 +401,7 @@ const AppContainer = () => {
 type Props = {
   language: string,
   countryIP: boolean,
+  currencies: Array<Object>,
   languageChanged: Function,
   countryChanged: Function,
   countryIpTriggered: Function,
@@ -416,6 +419,10 @@ class App extends Component<Props, State> {
   componentDidMount() {
     RNLanguages.addEventListener('change', this.handleLanguageChange);
     storeCurrencies();
+    // cron.schedule('5,15,25,35,45,55 * * * *', () => {
+    cron.schedule('0-59 * * * *', () => {
+      this.updateCurrenciesIfOutdated();
+    });
     if (!this.props.countryIP) {
       fetch(config.ipUrl)
         .then(response => response.json())
@@ -470,6 +477,14 @@ class App extends Component<Props, State> {
     this.props.countryIpTriggered(bool);
   };
 
+  updateCurrenciesIfOutdated = () => {
+    const cdt = DateTime.local();
+    const dt = DateTime.fromISO(this.props.currencies[1].updatedAt);
+    if (cdt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
+      storeCurrencies();
+    }
+  };
+
   render() {
     return <AppContainer />;
   }
@@ -478,6 +493,7 @@ class App extends Component<Props, State> {
 const mapStateToProps = state => ({
   language: state.settings.language,
   countryIP: state.settings.countryIP,
+  currencies: state.converter.currencies,
 });
 const mapDispatchToActions = {
   languageChanged,
