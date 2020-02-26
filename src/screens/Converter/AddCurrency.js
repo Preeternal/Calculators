@@ -2,6 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
@@ -38,6 +39,8 @@ class AddCurrency extends Component<Props, State> {
     const filter = currencies.filter(
       currency => !preset.includes(currency.charCode),
     );
+    filter.sort((a, b) => a.charCode.localeCompare(b.charCode));
+    console.log(filter);
     this.setState({
       additionalCurrencies: [...filter],
       checked: filter.map(() => null),
@@ -77,7 +80,7 @@ class AddCurrency extends Component<Props, State> {
   render() {
     return (
       <Fragment>
-        <FlatList
+        {/* <FlatList
           data={[...this.state.additionalCurrencies]}
           extraData={this.state}
           renderItem={({ item, index }) => (
@@ -89,6 +92,23 @@ class AddCurrency extends Component<Props, State> {
             />
           )}
           keyExtractor={item => item.charCode}
+        /> */}
+        <AlphaScrollFlatList
+          // keyExtractor={this.keyExtractor.bind(this)}
+          data={[...this.state.additionalCurrencies]}
+          extraData={this.state}
+          renderItem={({ item, index }) => (
+            <CurrencyAdditional
+              name={this.props.language === 0 ? item.name : item.nameEng}
+              char={item.charCode}
+              checked={!!this.state.checked[index]}
+              handleClick={() => this.handleClick(item.charCode, index)}
+            />
+          )}
+          scrollKey="charCode"
+          activeColor="rgba(231,76,60,1)"
+          scrollBarContainerStyle={{ backgroundColor: 'white' }}
+          itemHeight={52}
         />
       </Fragment>
     );
