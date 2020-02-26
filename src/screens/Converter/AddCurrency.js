@@ -3,7 +3,15 @@ import React, { Component, Fragment } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import AlphaScrollFlatList from 'alpha-scroll-flat-list';
-import { Icon } from 'native-base';
+import {
+  Container,
+  Header,
+  Item,
+  Input,
+  Icon,
+  Button,
+  Text,
+} from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
 import { presetChanged } from '../../actions';
@@ -18,6 +26,7 @@ type Props = {
 
 type State = {
   additionalCurrencies: Array<Object>,
+  searchedData: Array<Object>,
   checked: Array<string | null>,
 };
 
@@ -32,7 +41,7 @@ const styles = {
 };
 
 class AddCurrency extends Component<Props, State> {
-  state = { additionalCurrencies: [], checked: [] };
+  state = { additionalCurrencies: [], searchedData: [], checked: [] };
 
   componentDidMount() {
     const { preset, currencies, navigation } = this.props;
@@ -40,7 +49,7 @@ class AddCurrency extends Component<Props, State> {
       currency => !preset.includes(currency.charCode),
     );
     filter.sort((a, b) => a.charCode.localeCompare(b.charCode));
-    console.log(filter);
+    // console.log(filter);
     this.setState({
       additionalCurrencies: [...filter],
       checked: filter.map(() => null),
@@ -77,10 +86,49 @@ class AddCurrency extends Component<Props, State> {
     this.props.presetChanged(array);
   };
 
+  SearchBar = () => {
+    return (
+      // <Container>
+      <Header searchBar rounded>
+        <Item>
+          <Icon name="ios-search" />
+          <Input
+            placeholder="Search"
+            onChangeText={this.searchFilterFunction}
+          />
+          <Icon name="ios-people" />
+        </Item>
+        <Button transparent>
+          <Text>Search</Text>
+        </Button>
+      </Header>
+      // </Container>
+    );
+  };
+
+  searchFilterFunction = (text: string) => {
+    const { additionalCurrencies } = this.state;
+    if (text !== '') {
+      let newData = [...additionalCurrencies];
+      newData = newData.filter(item => {
+        const itemData = `${item.name.toUpperCase()}   
+      ${item.nameEng.toUpperCase()} ${item.charCode.toUpperCase()}`;
+
+        const textData = text.toUpperCase();
+
+        return itemData.indexOf(textData) > -1;
+      });
+
+      // this.setState({ searchedData: newData });
+      this.setState({ additionalCurrencies: newData });
+      // console.log(this.state.searchedData);
+    }
+  };
+
   render() {
     return (
       <Fragment>
-        {/* <FlatList
+        <FlatList
           data={[...this.state.additionalCurrencies]}
           extraData={this.state}
           renderItem={({ item, index }) => (
@@ -92,9 +140,10 @@ class AddCurrency extends Component<Props, State> {
             />
           )}
           keyExtractor={item => item.charCode}
-        /> */}
-        <AlphaScrollFlatList
-          // keyExtractor={this.keyExtractor.bind(this)}
+          ListHeaderComponent={this.SearchBar}
+        />
+        {/* <AlphaScrollFlatList
+          keyExtractor={item => item.charCode}
           data={[...this.state.additionalCurrencies]}
           extraData={this.state}
           renderItem={({ item, index }) => (
@@ -105,11 +154,14 @@ class AddCurrency extends Component<Props, State> {
               handleClick={() => this.handleClick(item.charCode, index)}
             />
           )}
+          renderHeader={() => {
+            return <SearchBar />;
+          }}
           scrollKey="charCode"
           activeColor="rgba(231,76,60,1)"
           scrollBarContainerStyle={{ backgroundColor: 'white' }}
           itemHeight={52}
-        />
+        /> */}
       </Fragment>
     );
   }

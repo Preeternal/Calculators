@@ -24,7 +24,7 @@
     "@react-navigation/native-stack": "^5.0.5",
     "@react-navigation/stack": "^5.0.9",
     "@types/react": "^16.9.22",
-    "alpha-scroll-flat-list": "^0.2.20",
+    "alpha-scroll-flat-list": "file:./other-dependencies/Alpha-scroll-flat-list",
     "apollo-boost": "^0.4.7",
     "apollo-cache": "^1.3.2",
     "apollo-client": "^2.6.4",

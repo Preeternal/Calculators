@@ -1300,6 +1300,13 @@ alpha-scroll-flat-list@^0.2.20:
     prop-types "^15.5.10"
     react-native-responsive-fontsize "0.1.2"
 
+"alpha-scroll-flat-list@file:./other-dependencies/Alpha-scroll-flat-list":
+  version "0.2.20"
+  dependencies:
+    lodash "^4.17.13"
+    prop-types "^15.5.10"
+    react-native-responsive-fontsize "0.1.2"
+
 ansi-colors@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-1.1.0.tgz#6374b4dd5d4718ff3ce27a671a3b1cad077132a9"
