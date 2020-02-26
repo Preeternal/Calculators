@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import {
@@ -25,12 +25,12 @@ type Props = {
 };
 
 type State = {
-  additionalCurrencies: Array<Object>,
-  searchedData: Array<Object>,
+  fullListCurrencies: Array<Object>,
+  renderedListCurrencies: Array<Object>,
   checked: Array<string | null>,
 };
 
-const styles = {
+const styles = StyleSheet.create({
   rightButton: {
     marginRight: 20,
   },
@@ -38,22 +38,39 @@ const styles = {
     fontSize: 25,
     color: 'white',
   },
-};
+  searchContainer: {
+    // width: 300,
+    // padding: 10,
+    margin: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignSelf: 'center',
+    alignItems: 'center',
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 25,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+  },
+});
 
 class AddCurrency extends Component<Props, State> {
-  state = { additionalCurrencies: [], searchedData: [], checked: [] };
-
-  componentDidMount() {
-    const { preset, currencies, navigation } = this.props;
+  constructor(props: Props) {
+    super(props);
+    const { preset, currencies } = this.props;
     const filter = currencies.filter(
       currency => !preset.includes(currency.charCode),
     );
     filter.sort((a, b) => a.charCode.localeCompare(b.charCode));
-    // console.log(filter);
-    this.setState({
-      additionalCurrencies: [...filter],
-      checked: filter.map(() => null),
-    });
+    this.state = {
+      fullListCurrencies: filter,
+      renderedListCurrencies: filter,
+      checked: [],
+    };
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props;
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity style={styles.rightButton} onPress={this.saveDetails}>
@@ -89,79 +106,79 @@ class AddCurrency extends Component<Props, State> {
   SearchBar = () => {
     return (
       // <Container>
-      <Header searchBar rounded>
-        <Item>
-          <Icon name="ios-search" />
-          <Input
-            placeholder="Search"
-            onChangeText={this.searchFilterFunction}
-          />
-          <Icon name="ios-people" />
-        </Item>
-        <Button transparent>
-          <Text>Search</Text>
-        </Button>
-      </Header>
+      // <Header searchBar rounded>
+
+      <View style={styles.searchContainer}>
+        <Icon name="ios-search" />
+        <Input placeholder="Search" onChangeText={this.searchFilterFunction} />
+        <Icon name="ios-people" />
+      </View>
+      // <Button transparent>
+      //   <Text>Search</Text>
+      // </Button>
+      // </Header>
       // </Container>
     );
   };
 
   searchFilterFunction = (text: string) => {
-    const { additionalCurrencies } = this.state;
-    if (text !== '') {
-      let newData = [...additionalCurrencies];
-      newData = newData.filter(item => {
+    const { fullListCurrencies } = this.state;
+    if (!text || text === '') {
+      this.setState({ renderedListCurrencies: fullListCurrencies });
+    } else {
+      let filteredList = [...fullListCurrencies];
+      filteredList = filteredList.filter(item => {
         const itemData = `${item.name.toUpperCase()}   
       ${item.nameEng.toUpperCase()} ${item.charCode.toUpperCase()}`;
 
         const textData = text.toUpperCase();
-
         return itemData.indexOf(textData) > -1;
       });
-
-      // this.setState({ searchedData: newData });
-      this.setState({ additionalCurrencies: newData });
-      // console.log(this.state.searchedData);
+      this.setState({ renderedListCurrencies: filteredList });
     }
   };
 
   render() {
+    const { renderedListCurrencies } = this.state;
     return (
       <Fragment>
-        <FlatList
-          data={[...this.state.additionalCurrencies]}
-          extraData={this.state}
-          renderItem={({ item, index }) => (
-            <CurrencyAdditional
-              name={this.props.language === 0 ? item.name : item.nameEng}
-              char={item.charCode}
-              checked={!!this.state.checked[index]}
-              handleClick={() => this.handleClick(item.charCode, index)}
-            />
-          )}
-          keyExtractor={item => item.charCode}
-          ListHeaderComponent={this.SearchBar}
-        />
-        {/* <AlphaScrollFlatList
-          keyExtractor={item => item.charCode}
-          data={[...this.state.additionalCurrencies]}
-          extraData={this.state}
-          renderItem={({ item, index }) => (
-            <CurrencyAdditional
-              name={this.props.language === 0 ? item.name : item.nameEng}
-              char={item.charCode}
-              checked={!!this.state.checked[index]}
-              handleClick={() => this.handleClick(item.charCode, index)}
-            />
-          )}
-          renderHeader={() => {
-            return <SearchBar />;
-          }}
-          scrollKey="charCode"
-          activeColor="rgba(231,76,60,1)"
-          scrollBarContainerStyle={{ backgroundColor: 'white' }}
-          itemHeight={52}
-        /> */}
+        {!!renderedListCurrencies.length && (
+          <FlatList
+            data={[...this.state.renderedListCurrencies]}
+            extraData={this.state}
+            renderItem={({ item, index }) => (
+              <CurrencyAdditional
+                name={this.props.language === 0 ? item.name : item.nameEng}
+                char={item.charCode}
+                checked={!!this.state.checked[index]}
+                handleClick={() => this.handleClick(item.charCode, index)}
+              />
+            )}
+            keyExtractor={item => item.charCode}
+            ListHeaderComponent={this.SearchBar}
+          />
+        )
+        // {/* <AlphaScrollFlatList
+        //   keyExtractor={item => item.charCode}
+        //   data={[...this.state.renderedListCurrencies]}
+        //   extraData={this.state}
+        //   renderItem={({ item, index }) => (
+        //     <CurrencyAdditional
+        //       name={this.props.language === 0 ? item.name : item.nameEng}
+        //       char={item.charCode}
+        //       checked={!!this.state.checked[index]}
+        //       handleClick={() => this.handleClick(item.charCode, index)}
+        //     />
+        //   )}
+        //   renderHeader={() => {
+        //     return <SearchBar />;
+        //   }}
+        //   scrollKey="charCode"
+        //   activeColor="rgba(231,76,60,1)"
+        //   scrollBarContainerStyle={{ backgroundColor: 'white' }}
+        //   itemHeight={52}
+        // /> */}
+        }
       </Fragment>
     );
   }
