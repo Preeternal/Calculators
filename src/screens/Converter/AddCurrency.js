@@ -38,7 +38,10 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   searchContainer: {
-    margin: 10,
+    // margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 5,
     paddingLeft: 10,
     paddingRight: 10,
     alignSelf: 'center',
@@ -103,7 +106,7 @@ class AddCurrency extends Component<Props, State> {
   SearchBar = () => {
     const { t } = this.context;
     return (
-      <View style={{ backgroundColor: '#525050' }}>
+      <View style={{ backgroundColor: '#525050', height: 52 }}>
         <View style={styles.searchContainer}>
           <Icon name="ios-search" />
           <TextInput
