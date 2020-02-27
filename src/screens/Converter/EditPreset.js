@@ -81,7 +81,7 @@ class EditPreset extends Component<Props> {
         horizontal={false}
         autoscrollThreshold={100}
         onDragEnd={this.onMoveEnd}
-        activationDistance={10}
+        activationDistance={20}
       />
     );
   }

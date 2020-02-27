@@ -181,7 +181,8 @@
     "delete": "Удаление",
     "remove": "Удалить",
     "fromTheList": "из списка?",
-    "DELETE": "УДАЛЕНИЕ"
+    "DELETE": "УДАЛЕНИЕ",
+    "search": "Поиск"
   },
   "settings": {
     "settings": "Настройки",

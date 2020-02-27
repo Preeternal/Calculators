@@ -181,7 +181,8 @@
     "delete": "Delete",
     "remove": "Remove",
     "fromTheList": "from the list?",
-    "DELETE": "DELETE"
+    "DELETE": "DELETE",
+    "search": "Search"
   },
   "settings": {
     "settings": "Settings",
