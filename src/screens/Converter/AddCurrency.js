@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   searchContainer: {
-    // margin: 10,
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 5,
@@ -84,10 +83,14 @@ class AddCurrency extends Component<Props, State> {
     });
   }
 
-  handleClick = (charCode: string, index: number) => {
+  handleClick = (charCode: string) => {
     this.setState(prevState => {
-      const checked = [...prevState.checked];
-      checked[index] = checked[index] === charCode ? null : charCode;
+      let checked = [...prevState.checked];
+      if (checked.includes(charCode)) {
+        checked = checked.filter(item => item !== charCode);
+      } else {
+        checked.push(charCode);
+      }
       return { checked };
     });
   };
@@ -144,17 +147,18 @@ class AddCurrency extends Component<Props, State> {
   static contextType = LocalizationContext;
 
   render() {
+    const { renderedListCurrencies, checked } = this.state;
     return (
       <Fragment>
         <FlatList
-          data={[...this.state.renderedListCurrencies]}
+          data={[...renderedListCurrencies]}
           extraData={this.state}
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
             <CurrencyAdditional
               name={this.props.language === 0 ? item.name : item.nameEng}
               char={item.charCode}
-              checked={!!this.state.checked[index]}
-              handleClick={() => this.handleClick(item.charCode, index)}
+              checked={checked.includes(item.charCode)}
+              handleClick={() => this.handleClick(item.charCode)}
             />
           )}
           keyExtractor={item => item.charCode}
