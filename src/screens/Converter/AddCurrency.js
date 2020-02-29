@@ -8,10 +8,11 @@ import {
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
-import AlphaScrollFlatList from 'alpha-scroll-flat-list';
+// import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
+import AlphabeticScrollBar from '../../components/converter/AlphabeticScrollBar';
 import { presetChanged } from '../../actions';
 import { LocalizationContext } from '../../Context';
 
@@ -39,8 +40,8 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 5,
+    marginRight: 30,
+    marginTop: 6,
     paddingLeft: 10,
     paddingRight: 10,
     alignSelf: 'center',
@@ -54,6 +55,8 @@ const styles = StyleSheet.create({
 });
 
 class AddCurrency extends Component<Props, State> {
+  alphabet: {| current: null | View |} = React.createRef();
+
   constructor(props: Props) {
     super(props);
     const { preset, currencies } = this.props;
@@ -109,7 +112,12 @@ class AddCurrency extends Component<Props, State> {
   SearchBar = () => {
     const { t } = this.context;
     return (
-      <View style={{ backgroundColor: '#525050', height: 52 }}>
+      <View
+        style={{
+          backgroundColor: '#fff',
+          height: 52,
+        }}
+      >
         <View style={styles.searchContainer}>
           <Icon name="ios-search" />
           <TextInput
@@ -147,7 +155,11 @@ class AddCurrency extends Component<Props, State> {
   static contextType = LocalizationContext;
 
   render() {
-    const { renderedListCurrencies, checked } = this.state;
+    const { renderedListCurrencies, fullListCurrencies, checked } = this.state;
+    const alphabet = [
+      '#',
+      ...new Set(renderedListCurrencies.map(e => e.charCode.slice(0, 1))),
+    ];
     return (
       <Fragment>
         <FlatList
@@ -164,6 +176,13 @@ class AddCurrency extends Component<Props, State> {
           keyExtractor={item => item.charCode}
           ListHeaderComponent={this.SearchBar}
         />
+        {fullListCurrencies.length === renderedListCurrencies.length && (
+          <AlphabeticScrollBar
+            ref={this.alphabet}
+            alphabet={alphabet}
+            scrollBarContainerStyle={{ backgroundColor: 'white' }}
+          />
+        )}
 
         {/* <AlphaScrollFlatList
         //   keyExtractor={item => item.charCode}
