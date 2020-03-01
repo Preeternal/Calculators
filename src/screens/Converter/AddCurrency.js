@@ -18,6 +18,7 @@ import { LocalizationContext } from '../../Context';
 
 type Props = {
   language: number,
+  isLandscape: boolean,
   preset: Array<string>,
   currencies: Array<Object>,
   presetChanged: Function,
@@ -156,6 +157,8 @@ class AddCurrency extends Component<Props, State> {
 
   render() {
     const { renderedListCurrencies, fullListCurrencies, checked } = this.state;
+    const { isLandscape } = this.props;
+    const numberOfRows = isLandscape ? 6 : 12;
     const alphabet = [
       '#',
       ...new Set(renderedListCurrencies.map(e => e.charCode.slice(0, 1))),
@@ -176,13 +179,14 @@ class AddCurrency extends Component<Props, State> {
           keyExtractor={item => item.charCode}
           ListHeaderComponent={this.SearchBar}
         />
-        {fullListCurrencies.length === renderedListCurrencies.length && (
-          <AlphabeticScrollBar
-            ref={this.alphabet}
-            alphabet={alphabet}
-            scrollBarContainerStyle={{ backgroundColor: 'white' }}
-          />
-        )}
+        {fullListCurrencies.length === renderedListCurrencies.length &&
+          renderedListCurrencies.length > numberOfRows && (
+            <AlphabeticScrollBar
+              ref={this.alphabet}
+              alphabet={alphabet}
+              scrollBarContainerStyle={{ backgroundColor: 'white' }}
+            />
+          )}
 
         {/* <AlphaScrollFlatList
         //   keyExtractor={item => item.charCode}
@@ -211,6 +215,7 @@ class AddCurrency extends Component<Props, State> {
 
 const mapStateToProps = state => ({
   language: state.settings.language,
+  isLandscape: state.settings.isLandscape,
   preset: state.converter.preset,
   currencies: state.converter.currencies,
 });

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 // import debounce from 'lodash/debounce';
 // import ResponsiveFontSize from 'react-native-responsive-fontsize';
 
-const ALPHABET = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
 class AlphabeticScrollBar extends Component {
   constructor(props) {
     super(props);
