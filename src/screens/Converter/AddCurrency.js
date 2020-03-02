@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 });
 
 class AddCurrency extends Component<Props, State> {
-  alphabet: {| current: null | View |} = React.createRef();
+  flatlist: {| current: null | FlatList<Object> |} = React.createRef();
 
   constructor(props: Props) {
     super(props);
@@ -153,6 +153,24 @@ class AddCurrency extends Component<Props, State> {
     }
   };
 
+  scrollToIndex = (letter: string) => {
+    const { renderedListCurrencies } = this.state;
+    console.log('pressed', letter);
+    let index = 13;
+    if (letter === '#') {
+      index = 0;
+    } else {
+      index = renderedListCurrencies.findIndex(item => {
+        const itemUpperCase = item.charCode.toUpperCase();
+        if (itemUpperCase.slice(0, 1) === letter) return true;
+        return false;
+      });
+    }
+    if (this.flatlist.current) {
+      this.flatlist.current.scrollToIndex({ animated: true, index });
+    }
+  };
+
   static contextType = LocalizationContext;
 
   render() {
@@ -166,6 +184,7 @@ class AddCurrency extends Component<Props, State> {
     return (
       <Fragment>
         <FlatList
+          ref={this.flatlist}
           data={[...renderedListCurrencies]}
           extraData={this.state}
           renderItem={({ item }) => (
@@ -182,8 +201,8 @@ class AddCurrency extends Component<Props, State> {
         {fullListCurrencies.length === renderedListCurrencies.length &&
           renderedListCurrencies.length > numberOfRows && (
             <AlphabeticScrollBar
-              ref={this.alphabet}
               alphabet={alphabet}
+              scrollToIndex={this.scrollToIndex}
               scrollBarContainerStyle={{ backgroundColor: 'white' }}
             />
           )}
