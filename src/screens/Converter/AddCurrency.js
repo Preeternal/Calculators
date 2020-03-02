@@ -29,6 +29,7 @@ type State = {
   fullListCurrencies: Array<Object>,
   renderedListCurrencies: Array<Object>,
   checked: Array<string | null>,
+  firstLetter: string,
 };
 
 const styles = StyleSheet.create({
@@ -69,6 +70,7 @@ class AddCurrency extends Component<Props, State> {
       fullListCurrencies: filter,
       renderedListCurrencies: filter,
       checked: [],
+      firstLetter: '',
     };
   }
 
@@ -155,20 +157,34 @@ class AddCurrency extends Component<Props, State> {
 
   scrollToIndex = (letter: string) => {
     const { renderedListCurrencies } = this.state;
-    console.log('pressed', letter);
-    let index = 13;
+    let index = 0;
     if (letter === '#') {
       index = 0;
     } else {
       index = renderedListCurrencies.findIndex(item => {
-        const itemUpperCase = item.charCode.toUpperCase();
-        if (itemUpperCase.slice(0, 1) === letter) return true;
+        const upperCase = item.charCode.toUpperCase();
+        if (upperCase.slice(0, 1) === letter) return true;
         return false;
       });
     }
     if (this.flatlist.current) {
       this.flatlist.current.scrollToIndex({ animated: true, index });
     }
+  };
+
+  onViewableItemsChanged = ({
+    viewableItems,
+    changed,
+  }: {
+    viewableItems: Array<Object>,
+    changed: Array<Object>,
+  }) => {
+    console.log('Visible items are', viewableItems);
+    console.log('Changed in this iteration', changed);
+    // this.setState({ firstLetter: viewableItems[0].item.charCode.slice(0, 1) });
+    const array = new Set(viewableItems.map(e => e.item.charCode.slice(0, 1)));
+    console.log(array);
+    // console.log(viewableItems[0].item.charCode.slice(0, 1));
   };
 
   static contextType = LocalizationContext;
@@ -197,6 +213,10 @@ class AddCurrency extends Component<Props, State> {
           )}
           keyExtractor={item => item.charCode}
           ListHeaderComponent={this.SearchBar}
+          onViewableItemsChanged={this.onViewableItemsChanged}
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 90,
+          }}
         />
         {fullListCurrencies.length === renderedListCurrencies.length &&
           renderedListCurrencies.length > numberOfRows && (
