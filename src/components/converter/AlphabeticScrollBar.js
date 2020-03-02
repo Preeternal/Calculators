@@ -13,7 +13,16 @@ const AlphabeticScrollBar = props => {
           onPress={() => props.scrollToIndex(letter)}
         >
           <View key={letter}>
-            <Text style={styles.letter}>{letter}</Text>
+            <Text
+              style={
+                {}
+                // props.viewableLetters.includes(letter)
+                //   ? styles.letter
+                //   : { color: 'gray' }
+              }
+            >
+              {letter}
+            </Text>
           </View>
         </TouchableWithoutFeedback>
       ))}
@@ -33,6 +42,7 @@ const styles = {
     alignItems: 'center',
   },
   letter: {
+    color: 'red',
     // alignSelf: 'center',
     // textAlign: 'center',
     // textAlignVertical: 'center',

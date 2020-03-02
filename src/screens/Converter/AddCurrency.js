@@ -29,7 +29,7 @@ type State = {
   fullListCurrencies: Array<Object>,
   renderedListCurrencies: Array<Object>,
   checked: Array<string | null>,
-  firstLetter: string,
+  viewableLetters: Set<String>,
 };
 
 const styles = StyleSheet.create({
@@ -70,7 +70,7 @@ class AddCurrency extends Component<Props, State> {
       fullListCurrencies: filter,
       renderedListCurrencies: filter,
       checked: [],
-      firstLetter: '',
+      viewableLetters: [],
     };
   }
 
@@ -181,16 +181,22 @@ class AddCurrency extends Component<Props, State> {
   }) => {
     console.log('Visible items are', viewableItems);
     console.log('Changed in this iteration', changed);
-    // this.setState({ firstLetter: viewableItems[0].item.charCode.slice(0, 1) });
-    const array = new Set(viewableItems.map(e => e.item.charCode.slice(0, 1)));
-    console.log(array);
-    // console.log(viewableItems[0].item.charCode.slice(0, 1));
+
+    const viewableLetters = new Set(
+      viewableItems.map(e => e.item.charCode.slice(0, 1)),
+    );
+    this.setState({ viewableLetters });
   };
 
   static contextType = LocalizationContext;
 
   render() {
-    const { renderedListCurrencies, fullListCurrencies, checked } = this.state;
+    const {
+      renderedListCurrencies,
+      fullListCurrencies,
+      checked,
+      viewableLetters,
+    } = this.state;
     const { isLandscape } = this.props;
     const numberOfRows = isLandscape ? 6 : 12;
     const alphabet = [
@@ -222,6 +228,7 @@ class AddCurrency extends Component<Props, State> {
           renderedListCurrencies.length > numberOfRows && (
             <AlphabeticScrollBar
               alphabet={alphabet}
+              viewableLetters={viewableLetters}
               scrollToIndex={this.scrollToIndex}
               scrollBarContainerStyle={{ backgroundColor: 'white' }}
             />
