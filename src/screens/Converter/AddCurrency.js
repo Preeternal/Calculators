@@ -156,19 +156,18 @@ class AddCurrency extends Component<Props, State> {
   };
 
   scrollToIndex = (letter: string) => {
-    const { renderedListCurrencies } = this.state;
-    let index = 0;
     if (letter === '#') {
-      index = 0;
+      if (this.flatlist.current)
+        this.flatlist.current.scrollToOffset({ animated: true, offset: 0 });
     } else {
-      index = renderedListCurrencies.findIndex(item => {
+      const { renderedListCurrencies } = this.state;
+      const index = renderedListCurrencies.findIndex(item => {
         const upperCase = item.charCode.toUpperCase();
         if (upperCase.slice(0, 1) === letter) return true;
         return false;
       });
-    }
-    if (this.flatlist.current) {
-      this.flatlist.current.scrollToIndex({ animated: true, index });
+      if (this.flatlist.current)
+        this.flatlist.current.scrollToIndex({ animated: true, index });
     }
   };
 

@@ -7,8 +7,9 @@ const AlphabeticScrollBar = props => {
       {props.alphabet.map(letter => (
         <TouchableWithoutFeedback
           key={letter}
+          acceptsKeyboardFocus
           onFocus={() => props.scrollToIndex(letter)}
-          // onPress={() => props.scrollToIndex(letter)}
+          onPressIn={() => props.scrollToIndex(letter)}
         >
           <View key={letter}>
             <Text
