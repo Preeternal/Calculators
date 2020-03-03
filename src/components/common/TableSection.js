@@ -1,7 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 
-const TableSection = props => <View style={styles.containerStyle}>{props.children}</View>;
+const TableSection = props => (
+  <View style={styles.containerStyle}>{props.children}</View>
+);
 
 const styles = {
   containerStyle: {

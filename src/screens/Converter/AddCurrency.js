@@ -29,7 +29,7 @@ type State = {
   fullListCurrencies: Array<Object>,
   renderedListCurrencies: Array<Object>,
   checked: Array<string | null>,
-  viewableLetters: Set<String>,
+  viewableLetters: Array<Object>,
 };
 
 const styles = StyleSheet.create({
@@ -174,18 +174,15 @@ class AddCurrency extends Component<Props, State> {
 
   onViewableItemsChanged = ({
     viewableItems,
-    changed,
-  }: {
+  }: // changed,
+  {
     viewableItems: Array<Object>,
-    changed: Array<Object>,
+    // changed: Array<Object>,
   }) => {
-    console.log('Visible items are', viewableItems);
-    console.log('Changed in this iteration', changed);
-
     const viewableLetters = new Set(
       viewableItems.map(e => e.item.charCode.slice(0, 1)),
     );
-    this.setState({ viewableLetters });
+    this.setState({ viewableLetters: [...viewableLetters] });
   };
 
   static contextType = LocalizationContext;

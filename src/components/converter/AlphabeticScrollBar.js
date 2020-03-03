@@ -3,23 +3,20 @@ import { View, Text, TouchableWithoutFeedback } from 'react-native';
 
 const AlphabeticScrollBar = props => {
   return (
-    <View
-      // onLayout={this.handleOnLayout}
-      style={[styles.container, props.scrollBarContainerStyle]}
-    >
+    <View style={[styles.container, props.scrollBarContainerStyle]}>
       {props.alphabet.map(letter => (
         <TouchableWithoutFeedback
           key={letter}
-          onPress={() => props.scrollToIndex(letter)}
+          onFocus={() => props.scrollToIndex(letter)}
+          // onPress={() => props.scrollToIndex(letter)}
         >
           <View key={letter}>
             <Text
-              style={
-                {}
-                // props.viewableLetters.includes(letter)
-                //   ? styles.letter
-                //   : { color: 'gray' }
-              }
+              style={{
+                color: props.viewableLetters.includes(letter)
+                  ? 'rgba(231, 76, 60, 1)'
+                  : 'gray',
+              }}
             >
               {letter}
             </Text>
@@ -40,13 +37,6 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  letter: {
-    color: 'red',
-    // alignSelf: 'center',
-    // textAlign: 'center',
-    // textAlignVertical: 'center',
-    // fontWeight: 'bold',
   },
 };
 
