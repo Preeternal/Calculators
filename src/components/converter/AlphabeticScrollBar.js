@@ -9,6 +9,7 @@ const AlphabeticScrollBar = props => {
         `target_x: ${ev.nativeEvent.locationX}, target_y: ${ev.nativeEvent.locationY} ` +
         `target: ${ev.nativeEvent.target}`,
     );
+    console.log(ev.nativeEvent);
   };
   return (
     <View
@@ -29,7 +30,16 @@ const AlphabeticScrollBar = props => {
         //   onFocus={() => props.scrollToIndex(letter)}
         //   onPressIn={() => props.scrollToIndex(letter)}
         // >
-        <View onFocus={() => props.scrollToIndex(letter)} key={letter}>
+        <View
+          key={letter}
+          onLayout={event => {
+            const { layout } = event.nativeEvent;
+            // console.log('height:', layout.height);
+            // console.log('width:', layout.width);
+            // console.log('x:', layout.x);
+            console.log('y:', layout.y);
+          }}
+        >
           <Text
             style={{
               color: props.viewableLetters.includes(letter)
