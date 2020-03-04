@@ -1,7 +1,34 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Dimensions,
+  PanResponder,
+} from 'react-native';
+import { useHeaderHeight } from '@react-navigation/stack';
+
+// ...
 
 const AlphabeticScrollBar = props => {
+  const view = React.createRef();
+  const panResponder = React.useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: (evt, gestureState) => true,
+        onPanResponderGrant: (evt, gestureState) =>
+          onTouchEvent3(evt, gestureState),
+        onPanResponderMove: (evt, gestureState) =>
+          onTouchEvent3(evt, gestureState),
+      }),
+    [],
+  );
+  const headerHeight = useHeaderHeight();
+  let rowHeight;
+  const containerHeight = Dimensions.get('screen').height;
+  console.log('containerHeight', containerHeight);
+
+  console.log('headerHeight', headerHeight);
   const onTouchEvent = (name, ev) => {
     // console.log(
     //   `[${name}] ` +
@@ -21,15 +48,50 @@ const AlphabeticScrollBar = props => {
     //     `target: ${ev.nativeEvent.target}`,
     // );
     // console.log(ev.nativeEvent);
-    console.log(`Y: ${ev.nativeEvent.pageY} `);
+    console.log(`pageY: ${ev.nativeEvent.pageY} `);
+    console.log(`locationY: ${ev.nativeEvent.locationY}`);
   };
+
+  const onTouchEvent3 = (evt, gestureState) => {
+    // console.log('evt', evt.nativeEvent);
+    console.log('gestureState', gestureState);
+  };
+
+  const handleOnLayout = () => {
+    view.current.measure((width, x1, y1, height, px, py) => {
+      console.log(
+        'width',
+        width,
+        'x1',
+        x1,
+        'y1',
+        y1,
+        'height',
+        height,
+        'px',
+        px,
+        'py',
+        py,
+      );
+    });
+    // view.current.measure(whole => {
+    //   console.log('whole', whole);
+    // });
+  };
+
   return (
     <View
-      onStartShouldSetResponder={ev => true}
+      ref={view}
+      {...panResponder.panHandlers}
+      // onMoveShouldSetResponder={() => true}
+      // onStartShouldSetResponder={() => true}
+      // onStartShouldSetResponderCapture={() => false}
       // // onMoveShouldSetResponder={(ev) => false}
-      onResponderGrant={e => onTouchEvent2('onResponderGrant', e)}
+      // onResponderGrant={e => onTouchEvent2('onResponderGrant', e)}
+      // onResponderGrant={onTouchEvent3}
       // // onResponderReject={this.onTouchEvent.bind(this, "onResponderReject")}
-      onResponderMove={e => onTouchEvent2('onResponderMove', e)}
+      // onResponderMove={e => onTouchEvent2('onResponderMove', e)}
+      // onResponderMove={onTouchEvent3}
       // onResponderRelease={this.onTouchEvent.bind(this, "onResponderRelease")}
       // onResponderTerminationRequest={(ev) => true}
       // onResponderTerminate={this.onTouchEvent.bind(this, "onResponderTerminate")}
@@ -37,10 +99,13 @@ const AlphabeticScrollBar = props => {
       // onLayout={event => {
       //   const { layout } = event.nativeEvent;
       //   console.log('height:', Math.round(layout.height));
-      //   // console.log('width:', layout.width);
+      //   rowHeight =
+      //     Math.round(layout.height + headerHeight - 7) / props.alphabet.length;
+      //   console.log('width:', Math.round(layout.width));
       //   // console.log('x:', layout.x);
       //   console.log('Y:', layout.y);
       // }}
+      onLayout={handleOnLayout}
     >
       {props.alphabet.map(letter => (
         // <TouchableWithoutFeedback
@@ -51,18 +116,20 @@ const AlphabeticScrollBar = props => {
         // >
         <View
           key={letter}
-          // onLayout={event => {
-          //   const { layout } = event.nativeEvent;
-          //   // console.log(event.nativeEvent);
-          //   // console.log('height:', layout.height);
-          //   // console.log('width:', layout.width);
-          //   // console.log('x:', layout.x);
-          //   console.log(letter, ':', layout.y);
-          // }}
-          onStartShouldSetResponder={ev => true}
-          onResponderGrant={e => onTouchEvent('onResponderGrant', e)}
-          // onResponderReject={this.onTouchEvent.bind(this, "onResponderReject")}
-          onResponderMove={e => onTouchEvent(letter, e)}
+          onLayout={event => {
+            const { layout } = event.nativeEvent;
+            // console.log(event.nativeEvent);
+            // console.log('height:', layout.height);
+            // console.log('width:', layout.width);
+            // console.log('x:', layout.x);
+            console.log(letter, ':', layout.y);
+          }}
+          // onMoveShouldSetResponder={ev => true}
+          // onStartShouldSetResponder={ev => true}
+          // onResponderGrant={e => onTouchEvent('onResponderGrant', e)}
+          // // onResponderGrant={() => props.scrollToIndex(letter)}
+          // // onResponderReject={this.onTouchEvent.bind(this, "onResponderReject")}
+          // onResponderMove={e => onTouchEvent(letter, e)}
         >
           <Text
             style={{
