@@ -12,6 +12,7 @@ import { useHeaderHeight } from '@react-navigation/stack';
 
 const AlphabeticScrollBar = props => {
   const view = React.createRef();
+
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
@@ -52,31 +53,47 @@ const AlphabeticScrollBar = props => {
     console.log(`locationY: ${ev.nativeEvent.locationY}`);
   };
 
+  let pageY1;
+
   const onTouchEvent3 = (evt, gestureState) => {
     // console.log('evt', evt.nativeEvent);
-    console.log('gestureState', gestureState);
+    console.log('gestureState.y0', gestureState.y0 - (pageY1 || 0));
   };
 
   const handleOnLayout = () => {
-    view.current.measure((width, x1, y1, height, px, py) => {
+    // view.current.measure((width, x1, y1, height, px, py) => {
+    //   console.log(
+    //     'width',
+    //     width,
+    //     'x1',
+    //     x1,
+    //     'y1',
+    //     y1,
+    //     'height',
+    //     height,
+    //     'px',
+    //     px,
+    //     'py',
+    //     py,
+    //   );
+    // });
+    view.current.measure((x, y, width, height, pageX, pageY) => {
+      pageY1 = pageY;
       console.log(
+        'x',
+        x,
+        'y',
+        y,
         'width',
         width,
-        'x1',
-        x1,
-        'y1',
-        y1,
         'height',
         height,
-        'px',
-        px,
-        'py',
-        py,
+        'pageX',
+        pageX,
+        'pageY',
+        pageY,
       );
     });
-    // view.current.measure(whole => {
-    //   console.log('whole', whole);
-    // });
   };
 
   return (
