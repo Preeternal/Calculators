@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -16,7 +16,7 @@ const AlphabeticScrollBar = props => {
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
-        onStartShouldSetPanResponder: (evt, gestureState) => true,
+        onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: (evt, gestureState) =>
           onTouchEvent3(evt, gestureState),
         onPanResponderMove: (evt, gestureState) =>
@@ -24,6 +24,12 @@ const AlphabeticScrollBar = props => {
       }),
     [],
   );
+  console.log('panResponder.panHandlers', panResponder.panHandlers);
+  const {
+    onStartShouldSetResponder,
+    onResponderGrant,
+    onResponderMove,
+  } = panResponder.panHandlers;
   const headerHeight = useHeaderHeight();
   let rowHeight;
   const containerHeight = Dimensions.get('screen').height;
@@ -53,11 +59,12 @@ const AlphabeticScrollBar = props => {
     console.log(`locationY: ${ev.nativeEvent.locationY}`);
   };
 
-  let pageY1;
+  const [pageY1, setPageY1] = useState(0);
 
   const onTouchEvent3 = (evt, gestureState) => {
     // console.log('evt', evt.nativeEvent);
-    console.log('gestureState.y0', gestureState.y0 - (pageY1 || 0));
+    console.log('type of PageY1', typeof pageY1);
+    console.log('gestureState.y0', gestureState.y0 - pageY1);
   };
 
   const handleOnLayout = () => {
@@ -78,7 +85,8 @@ const AlphabeticScrollBar = props => {
     //   );
     // });
     view.current.measure((x, y, width, height, pageX, pageY) => {
-      pageY1 = pageY;
+      setPageY1(pageY);
+      console.log('PageY1', pageY1);
       console.log(
         'x',
         x,
@@ -99,7 +107,10 @@ const AlphabeticScrollBar = props => {
   return (
     <View
       ref={view}
-      {...panResponder.panHandlers}
+      // {...panResponder.panHandlers}
+      onStartShouldSetResponder={onStartShouldSetResponder}
+      onResponderGrant={onResponderGrant}
+      onResponderMove={onResponderMove}
       // onMoveShouldSetResponder={() => true}
       // onStartShouldSetResponder={() => true}
       // onStartShouldSetResponderCapture={() => false}
