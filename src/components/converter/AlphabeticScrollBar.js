@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import { useHeaderHeight } from '@react-navigation/stack';
 const AlphabeticScrollBar = props => {
   const view = React.createRef();
 
+  const [pageY1, setPageY1] = useState(0);
+
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
@@ -24,7 +26,6 @@ const AlphabeticScrollBar = props => {
       }),
     [],
   );
-  console.log('panResponder.panHandlers', panResponder.panHandlers);
   const {
     onStartShouldSetResponder,
     onResponderGrant,
@@ -59,34 +60,14 @@ const AlphabeticScrollBar = props => {
     console.log(`locationY: ${ev.nativeEvent.locationY}`);
   };
 
-  const [pageY1, setPageY1] = useState(0);
-
   const onTouchEvent3 = (evt, gestureState) => {
     // console.log('evt', evt.nativeEvent);
-    console.log('type of PageY1', typeof pageY1);
+    console.log('PageY1', pageY1);
     console.log('gestureState.y0', gestureState.y0 - pageY1);
   };
 
   const handleOnLayout = () => {
-    // view.current.measure((width, x1, y1, height, px, py) => {
-    //   console.log(
-    //     'width',
-    //     width,
-    //     'x1',
-    //     x1,
-    //     'y1',
-    //     y1,
-    //     'height',
-    //     height,
-    //     'px',
-    //     px,
-    //     'py',
-    //     py,
-    //   );
-    // });
     view.current.measure((x, y, width, height, pageX, pageY) => {
-      setPageY1(pageY);
-      console.log('PageY1', pageY1);
       console.log(
         'x',
         x,
@@ -101,6 +82,14 @@ const AlphabeticScrollBar = props => {
         'pageY',
         pageY,
       );
+      // useEffect(() => {
+      setPageY1(pageY);
+      // }, []);
+      // useEffect(() => {
+      //   console.log('PageY1', pageY1);
+      // }, [pageY1]);
+
+      console.log('PageY1', pageY1);
     });
   };
 
