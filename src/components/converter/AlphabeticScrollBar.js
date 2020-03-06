@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 
-let pageY1 = 0;
+let headerHeight = 0;
 let containerHeight = 0;
 
 const AlphabeticScrollBar = props => {
   const view = React.createRef();
 
-  // const [pageY1, setPageY1] = useState(0);
+  // const [headerHeight, setheaderHeight] = useState(0);
 
   const panResponder = React.useMemo(
     () =>
@@ -51,15 +51,52 @@ const AlphabeticScrollBar = props => {
 
   // const onTouchEvent2 = ev => {
   //   console.log(`pageY: ${ev.nativeEvent.pageY} `);
-  //   console.log('PageY1', pageY1);
+  //   console.log('headerHeight', headerHeight);
   //   console.log(`locationY: ${ev.nativeEvent.locationY}`);
   // };
 
   const onTouchEvent3 = (evt, gestureState) => {
     // console.log('evt', evt.nativeEvent);
-    console.log('pageY1', pageY1, 'containerHeight', containerHeight);
+    console.log(
+      'headerHeight',
+      headerHeight,
+      'containerHeight',
+      containerHeight,
+    );
+    const rowHeight = containerHeight / props.alphabet.length;
+    const Letter = props.alphabet.map((letter, index) => {
+      let rezult;
+      if (
+        rowHeight * (index + 1) - (gestureState.y0 - headerHeight) > 0 &&
+        rowHeight * (index + 1) - (gestureState.y0 - headerHeight) < rowHeight
+      ) {
+        // try {
+        //   props.scrollToIndex(letter);
+        // } catch (error) {
+        //   console.log(error);
+        // }
+        // props.scrollToIndex(letter);
+        console.log(
+          letter,
+          'pressed',
+          rowHeight * (index + 1) - (gestureState.y0 - headerHeight),
+        );
+        if (!rezult) rezult = letter;
+      }
 
-    console.log('gestureState.y0', gestureState.y0 - pageY1);
+      return rezult;
+    });
+
+    console.log(Letter[16]);
+
+    // if (Letter) {
+    //   props.scrollToIndex(Letter);
+    // }
+
+    console.log('gestureState.y0', gestureState.y0 - headerHeight);
+    // console.log(containerHeight - gestureState.y0);
+    // console.log(props.alphabet[3]);
+    // props.scrollToIndex(letter)
   };
 
   const handleOnLayout = () => {
@@ -79,19 +116,15 @@ const AlphabeticScrollBar = props => {
         pageY,
       );
       containerHeight = height;
-      pageY1 = pageY;
+      headerHeight = pageY;
       // useEffect(() => {
-      // setPageY1(pageY);
+      // setheaderHeight(pageY);
       // }, []);
       // useEffect(() => {
-      //   console.log('PageY1', pageY1);
-      // }, [pageY1]);
+      //   console.log('headerHeight', headerHeight);
+      // }, [headerHeight]);
 
-      console.log('pageY1', pageY1, 'containerHeight', height);
-      const rowHeight = containerHeight / props.alphabet.length;
-      props.alphabet.map((letter, index) =>
-        console.log(letter, (index + 0.5) * rowHeight),
-      );
+      console.log('headerHeight', headerHeight, 'containerHeight', height);
     });
   };
 
