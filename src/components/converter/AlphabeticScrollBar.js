@@ -8,31 +8,31 @@ import {
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 
-// ...
+let pageY1 = 0;
 
 const AlphabeticScrollBar = props => {
   const view = React.createRef();
 
-  const [pageY1, setPageY1] = useState(0);
+  // const [pageY1, setPageY1] = useState(0);
 
-  const panResponder = React.useMemo(
-    () =>
-      PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderGrant: (evt, gestureState) =>
-          onTouchEvent3(evt, gestureState),
-        onPanResponderMove: (evt, gestureState) =>
-          onTouchEvent3(evt, gestureState),
-      }),
-    [],
-  );
-  const {
-    onStartShouldSetResponder,
-    onResponderGrant,
-    onResponderMove,
-  } = panResponder.panHandlers;
+  // const panResponder = React.useMemo(
+  //   () =>
+  //     PanResponder.create({
+  //       onStartShouldSetPanResponder: () => true,
+  //       onPanResponderGrant: (evt, gestureState) =>
+  //         onTouchEvent3(evt, gestureState),
+  //       onPanResponderMove: (evt, gestureState) =>
+  //         onTouchEvent3(evt, gestureState),
+  //     }),
+  //   [],
+  // );
+  // const {
+  //   onStartShouldSetResponder,
+  //   onResponderGrant,
+  //   onResponderMove,
+  // } = panResponder.panHandlers;
   const headerHeight = useHeaderHeight();
-  let rowHeight;
+  // let rowHeight;
   const containerHeight = Dimensions.get('screen').height;
   console.log('containerHeight', containerHeight);
 
@@ -48,15 +48,9 @@ const AlphabeticScrollBar = props => {
     console.log(`root_y: ${ev.nativeEvent.pageY} `);
   };
 
-  const onTouchEvent2 = (name, ev) => {
-    // console.log(
-    //   `[${name}] ` +
-    //     `root_x: ${ev.nativeEvent.pageX}, root_y: ${ev.nativeEvent.pageY} ` +
-    //     `target_x: ${ev.nativeEvent.locationX}, target_y: ${ev.nativeEvent.locationY} ` +
-    //     `target: ${ev.nativeEvent.target}`,
-    // );
-    // console.log(ev.nativeEvent);
+  const onTouchEvent2 = ev => {
     console.log(`pageY: ${ev.nativeEvent.pageY} `);
+    console.log('PageY1', pageY1);
     console.log(`locationY: ${ev.nativeEvent.locationY}`);
   };
 
@@ -82,8 +76,9 @@ const AlphabeticScrollBar = props => {
         'pageY',
         pageY,
       );
+      pageY1 = pageY;
       // useEffect(() => {
-      setPageY1(pageY);
+      // setPageY1(pageY);
       // }, []);
       // useEffect(() => {
       //   console.log('PageY1', pageY1);
@@ -97,17 +92,17 @@ const AlphabeticScrollBar = props => {
     <View
       ref={view}
       // {...panResponder.panHandlers}
-      onStartShouldSetResponder={onStartShouldSetResponder}
-      onResponderGrant={onResponderGrant}
-      onResponderMove={onResponderMove}
+      // onStartShouldSetResponder={onStartShouldSetResponder}
+      // onResponderGrant={onResponderGrant}
+      // onResponderMove={onResponderMove}
       // onMoveShouldSetResponder={() => true}
-      // onStartShouldSetResponder={() => true}
+      onStartShouldSetResponder={() => true}
       // onStartShouldSetResponderCapture={() => false}
       // // onMoveShouldSetResponder={(ev) => false}
-      // onResponderGrant={e => onTouchEvent2('onResponderGrant', e)}
+      onResponderGrant={e => onTouchEvent2(e)}
       // onResponderGrant={onTouchEvent3}
       // // onResponderReject={this.onTouchEvent.bind(this, "onResponderReject")}
-      // onResponderMove={e => onTouchEvent2('onResponderMove', e)}
+      onResponderMove={e => onTouchEvent2(e)}
       // onResponderMove={onTouchEvent3}
       // onResponderRelease={this.onTouchEvent.bind(this, "onResponderRelease")}
       // onResponderTerminationRequest={(ev) => true}
