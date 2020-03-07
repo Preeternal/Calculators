@@ -13,6 +13,7 @@ import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
 import AlphabeticScrollBar from '../../components/converter/AlphabeticScrollBar';
+import AlphabeticScrollBarPointer from '../../components/converter/AlphabeticScrollBarPointer';
 import { presetChanged } from '../../actions';
 import { LocalizationContext } from '../../Context';
 
@@ -30,6 +31,7 @@ type State = {
   renderedListCurrencies: Array<Object>,
   checked: Array<string | null>,
   viewableLetters: Array<Object>,
+  activeLetter?: ?string,
 };
 
 const styles = StyleSheet.create({
@@ -71,6 +73,7 @@ class AddCurrency extends Component<Props, State> {
       renderedListCurrencies: filter,
       checked: [],
       viewableLetters: [],
+      activeLetter: undefined,
     };
   }
 
@@ -156,6 +159,8 @@ class AddCurrency extends Component<Props, State> {
   };
 
   scrollToIndex = (letter: string) => {
+    this.setActiveLetter(letter);
+    this.setState({ activeLetter: letter });
     if (letter === '#') {
       if (this.flatlist.current)
         this.flatlist.current.scrollToOffset({ animated: true, offset: 0 });
@@ -184,6 +189,10 @@ class AddCurrency extends Component<Props, State> {
     this.setState({ viewableLetters: [...viewableLetters] });
   };
 
+  setActiveLetter = (letter: ?string) => {
+    this.setState({ activeLetter: letter });
+  };
+
   static contextType = LocalizationContext;
 
   render() {
@@ -192,7 +201,9 @@ class AddCurrency extends Component<Props, State> {
       fullListCurrencies,
       checked,
       viewableLetters,
+      activeLetter,
     } = this.state;
+    console.log('activeLetter', activeLetter);
     const { isLandscape } = this.props;
     const numberOfRows = isLandscape ? 6 : 12;
     const alphabet = [
@@ -228,8 +239,18 @@ class AddCurrency extends Component<Props, State> {
               viewableLetters={viewableLetters}
               scrollToIndex={this.scrollToIndex}
               scrollBarContainerStyle={{ backgroundColor: 'white' }}
+              setActiveLetter={this.setActiveLetter}
             />
           )}
+
+        {/* {activeLetter && (
+          <AlphabeticScrollBarPointer
+            letter={this.state.activeLetter}
+            // color={this.props.activeColor}
+            // top={this.state.activeLetterViewTop}
+            // style={this.props.scrollBarPointerContainerStyle}
+          />
+        )} */}
 
         {/* <AlphaScrollFlatList
         //   keyExtractor={item => item.charCode}

@@ -1,10 +1,21 @@
+/* eslint-disable camelcase */
+// @flow
 import React from 'react';
 import { View, Text, PanResponder } from 'react-native';
+import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
+type Props = {
+  alphabet: Array<string>,
+  scrollToIndex: Function,
+  viewableLetters: Array<string>,
+  scrollBarContainerStyle?: ____ViewStyle_Internal,
+  setActiveLetter: Function,
+};
 
 let headerHeight = 0;
 let containerHeight = 0;
 
-const AlphabeticScrollBar = props => {
+const AlphabeticScrollBar = (props: Props) => {
   const view = React.createRef();
   const panResponder = React.useMemo(
     () =>
@@ -14,6 +25,7 @@ const AlphabeticScrollBar = props => {
           handleOnFingerTouch(evt, gestureState),
         onPanResponderMove: (evt, gestureState) =>
           handleOnFingerMove(evt, gestureState),
+        onPanResponderRelease: () => handleOnFingerRelease(),
       }),
     [],
   );
@@ -21,6 +33,7 @@ const AlphabeticScrollBar = props => {
     onStartShouldSetResponder,
     onResponderGrant,
     onResponderMove,
+    onResponderRelease,
   } = panResponder.panHandlers;
 
   const handleOnFingerTouch = (evt, gestureState) => {
@@ -29,6 +42,11 @@ const AlphabeticScrollBar = props => {
 
   const handleOnFingerMove = (evt, gestureState) => {
     getTouchedLetter(gestureState.moveY);
+  };
+
+  const handleOnFingerRelease = () => {
+    console.log('finger was removed');
+    props.setActiveLetter(undefined);
   };
 
   const getTouchedLetter = Y => {
@@ -59,26 +77,28 @@ const AlphabeticScrollBar = props => {
   };
 
   const handleOnLayout = () => {
-    view.current.measure((x, y, width, height, pageX, pageY) => {
-      console.log(
-        'x',
-        x,
-        'y',
-        y,
-        'width',
-        width,
-        'height',
-        height,
-        'pageX',
-        pageX,
-        'pageY',
-        pageY,
-      );
-      containerHeight = height;
-      headerHeight = pageY;
+    if (view.current) {
+      view.current.measure((x, y, width, height, pageX, pageY) => {
+        console.log(
+          'x',
+          x,
+          'y',
+          y,
+          'width',
+          width,
+          'height',
+          height,
+          'pageX',
+          pageX,
+          'pageY',
+          pageY,
+        );
+        containerHeight = height;
+        headerHeight = pageY;
 
-      console.log('headerHeight', headerHeight, 'containerHeight', height);
-    });
+        console.log('headerHeight', headerHeight, 'containerHeight', height);
+      });
+    }
   };
 
   return (
@@ -87,6 +107,7 @@ const AlphabeticScrollBar = props => {
       onStartShouldSetResponder={onStartShouldSetResponder}
       onResponderGrant={onResponderGrant}
       onResponderMove={onResponderMove}
+      onResponderRelease={onResponderRelease}
       style={[styles.container, props.scrollBarContainerStyle]}
       onLayout={handleOnLayout}
     >
