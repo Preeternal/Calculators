@@ -64,39 +64,23 @@ const AlphabeticScrollBar = props => {
       containerHeight,
     );
     const rowHeight = containerHeight / props.alphabet.length;
-    const Letter = props.alphabet.map((letter, index) => {
-      let rezult;
+
+    props.alphabet.map((letter, index) => {
       if (
         rowHeight * (index + 1) - (gestureState.y0 - headerHeight) > 0 &&
         rowHeight * (index + 1) - (gestureState.y0 - headerHeight) < rowHeight
       ) {
-        // try {
-        //   props.scrollToIndex(letter);
-        // } catch (error) {
-        //   console.log(error);
-        // }
-        // props.scrollToIndex(letter);
+        props.scrollToIndex(letter);
         console.log(
           letter,
           'pressed',
           rowHeight * (index + 1) - (gestureState.y0 - headerHeight),
         );
-        if (!rezult) rezult = letter;
       }
-
-      return rezult;
+      return null;
     });
 
-    console.log(Letter[16]);
-
-    // if (Letter) {
-    //   props.scrollToIndex(Letter);
-    // }
-
     console.log('gestureState.y0', gestureState.y0 - headerHeight);
-    // console.log(containerHeight - gestureState.y0);
-    // console.log(props.alphabet[3]);
-    // props.scrollToIndex(letter)
   };
 
   const handleOnLayout = () => {

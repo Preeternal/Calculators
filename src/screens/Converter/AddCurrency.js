@@ -205,6 +205,7 @@ class AddCurrency extends Component<Props, State> {
           ref={this.flatlist}
           data={[...renderedListCurrencies]}
           extraData={this.state}
+          initialNumToRender={renderedListCurrencies.length + 1}
           renderItem={({ item }) => (
             <CurrencyAdditional
               name={this.props.language === 0 ? item.name : item.nameEng}
