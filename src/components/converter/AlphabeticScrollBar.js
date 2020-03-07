@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  Dimensions,
-  PanResponder,
-} from 'react-native';
-import { useHeaderHeight } from '@react-navigation/stack';
+import React from 'react';
+import { View, Text, PanResponder } from 'react-native';
 
 let headerHeight = 0;
 let containerHeight = 0;
 
 const AlphabeticScrollBar = props => {
   const view = React.createRef();
-
-  // const [headerHeight, setheaderHeight] = useState(0);
-
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: (evt, gestureState) =>
-          onTouchEvent3(evt, gestureState),
+          handleOnFingerTouch(evt, gestureState),
         onPanResponderMove: (evt, gestureState) =>
-          onTouchEvent3(evt, gestureState),
+          handleOnFingerMove(evt, gestureState),
       }),
     [],
   );
@@ -32,31 +22,16 @@ const AlphabeticScrollBar = props => {
     onResponderGrant,
     onResponderMove,
   } = panResponder.panHandlers;
-  // const headerHeight = useHeaderHeight();
-  // let rowHeight;
-  // const containerHeight = Dimensions.get('screen').height;
-  // console.log('containerHeight', containerHeight);
 
-  // console.log('headerHeight', headerHeight);
-  // const onTouchEvent = (name, ev) => {
-  //   // console.log(
-  //   //   `[${name}] ` +
-  //   //     `root_x: ${ev.nativeEvent.pageX}, root_y: ${ev.nativeEvent.pageY} ` +
-  //   //     `target_x: ${ev.nativeEvent.locationX}, target_y: ${ev.nativeEvent.locationY} ` +
-  //   //     `target: ${ev.nativeEvent.target}`,
-  //   // );
-  //   // console.log(ev.nativeEvent);
-  //   console.log(`root_y: ${ev.nativeEvent.pageY} `);
-  // };
+  const handleOnFingerTouch = (evt, gestureState) => {
+    getTouchedLetter(gestureState.y0);
+  };
 
-  // const onTouchEvent2 = ev => {
-  //   console.log(`pageY: ${ev.nativeEvent.pageY} `);
-  //   console.log('headerHeight', headerHeight);
-  //   console.log(`locationY: ${ev.nativeEvent.locationY}`);
-  // };
+  const handleOnFingerMove = (evt, gestureState) => {
+    getTouchedLetter(gestureState.moveY);
+  };
 
-  const onTouchEvent3 = (evt, gestureState) => {
-    // console.log('evt', evt.nativeEvent);
+  const getTouchedLetter = Y => {
     console.log(
       'headerHeight',
       headerHeight,
@@ -67,20 +42,20 @@ const AlphabeticScrollBar = props => {
 
     props.alphabet.map((letter, index) => {
       if (
-        rowHeight * (index + 1) - (gestureState.y0 - headerHeight) > 0 &&
-        rowHeight * (index + 1) - (gestureState.y0 - headerHeight) < rowHeight
+        rowHeight * (index + 1) - (Y - headerHeight) > 0 &&
+        rowHeight * (index + 1) - (Y - headerHeight) < rowHeight
       ) {
         props.scrollToIndex(letter);
         console.log(
           letter,
           'pressed',
-          rowHeight * (index + 1) - (gestureState.y0 - headerHeight),
+          rowHeight * (index + 1) - (Y - headerHeight),
         );
       }
       return null;
     });
 
-    console.log('gestureState.y0', gestureState.y0 - headerHeight);
+    console.log('Y', Y - headerHeight);
   };
 
   const handleOnLayout = () => {
@@ -101,12 +76,6 @@ const AlphabeticScrollBar = props => {
       );
       containerHeight = height;
       headerHeight = pageY;
-      // useEffect(() => {
-      // setheaderHeight(pageY);
-      // }, []);
-      // useEffect(() => {
-      //   console.log('headerHeight', headerHeight);
-      // }, [headerHeight]);
 
       console.log('headerHeight', headerHeight, 'containerHeight', height);
     });
@@ -115,53 +84,14 @@ const AlphabeticScrollBar = props => {
   return (
     <View
       ref={view}
-      // {...panResponder.panHandlers}
       onStartShouldSetResponder={onStartShouldSetResponder}
       onResponderGrant={onResponderGrant}
       onResponderMove={onResponderMove}
-      // onStartShouldSetResponder={() => true}
-      // onResponderGrant={e => onTouchEvent2(e)}
-      // onResponderMove={e => onTouchEvent2(e)}
-      // onResponderMove={onTouchEvent3}
-      // onResponderRelease={this.onTouchEvent.bind(this, "onResponderRelease")}
-      // onResponderTerminationRequest={(ev) => true}
-      // onResponderTerminate={this.onTouchEvent.bind(this, "onResponderTerminate")}
       style={[styles.container, props.scrollBarContainerStyle]}
-      // onLayout={event => {
-      //   const { layout } = event.nativeEvent;
-      //   console.log('height:', Math.round(layout.height));
-      //   rowHeight =
-      //     Math.round(layout.height + headerHeight - 7) / props.alphabet.length;
-      //   console.log('width:', Math.round(layout.width));
-      //   // console.log('x:', layout.x);
-      //   console.log('Y:', layout.y);
-      // }}
       onLayout={handleOnLayout}
     >
       {props.alphabet.map(letter => (
-        // <TouchableWithoutFeedback
-        //   key={letter}
-        //   acceptsKeyboardFocus
-        //   onFocus={() => props.scrollToIndex(letter)}
-        //   onPressIn={() => props.scrollToIndex(letter)}
-        // >
-        <View
-          key={letter}
-          onLayout={event => {
-            const { layout } = event.nativeEvent;
-            // console.log(event.nativeEvent);
-            // console.log('height:', layout.height);
-            // console.log('width:', layout.width);
-            // console.log('x:', layout.x);
-            console.log(letter, ':', layout.y);
-          }}
-          // onMoveShouldSetResponder={ev => true}
-          // onStartShouldSetResponder={ev => true}
-          // onResponderGrant={e => onTouchEvent('onResponderGrant', e)}
-          // // onResponderGrant={() => props.scrollToIndex(letter)}
-          // // onResponderReject={this.onTouchEvent.bind(this, "onResponderReject")}
-          // onResponderMove={e => onTouchEvent(letter, e)}
-        >
+        <View key={letter}>
           <Text
             style={{
               color: props.viewableLetters.includes(letter)
@@ -172,7 +102,6 @@ const AlphabeticScrollBar = props => {
             {letter}
           </Text>
         </View>
-        // </TouchableWithoutFeedback>
       ))}
     </View>
   );
