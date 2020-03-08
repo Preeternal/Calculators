@@ -1,28 +1,18 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
 
-const AlphabeticScrollBarPointer = props => {
+type Props = {
+  letter: string,
+  top: number,
+};
+
+const AlphabeticScrollBarPointer = (props: Props) => {
   return (
-    <View
-      style={[
-        {
-          ...styles.container,
-          top: props.top - 15,
-          backgroundColor: props.color,
-        },
-        props.style,
-      ]}
-    >
+    <View style={[styles.container, { top: props.top - 25 }]}>
       <Text style={styles.letter}>{props.letter}</Text>
     </View>
   );
-};
-
-AlphabeticScrollBarPointer.propTypes = {
-  top: PropTypes.number,
-  color: PropTypes.string,
-  letter: PropTypes.string,
 };
 
 const styles = {
@@ -35,7 +25,7 @@ const styles = {
     width: 50,
     height: 50,
     zIndex: 999,
-    right: 50,
+    backgroundColor: 'rgba(231, 76, 60, 1)',
   },
   letter: {
     fontSize: 20,

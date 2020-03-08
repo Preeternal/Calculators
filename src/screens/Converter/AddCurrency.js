@@ -8,7 +8,6 @@ import {
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
-// import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import { Icon } from 'native-base';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
@@ -32,6 +31,7 @@ type State = {
   checked: Array<string | null>,
   viewableLetters: Array<Object>,
   activeLetter?: ?string,
+  pointerTop: number,
 };
 
 const styles = StyleSheet.create({
@@ -74,6 +74,7 @@ class AddCurrency extends Component<Props, State> {
       checked: [],
       viewableLetters: [],
       activeLetter: undefined,
+      pointerTop: 0,
     };
   }
 
@@ -158,9 +159,9 @@ class AddCurrency extends Component<Props, State> {
     }
   };
 
-  scrollToIndex = (letter: string) => {
+  scrollToIndex = (letter: string, Y: number) => {
     this.setActiveLetter(letter);
-    this.setState({ activeLetter: letter });
+    this.setState({ pointerTop: Y });
     if (letter === '#') {
       if (this.flatlist.current)
         this.flatlist.current.scrollToOffset({ animated: true, offset: 0 });
@@ -202,8 +203,8 @@ class AddCurrency extends Component<Props, State> {
       checked,
       viewableLetters,
       activeLetter,
+      pointerTop,
     } = this.state;
-    console.log('activeLetter', activeLetter);
     const { isLandscape } = this.props;
     const numberOfRows = isLandscape ? 6 : 12;
     const alphabet = [
@@ -243,14 +244,9 @@ class AddCurrency extends Component<Props, State> {
             />
           )}
 
-        {/* {activeLetter && (
-          <AlphabeticScrollBarPointer
-            letter={this.state.activeLetter}
-            // color={this.props.activeColor}
-            // top={this.state.activeLetterViewTop}
-            // style={this.props.scrollBarPointerContainerStyle}
-          />
-        )} */}
+        {activeLetter && (
+          <AlphabeticScrollBarPointer letter={activeLetter} top={pointerTop} />
+        )}
 
         {/* <AlphaScrollFlatList
         //   keyExtractor={item => item.charCode}

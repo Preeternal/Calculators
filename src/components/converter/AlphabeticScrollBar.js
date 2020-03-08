@@ -45,58 +45,27 @@ const AlphabeticScrollBar = (props: Props) => {
   };
 
   const handleOnFingerRelease = () => {
-    console.log('finger was removed');
     props.setActiveLetter(undefined);
   };
 
   const getTouchedLetter = Y => {
-    console.log(
-      'headerHeight',
-      headerHeight,
-      'containerHeight',
-      containerHeight,
-    );
     const rowHeight = containerHeight / props.alphabet.length;
-
     props.alphabet.map((letter, index) => {
       if (
         rowHeight * (index + 1) - (Y - headerHeight) > 0 &&
         rowHeight * (index + 1) - (Y - headerHeight) < rowHeight
       ) {
-        props.scrollToIndex(letter);
-        console.log(
-          letter,
-          'pressed',
-          rowHeight * (index + 1) - (Y - headerHeight),
-        );
+        props.scrollToIndex(letter, containerHeight / 2);
       }
       return null;
     });
-
-    console.log('Y', Y - headerHeight);
   };
 
   const handleOnLayout = () => {
     if (view.current) {
       view.current.measure((x, y, width, height, pageX, pageY) => {
-        console.log(
-          'x',
-          x,
-          'y',
-          y,
-          'width',
-          width,
-          'height',
-          height,
-          'pageX',
-          pageX,
-          'pageY',
-          pageY,
-        );
         containerHeight = height;
         headerHeight = pageY;
-
-        console.log('headerHeight', headerHeight, 'containerHeight', height);
       });
     }
   };
