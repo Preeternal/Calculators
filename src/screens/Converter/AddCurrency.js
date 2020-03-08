@@ -247,27 +247,6 @@ class AddCurrency extends Component<Props, State> {
         {activeLetter && (
           <AlphabeticScrollBarPointer letter={activeLetter} top={pointerTop} />
         )}
-
-        {/* <AlphaScrollFlatList
-        //   keyExtractor={item => item.charCode}
-        //   data={[...this.state.renderedListCurrencies]}
-        //   extraData={this.state}
-        //   renderItem={({ item, index }) => (
-        //     <CurrencyAdditional
-        //       name={this.props.language === 0 ? item.name : item.nameEng}
-        //       char={item.charCode}
-        //       checked={!!this.state.checked[index]}
-        //       handleClick={() => this.handleClick(item.charCode, index)}
-        //     />
-        //   )}
-        //   renderHeader={() => {
-        //     return <SearchBar />;
-        //   }}
-        //   scrollKey="charCode"
-        //   activeColor="rgba(231,76,60,1)"
-        //   scrollBarContainerStyle={{ backgroundColor: 'white' }}
-        //   itemHeight={52}
-        // /> */}
       </Fragment>
     );
   }
