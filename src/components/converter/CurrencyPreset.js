@@ -9,7 +9,6 @@ type Props = {
   char: string,
   onDelete: Function,
   onMove: Function,
-  // onLongPress: Function,
   onPressOut: Function,
   isActive: boolean,
   deleteListItem: Function,
@@ -36,8 +35,8 @@ const CurrencyPreset = (props: Props) => {
       style={listItem}
       leftOpenValue={width}
       stopLeftSwipe={width}
-      // onRowOpen={this.deleteListItem}
       onRowOpen={props.deleteListItem}
+      tension={20}
       disableLeftSwipe
     >
       <View style={absoluteCell}>
@@ -54,8 +53,6 @@ const CurrencyPreset = (props: Props) => {
           activeOpacity={1}
           style={moveStyle}
           onPressIn={props.onMove}
-          // onPress={props.onMove}
-          // onLongPress={props.onLongPress}
           onPressOut={props.onPressOut}
         >
           <Icon type="FontAwesome" name="sort" style={iconStyle} />
