@@ -247,7 +247,6 @@ class Converter extends Component<Props, State> {
               <SafeAreaConsumer>
                 {insets => (
                   <>
-                    {console.log(insets)}
                     <View
                       style={[
                         styles.footerView,
