@@ -2,6 +2,7 @@
 // @flow
 import React from 'react';
 import { View, Text, PanResponder } from 'react-native';
+import { useSafeArea } from 'react-native-safe-area-context';
 import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 type Props = {
@@ -17,6 +18,7 @@ let containerHeight = 0;
 
 const AlphabeticScrollBar = (props: Props) => {
   const view = React.createRef();
+  const insets = useSafeArea();
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
@@ -77,7 +79,11 @@ const AlphabeticScrollBar = (props: Props) => {
       onResponderGrant={onResponderGrant}
       onResponderMove={onResponderMove}
       onResponderRelease={onResponderRelease}
-      style={[styles.container, props.scrollBarContainerStyle]}
+      style={[
+        styles.container,
+        { bottom: insets.bottom ? 5 : 2 },
+        props.scrollBarContainerStyle,
+      ]}
       onLayout={handleOnLayout}
     >
       {props.alphabet.map(letter => (
@@ -103,7 +109,7 @@ const styles = {
     position: 'absolute',
     right: 0,
     top: 2,
-    bottom: 2,
+    // bottom: 2,
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',

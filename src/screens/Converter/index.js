@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
-import {SafeAreaConsumer} from 'react-native-safe-area-context'
+import { SafeAreaConsumer } from 'react-native-safe-area-context';
 // import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 
@@ -245,51 +245,64 @@ class Converter extends Component<Props, State> {
             </View>
             {this.props.currencies[1] && !this.state.keyboard && (
               <SafeAreaConsumer>
-                {insets => 
-                <View style={styles.footerView}>
-                  <Text style={styles.footerText}>
-                    {/* {` ${t('converter.lastUpdate')} ${new Date(
+                {insets => (
+                  <>
+                    {console.log(insets)}
+                    <View
+                      style={[
+                        styles.footerView,
+                        { minHeight: insets.bottom ? 55 : 32 },
+                      ]}
+                    >
+                      <Text style={styles.footerText}>
+                        {/* {` ${t('converter.lastUpdate')} ${new Date(
                     Date.parse(this.props.currencies[1].updatedAt),
                   ).toLocaleString(currentLocale, { hour12: false })}`} */}
-                    {/* {`${t('converter.lastUpdate')} ${DateTime.fromJSDate(
+                        {/* {`${t('converter.lastUpdate')} ${DateTime.fromJSDate(
                     new Date(Date.parse(this.props.currencies[1].updatedAt)),
                   )
                     .setLocale('ru')
                     .toLocaleString(DateTime.DATE_SHORT)}`} */}
 
-                    {`${t('converter.lastUpdate')} ${initDate(
-                      new Date(Date.parse(this.props.currencies[1].updatedAt)),
-                    )} ${new Date(
-                      Date.parse(this.props.currencies[1].updatedAt) -
-                        new Date().getTimezoneOffset() * 1000,
-                    ).toLocaleTimeString()}`}
+                        {`${t('converter.lastUpdate')} ${initDate(
+                          new Date(
+                            Date.parse(this.props.currencies[1].updatedAt),
+                          ),
+                        )} ${new Date(
+                          Date.parse(this.props.currencies[1].updatedAt) -
+                            new Date().getTimezoneOffset() * 1000,
+                        ).toLocaleTimeString()}`}
 
-                    {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                        {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                     - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
-                    {/* {new Date().toUTCString()} */}
-                    {/* {new Date(
+                        {/* {new Date().toUTCString()} */}
+                        {/* {new Date(
                     new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                       - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                         - new Date(Date.parse(new Date().toUTCString())).valueOf()),
                   ).toLocaleTimeString()} */}
-                    {/* {`${t('converter.lastUpdate')} ${DateTime.fromISO(
+                        {/* {`${t('converter.lastUpdate')} ${DateTime.fromISO(
                       this.props.currencies[1].updatedAt,
                       { locale },
                     ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate('AddCurrency');
-                  }}
-                  style={styles.button}
-                >
-                  <Icon name="md-add" style={styles.actionButtonIcon} />
-                </TouchableOpacity>
-              </Fragment>
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.props.navigation.navigate('AddCurrency');
+                      }}
+                      style={[
+                        styles.button,
+                        { bottom: insets.bottom ? 26 : 16 },
+                      ]}
+                    >
+                      <Icon name="md-add" style={styles.actionButtonIcon} />
+                    </TouchableOpacity>
+                  </>
+                )}
+              </SafeAreaConsumer>
             )}
-            }
-          </SafeAreaConsumer>
+          </Fragment>
         ) : (
           <View
             style={{
@@ -328,7 +341,7 @@ const styles = {
     marginRight: 5,
   },
   footerView: {
-    minHeight: 32,
+    // minHeight: 32,
     backgroundColor: '#525050',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
