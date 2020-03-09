@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
+import {SafeAreaConsumer} from 'react-native-safe-area-context'
 // import { DateTime } from 'luxon';
 import 'number-to-locale-string';
 
@@ -243,7 +244,8 @@ class Converter extends Component<Props, State> {
               />
             </View>
             {this.props.currencies[1] && !this.state.keyboard && (
-              <Fragment>
+              <SafeAreaConsumer>
+                {insets => 
                 <View style={styles.footerView}>
                   <Text style={styles.footerText}>
                     {/* {` ${t('converter.lastUpdate')} ${new Date(
@@ -286,7 +288,8 @@ class Converter extends Component<Props, State> {
                 </TouchableOpacity>
               </Fragment>
             )}
-          </Fragment>
+            }
+          </SafeAreaConsumer>
         ) : (
           <View
             style={{
