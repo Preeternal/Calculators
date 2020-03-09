@@ -81,7 +81,7 @@ const AlphabeticScrollBar = (props: Props) => {
       onResponderRelease={onResponderRelease}
       style={[
         styles.container,
-        { bottom: insets.bottom ? 5 : 2 },
+        { bottom: insets.bottom ? 19 : 2 },
         props.scrollBarContainerStyle,
       ]}
       onLayout={handleOnLayout}
