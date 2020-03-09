@@ -182,7 +182,7 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
   - React-jsinspector (0.61.2)
-  - react-native-safe-area-context (0.6.4):
+  - react-native-safe-area-context (0.7.3):
     - React
   - react-native-version-number (0.3.6):
     - React
@@ -223,21 +223,21 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.2)
   - ReactNativeART (1.1.2):
     - React
-  - RNCAsyncStorage (1.7.1):
+  - RNCAsyncStorage (1.8.1):
     - React
-  - RNCMaskedView (0.1.6):
+  - RNCMaskedView (0.1.7):
     - React
-  - RNDateTimePicker (2.2.2):
+  - RNDateTimePicker (2.2.3):
     - React
-  - RNGestureHandler (1.5.6):
+  - RNGestureHandler (1.6.0):
     - React
-  - RNIap (4.4.0):
+  - RNIap (4.4.2):
     - React
   - RNLanguages (3.0.2):
     - React
   - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-beta.4):
+  - RNScreens (2.2.0):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -381,7 +381,7 @@ SPEC CHECKSUMS:
   React-jsi: 32285a21b1b24c36060493ed3057a34677d58d09
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
-  react-native-safe-area-context: 52342d2d80ea8faadd0ffa76d83b6051f20c5329
+  react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
@@ -394,14 +394,14 @@ SPEC CHECKSUMS:
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
   ReactNativeART: c580fba2f7d188d8fa4418ce78db8130654ed10f
-  RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
-  RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
-  RNDateTimePicker: 65eadfa62b069b415a6ac1d20a81cacfa26cb37a
-  RNGestureHandler: 911d3b110a7a233a34c4f800e7188a84b75319c6
-  RNIap: 87f0bc97fb427d3f1773d5160966a8808f961c94
+  RNCAsyncStorage: e0dd7c8a36543b4ef84969acd9f8aceba3a92dc2
+  RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
+  RNDateTimePicker: bc947b8ee2d74cf940df1915bf1dd3359f375c9f
+  RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
+  RNIap: 4a353600facc146dfc771250b2382f2c25aa22ee
   RNLanguages: 962e562af0d34ab1958d89bcfdb64fafc37c513e
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNScreens: 6053a007667bea81a69087caadf103bba04c032e
+  RNScreens: 812b79d384e2bea7eebc4ec981469160d4948fd5
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
