@@ -8,8 +8,10 @@ import CurrencyPreset from '../../components/converter/CurrencyPreset';
 import { LocalizationContext } from '../../Context';
 import { presetChanged } from '../../actions';
 
+type presetType = Array<string>;
+
 type Props = {
-  preset?: Array<string>,
+  preset: presetType,
   presetChanged: Function,
 };
 
@@ -17,7 +19,7 @@ class EditPreset extends Component<Props> {
   deleteListItem = (item: string) => {
     const prevPreset = this.props.preset || [];
     const preset = prevPreset.filter(i => i !== item);
-    this.props.presetChanged(preset);
+    this.onPresetChange(preset);
   };
 
   onDelete = (item: string) => {
@@ -40,12 +42,12 @@ class EditPreset extends Component<Props> {
     );
   };
 
-  onPresetChange = (preset: Object) => {
+  onPresetChange = (preset: presetType) => {
     this.props.presetChanged(preset);
   };
 
-  onMoveEnd = ({ data }: { data: Object }) => {
-    this.props.presetChanged(data);
+  onMoveEnd = ({ data }: { data: presetType }) => {
+    this.onPresetChange(data);
   };
 
   renderItem = ({

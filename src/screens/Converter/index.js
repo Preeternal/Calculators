@@ -87,6 +87,8 @@ class Converter extends Component<Props, State> {
       filter.sort(
         (a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode),
       );
+      console.log('presetCurrencies[0]', presetCurrencies[0]);
+      console.log('filter[0]', filter[0]);
 
       if (
         !presetCurrencies[0] ||
@@ -97,6 +99,7 @@ class Converter extends Component<Props, State> {
         this.onPresetCurrencyChangeWithDivider(
           0,
           presetCurrencies[0].input,
+          // filter[0].input,
           filter,
         );
       }

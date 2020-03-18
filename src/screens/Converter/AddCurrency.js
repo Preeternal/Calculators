@@ -179,8 +179,7 @@ class AddCurrency extends Component<Props, State> {
 
   onViewableItemsChanged = ({
     viewableItems,
-  }: // changed,
-  {
+  }: {
     viewableItems: Array<Object>,
     // changed: Array<Object>,
   }) => {
