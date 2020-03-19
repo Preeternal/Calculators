@@ -57,6 +57,7 @@ class Converter extends Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.preset !== prevProps.preset) {
+      console.log('prevProps.preset', prevProps.preset);
       this.handlePreset();
     }
     if (this.props.currencies !== prevProps.currencies) {
