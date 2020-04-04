@@ -11,3 +11,5 @@ showAsyncStorageContentInDev()
 
 // on error with ./gradlew bundleRelease
 npx jetify
+
+// to find inodes sudo find /home -type f | cut -d/ -f4 | uniq -dc | sort -n
