@@ -161,7 +161,7 @@ class AddCurrency extends Component<Props, State> {
 
   scrollToIndex = (letter: string, Y: number) => {
     this.setActiveLetter(letter);
-    console.log('letter', letter, 'Y', Y);
+    // console.log('letter', letter, 'Y', Y);
     this.setState({ pointerTop: Y });
     if (letter === '#') {
       if (this.flatlist.current)
@@ -173,7 +173,7 @@ class AddCurrency extends Component<Props, State> {
         if (upperCase.slice(0, 1) === letter) return true;
         return false;
       });
-      console.log(index);
+      // console.log(index);
       if (this.flatlist.current)
         this.flatlist.current.scrollToIndex({ animated: true, index });
     }

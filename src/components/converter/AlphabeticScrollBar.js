@@ -7,18 +7,21 @@ import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/S
 
 type Props = {
   alphabet: Array<string>,
-  scrollToIndex: Function,
+  scrollToIndex: (letter: string, Y: number) => void,
   viewableLetters: Array<string>,
   scrollBarContainerStyle?: ____ViewStyle_Internal,
-  setActiveLetter: Function,
+  setActiveLetter: (activeLetter: ?string) => void,
 };
 
 let headerHeight = 0;
 let containerHeight = 0;
 
+const TOP = 2;
+
 const AlphabeticScrollBar = (props: Props) => {
-  const view = React.createRef();
+  const view: { current: null | View } = React.createRef();
   const insets = useSafeArea();
+  const BOTTOM = insets.bottom ? 19 : 2;
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
@@ -47,16 +50,36 @@ const AlphabeticScrollBar = (props: Props) => {
   };
 
   const handleOnFingerRelease = () => {
-    props.setActiveLetter(undefined);
+    props.setActiveLetter(null);
   };
 
   const getTouchedLetter = Y => {
     const rowHeight = containerHeight / props.alphabet.length;
+    const y = Y - headerHeight;
+    console.log(
+      'containerHeight',
+      containerHeight,
+      '\n',
+      'headerHeight',
+      headerHeight,
+      '\n',
+      'Y',
+      Y,
+      '\n',
+      'y',
+      y,
+      '\n',
+      'rowHeight',
+      rowHeight,
+    );
+
     props.alphabet.map((letter, index) => {
       if (
-        rowHeight * (index + 1) - (Y - headerHeight) > 0 &&
-        rowHeight * (index + 1) - (Y - headerHeight) < rowHeight
+        rowHeight * (index + 1) - y > 0 &&
+        rowHeight * (index + 1) - y < rowHeight
       ) {
+        console.log('rowHeight * (index + 1)', rowHeight * (index + 1));
+        console.log('y', y);
         props.scrollToIndex(letter, containerHeight / 2);
       }
       return null;
@@ -66,7 +89,11 @@ const AlphabeticScrollBar = (props: Props) => {
   const handleOnLayout = () => {
     if (view.current) {
       view.current.measure((x, y, width, height, pageX, pageY) => {
-        containerHeight = height;
+        containerHeight = height - TOP - BOTTOM;
+        // console.log('y', y);
+        // console.log('height', height);
+        // console.log('pageY', pageY);
+        // // containerHeight = height;
         headerHeight = pageY;
       });
     }
@@ -81,7 +108,7 @@ const AlphabeticScrollBar = (props: Props) => {
       onResponderRelease={onResponderRelease}
       style={[
         styles.container,
-        { bottom: insets.bottom ? 19 : 2 },
+        { bottom: BOTTOM },
         props.scrollBarContainerStyle,
       ]}
       onLayout={handleOnLayout}
@@ -108,8 +135,7 @@ const styles = {
     width: 30,
     position: 'absolute',
     right: 0,
-    top: 2,
-    // bottom: 2,
+    top: TOP,
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
