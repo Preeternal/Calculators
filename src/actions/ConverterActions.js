@@ -1,5 +1,9 @@
 // @flow
-import { PRESET_CHANGED, CURRENCIES_CHANGED, PRESET_CURRENCIES_CHANGED } from './types';
+import {
+  PRESET_CHANGED,
+  CURRENCIES_CHANGED,
+  PRESET_CURRENCIES_CHANGED,
+} from './types';
 import type { Action } from './types';
 
 export const presetChanged = (array: Array<string>): Action => ({

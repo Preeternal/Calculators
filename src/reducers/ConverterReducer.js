@@ -6,10 +6,22 @@ import {
 } from '../actions/types';
 import type { ConverterActionsTypes as Action } from '../actions/types';
 
+export type Currency = {
+  charCode: string,
+  id: string,
+  input: string,
+  name: string,
+  nameEng: string,
+  nominal: number,
+  updatedAt: string,
+  value: number,
+  __typename?: 'Currency',
+};
+
 type State = {
-  +currencies: Array<Object>,
+  +currencies: Currency[],
   +preset: Array<string>,
-  +presetCurrencies: Array<Object>,
+  +presetCurrencies: Array<Currency>,
 };
 
 const INITIAL_STATE: State = {

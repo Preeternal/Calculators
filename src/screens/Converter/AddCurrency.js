@@ -16,18 +16,20 @@ import AlphabeticScrollBarPointer from '../../components/converter/AlphabeticScr
 import { presetChanged } from '../../actions';
 import { LocalizationContext } from '../../Context';
 
+import type { Currency } from '../../reducers/ConverterReducer';
+
 type Props = {
   language: number,
   isLandscape: boolean,
-  preset: Array<string>,
-  currencies: Array<Object>,
-  presetChanged: Function,
+  preset: Array<string | null>,
+  currencies: Array<Currency>,
+  presetChanged: (array: Array<string | null>) => void,
   navigation: Object,
 };
 
 type State = {
-  fullListCurrencies: Array<Object>,
-  renderedListCurrencies: Array<Object>,
+  fullListCurrencies: Array<Currency>,
+  renderedListCurrencies: Array<Currency>,
   checked: Array<string | null>,
   viewableLetters: Array<Object>,
   activeLetter?: ?string,

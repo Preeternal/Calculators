@@ -1,7 +1,16 @@
+/* eslint-disable camelcase */
+// @flow
 import React from 'react';
 import { Text, View } from 'react-native';
+import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-const Header = props => {
+type Props = {
+  headerStyle: ____ViewStyle_Internal,
+  innerStyle: ____ViewStyle_Internal,
+  headerText: string,
+};
+
+const Header = (props: Props) => {
   const { textStyle, viewStyle } = styles;
 
   return (

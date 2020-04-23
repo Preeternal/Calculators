@@ -21,15 +21,17 @@ import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
 import storeCurrencies from '../../lib/storeCurrencies';
 
+import type { Currency } from '../../reducers/ConverterReducer';
+
 type Props = {
   language: number,
   country: number,
   navigation: Object,
   preset: Array<string>,
-  currencies: Array<Object>,
-  presetCurrencies: Array<Object>,
-  currenciesChanged: Function,
-  presetCurrenciesChanged: Function,
+  currencies: Array<Currency>,
+  presetCurrencies: Array<Currency>,
+  currenciesChanged: (array: Array<Currency>) => void,
+  presetCurrenciesChanged: (array: Array<Currency>) => void,
 };
 
 type State = {
@@ -108,18 +110,18 @@ class Converter extends Component<Props, State> {
     });
   };
 
-  onCurrencyChange = (array: Array<Object>) => {
+  onCurrencyChange = (array: Array<Currency>) => {
     this.props.currenciesChanged(array);
   };
 
-  onPresetCurrencyChange = (array: Array<Object>) => {
+  onPresetCurrencyChange = (array: Array<Currency>) => {
     this.props.presetCurrenciesChanged(array);
   };
 
   onPresetCurrencyChangeWithDivider = (
     index: number,
     input: string,
-    presetCurrencies: Array<Object>,
+    presetCurrencies: Array<Currency>,
   ) => {
     const currencies = [...presetCurrencies];
     const divider =
@@ -171,7 +173,7 @@ class Converter extends Component<Props, State> {
     });
     const currencies = [...this.props.presetCurrencies];
     if (currencies[index].input === '') {
-      currencies[index].input = 0;
+      currencies[index].input = '0';
     } else {
       currencies[index].input = this.getLocalInput(currencies[index].input);
     }
