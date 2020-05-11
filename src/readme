@@ -11,5 +11,3 @@ showAsyncStorageContentInDev()
 
 // on error with ./gradlew bundleRelease
 npx jetify
-
-//
