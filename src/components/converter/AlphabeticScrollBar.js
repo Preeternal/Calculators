@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 // @flow
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, PanResponder } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useHeaderHeight } from '@react-navigation/stack';
+
 import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 type Props = {
@@ -13,13 +15,18 @@ type Props = {
   setActiveLetter: (activeLetter: ?string) => void,
 };
 
-let headerHeight = 0;
 let containerHeight = 0;
+let headerHeight = 0;
 
 const TOP = 2;
 
 const AlphabeticScrollBar = (props: Props) => {
   const view: { current: null | View } = React.createRef();
+  const navigationHeaderHeight = useHeaderHeight();
+  useEffect(() => {
+    headerHeight = navigationHeaderHeight;
+  }, []);
+
   const insets = useSafeArea();
   const BOTTOM = insets.bottom ? 19 : 2;
   const panResponder = React.useMemo(
@@ -56,30 +63,11 @@ const AlphabeticScrollBar = (props: Props) => {
   const getTouchedLetter = Y => {
     const rowHeight = containerHeight / props.alphabet.length;
     const y = Y - headerHeight;
-    console.log(
-      'containerHeight',
-      containerHeight,
-      '\n',
-      'headerHeight',
-      headerHeight,
-      '\n',
-      'Y',
-      Y,
-      '\n',
-      'y',
-      y,
-      '\n',
-      'rowHeight',
-      rowHeight,
-    );
-
     props.alphabet.map((letter, index) => {
       if (
         rowHeight * (index + 1) - y > 0 &&
         rowHeight * (index + 1) - y < rowHeight
       ) {
-        console.log('rowHeight * (index + 1)', rowHeight * (index + 1));
-        console.log('y', y);
         props.scrollToIndex(letter, containerHeight / 2);
       }
       return null;
@@ -89,12 +77,10 @@ const AlphabeticScrollBar = (props: Props) => {
   const handleOnLayout = () => {
     if (view.current) {
       view.current.measure((x, y, width, height, pageX, pageY) => {
-        containerHeight = height - TOP - BOTTOM;
-        // console.log('y', y);
-        // console.log('height', height);
-        // console.log('pageY', pageY);
-        // // containerHeight = height;
-        headerHeight = pageY;
+        // containerHeight = height - TOP - BOTTOM;
+        // headerHeight = pageY + TOP;
+        containerHeight = height;
+        if (pageY < headerHeight + TOP) headerHeight = pageY;
       });
     }
   };
