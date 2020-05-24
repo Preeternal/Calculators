@@ -11,8 +11,8 @@ import { presetChanged } from '../../actions';
 type presetType = Array<string>;
 
 type Props = {
-  preset: presetType,
-  presetChanged: Function,
+  preset: Array<string>,
+  presetChanged: (string[]) => void,
 };
 
 class EditPreset extends Component<Props> {
