@@ -21,15 +21,17 @@ import { number, initDate } from '../../lib';
 import { currenciesChanged, presetCurrenciesChanged } from '../../actions';
 import storeCurrencies from '../../lib/storeCurrencies';
 
+import type { Currency } from '../../reducers/ConverterReducer';
+
 type Props = {
   language: number,
   country: number,
   navigation: Object,
   preset: Array<string>,
-  currencies: Array<Object>,
-  presetCurrencies: Array<Object>,
-  currenciesChanged: Function,
-  presetCurrenciesChanged: Function,
+  currencies: Array<Currency>,
+  presetCurrencies: Array<Currency>,
+  currenciesChanged: (array: Array<Currency>) => void,
+  presetCurrenciesChanged: (array: Array<Currency>) => void,
 };
 
 type State = {
@@ -108,26 +110,29 @@ class Converter extends Component<Props, State> {
     });
   };
 
-  onCurrencyChange = (array: Array<Object>) => {
+  onCurrencyChange = (array: Array<Currency>) => {
     this.props.currenciesChanged(array);
   };
 
-  onPresetCurrencyChange = (array: Array<Object>) => {
+  onPresetCurrencyChange = (array: Array<Currency>) => {
     this.props.presetCurrenciesChanged(array);
   };
 
   onPresetCurrencyChangeWithDivider = (
     index: number,
     input: string,
-    presetCurrencies: Array<Object>,
+    nextPresetCurrencies: Array<Currency>,
   ) => {
-    const currencies = [...presetCurrencies];
+    const currencies = [...nextPresetCurrencies];
+    const { presetCurrencies } = this.props;
+
     const divider =
       Number(number(input)) /
-      (currencies[index].nominal / currencies[index].value);
+      (presetCurrencies[index].nominal / presetCurrencies[index].value);
+
     const currenciesWithDivider = currencies.map((currency, ind) => {
       const curr = { ...currency };
-      if (ind === index) {
+      if (curr.charCode === presetCurrencies[index].charCode && ind === index) {
         curr.input = number(input);
       } else {
         curr.input = this.getLocalInput(
@@ -171,7 +176,7 @@ class Converter extends Component<Props, State> {
     });
     const currencies = [...this.props.presetCurrencies];
     if (currencies[index].input === '') {
-      currencies[index].input = 0;
+      currencies[index].input = '0';
     } else {
       currencies[index].input = this.getLocalInput(currencies[index].input);
     }

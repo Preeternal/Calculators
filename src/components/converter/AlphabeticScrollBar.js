@@ -1,24 +1,34 @@
 /* eslint-disable camelcase */
 // @flow
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, PanResponder } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useHeaderHeight } from '@react-navigation/stack';
+
 import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 type Props = {
   alphabet: Array<string>,
-  scrollToIndex: Function,
+  scrollToIndex: (letter: string, Y: number) => void,
   viewableLetters: Array<string>,
   scrollBarContainerStyle?: ____ViewStyle_Internal,
-  setActiveLetter: Function,
+  setActiveLetter: (activeLetter: ?string) => void,
 };
 
-let headerHeight = 0;
 let containerHeight = 0;
+let headerHeight = 0;
+
+const TOP = 2;
 
 const AlphabeticScrollBar = (props: Props) => {
-  const view = React.createRef();
+  const view: { current: null | View } = React.createRef();
+  const navigationHeaderHeight = useHeaderHeight();
+  useEffect(() => {
+    headerHeight = navigationHeaderHeight;
+  }, []);
+
   const insets = useSafeArea();
+  const BOTTOM = insets.bottom ? 19 : 2;
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
@@ -47,15 +57,16 @@ const AlphabeticScrollBar = (props: Props) => {
   };
 
   const handleOnFingerRelease = () => {
-    props.setActiveLetter(undefined);
+    props.setActiveLetter(null);
   };
 
   const getTouchedLetter = Y => {
     const rowHeight = containerHeight / props.alphabet.length;
+    const y = Y - headerHeight;
     props.alphabet.map((letter, index) => {
       if (
-        rowHeight * (index + 1) - (Y - headerHeight) > 0 &&
-        rowHeight * (index + 1) - (Y - headerHeight) < rowHeight
+        rowHeight * (index + 1) - y > 0 &&
+        rowHeight * (index + 1) - y < rowHeight
       ) {
         props.scrollToIndex(letter, containerHeight / 2);
       }
@@ -66,8 +77,10 @@ const AlphabeticScrollBar = (props: Props) => {
   const handleOnLayout = () => {
     if (view.current) {
       view.current.measure((x, y, width, height, pageX, pageY) => {
+        // containerHeight = height - TOP - BOTTOM;
+        // headerHeight = pageY + TOP;
         containerHeight = height;
-        headerHeight = pageY;
+        if (pageY < headerHeight + TOP) headerHeight = pageY;
       });
     }
   };
@@ -81,7 +94,7 @@ const AlphabeticScrollBar = (props: Props) => {
       onResponderRelease={onResponderRelease}
       style={[
         styles.container,
-        { bottom: insets.bottom ? 19 : 2 },
+        { bottom: BOTTOM },
         props.scrollBarContainerStyle,
       ]}
       onLayout={handleOnLayout}
@@ -108,8 +121,7 @@ const styles = {
     width: 30,
     position: 'absolute',
     right: 0,
-    top: 2,
-    // bottom: 2,
+    top: TOP,
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
