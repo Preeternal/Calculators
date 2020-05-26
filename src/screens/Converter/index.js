@@ -121,15 +121,18 @@ class Converter extends Component<Props, State> {
   onPresetCurrencyChangeWithDivider = (
     index: number,
     input: string,
-    presetCurrencies: Array<Currency>,
+    nextPresetCurrencies: Array<Currency>,
   ) => {
-    const currencies = [...presetCurrencies];
+    const currencies = [...nextPresetCurrencies];
+    const { presetCurrencies } = this.props;
+
     const divider =
       Number(number(input)) /
-      (currencies[index].nominal / currencies[index].value);
+      (presetCurrencies[index].nominal / presetCurrencies[index].value);
+
     const currenciesWithDivider = currencies.map((currency, ind) => {
       const curr = { ...currency };
-      if (ind === index) {
+      if (curr.charCode === presetCurrencies[index].charCode && ind === index) {
         curr.input = number(input);
       } else {
         curr.input = this.getLocalInput(
