@@ -131,8 +131,8 @@ android {
         applicationId "com.banoka"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4000121
-        versionName "1.21"
+        versionCode 4000122
+        versionName "1.22"
     }
     signingConfigs {
         release {
