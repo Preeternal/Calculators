@@ -6,6 +6,8 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { useHeaderHeight } from '@react-navigation/stack';
 
 import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import type { PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type { GestureState } from 'react-native/Libraries/Interaction/PanResponder';
 
 type Props = {
   alphabet: Array<string>,
@@ -21,7 +23,7 @@ let headerHeight = 0;
 const TOP = 2;
 
 const AlphabeticScrollBar = (props: Props) => {
-  const view: { current: null | View } = React.createRef();
+  const view = React.createRef();
   const navigationHeaderHeight = useHeaderHeight();
   useEffect(() => {
     headerHeight = navigationHeaderHeight;
@@ -33,7 +35,7 @@ const AlphabeticScrollBar = (props: Props) => {
     () =>
       PanResponder.create({
         onStartShouldSetPanResponder: () => true,
-        onPanResponderGrant: (evt, gestureState) =>
+        onPanResponderGrant: (evt: PressEvent, gestureState: GestureState) =>
           handleOnFingerTouch(evt, gestureState),
         onPanResponderMove: (evt, gestureState) =>
           handleOnFingerMove(evt, gestureState),
