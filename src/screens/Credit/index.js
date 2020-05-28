@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+// import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
@@ -103,6 +104,8 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Credit extends Component<Props, State> {
+  static contextType = LocalizationContext;
+
   state = {
     creditPrincipalColor: textColor,
     creditInterestColor: textColor,
@@ -205,9 +208,9 @@ class Credit extends Component<Props, State> {
     this.props.creditInterestChanged(number(text));
   };
 
-  onCreditDateOpenChange = (date: Date) => {
+  onCreditDateOpenChange = (event: Object, date: Date) => {
     this.setDatePickerVisible(false);
-    this.props.creditDateOpenChanged(date.valueOf());
+    if (date) this.props.creditDateOpenChanged(date.valueOf());
   };
 
   onCreditSrokValueChange = (text: string) => {
@@ -299,8 +302,6 @@ class Credit extends Component<Props, State> {
       }
     }
   };
-
-  static contextType = LocalizationContext;
 
   render() {
     const {
@@ -426,13 +427,20 @@ class Credit extends Component<Props, State> {
               onRootPress={() => this.setDatePickerVisible(true)}
               onPress={() => this.setDatePickerVisible(true)}
             />
-            <DateTimePicker
+            {/* <DateTimePicker
               date={new Date(this.props.creditDateOpen)}
               isVisible={this.state.isDatePickerVisible}
               onConfirm={this.onCreditDateOpenChange}
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
-            />
+            /> */}
+            {this.state.isDatePickerVisible && (
+              <DateTimePicker
+                value={new Date(this.props.creditDateOpen)}
+                display="spinner"
+                onChange={this.onCreditDateOpenChange}
+              />
+            )}
 
             <InputTextPicker
               // placeholder="Срок кредита"

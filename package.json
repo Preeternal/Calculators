@@ -47,7 +47,6 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-iap": "^4.4.9",
     "react-native-languages": "^3.0.0",
-    "react-native-modal-datetime-picker": "8.7.0",
     "react-native-pie": "^1.1.2",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^2.0.0",

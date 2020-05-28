@@ -6956,13 +6956,6 @@ react-native-languages@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-native-languages/-/react-native-languages-3.0.2.tgz#c2c4c5050974fe4b50f7372051ca1f9824c1c778"
   integrity sha512-LGsTfixFM6hXDhcFJI6mrtrNBsGPSvXT9RtZQ0tlqmGFKmMyZW6eQgJ7kLw8lISD2FIGl4jJwY06EAJpbMsNxg==
 
-react-native-modal-datetime-picker@8.7.0:
-  version "8.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-8.7.0.tgz#4149975ec78c46eae9697d88d47f973002ccabf7"
-  integrity sha512-CeKrrU1F4VrddlqXlnnRln+YnGAXrY97YsPhBhll/DAfZFalqU9JM7Cfu/v+FDNx6xSCSXS+cb0+RPvOLN4P7w==
-  dependencies:
-    prop-types "^15.7.2"
-
 react-native-pie@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/react-native-pie/-/react-native-pie-1.1.2.tgz#9cd4d428e85cc232877e5f7cdb2bea9f724fcbac"

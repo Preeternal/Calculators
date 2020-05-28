@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { Text, View, Image, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+// import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import 'number-to-locale-string';
@@ -86,6 +87,8 @@ type State = {
 };
 
 class Depo extends Component<Props, State> {
+  static contextType = LocalizationContext;
+
   state = {
     principalColor: textColor,
     interest1Color: textColor,
@@ -140,14 +143,14 @@ class Depo extends Component<Props, State> {
     this.props.principalChanged(number(text));
   };
 
-  onDateOpenChange = (date: Date) => {
+  onDateOpenChange = (event: Object, date: Date) => {
     this.setDatePickerVisible(false);
-    this.props.dateOpenChanged(date.valueOf());
+    if (date) this.props.dateOpenChanged(date.valueOf());
   };
 
-  onDateClosedChange = (date: Date) => {
+  onDateClosedChange = (event: Object, date: Date) => {
     this.setDatePicker2Visible(false);
-    this.props.dateClosedChanged(date.valueOf());
+    if (date) this.props.dateClosedChanged(date.valueOf());
   };
 
   onInterest1Change = (text: string) => {
@@ -181,8 +184,6 @@ class Depo extends Component<Props, State> {
   onTaxRateSelect = (value: number) => {
     this.props.taxRateSelected(value);
   };
-
-  static contextType = LocalizationContext;
 
   render() {
     const {
@@ -232,6 +233,9 @@ class Depo extends Component<Props, State> {
     };
 
     const { t, locale } = this.context;
+
+    const { isDatePickerVisible, isDatePicker2Visible } = this.state;
+    const { dateOpen, dateClosed } = this.props;
 
     return (
       <ScrollView
@@ -293,13 +297,20 @@ class Depo extends Component<Props, State> {
               onRootPress={() => this.setDatePickerVisible(true)}
               onPress={() => this.setDatePickerVisible(true)}
             />
-            <DateTimePicker
+            {/* <DateTimePicker
               date={new Date(this.props.dateOpen)}
               isVisible={this.state.isDatePickerVisible}
               onConfirm={this.onDateOpenChange}
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
-            />
+            /> */}
+            {isDatePickerVisible && (
+              <DateTimePicker
+                value={new Date(dateOpen)}
+                display="spinner"
+                onChange={this.onDateOpenChange}
+              />
+            )}
 
             <InputDate
               // label="Дата закрытия вклада"
@@ -308,13 +319,21 @@ class Depo extends Component<Props, State> {
               onRootPress={() => this.setDatePicker2Visible(true)}
               onPress={() => this.setDatePicker2Visible(true)}
             />
-            <DateTimePicker
+
+            {/* <DateTimePicker
               date={new Date(this.props.dateClosed)}
               isVisible={this.state.isDatePicker2Visible}
               onConfirm={this.onDateClosedChange}
               onCancel={() => this.setDatePicker2Visible(false)}
               display="spinner"
-            />
+            /> */}
+            {isDatePicker2Visible && (
+              <DateTimePicker
+                value={new Date(dateClosed)}
+                display="spinner"
+                onChange={this.onDateClosedChange}
+              />
+            )}
 
             <Input
               // placeholder="введите ставку"
