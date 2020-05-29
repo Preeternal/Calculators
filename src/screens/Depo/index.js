@@ -302,7 +302,7 @@ class Depo extends Component<Props, State> {
               onConfirm={this.onDateOpenChange}
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
-            />       
+            />
             <InputDate
               // label="Дата закрытия вклада"
               label={t('input.dateClosed.label')}
@@ -318,7 +318,6 @@ class Depo extends Component<Props, State> {
               onCancel={() => this.setDatePicker2Visible(false)}
               display="spinner"
             />
-     
 
             <Input
               // placeholder="введите ставку"

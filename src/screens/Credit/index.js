@@ -353,7 +353,6 @@ class Credit extends Component<Props, State> {
     const { creditDateOpen } = this.props;
     const { isDatePickerVisible } = this.state;
 
-
     return (
       <ScrollView key={this.props.language} style={{ flex: 1 }}>
         <Card>
@@ -436,7 +435,7 @@ class Credit extends Component<Props, State> {
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
             />
-       
+
             <InputTextPicker
               // placeholder="Срок кредита"
               placeholder={t('credit.input.srok.placeholder')}
