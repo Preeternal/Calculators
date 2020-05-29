@@ -11,8 +11,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
-// import DateTimePicker from 'react-native-modal-datetime-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import { Icon } from 'native-base';
@@ -208,7 +207,7 @@ class Credit extends Component<Props, State> {
     this.props.creditInterestChanged(number(text));
   };
 
-  onCreditDateOpenChange = (event: Object, date: Date) => {
+  onCreditDateOpenChange = (date: Date) => {
     this.setDatePickerVisible(false);
     if (date) this.props.creditDateOpenChanged(date.valueOf());
   };
@@ -351,6 +350,9 @@ class Credit extends Component<Props, State> {
     };
 
     const { t, locale } = this.context;
+    const { creditDateOpen } = this.props;
+    const { isDatePickerVisible } = this.state;
+
 
     return (
       <ScrollView key={this.props.language} style={{ flex: 1 }}>
@@ -423,25 +425,18 @@ class Credit extends Component<Props, State> {
             <InputDate
               // label="Дата выдачи кредита"
               label={t('credit.input.dateOpen.label')}
-              value={initDate(new Date(this.props.creditDateOpen))}
+              value={initDate(new Date(creditDateOpen))}
               onRootPress={() => this.setDatePickerVisible(true)}
               onPress={() => this.setDatePickerVisible(true)}
             />
-            {/* <DateTimePicker
-              date={new Date(this.props.creditDateOpen)}
-              isVisible={this.state.isDatePickerVisible}
+            <DateTimePicker
+              date={new Date(creditDateOpen)}
+              isVisible={isDatePickerVisible}
               onConfirm={this.onCreditDateOpenChange}
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
-            /> */}
-            {this.state.isDatePickerVisible && (
-              <DateTimePicker
-                value={new Date(this.props.creditDateOpen)}
-                display="spinner"
-                onChange={this.onCreditDateOpenChange}
-              />
-            )}
-
+            />
+       
             <InputTextPicker
               // placeholder="Срок кредита"
               placeholder={t('credit.input.srok.placeholder')}

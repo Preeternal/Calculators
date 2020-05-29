@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
-// import DateTimePicker from 'react-native-modal-datetime-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
 import 'number-to-locale-string';
@@ -143,12 +142,12 @@ class Depo extends Component<Props, State> {
     this.props.principalChanged(number(text));
   };
 
-  onDateOpenChange = (event: Object, date: Date) => {
+  onDateOpenChange = (date: Date) => {
     this.setDatePickerVisible(false);
     if (date) this.props.dateOpenChanged(date.valueOf());
   };
 
-  onDateClosedChange = (event: Object, date: Date) => {
+  onDateClosedChange = (date: Date) => {
     this.setDatePicker2Visible(false);
     if (date) this.props.dateClosedChanged(date.valueOf());
   };
@@ -293,47 +292,33 @@ class Depo extends Component<Props, State> {
             <InputDate
               // label="Дата открытия вклада"
               label={t('input.dateOpen.label')}
-              value={initDate(new Date(this.props.dateOpen))}
+              value={initDate(new Date(dateOpen))}
               onRootPress={() => this.setDatePickerVisible(true)}
               onPress={() => this.setDatePickerVisible(true)}
             />
-            {/* <DateTimePicker
-              date={new Date(this.props.dateOpen)}
-              isVisible={this.state.isDatePickerVisible}
+            <DateTimePicker
+              date={new Date(dateOpen)}
+              isVisible={isDatePickerVisible}
               onConfirm={this.onDateOpenChange}
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
-            /> */}
-            {isDatePickerVisible && (
-              <DateTimePicker
-                value={new Date(dateOpen)}
-                display="spinner"
-                onChange={this.onDateOpenChange}
-              />
-            )}
-
+            />       
             <InputDate
               // label="Дата закрытия вклада"
               label={t('input.dateClosed.label')}
-              value={initDate(new Date(this.props.dateClosed))}
+              value={initDate(new Date(dateClosed))}
               onRootPress={() => this.setDatePicker2Visible(true)}
               onPress={() => this.setDatePicker2Visible(true)}
             />
 
-            {/* <DateTimePicker
-              date={new Date(this.props.dateClosed)}
-              isVisible={this.state.isDatePicker2Visible}
+            <DateTimePicker
+              date={new Date(dateClosed)}
+              isVisible={isDatePicker2Visible}
               onConfirm={this.onDateClosedChange}
               onCancel={() => this.setDatePicker2Visible(false)}
               display="spinner"
-            /> */}
-            {isDatePicker2Visible && (
-              <DateTimePicker
-                value={new Date(dateClosed)}
-                display="spinner"
-                onChange={this.onDateClosedChange}
-              />
-            )}
+            />
+     
 
             <Input
               // placeholder="введите ставку"
