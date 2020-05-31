@@ -86,6 +86,8 @@ type State = {
 };
 
 class Depo extends Component<Props, State> {
+  static contextType = LocalizationContext;
+
   state = {
     principalColor: textColor,
     interest1Color: textColor,
@@ -142,12 +144,12 @@ class Depo extends Component<Props, State> {
 
   onDateOpenChange = (date: Date) => {
     this.setDatePickerVisible(false);
-    this.props.dateOpenChanged(date.valueOf());
+    if (date) this.props.dateOpenChanged(date.valueOf());
   };
 
   onDateClosedChange = (date: Date) => {
     this.setDatePicker2Visible(false);
-    this.props.dateClosedChanged(date.valueOf());
+    if (date) this.props.dateClosedChanged(date.valueOf());
   };
 
   onInterest1Change = (text: string) => {
@@ -181,8 +183,6 @@ class Depo extends Component<Props, State> {
   onTaxRateSelect = (value: number) => {
     this.props.taxRateSelected(value);
   };
-
-  static contextType = LocalizationContext;
 
   render() {
     const {
@@ -232,6 +232,9 @@ class Depo extends Component<Props, State> {
     };
 
     const { t, locale } = this.context;
+
+    const { isDatePickerVisible, isDatePicker2Visible } = this.state;
+    const { dateOpen, dateClosed } = this.props;
 
     return (
       <ScrollView
@@ -289,28 +292,28 @@ class Depo extends Component<Props, State> {
             <InputDate
               // label="Дата открытия вклада"
               label={t('input.dateOpen.label')}
-              value={initDate(new Date(this.props.dateOpen))}
+              value={initDate(new Date(dateOpen))}
               onRootPress={() => this.setDatePickerVisible(true)}
               onPress={() => this.setDatePickerVisible(true)}
             />
             <DateTimePicker
-              date={new Date(this.props.dateOpen)}
-              isVisible={this.state.isDatePickerVisible}
+              date={new Date(dateOpen)}
+              isVisible={isDatePickerVisible}
               onConfirm={this.onDateOpenChange}
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
             />
-
             <InputDate
               // label="Дата закрытия вклада"
               label={t('input.dateClosed.label')}
-              value={initDate(new Date(this.props.dateClosed))}
+              value={initDate(new Date(dateClosed))}
               onRootPress={() => this.setDatePicker2Visible(true)}
               onPress={() => this.setDatePicker2Visible(true)}
             />
+
             <DateTimePicker
-              date={new Date(this.props.dateClosed)}
-              isVisible={this.state.isDatePicker2Visible}
+              date={new Date(dateClosed)}
+              isVisible={isDatePicker2Visible}
               onConfirm={this.onDateClosedChange}
               onCancel={() => this.setDatePicker2Visible(false)}
               display="spinner"

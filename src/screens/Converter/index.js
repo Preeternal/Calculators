@@ -45,6 +45,8 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Converter extends Component<Props, State> {
+  static contextType = LocalizationContext;
+
   state = {
     inputStyle: [],
     keyboard: false,
@@ -197,8 +199,6 @@ class Converter extends Component<Props, State> {
       this.listRef.current.scrollToIndex({ animated: true, index });
     }
   };
-
-  static contextType = LocalizationContext;
 
   render() {
     const { t } = this.context;

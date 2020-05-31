@@ -103,6 +103,8 @@ const textColor = '#525050';
 const activeTextColor = '#000000';
 
 class Credit extends Component<Props, State> {
+  static contextType = LocalizationContext;
+
   state = {
     creditPrincipalColor: textColor,
     creditInterestColor: textColor,
@@ -207,7 +209,7 @@ class Credit extends Component<Props, State> {
 
   onCreditDateOpenChange = (date: Date) => {
     this.setDatePickerVisible(false);
-    this.props.creditDateOpenChanged(date.valueOf());
+    if (date) this.props.creditDateOpenChanged(date.valueOf());
   };
 
   onCreditSrokValueChange = (text: string) => {
@@ -300,8 +302,6 @@ class Credit extends Component<Props, State> {
     }
   };
 
-  static contextType = LocalizationContext;
-
   render() {
     const {
       topImage,
@@ -350,6 +350,8 @@ class Credit extends Component<Props, State> {
     };
 
     const { t, locale } = this.context;
+    const { creditDateOpen } = this.props;
+    const { isDatePickerVisible } = this.state;
 
     return (
       <ScrollView key={this.props.language} style={{ flex: 1 }}>
@@ -422,13 +424,13 @@ class Credit extends Component<Props, State> {
             <InputDate
               // label="Дата выдачи кредита"
               label={t('credit.input.dateOpen.label')}
-              value={initDate(new Date(this.props.creditDateOpen))}
+              value={initDate(new Date(creditDateOpen))}
               onRootPress={() => this.setDatePickerVisible(true)}
               onPress={() => this.setDatePickerVisible(true)}
             />
             <DateTimePicker
-              date={new Date(this.props.creditDateOpen)}
-              isVisible={this.state.isDatePickerVisible}
+              date={new Date(creditDateOpen)}
+              isVisible={isDatePickerVisible}
               onConfirm={this.onCreditDateOpenChange}
               onCancel={() => this.setDatePickerVisible(false)}
               display="spinner"
