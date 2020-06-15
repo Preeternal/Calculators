@@ -19,6 +19,7 @@
     "@react-native-community/async-storage": "^1.10.3",
     "@react-native-community/datetimepicker": "^2.4.0",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/picker": "^1.6.1",
     "@react-navigation/drawer": "^5.8.1",
     "@react-navigation/native": "^5.5.0",
     "@react-navigation/native-stack": "^5.0.5",
@@ -54,6 +55,7 @@
     "react-native-screens": "^2.8.0",
     "react-native-simple-radio-button": "^2.7.3",
     "react-native-swipe-list-view": "^3.1.0",
+    "react-native-vector-icons": "^6.6.0",
     "react-native-version-number": "^0.3.6",
     "react-native-xml2js": "^1.0.3",
     "react-redux": "^7.2.0",
@@ -90,5 +92,8 @@
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ]
+  },
+  "resolutions": {
+    "flow-typed/semver": "7.1.3"
   }
 }

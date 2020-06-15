@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 // import { DateTime } from 'luxon';
 import 'number-to-locale-string';
