@@ -10,14 +10,16 @@ type Props = {
   type?: 'MaterialIcons',
   // name?: !!type ? MaterialIconsGlyphs : IoniconsGlyphs
   name?: {| ...IoniconsGlyphs, ...MaterialIconsGlyphs |},
-
+  // name?: IoniconsGlyphs | MaterialIconsGlyphs,
+  // name?: {| ...$Exact<IoniconsGlyphs>, ...$Exact<MaterialIconsGlyphs> |},
   onPress: () => void,
 };
-
 const DrawerButton = (props: Props) => {
+  // const materialName: MaterialIconsGlyphs = props.type ? props.name : undefined;
+
   return (
     <TouchableWithoutFeedback onPress={props.onPress}>
-      {!!props.name && props.type === 'MaterialIcons' ? (
+      {!!props.type && !!props.name ? (
         <MaterialIcons
           name={props.name}
           style={{ fontSize: 25, color: 'white' }}
