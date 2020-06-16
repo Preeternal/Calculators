@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
 });
 
 class AddCurrency extends Component<Props, State> {
+  static contextType = LocalizationContext;
+
   flatlist: {| current: null | FlatList<Object> |} = React.createRef();
 
   constructor(props: Props) {
@@ -194,8 +196,6 @@ class AddCurrency extends Component<Props, State> {
   setActiveLetter = (letter: ?string) => {
     this.setState({ activeLetter: letter });
   };
-
-  static contextType = LocalizationContext;
 
   render() {
     const {

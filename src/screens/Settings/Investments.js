@@ -24,7 +24,9 @@ const prodItems = Platform.select({
   ],
 });
 
-class Investments extends Component<null, State> {
+class Investments extends Component<{}, State> {
+  static contextType = LocalizationContext;
+
   state = {
     iapConnection: false,
     products: [],
@@ -104,8 +106,6 @@ class Investments extends Component<null, State> {
       });
     }
   };
-
-  static contextType = LocalizationContext;
 
   render() {
     const { t } = this.context;

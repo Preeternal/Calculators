@@ -7,18 +7,20 @@ import MaterialIcons, {
 } from 'react-native-vector-icons/MaterialIcons';
 
 type Props = {
+  type?: 'MaterialIcons',
+  // name?: !!type ? MaterialIconsGlyphs : IoniconsGlyphs
   name?: {| ...IoniconsGlyphs, ...MaterialIconsGlyphs |},
-  type?: string,
+
   onPress: () => void,
 };
 
 const DrawerButton = (props: Props) => {
   return (
     <TouchableWithoutFeedback onPress={props.onPress}>
-      {!!props.type && props.type === 'MaterialIcons' ? (
+      {!!props.name && props.type === 'MaterialIcons' ? (
         <MaterialIcons
           name={props.name}
-          style={{ fontSize: !props.name ? 30 : 25, color: 'white' }}
+          style={{ fontSize: 25, color: 'white' }}
         />
       ) : (
         <Icon

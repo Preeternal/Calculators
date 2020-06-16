@@ -171,7 +171,7 @@ const ConverterStack = ({ navigation }) => {
           title: t('converter.changeCurr'),
           headerBackTitle: null,
           headerBackTitleVisible: false,
-          headerTruncatedBackTitle: null,
+          // headerTruncatedBackTitle: null,
           headerStyle,
           headerTitleStyle,
           headerTintColor,
