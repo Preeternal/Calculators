@@ -14,7 +14,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import Pie from 'react-native-pie';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import 'number-to-locale-string';
 
 import {

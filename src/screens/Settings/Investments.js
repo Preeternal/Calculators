@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { ScrollView, Platform, Text, Alert } from 'react-native';
-import { Icon, Button } from 'native-base';
+import { ScrollView, Platform, Text, Alert, Button } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as RNIap from 'react-native-iap';
 import 'number-to-locale-string';
 
@@ -145,22 +145,28 @@ class Investments extends Component<{}, State> {
                       )} ${product.localizedPrice}`}
                     </Text>
                     <Button
-                      rounded
+                      // rounded
                       // block
+                      title={product.localizedPrice}
                       onPress={() => this.buyItem(product.productId)}
-                      style={{
-                        marginTop: 10,
-                        paddingLeft: 5,
-                        paddingRight: 5,
-                        alignSelf: 'center',
-                        backgroundColor: '#525050',
-                      }}
-                    >
-                      <Icon type="FontAwesome5" name="donate" />
+                      color="white"
+                      // style={{
+                      //   marginTop: 10,
+                      //   paddingLeft: 5,
+                      //   paddingRight: 5,
+                      //   alignSelf: 'center',
+                      //   backgroundColor: '#525050',
+                      // }}
+                    />
+                    {/* <FontAwesome5
+                        type="FontAwesome5"
+                        name="donate"
+                        style={{ color: 'white' }}
+                      />
                       <Text style={{ fontFamily: 'Ubuntu', color: 'white' }}>
                         {product.localizedPrice}
                       </Text>
-                    </Button>
+                    </Button> */}
                   </CardSection>
                 ))}
               </Card>
