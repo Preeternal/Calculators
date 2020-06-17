@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import Icon, { type IoniconsGlyphs } from 'react-native-vector-icons/Ionicons';
@@ -8,15 +7,10 @@ import MaterialIcons, {
 
 type Props = {
   type?: 'MaterialIcons',
-  // name?: !!type ? MaterialIconsGlyphs : IoniconsGlyphs
   name?: {| ...IoniconsGlyphs, ...MaterialIconsGlyphs |},
-  // name?: IoniconsGlyphs | MaterialIconsGlyphs,
-  // name?: {| ...$Exact<IoniconsGlyphs>, ...$Exact<MaterialIconsGlyphs> |},
   onPress: () => void,
 };
 const DrawerButton = (props: Props) => {
-  // const materialName: MaterialIconsGlyphs = props.type ? props.name : undefined;
-
   return (
     <TouchableWithoutFeedback onPress={props.onPress}>
       {!!props.type && !!props.name ? (
