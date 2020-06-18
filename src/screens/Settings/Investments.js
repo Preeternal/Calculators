@@ -1,11 +1,11 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import { ScrollView, Platform, Text, Alert, Button } from 'react-native';
+import { ScrollView, Platform, Text, Alert } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as RNIap from 'react-native-iap';
 import 'number-to-locale-string';
 
-import { Card, Header, CardSection } from '../../components/common';
+import { Card, Header, CardSection, Button } from '../../components/common';
 
 import { LocalizationContext } from '../../Context';
 
@@ -145,28 +145,28 @@ class Investments extends Component<{}, State> {
                       )} ${product.localizedPrice}`}
                     </Text>
                     <Button
-                      // rounded
-                      // block
+                      rounded
                       title={product.localizedPrice}
+                      titleColor="white"
                       onPress={() => this.buyItem(product.productId)}
                       color="white"
-                      // style={{
-                      //   marginTop: 10,
-                      //   paddingLeft: 5,
-                      //   paddingRight: 5,
-                      //   alignSelf: 'center',
-                      //   backgroundColor: '#525050',
-                      // }}
+                      customStyle={{
+                        backgroundColor: '#525050',
+                        alignSelf: 'center',
+                        width: 150,
+                      }}
+                      icon={() => (
+                        <FontAwesome5
+                          type="FontAwesome5"
+                          name="donate"
+                          style={{
+                            color: 'white',
+                            fontSize: 18,
+                            marginEnd: 10,
+                          }}
+                        />
+                      )}
                     />
-                    {/* <FontAwesome5
-                        type="FontAwesome5"
-                        name="donate"
-                        style={{ color: 'white' }}
-                      />
-                      <Text style={{ fontFamily: 'Ubuntu', color: 'white' }}>
-                        {product.localizedPrice}
-                      </Text>
-                    </Button> */}
                   </CardSection>
                 ))}
               </Card>
