@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { CheckBox } from 'native-base';
+import CheckBox from '@react-native-community/checkbox';
 
 type CurrencyType = {
   name: string,
@@ -25,20 +25,16 @@ const CurrencyAdditional = ({
     charTextStyle,
   } = styles;
 
-  // const [checked, setCheck] = useState(false);
-
-  // const handleClick = () => {
-  //   setCheck(!checked);
-  //   if (!checked) {
-  //     console.log(char);
-  //   }
-  // };
-
   return (
     <TouchableOpacity onPress={handleClick}>
       <View style={containerStyle}>
         <View style={checkBoxStyle}>
-          <CheckBox checked={checked} color="gray" onPress={handleClick} />
+          <CheckBox
+            value={checked}
+            tintColors={{ true: 'gray' }}
+            onFillColor="gray"
+            onChange={handleClick}
+          />
         </View>
         <View style={nameStyle}>
           <Text style={nameTextStyle}>{name}</Text>

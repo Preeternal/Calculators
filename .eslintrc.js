@@ -1,5 +1,9 @@
 module.exports = {
-  extends: ['airbnb', 'plugin:prettier/recommended', 'plugin:flowtype/recommended'],
+  extends: [
+    'airbnb',
+    'plugin:prettier/recommended',
+    'plugin:flowtype/recommended',
+  ],
   parser: 'babel-eslint',
   plugins: ['react', 'flowtype', 'jsx-a11y', 'import'],
   env: {
@@ -10,9 +14,16 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      'node': {
-        extensions: ['.js', '.jsx', '.json', '.native.js']
-      }
+      node: {
+        extensions: [
+          '.js',
+          '.jsx',
+          '.json',
+          '.native.js',
+          '.android.js',
+          '.ios.js',
+        ],
+      },
     },
   },
   rules: {
@@ -41,8 +52,8 @@ module.exports = {
     ],
     'flowtype/require-valid-file-annotation': 0,
     'flowtype/no-types-missing-file-annotation': 0,
-    'react/static-property-placement': 0
-    
+    'react/static-property-placement': 0,
+
     // 'arrow-parens': ['error', 'as-needed'],
   },
 };
