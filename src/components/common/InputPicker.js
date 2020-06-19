@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Platform, Dimensions } from 'react-native';
-import { Picker } from 'native-base';
+import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocalizationContext } from '../../Context';
 
@@ -32,6 +32,7 @@ const InputPicker = ({
           selectedValue={selectedValue}
           onValueChange={onValueChange}
           // itemStyle={{ width: 50 }}
+          itemStyle={{ color: '#525050' }}
           itemTextStyle={{ color: '#525050' }}
           iosHeader={t('picker.iosHeader')}
           headerBackButtonText={t('picker.headerBackButtonText')}

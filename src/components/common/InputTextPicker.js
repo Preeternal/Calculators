@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, Platform } from 'react-native';
-import { Picker } from 'native-base';
+import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocalizationContext } from '../../Context';
 

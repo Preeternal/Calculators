@@ -7,7 +7,7 @@ type CurrencyType = {
   name: string,
   char: string,
   checked: boolean,
-  handleClick: Function,
+  handleClick: () => void,
 };
 
 const CurrencyAdditional = ({
