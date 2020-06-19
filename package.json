@@ -37,7 +37,6 @@
     "i18n-js": "^3.7.0",
     "iconv-lite": "^0.5.1",
     "luxon": "^1.24.1",
-    "native-base": "https://github.com/Preeternal/NativeBase.git",
     "node-cron": "^2.0.3",
     "number-to-locale-string": "^1.2.0",
     "prop-types": "^15.7.2",
