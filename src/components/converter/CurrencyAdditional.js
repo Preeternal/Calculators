@@ -32,7 +32,9 @@ const CurrencyAdditional = ({
           <CheckBox
             value={checked}
             tintColors={{ true: 'gray' }}
+            onTintColor="gray"
             onFillColor="gray"
+            onCheckColor="white"
             onChange={handleClick}
           />
         </View>
