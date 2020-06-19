@@ -31,11 +31,11 @@ const CurrencyAdditional = ({
         <View style={checkBoxStyle}>
           <CheckBox
             value={checked}
+            onChange={handleClick}
             tintColors={{ true: 'gray' }}
             onTintColor="gray"
             onFillColor="gray"
             onCheckColor="white"
-            onChange={handleClick}
           />
         </View>
         <View style={nameStyle}>
