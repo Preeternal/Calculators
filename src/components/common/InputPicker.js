@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import { View, Text, Platform, Dimensions,  ActionSheetIOS, Button } from 'react-native';
+import { View, Text, Platform, Dimensions,  ActionSheetIOS } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocalizationContext } from '../../Context';
+import { Button } from './Button'
 
 const InputPicker = ({
   label,
@@ -20,23 +21,15 @@ const InputPicker = ({
     arrowIosStyle,
   } = styles;
   const { t } = React.useContext(LocalizationContext);
-  const [result, setResult] = useState("🔮");
   const onPress = () =>
   ActionSheetIOS.showActionSheetWithOptions(
     {
       options: [...options],
-      destructiveButtonIndex: 2,
-      cancelButtonIndex: 0
+      destructiveButtonIndex: selectedValue,
+      tintColor: 'gray'
+      // cancelButtonIndex: 0
     },
-    buttonIndex => {
-      if (buttonIndex === 0) {
-        // cancel action
-      } else if (buttonIndex === 1) {
-        setResult(Math.floor(Math.random() * 100) + 1);
-      } else if (buttonIndex === 2) {
-        setResult("🔮");
-      }
-    }
+    buttonIndex => {onValueChange(buttonIndex)}
   );
 
   return (
@@ -79,9 +72,9 @@ const InputPicker = ({
             <Picker.Item label={item} value={index} key={item} />
           ))}
         </Picker> ) : (
-        <View style={{}}>
-          {/* <Text style={{}}>{123}</Text> */}
-          <Button onPress={onPress} title="Show Action Sheet" />
+        <View style={{}}>  
+          {/* <Button onPress={onPress} title={options[selectedValue]} /> */}
+          <Button onPress={onPress} title={options[selectedValue]} outlined customStyle={{borderWidth: 0, flex: 1, width: 100}} />
         </View>)}
       </View>
     </View>
