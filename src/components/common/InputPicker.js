@@ -3,7 +3,7 @@ import { View, Text, Platform, Dimensions,  ActionSheetIOS } from 'react-native'
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocalizationContext } from '../../Context';
-import { Button } from './Button'
+import { PickerButton } from './PickerButton'
 
 const InputPicker = ({
   label,
@@ -72,9 +72,9 @@ const InputPicker = ({
             <Picker.Item label={item} value={index} key={item} />
           ))}
         </Picker> ) : (
-        <View style={{}}>  
+        <View style={pickerStyle}>  
           {/* <Button onPress={onPress} title={options[selectedValue]} /> */}
-          <Button onPress={onPress} title={options[selectedValue]} outlined customStyle={{borderWidth: 0, flex: 1, width: 100}} />
+          <PickerButton onPress={onPress} title={options[selectedValue]} titleColor={'#525050'} />
         </View>)}
       </View>
     </View>
