@@ -14,22 +14,22 @@ type Props = {
   title: string,
   titleColor?: string,
   icon?: () => React$Node,
-  iconRigth?: () => React$Node,
+  iconRight?: () => React$Node,
   rounded?: boolean,
   outlined?: boolean,
   customStyle?: ____ViewStyle_Internal,
-  onPress: () => void
+  onPress: () => void,
 };
 
 const Button = ({
   title,
   titleColor,
   icon,
-  iconRigth,
+  iconRight,
   rounded,
   outlined,
   customStyle,
-  onPress
+  onPress,
 }: Props) => {
   let inlineStyle = [];
 
@@ -52,7 +52,7 @@ const Button = ({
       <View style={[inlineStyle, { flexDirection: icon ? 'row' : 'column' }]}>
         {icon && icon()}
         <Text style={[styles.textStyle, { color: titleColor }]}>{title}</Text>
-        {iconRigth && iconRigth}
+        {iconRight && iconRight()}
       </View>
     </TouchableOpacity>
   );
