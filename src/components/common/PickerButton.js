@@ -1,7 +1,13 @@
 /* eslint-disable camelcase */
 // @flow
 import React from 'react';
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  StyleSheet,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
@@ -15,22 +21,22 @@ type Props = {
   title: string,
   titleColor?: string,
   icon?: () => React$Node,
-  iconRigth?: () => React$Node,
+  iconRight?: () => React$Node,
   rounded?: boolean,
   outlined?: boolean,
   customStyle?: ____ViewStyle_Internal,
-  onPress: () => void
+  onPress: () => void,
 };
 
 const PickerButton = ({
   title,
   titleColor,
   icon,
-  iconRigth,
+  iconRight,
   rounded,
   outlined,
   customStyle,
-  onPress
+  onPress,
 }: Props) => {
   let inlineStyle = [];
 
@@ -58,13 +64,13 @@ const PickerButton = ({
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   defaultStyle: {
-    alignItems: 'space-between',
+    alignItems: 'stretch',
     alignSelf: 'flex-start',
     justifyContent: 'center',
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   textStyle: {
     paddingLeft: 10,
@@ -87,6 +93,6 @@ const styles = {
     fontSize: 15,
     marginLeft: 8,
   },
-};
+});
 
 export { PickerButton };

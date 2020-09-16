@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import { View, Text, Platform, Dimensions,  ActionSheetIOS } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Platform, Dimensions, ActionSheetIOS } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocalizationContext } from '../../Context';
-import { PickerButton } from './PickerButton'
+import { PickerButton } from './PickerButton';
 
 const InputPicker = ({
   label,
@@ -22,15 +22,17 @@ const InputPicker = ({
   } = styles;
   const { t } = React.useContext(LocalizationContext);
   const onPress = () =>
-  ActionSheetIOS.showActionSheetWithOptions(
-    {
-      options: [...options],
-      destructiveButtonIndex: selectedValue,
-      tintColor: 'gray'
-      // cancelButtonIndex: 0
-    },
-    buttonIndex => {onValueChange(buttonIndex)}
-  );
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: [...options],
+        destructiveButtonIndex: selectedValue,
+        tintColor: 'gray',
+        // cancelButtonIndex: 0
+      },
+      buttonIndex => {
+        onValueChange(buttonIndex);
+      },
+    );
 
   return (
     <View style={containerStyle}>
@@ -39,43 +41,50 @@ const InputPicker = ({
       </View>
       <View style={inputStyle}>
         {Platform.OS === 'android' && <View style={{ paddingLeft: 10 }} />}
-        {Platform.OS === 'android' ? ( <Picker
-          selectedValue={selectedValue}
-          onValueChange={onValueChange}
-          // itemStyle={{ width: 50 }}
-          itemStyle={{ color: '#525050' }}
-          itemTextStyle={{ color: '#525050' }}
-          iosHeader={t('picker.iosHeader')}
-          headerBackButtonText={t('picker.headerBackButtonText')}
-          // headerStyle={{ color: '#525050' }}
-          textStyle={{
-            color: '#525050',
-            fontSize: Platform.OS === 'ios' ? 13 : 15,
-            fontFamily: 'Ubuntu',
-            fontWeight: 'normal',
-          }}
-          // mode='dropdown'
-          mode="dialog"
-          options={options}
-          style={
-            Platform.OS === 'android'
-              ? pickerStyle
-              : {
-                  flex: 1,
-                  width: pickerWidth || Dimensions.get('window').width / 2.8,
-                }
-          }
-          // headerStyle={{ backgroundColor: '#b95dd3' }}
-          iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
-        >
-          {options.map((item, index) => (
-            <Picker.Item label={item} value={index} key={item} />
-          ))}
-        </Picker> ) : (
-        <View style={pickerStyle}>  
-          {/* <Button onPress={onPress} title={options[selectedValue]} /> */}
-          <PickerButton onPress={onPress} title={options[selectedValue]} titleColor={'#525050'} />
-        </View>)}
+        {Platform.OS === 'android' ? (
+          <Picker
+            selectedValue={selectedValue}
+            onValueChange={onValueChange}
+            // itemStyle={{ width: 50 }}
+            itemStyle={{ color: '#525050' }}
+            itemTextStyle={{ color: '#525050' }}
+            iosHeader={t('picker.iosHeader')}
+            headerBackButtonText={t('picker.headerBackButtonText')}
+            // headerStyle={{ color: '#525050' }}
+            textStyle={{
+              color: '#525050',
+              fontSize: Platform.OS === 'ios' ? 13 : 15,
+              fontFamily: 'Ubuntu',
+              fontWeight: 'normal',
+            }}
+            // mode='dropdown'
+            mode="dialog"
+            options={options}
+            style={
+              Platform.OS === 'android'
+                ? pickerStyle
+                : {
+                    flex: 1,
+                    width: pickerWidth || Dimensions.get('window').width / 2.8,
+                  }
+            }
+            // headerStyle={{ backgroundColor: '#b95dd3' }}
+            iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
+          >
+            {options.map((item, index) => (
+              <Picker.Item label={item} value={index} key={item} />
+            ))}
+          </Picker>
+        ) : (
+          <View style={pickerStyle}>
+            {/* <Button onPress={onPress} title={options[selectedValue]} /> */}
+            <PickerButton
+              onPress={onPress}
+              title={options[selectedValue]}
+              titleColor="#525050"
+            />
+          </View>
+        )}
       </View>
     </View>
   );
