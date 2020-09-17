@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Platform, Dimensions, ActionSheetIOS } from 'react-native';
+import { View, Text, Platform, Dimensions, ActionSheetIOS, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocalizationContext } from '../../Context';
@@ -11,6 +11,7 @@ const InputPicker = ({
   onValueChange,
   options,
   pickerWidth,
+  customLabelStyle
 }) => {
   const {
     containerStyle,
@@ -26,7 +27,7 @@ const InputPicker = ({
       {
         options: [...options],
         destructiveButtonIndex: selectedValue,
-        tintColor: 'gray',
+        tintColor: '#525050',
         // cancelButtonIndex: 0
       },
       buttonIndex => {
@@ -36,7 +37,7 @@ const InputPicker = ({
 
   return (
     <View style={containerStyle}>
-      <View style={labelStyle}>
+      <View style={[labelStyle, customLabelStyle]}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
@@ -60,14 +61,7 @@ const InputPicker = ({
             // mode='dropdown'
             mode="dialog"
             options={options}
-            style={
-              Platform.OS === 'android'
-                ? pickerStyle
-                : {
-                    flex: 1,
-                    width: pickerWidth || Dimensions.get('window').width / 2.8,
-                  }
-            }
+            style={ pickerStyle }
             // headerStyle={{ backgroundColor: '#b95dd3' }}
             iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
           >
@@ -90,7 +84,7 @@ const InputPicker = ({
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     borderBottomWidth: 1,
@@ -101,8 +95,8 @@ const styles = {
   },
   labelStyle: {
     flex: 1.9,
-    borderRightWidth: 1,
-    borderColor: '#ddd',
+    // borderRightWidth: 1,
+    // borderColor: '#ddd',
     justifyContent: 'center',
   },
   labelTextStyle: {
@@ -113,10 +107,15 @@ const styles = {
   inputStyle: {
     flex: 1.1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
   },
   pickerStyle: {
     flex: 1,
+    marginLeft: 2,
+    marginRight: 2,
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+    
   },
   arrowIosStyle: {
     color: '#5c251c',
@@ -124,6 +123,6 @@ const styles = {
     fontSize: 15,
     marginLeft: -8,
   },
-};
+});
 
 export { InputPicker };

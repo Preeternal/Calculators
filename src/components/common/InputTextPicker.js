@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, Platform } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { InputPicker } from './InputPicker';
 import { LocalizationContext } from '../../Context';
 
 const InputTextPicker = ({
@@ -34,9 +35,15 @@ const InputTextPicker = ({
   return (
     <View style={containerStyle}>
       <View style={labelStyle}>
-        <Text style={[componentLabelTextStyle, labelTextStyle]}>{label}</Text>
-        {Platform.OS === 'android' && <View style={{ paddingLeft: 1.5 }} />}
-        <Picker
+        {/* <Text style={[componentLabelTextStyle, labelTextStyle]}>{label}</Text>
+        {Platform.OS === 'android' && <View style={{ paddingLeft: 1.5 }} />} */}
+        <InputPicker
+          label={label}         
+          options={options}
+          selectedValue={selectedValue}
+          onValueChange={onValueChange}
+        />
+        {/* <Picker
           selectedValue={selectedValue}
           onValueChange={onValueChange}
           // itemStyle={{ color: '#525050' }}
@@ -59,7 +66,7 @@ const InputTextPicker = ({
           {options.map((item, index) => (
             <Picker.Item label={item} value={index} key={item} />
           ))}
-        </Picker>
+        </Picker> */}
       </View>
       <View style={inputStyle}>
         <TextInput

@@ -471,6 +471,7 @@ class Credit extends Component<Props, State> {
               pickerWidth={this.state.pickerWidth}
               selectedValue={this.props.creditPlatez}
               onValueChange={this.onCreditPlatezSelect}
+              customLabelStyle={{borderRightWidth: 1, borderColor: '#ddd'}}
             />
 
             <CardSection

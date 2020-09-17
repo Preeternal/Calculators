@@ -57,7 +57,7 @@ const PickerButton = ({
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={inlineStyle}>
-        <Text style={[styles.textStyle, { color: titleColor }]}>{title}</Text>
+        <Text numberOfLines={1} style={[styles.textStyle, { color: titleColor }]}>{title}</Text>
         <Icon name="md-arrow-dropdown" style={styles.arrowIosStyle} />
       </View>
     </TouchableOpacity>
@@ -66,17 +66,18 @@ const PickerButton = ({
 
 const styles = StyleSheet.create({
   defaultStyle: {
-    alignItems: 'stretch',
-    alignSelf: 'flex-start',
-    justifyContent: 'center',
+    marginLeft: 2,
+    marginRight: 2,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     flex: 1,
     flexDirection: 'row',
   },
   textStyle: {
-    paddingLeft: 10,
-    paddingRight: 5,
+    // paddingLeft: 10,
+    // paddingRight: 5,
     fontFamily: 'Ubuntu',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     color: '#525050',
     textAlignVertical: 'center',
   },
@@ -89,7 +90,6 @@ const styles = StyleSheet.create({
   },
   arrowIosStyle: {
     color: '#5c251c',
-    alignSelf: 'flex-end',
     fontSize: 15,
     marginLeft: 8,
   },
