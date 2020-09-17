@@ -38,7 +38,7 @@ const InputTextPicker = ({
         {/* <Text style={[componentLabelTextStyle, labelTextStyle]}>{label}</Text>
         {Platform.OS === 'android' && <View style={{ paddingLeft: 1.5 }} />} */}
         <InputPicker
-          label={label}         
+          label={label}
           options={options}
           selectedValue={selectedValue}
           onValueChange={onValueChange}

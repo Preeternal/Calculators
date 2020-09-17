@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Platform, Dimensions, ActionSheetIOS, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  Dimensions,
+  ActionSheetIOS,
+  StyleSheet,
+} from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocalizationContext } from '../../Context';
@@ -11,7 +18,7 @@ const InputPicker = ({
   onValueChange,
   options,
   pickerWidth,
-  customLabelStyle
+  customLabelStyle,
 }) => {
   const {
     containerStyle,
@@ -61,7 +68,7 @@ const InputPicker = ({
             // mode='dropdown'
             mode="dialog"
             options={options}
-            style={ pickerStyle }
+            style={pickerStyle}
             // headerStyle={{ backgroundColor: '#b95dd3' }}
             iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
           >
@@ -114,8 +121,7 @@ const styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 2,
     alignItems: 'center',
-    justifyContent: 'flex-end'
-    
+    justifyContent: 'flex-end',
   },
   arrowIosStyle: {
     color: '#5c251c',
