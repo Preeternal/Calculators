@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
 // @flow
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 type Props = {
@@ -12,14 +11,14 @@ type Props = {
 
 const PickerButton = ({ title, titleColor, onPress }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.containerStyle}>     
-        <Text
-          numberOfLines={1}
-          style={[styles.textStyle, { color: titleColor }]}
-        >
-          {title}
-        </Text>
-        <Icon name="md-arrow-dropdown" style={[styles.arrowIosStyle, { color: titleColor }]}/>  
+    <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
+      <Text numberOfLines={1} style={[styles.textStyle, { color: titleColor }]}>
+        {title}
+      </Text>
+      <Icon
+        name="md-arrow-dropdown"
+        style={[styles.arrowIosStyle, { color: titleColor }]}
+      />
     </TouchableOpacity>
   );
 };
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   textStyle: {
-
     flex: 0.85,
     fontFamily: 'Ubuntu',
     fontWeight: 'normal',

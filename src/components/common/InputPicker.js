@@ -1,7 +1,16 @@
+// @flow
 import React from 'react';
 import { View, Text, Platform, ActionSheetIOS, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import { PickerButton } from './PickerButton';
+
+type Props = {
+  label: string,
+  selectedValue: number,
+  options: string[],
+  borderRight: Boolean,
+  onValueChange: (buttonIndex: string | number) => void,
+};
 
 const InputPicker = ({
   label,
@@ -9,7 +18,7 @@ const InputPicker = ({
   onValueChange,
   options,
   borderRight,
-}) => {
+}: Props) => {
   const {
     containerStyle,
     labelStyle,
