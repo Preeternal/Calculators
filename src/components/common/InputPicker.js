@@ -1,70 +1,81 @@
+// @flow
 import React from 'react';
-import { View, Text, Platform, Dimensions } from 'react-native';
-import { Picker, Icon } from 'native-base';
-import { LocalizationContext } from '../../Context';
+import { View, Text, Platform, ActionSheetIOS, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-community/picker';
+import { PickerButton } from './PickerButton';
+
+type Props = {
+  label: string,
+  selectedValue: number,
+  options: string[],
+  borderRight: Boolean,
+  onValueChange: (buttonIndex: string | number) => void,
+};
 
 const InputPicker = ({
   label,
   selectedValue,
   onValueChange,
   options,
-  pickerWidth,
-}) => {
+  borderRight,
+}: Props) => {
   const {
     containerStyle,
     labelStyle,
+    borderRightStyle,
     labelTextStyle,
     inputStyle,
     pickerStyle,
-    arrowIosStyle,
+    itemStyle,
   } = styles;
-  const { t } = React.useContext(LocalizationContext);
+
+  const onPress = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: [...options],
+        destructiveButtonIndex: selectedValue,
+        // tintColor: '#525050',
+        // cancelButtonIndex: 0
+      },
+      buttonIndex => {
+        onValueChange(buttonIndex);
+      },
+    );
 
   return (
     <View style={containerStyle}>
-      <View style={labelStyle}>
+      <View style={[labelStyle, borderRight && borderRightStyle]}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
-        {Platform.OS === 'android' && <View style={{ paddingLeft: 10 }} />}
-        <Picker
-          selectedValue={selectedValue}
-          onValueChange={onValueChange}
-          // itemStyle={{ width: 50 }}
-          itemTextStyle={{ color: '#525050' }}
-          iosHeader={t('picker.iosHeader')}
-          headerBackButtonText={t('picker.headerBackButtonText')}
-          // headerStyle={{ color: '#525050' }}
-          textStyle={{
-            color: '#525050',
-            fontSize: Platform.OS === 'ios' ? 13 : 15,
-            fontFamily: 'Ubuntu',
-            fontWeight: 'normal',
-          }}
-          // mode='dropdown'
-          mode="dialog"
-          options={options}
-          style={
-            Platform.OS === 'android'
-              ? pickerStyle
-              : {
-                  flex: 1,
-                  width: pickerWidth || Dimensions.get('window').width / 2.8,
-                }
-          }
-          // headerStyle={{ backgroundColor: '#b95dd3' }}
-          iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
-        >
-          {options.map((item, index) => (
-            <Picker.Item label={item} value={index} key={item} />
-          ))}
-        </Picker>
+        {Platform.OS === 'android' ? (
+          <Picker
+            selectedValue={selectedValue}
+            onValueChange={onValueChange}
+            mode="dropdown"
+            // mode="dialog"
+            style={pickerStyle}
+            itemStyle={itemStyle}
+          >
+            {options.map((item, index) => (
+              <Picker.Item label={item} value={index} key={item} />
+            ))}
+          </Picker>
+        ) : (
+          <View style={pickerStyle}>
+            <PickerButton
+              onPress={onPress}
+              title={options[selectedValue]}
+              titleColor="#525050"
+            />
+          </View>
+        )}
       </View>
     </View>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     borderBottomWidth: 1,
@@ -75,10 +86,9 @@ const styles = {
   },
   labelStyle: {
     flex: 1.9,
-    borderRightWidth: 1,
-    borderColor: '#ddd',
     justifyContent: 'center',
   },
+  borderRightStyle: { borderRightWidth: 1, borderColor: '#ddd' },
   labelTextStyle: {
     fontFamily: 'Ubuntu',
     paddingLeft: 10,
@@ -86,18 +96,17 @@ const styles = {
   },
   inputStyle: {
     flex: 1.1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
   },
   pickerStyle: {
     flex: 1,
+    marginLeft: 10,
   },
-  arrowIosStyle: {
-    color: '#5c251c',
-    alignSelf: 'flex-start',
+  itemStyle: {
+    color: '#525050',
     fontSize: 15,
-    marginLeft: -8,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
   },
-};
+});
 
 export { InputPicker };

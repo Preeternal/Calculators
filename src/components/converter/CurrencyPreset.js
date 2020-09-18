@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
-import { Icon } from 'native-base';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { LocalizationContext } from '../../Context';
 
@@ -44,7 +45,7 @@ const CurrencyPreset = (props: Props) => {
       </View>
       <View style={[containerStyle, props.isActive && active]}>
         <TouchableOpacity style={deleteStyle} onPress={props.onDelete}>
-          <Icon type="MaterialIcons" name="delete" style={iconStyle} />
+          <MaterialIcon name="delete" style={iconStyle} />
         </TouchableOpacity>
         <View style={charStyle}>
           <Text style={charTextStyle}>{props.char}</Text>
@@ -55,7 +56,7 @@ const CurrencyPreset = (props: Props) => {
           onPressIn={props.onMove}
           onPressOut={props.onPressOut}
         >
-          <Icon type="FontAwesome" name="sort" style={iconStyle} />
+          <FontAwesome name="sort" style={iconStyle} />
         </TouchableOpacity>
       </View>
     </SwipeRow>

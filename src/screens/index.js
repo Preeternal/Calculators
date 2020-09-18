@@ -10,7 +10,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import RNLanguages from 'react-native-languages';
 import i18n from 'i18n-js';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import cron from 'node-cron';
 import { DateTime } from 'luxon';
 import 'number-to-locale-string';
@@ -169,7 +171,6 @@ const ConverterStack = ({ navigation }) => {
           title: t('converter.changeCurr'),
           headerBackTitle: null,
           headerBackTitleVisible: false,
-          headerTruncatedBackTitle: null,
           headerStyle,
           headerTitleStyle,
           headerTintColor,
@@ -300,8 +301,7 @@ const Navigator = () => {
             title: t('converter.header'),
             drawerLabel: t('converter.header'),
             drawerIcon: ({ focused, color, size }) => (
-              <Icon
-                type="FontAwesome"
+              <FontAwesome
                 name="retweet"
                 style={iconStyle(focused, color, size - 2)}
               />
@@ -316,11 +316,7 @@ const Navigator = () => {
             drawerLabel: route.params && route.params.DLabel,
             // drawerLabel: t('headerDeposit'),
             drawerIcon: ({ focused, color, size }) => (
-              <Icon
-                type="Entypo"
-                name="wallet"
-                style={iconStyle(focused, color, size)}
-              />
+              <Entypo name="wallet" style={iconStyle(focused, color, size)} />
             ),
           })}
         />

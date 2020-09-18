@@ -355,6 +355,7 @@ class Depo extends Component<Props, State> {
               ]}
               selectedValue={this.props.platez}
               onValueChange={this.onPlatezChange}
+              borderRight
             />
 
             <InputPicker
@@ -369,6 +370,7 @@ class Depo extends Component<Props, State> {
               ]}
               selectedValue={this.props.plusperiod}
               onValueChange={this.onPlusperiodChange}
+              borderRight
             />
 
             {Number(this.props.plusperiod) === 0 ? null : (
@@ -400,6 +402,7 @@ class Depo extends Component<Props, State> {
                 ]}
                 selectedValue={this.props.taxCheck}
                 onValueChange={this.onTaxSelect}
+                borderRight
               />
             ) : null}
             {this.props.taxCheck === 0 && this.props.country === 0 && (
@@ -410,6 +413,7 @@ class Depo extends Component<Props, State> {
                 options={[t('settings.resident'), t('settings.non-resident')]}
                 selectedValue={this.props.taxRate}
                 onValueChange={this.onTaxRateSelect}
+                borderRight
               />
             )}
           </TableSection>

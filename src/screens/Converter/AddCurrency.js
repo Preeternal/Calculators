@@ -8,7 +8,9 @@ import {
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { CurrencyAdditional } from '../../components/converter/CurrencyAdditional';
 import AlphabeticScrollBar from '../../components/converter/AlphabeticScrollBar';
@@ -61,6 +63,8 @@ const styles = StyleSheet.create({
 });
 
 class AddCurrency extends Component<Props, State> {
+  static contextType = LocalizationContext;
+
   flatlist: {| current: null | FlatList<Object> |} = React.createRef();
 
   constructor(props: Props) {
@@ -85,11 +89,7 @@ class AddCurrency extends Component<Props, State> {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity style={styles.rightButton} onPress={this.saveDetails}>
-          <Icon
-            type="MaterialIcons"
-            name="done"
-            style={styles.actionButtonIcon}
-          />
+          <MaterialIcons name="done" style={styles.actionButtonIcon} />
         </TouchableOpacity>
       ),
     });
@@ -128,14 +128,13 @@ class AddCurrency extends Component<Props, State> {
         }}
       >
         <View style={styles.searchContainer}>
-          <Icon name="ios-search" />
+          <Icon name="ios-search" style={{ fontSize: 25, color: '#525050' }} />
           <TextInput
             placeholder={t('converter.search')}
             onChangeText={this.searchFilterFunction}
             style={{ flex: 1 }}
           />
-          <Icon
-            type="FontAwesome5"
+          <FontAwesome5
             name="coins"
             style={{ fontSize: 20, color: '#525050' }}
           />
@@ -194,8 +193,6 @@ class AddCurrency extends Component<Props, State> {
   setActiveLetter = (letter: ?string) => {
     this.setState({ activeLetter: letter });
   };
-
-  static contextType = LocalizationContext;
 
   render() {
     const {
