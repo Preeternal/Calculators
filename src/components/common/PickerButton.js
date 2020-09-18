@@ -12,38 +12,35 @@ type Props = {
 
 const PickerButton = ({ title, titleColor, onPress }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.containerStyle}>
+    <TouchableOpacity onPress={onPress} style={styles.containerStyle}>     
         <Text
           numberOfLines={1}
           style={[styles.textStyle, { color: titleColor }]}
         >
           {title}
         </Text>
-        <Icon name="md-arrow-dropdown" style={styles.arrowIosStyle} />
-      </View>
+        <Icon name="md-arrow-dropdown" style={[styles.arrowIosStyle, { color: titleColor }]}/>  
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   containerStyle: {
-    marginLeft: 2,
-    marginRight: 2,
+    marginRight: 10,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     flex: 1,
     flexDirection: 'row',
   },
   textStyle: {
-    color: '#525050',
-    fontSize: 13,
+
+    flex: 0.85,
     fontFamily: 'Ubuntu',
     fontWeight: 'normal',
     textAlignVertical: 'center',
   },
   arrowIosStyle: {
-    color: '#5c251c',
+    flex: 0.15,
     fontSize: 15,
     marginLeft: 8,
   },

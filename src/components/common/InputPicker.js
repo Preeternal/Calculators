@@ -25,7 +25,7 @@ const InputPicker = ({
       {
         options: [...options],
         destructiveButtonIndex: selectedValue,
-        tintColor: '#525050',
+        // tintColor: '#525050',
         // cancelButtonIndex: 0
       },
       buttonIndex => {
@@ -87,10 +87,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1.1,
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // alignContent: 'center',
-    // justifyContent: 'flex-start',
   },
   pickerStyle: {
     flex: 1,
