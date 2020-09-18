@@ -45,6 +45,7 @@ const Settings = () => {
             options={['русский', 'english']}
             selectedValue={language}
             onValueChange={onLanguageChange}
+            borderRight
           />
           <InputPicker
             // label="Страна"
@@ -52,6 +53,7 @@ const Settings = () => {
             options={['Россия', 'Other', 'Украина']}
             selectedValue={country}
             onValueChange={onCountryChange}
+            borderRight
           />
         </TableSection>
         <View style={styles.container}>

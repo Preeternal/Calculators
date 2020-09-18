@@ -1,15 +1,6 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  Platform,
-  Dimensions,
-  ActionSheetIOS,
-  StyleSheet,
-} from 'react-native';
+import React from 'react';
+import { View, Text, Platform, ActionSheetIOS, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-community/picker';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { LocalizationContext } from '../../Context';
 import { PickerButton } from './PickerButton';
 
 const InputPicker = ({
@@ -17,18 +8,18 @@ const InputPicker = ({
   selectedValue,
   onValueChange,
   options,
-  pickerWidth,
-  customLabelStyle,
+  borderRight,
 }) => {
   const {
     containerStyle,
     labelStyle,
+    borderRightStyle,
     labelTextStyle,
     inputStyle,
     pickerStyle,
-    arrowIosStyle,
+    itemStyle,
   } = styles;
-  const { t } = React.useContext(LocalizationContext);
+
   const onPress = () =>
     ActionSheetIOS.showActionSheetWithOptions(
       {
@@ -44,33 +35,18 @@ const InputPicker = ({
 
   return (
     <View style={containerStyle}>
-      <View style={[labelStyle, customLabelStyle]}>
+      <View style={[labelStyle, borderRight && borderRightStyle]}>
         <Text style={labelTextStyle}>{label}</Text>
       </View>
       <View style={inputStyle}>
-        {Platform.OS === 'android' && <View style={{ paddingLeft: 10 }} />}
         {Platform.OS === 'android' ? (
           <Picker
             selectedValue={selectedValue}
             onValueChange={onValueChange}
-            // itemStyle={{ width: 50 }}
-            itemStyle={{ color: '#525050' }}
-            itemTextStyle={{ color: '#525050' }}
-            iosHeader={t('picker.iosHeader')}
-            headerBackButtonText={t('picker.headerBackButtonText')}
-            // headerStyle={{ color: '#525050' }}
-            textStyle={{
-              color: '#525050',
-              fontSize: Platform.OS === 'ios' ? 13 : 15,
-              fontFamily: 'Ubuntu',
-              fontWeight: 'normal',
-            }}
-            // mode='dropdown'
-            mode="dialog"
-            options={options}
+            mode="dropdown"
+            // mode="dialog"
             style={pickerStyle}
-            // headerStyle={{ backgroundColor: '#b95dd3' }}
-            iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
+            itemStyle={itemStyle}
           >
             {options.map((item, index) => (
               <Picker.Item label={item} value={index} key={item} />
@@ -78,7 +54,6 @@ const InputPicker = ({
           </Picker>
         ) : (
           <View style={pickerStyle}>
-            {/* <Button onPress={onPress} title={options[selectedValue]} /> */}
             <PickerButton
               onPress={onPress}
               title={options[selectedValue]}
@@ -102,10 +77,9 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     flex: 1.9,
-    // borderRightWidth: 1,
-    // borderColor: '#ddd',
     justifyContent: 'center',
   },
+  borderRightStyle: { borderRightWidth: 1, borderColor: '#ddd' },
   labelTextStyle: {
     fontFamily: 'Ubuntu',
     paddingLeft: 10,
@@ -113,21 +87,20 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1.1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // alignContent: 'center',
+    // justifyContent: 'flex-start',
   },
   pickerStyle: {
     flex: 1,
-    marginLeft: 2,
-    marginRight: 2,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    marginLeft: 10,
   },
-  arrowIosStyle: {
-    color: '#5c251c',
-    alignSelf: 'flex-start',
+  itemStyle: {
+    color: '#525050',
     fontSize: 15,
-    marginLeft: -8,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
   },
 });
 

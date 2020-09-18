@@ -1,63 +1,25 @@
 /* eslint-disable camelcase */
 // @flow
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Platform,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-
-// const height = 40;
-// const padding = 10;
-// const margin = 10;
-// const width = 250;
-// const backgroundColor = 'lightgrey';
 
 type Props = {
   title: string,
   titleColor?: string,
-  icon?: () => React$Node,
-  iconRight?: () => React$Node,
-  rounded?: boolean,
-  outlined?: boolean,
-  customStyle?: ____ViewStyle_Internal,
   onPress: () => void,
 };
 
-const PickerButton = ({
-  title,
-  titleColor,
-  icon,
-  iconRight,
-  rounded,
-  outlined,
-  customStyle,
-  onPress,
-}: Props) => {
-  let inlineStyle = [];
-
-  inlineStyle = inlineStyle.concat(styles.defaultStyle);
-
-  if (rounded) {
-    inlineStyle = inlineStyle.concat(styles.roundBorder);
-  }
-
-  if (outlined) {
-    inlineStyle = inlineStyle.concat(styles.outlined);
-  }
-
-  if (customStyle) {
-    inlineStyle = inlineStyle.concat(customStyle);
-  }
-
+const PickerButton = ({ title, titleColor, onPress }: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={inlineStyle}>
-        <Text numberOfLines={1} style={[styles.textStyle, { color: titleColor }]}>{title}</Text>
+      <View style={styles.containerStyle}>
+        <Text
+          numberOfLines={1}
+          style={[styles.textStyle, { color: titleColor }]}
+        >
+          {title}
+        </Text>
         <Icon name="md-arrow-dropdown" style={styles.arrowIosStyle} />
       </View>
     </TouchableOpacity>
@@ -65,7 +27,7 @@ const PickerButton = ({
 };
 
 const styles = StyleSheet.create({
-  defaultStyle: {
+  containerStyle: {
     marginLeft: 2,
     marginRight: 2,
     alignItems: 'center',
@@ -74,19 +36,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   textStyle: {
-    // paddingLeft: 10,
-    // paddingRight: 5,
-    fontFamily: 'Ubuntu',
-    // alignSelf: 'center',
     color: '#525050',
+    fontSize: 13,
+    fontFamily: 'Ubuntu',
+    fontWeight: 'normal',
     textAlignVertical: 'center',
-  },
-  roundBorder: {
-    borderRadius: 30,
-  },
-  outlined: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
   },
   arrowIosStyle: {
     color: '#5c251c',

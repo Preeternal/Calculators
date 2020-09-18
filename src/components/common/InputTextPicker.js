@@ -91,9 +91,7 @@ const InputTextPicker = ({
 const styles = {
   containerStyle: {
     flex: 1,
-    borderBottomWidth: 1,
     backgroundColor: '#fff',
-    borderColor: '#ddd',
     minHeight: 52,
     flexDirection: 'row',
   },
@@ -116,6 +114,8 @@ const styles = {
     flex: 1.1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
   },
   inputTextStyle: {
     paddingLeft: 10,
