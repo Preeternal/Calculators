@@ -1,4 +1,5 @@
 {
+  "appVersion": "Версия:",
   "format": {
     "number": {
       "precision": 2,
@@ -180,7 +181,8 @@
     "delete": "Удаление",
     "remove": "Удалить",
     "fromTheList": "из списка?",
-    "DELETE": "УДАЛЕНИЕ"
+    "DELETE": "УДАЛЕНИЕ",
+    "search": "Поиск"
   },
   "settings": {
     "settings": "Настройки",
