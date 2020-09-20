@@ -268,14 +268,16 @@ class Converter extends Component<Props, State> {
                     .setLocale('ru')
                     .toLocaleString(DateTime.DATE_SHORT)}`} */}
 
-                        {`${t('converter.lastUpdate')} ${initDate(
-                          new Date(
-                            Date.parse(this.props.currencies[1].updatedAt),
-                          ),
-                        )} ${new Date(
-                          Date.parse(this.props.currencies[1].updatedAt) -
-                            new Date().getTimezoneOffset() * 1000,
-                        ).toLocaleTimeString()}`}
+                        {this.props.currencies[1]?.updatedAt
+                          ? `${t('converter.lastUpdate')} ${initDate(
+                              new Date(
+                                Date.parse(this.props.currencies[1]?.updatedAt),
+                              ),
+                            )} ${new Date(
+                              Date.parse(this.props.currencies[1]?.updatedAt) -
+                                new Date().getTimezoneOffset() * 1000,
+                            ).toLocaleTimeString()}`
+                          : ''}
 
                         {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                     - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}

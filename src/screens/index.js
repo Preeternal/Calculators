@@ -475,7 +475,7 @@ class App extends Component<Props, State> {
 
   updateCurrenciesIfOutdated = () => {
     const cdt = DateTime.local();
-    const dt = DateTime.fromISO(this.props.currencies[1].updatedAt);
+    const dt = DateTime.fromISO(this.props.currencies[1]?.updatedAt);
     if (cdt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
       storeCurrencies();
     }
