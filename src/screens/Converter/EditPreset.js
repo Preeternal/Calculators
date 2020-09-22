@@ -16,6 +16,8 @@ type Props = {
 };
 
 class EditPreset extends Component<Props> {
+  static contextType = LocalizationContext;
+
   deleteListItem = (item: string) => {
     const prevPreset = this.props.preset || [];
     const preset = prevPreset.filter(i => i !== item);
@@ -71,8 +73,6 @@ class EditPreset extends Component<Props> {
       isActive={isActive}
     />
   );
-
-  static contextType = LocalizationContext;
 
   render() {
     return (

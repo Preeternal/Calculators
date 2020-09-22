@@ -494,8 +494,8 @@ class Credit extends Component<Props, State> {
                 <Icon
                   name={
                     !this.state.commission
-                      ? 'md-arrow-dropdown'
-                      : 'md-arrow-dropup'
+                      ? 'caret-down-sharp'
+                      : 'caret-up-sharp'
                   }
                   style={{ fontSize: 20, color: '#525050' }}
                 />

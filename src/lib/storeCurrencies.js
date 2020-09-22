@@ -21,7 +21,7 @@ const storeCurrencies = () => {
   const newLocal =
     currencies instanceof Object ? typeof currencies[2] : undefined;
   let comprasion;
-  if (newLocal === 'object' && currencies[2].nameEng !== undefined) {
+  if (newLocal === 'object' && currencies[2]?.nameEng !== undefined) {
     comprasion = [...currencies];
     comprasion.splice(0, 1);
   } else {

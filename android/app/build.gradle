@@ -132,6 +132,7 @@ android {
         applicationId "com.banoka"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 4000125
         versionName "1.25"
     }

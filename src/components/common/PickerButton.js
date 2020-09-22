@@ -16,7 +16,7 @@ const PickerButton = ({ title, titleColor, onPress }: Props) => {
         {title}
       </Text>
       <Icon
-        name="md-arrow-dropdown"
+        name="caret-down-sharp"
         style={[styles.arrowIosStyle, { color: titleColor }]}
       />
     </TouchableOpacity>
