@@ -36,7 +36,7 @@
     "buffer": "^5.6.0",
     "graphql": "^15.0.0",
     "i18n-js": "^3.7.0",
-    "iconv-lite": "^0.5.1",
+    "iconv-lite": "^0.6.2",
     "luxon": "^1.24.1",
     "node-cron": "^2.0.3",
     "number-to-locale-string": "^1.2.0",
@@ -84,8 +84,8 @@
     "flow-typed": "^3.1.0",
     "jest": "^26.0.1",
     "metro-react-native-babel-preset": "^0.59.0",
-    "prettier": "^2.0.5",
-    "prettier-eslint": "^10.1.1",
+    "prettier": "^2.1.2",
+    "prettier-eslint": "^11.0.0",
     "react-test-renderer": "16.13.1"
   },
   "jest": {
@@ -95,6 +95,6 @@
     ]
   },
   "resolutions": {
-    "flow-typed/semver": "7.1.3"
+    "flow-typed/semver": "^7.3.2"
   }
 }
