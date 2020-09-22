@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 // import { DateTime } from 'luxon';
 import 'number-to-locale-string';
@@ -302,7 +302,7 @@ class Converter extends Component<Props, State> {
                         { bottom: insets.bottom ? 26 : 16 },
                       ]}
                     >
-                      <Icon name="md-add" style={styles.actionButtonIcon} />
+                      <Icon name="add" style={styles.actionButtonIcon} />
                     </TouchableOpacity>
                   </>
                 )}
@@ -326,8 +326,7 @@ class Converter extends Component<Props, State> {
 
 const styles = {
   actionButtonIcon: {
-    fontSize: 25,
-    height: 22,
+    fontSize: 30,
     color: 'white',
   },
   button: {

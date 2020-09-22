@@ -497,7 +497,7 @@ class Credit extends Component<Props, State> {
                       ? 'caret-down-sharp'
                       : 'caret-up-sharp'
                   }
-                  style={{ fontSize: 20, color: '#525050' }}
+                  style={{ fontSize: 12, color: '#525050', marginTop: 4 }}
                 />
               </TouchableOpacity>
             </CardSection>
