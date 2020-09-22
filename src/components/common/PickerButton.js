@@ -25,9 +25,9 @@ const PickerButton = ({ title, titleColor, onPress }: Props) => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    marginRight: 10,
+    // paddingRight: 10,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     flex: 1,
     flexDirection: 'row',
   },
@@ -38,9 +38,8 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   arrowIosStyle: {
-    flex: 0.15,
+    flex: 0.2,
     fontSize: 15,
-    marginLeft: 8,
   },
 });
 

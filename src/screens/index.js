@@ -41,6 +41,7 @@ enableScreens();
 const styles = {
   headerStyle: {
     backgroundColor: '#525050',
+    height: 90,
   },
   headerTitleStyle: {
     fontFamily: 'Ubuntu',

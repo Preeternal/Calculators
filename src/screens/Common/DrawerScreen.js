@@ -94,6 +94,6 @@ const styles = {
   menuItem: {
     justifyContent: 'flex-end',
     alignSelf: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
   },
 };

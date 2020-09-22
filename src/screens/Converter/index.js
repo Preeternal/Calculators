@@ -255,7 +255,7 @@ class Converter extends Component<Props, State> {
                     <View
                       style={[
                         styles.footerView,
-                        { minHeight: insets.bottom ? 55 : 32 },
+                        { minHeight: insets.bottom ? 65 : 32 },
                       ]}
                     >
                       <Text style={styles.footerText}>
@@ -269,7 +269,7 @@ class Converter extends Component<Props, State> {
                     .toLocaleString(DateTime.DATE_SHORT)}`} */}
 
                         {this.props.currencies[1]?.updatedAt
-                          ? `${t('converter.lastUpdate')} ${initDate(
+                          ? `  ${t('converter.lastUpdate')} ${initDate(
                               new Date(
                                 Date.parse(this.props.currencies[1]?.updatedAt),
                               ),
