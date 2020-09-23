@@ -1,6 +1,5 @@
-// cSpell:disable
-// flow-typed signature: adaa100b411117a447158bc40021cd46
-// flow-typed version: ecee683170/@react-navigation/stack_v5.x.x/flow_>=v0.104.x
+// flow-typed signature: 84942f76d5ef0432db67cd351ba8ce7a
+// flow-typed version: 3c17c8ecd5/@react-navigation/stack_v5.x.x/flow_>=v0.104.x
 
 declare module '@react-navigation/stack' {
 
@@ -752,7 +751,7 @@ declare module '@react-navigation/stack' {
   |};
   declare type EventListenerCallback<
     EventName: string,
-    State: NavigationState = NavigationState,
+    State: PossiblyStaleNavigationState = NavigationState,
     EventMap: EventMapBase = EventMapCore<State>,
   > = (e: EventArg<
     EventName,
@@ -1232,7 +1231,6 @@ declare module '@react-navigation/stack' {
     +headerBackTitleStyle: TextStyleProp,
     +headerBackTitleVisible: boolean,
     +headerTruncatedBackTitle: string,
-    //+headerTruncatedBackTitle: string | null,
     +headerLeft: StackHeaderLeftButtonProps => React$Node,
     +headerLeftContainerStyle: ViewStyleProp,
     +headerRight: {| tintColor?: string |} => React$Node,
@@ -1417,6 +1415,7 @@ declare module '@react-navigation/stack' {
     +showLabel: boolean,
     +showIcon: boolean,
     +labelStyle: TextStyleProp,
+    +iconStyle: TextStyleProp,
     +tabStyle: ViewStyleProp,
     +labelPosition: 'beside-icon' | 'below-icon',
     +adaptive: boolean,
@@ -1908,11 +1907,26 @@ declare module '@react-navigation/stack' {
     +independent?: boolean,
   |};
 
+  declare export type ContainerEventMap = {|
+    ...GlobalEventMap<PossiblyStaleNavigationState>,
+    +options: {|
+      +data: {| +options: { +[key: string]: mixed, ... } |},
+      +canPreventDefault: false,
+    |},
+    +__unsafe_action__: {|
+      +data: {|
+        +action: GenericNavigationAction,
+        +noop: boolean,
+      |},
+      +canPreventDefault: false,
+    |},
+  |};
+
   declare export type BaseNavigationContainerInterface = {|
     ...$Exact<NavigationHelpers<
       ParamListBase,
       PossiblyStaleNavigationState,
-      GlobalEventMap<PossiblyStaleNavigationState>,
+      ContainerEventMap,
     >>,
     +setParams: (params: ScreenParams) => void,
     +resetRoot: (state?: ?PossiblyStaleNavigationState) => void,
@@ -1920,29 +1934,77 @@ declare module '@react-navigation/stack' {
   |};
 
   /**
-   * State / path conversion
+   * State utils
    */
 
-  declare export type LinkingConfig = {|
-    +[routeName: string]:
-      | string
-      | {|
-          +path?: string,
-          +parse?: {| +[param: string]: string => mixed |},
-          +screens?: LinkingConfig,
-          +initialRouteName?: string,
-        |},
+  declare export type GetStateFromPath = (
+    path: string,
+    options?: LinkingConfig,
+  ) => PossiblyStaleNavigationState;
+
+  declare export type GetPathFromState = (
+    state?: ?PossiblyStaleNavigationState,
+    options?: LinkingConfig,
+  ) => string;
+
+  declare export type GetFocusedRouteNameFromRoute =
+    PossiblyStaleRoute<string> => ?string;
+
+  /**
+   * Linking
+   */
+
+  declare export type ScreenLinkingConfig = {|
+    +path?: string,
+    +exact?: boolean,
+    +parse?: {| +[param: string]: string => mixed |},
+    +stringify?: {| +[param: string]: mixed => string |},
+    +screens?: ScreenLinkingConfigMap,
+    +initialRouteName?: string,
   |};
 
-  declare export type GetPathFromStateOptions = {|
-    +[routeName: string]:
-      | string
-      | {|
-          +path?: string,
-          +stringify?: {| +[param: string]: mixed => string |},
-          +screens?: GetPathFromStateOptions,
-        |},
+  declare export type ScreenLinkingConfigMap = {|
+    +[routeName: string]: string | ScreenLinkingConfig,
   |};
+
+  declare export type LinkingConfig = {|
+    +initialRouteName?: string,
+    +screens: ScreenLinkingConfigMap,
+  |};
+
+  declare export type LinkingOptions = {|
+    +enabled?: boolean,
+    +prefixes: $ReadOnlyArray<string>,
+    +config?: LinkingConfig,
+    +getStateFromPath?: GetStateFromPath,
+    +getPathFromState?: GetPathFromState,
+  |};
+
+  /**
+   * NavigationContainer
+   */
+
+  declare export type Theme = {|
+    +dark: boolean,
+    +colors: {|
+      +primary: string,
+      +background: string,
+      +card: string,
+      +text: string,
+      +border: string,
+    |},
+  |};
+
+  declare export type NavigationContainerType = React$AbstractComponent<
+    {|
+      ...BaseNavigationContainerProps,
+      +theme?: Theme,
+      +linking?: LinkingOptions,
+      +fallback?: React$Node,
+      +onReady?: () => mixed,
+    |},
+    BaseNavigationContainerInterface,
+  >;
 
   //---------------------------------------------------------------------------
   // SECTION 2: EXPORTED MODULE

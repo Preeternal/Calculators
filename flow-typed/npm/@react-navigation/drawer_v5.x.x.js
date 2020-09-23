@@ -1,5 +1,5 @@
-// flow-typed signature: e1a2ce7eb8532ced8203de9dad4d60c9
-// flow-typed version: ecee683170/@react-navigation/drawer_v5.x.x/flow_>=v0.104.x
+// flow-typed signature: 1c0795a3c7af7a1beb390a1efd331d41
+// flow-typed version: 3c17c8ecd5/@react-navigation/drawer_v5.x.x/flow_>=v0.104.x
 
 declare module '@react-navigation/drawer' {
 
@@ -751,7 +751,7 @@ declare module '@react-navigation/drawer' {
   |};
   declare type EventListenerCallback<
     EventName: string,
-    State: NavigationState = NavigationState,
+    State: PossiblyStaleNavigationState = NavigationState,
     EventMap: EventMapBase = EventMapCore<State>,
   > = (e: EventArg<
     EventName,
@@ -1227,7 +1227,7 @@ declare module '@react-navigation/drawer' {
     +headerTintColor: string,
     +headerTitleAllowFontScaling: boolean,
     +headerBackAllowFontScaling: boolean,
-    +headerBackTitle: string,
+    +headerBackTitle: string | null,
     +headerBackTitleStyle: TextStyleProp,
     +headerBackTitleVisible: boolean,
     +headerTruncatedBackTitle: string,
@@ -1415,6 +1415,7 @@ declare module '@react-navigation/drawer' {
     +showLabel: boolean,
     +showIcon: boolean,
     +labelStyle: TextStyleProp,
+    +iconStyle: TextStyleProp,
     +tabStyle: ViewStyleProp,
     +labelPosition: 'beside-icon' | 'below-icon',
     +adaptive: boolean,
@@ -1906,11 +1907,26 @@ declare module '@react-navigation/drawer' {
     +independent?: boolean,
   |};
 
+  declare export type ContainerEventMap = {|
+    ...GlobalEventMap<PossiblyStaleNavigationState>,
+    +options: {|
+      +data: {| +options: { +[key: string]: mixed, ... } |},
+      +canPreventDefault: false,
+    |},
+    +__unsafe_action__: {|
+      +data: {|
+        +action: GenericNavigationAction,
+        +noop: boolean,
+      |},
+      +canPreventDefault: false,
+    |},
+  |};
+
   declare export type BaseNavigationContainerInterface = {|
     ...$Exact<NavigationHelpers<
       ParamListBase,
       PossiblyStaleNavigationState,
-      GlobalEventMap<PossiblyStaleNavigationState>,
+      ContainerEventMap,
     >>,
     +setParams: (params: ScreenParams) => void,
     +resetRoot: (state?: ?PossiblyStaleNavigationState) => void,
@@ -1918,29 +1934,77 @@ declare module '@react-navigation/drawer' {
   |};
 
   /**
-   * State / path conversion
+   * State utils
    */
 
-  declare export type LinkingConfig = {|
-    +[routeName: string]:
-      | string
-      | {|
-          +path?: string,
-          +parse?: {| +[param: string]: string => mixed |},
-          +screens?: LinkingConfig,
-          +initialRouteName?: string,
-        |},
+  declare export type GetStateFromPath = (
+    path: string,
+    options?: LinkingConfig,
+  ) => PossiblyStaleNavigationState;
+
+  declare export type GetPathFromState = (
+    state?: ?PossiblyStaleNavigationState,
+    options?: LinkingConfig,
+  ) => string;
+
+  declare export type GetFocusedRouteNameFromRoute =
+    PossiblyStaleRoute<string> => ?string;
+
+  /**
+   * Linking
+   */
+
+  declare export type ScreenLinkingConfig = {|
+    +path?: string,
+    +exact?: boolean,
+    +parse?: {| +[param: string]: string => mixed |},
+    +stringify?: {| +[param: string]: mixed => string |},
+    +screens?: ScreenLinkingConfigMap,
+    +initialRouteName?: string,
   |};
 
-  declare export type GetPathFromStateOptions = {|
-    +[routeName: string]:
-      | string
-      | {|
-          +path?: string,
-          +stringify?: {| +[param: string]: mixed => string |},
-          +screens?: GetPathFromStateOptions,
-        |},
+  declare export type ScreenLinkingConfigMap = {|
+    +[routeName: string]: string | ScreenLinkingConfig,
   |};
+
+  declare export type LinkingConfig = {|
+    +initialRouteName?: string,
+    +screens: ScreenLinkingConfigMap,
+  |};
+
+  declare export type LinkingOptions = {|
+    +enabled?: boolean,
+    +prefixes: $ReadOnlyArray<string>,
+    +config?: LinkingConfig,
+    +getStateFromPath?: GetStateFromPath,
+    +getPathFromState?: GetPathFromState,
+  |};
+
+  /**
+   * NavigationContainer
+   */
+
+  declare export type Theme = {|
+    +dark: boolean,
+    +colors: {|
+      +primary: string,
+      +background: string,
+      +card: string,
+      +text: string,
+      +border: string,
+    |},
+  |};
+
+  declare export type NavigationContainerType = React$AbstractComponent<
+    {|
+      ...BaseNavigationContainerProps,
+      +theme?: Theme,
+      +linking?: LinkingOptions,
+      +fallback?: React$Node,
+      +onReady?: () => mixed,
+    |},
+    BaseNavigationContainerInterface,
+  >;
 
   //---------------------------------------------------------------------------
   // SECTION 2: EXPORTED MODULE
