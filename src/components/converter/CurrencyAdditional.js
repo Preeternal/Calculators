@@ -31,7 +31,7 @@ const CurrencyAdditional = ({
         <View style={checkBoxStyle}>
           <CheckBox
             value={checked}
-            onChange={handleClick}
+            onValueChange={handleClick}
             tintColors={{ true: 'gray' }}
             onTintColor="gray"
             onFillColor="gray"
