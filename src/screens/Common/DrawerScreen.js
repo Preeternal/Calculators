@@ -78,13 +78,13 @@ const mapDispatchToActions = { screenOrientationChanged };
 
 export default connect<any, any, any, any, any, any>(
   null,
-  mapDispatchToActions,
+  mapDispatchToActions
 )(DrawerScreen);
 
 const styles = {
   drawerImage: {
     alignSelf: 'center',
-    width: 280,
+    width: 304,
   },
   contentContainerStyle: {
     flexGrow: 1,

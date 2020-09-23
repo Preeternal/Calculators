@@ -284,6 +284,7 @@ const Navigator = () => {
           labelStyle: {
             fontFamily: 'Ubuntu',
             fontWeight: '700',
+            // fontSize: 12,
           },
           itemStyle: {
             // alignSelf: 'flex-end', justifyContent: 'flex-end'
@@ -292,7 +293,7 @@ const Navigator = () => {
         }}
         drawerStyle={{
           // backgroundColor: '#c6cbef',
-          width: 280,
+          width: 304,
         }}
       >
         <Drawer.Screen
