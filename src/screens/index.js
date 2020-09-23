@@ -381,7 +381,7 @@ const AppContainer = () => {
       locale,
       setLocale,
     }),
-    [locale],
+    [locale]
   );
   return (
     <SafeAreaProvider>
@@ -442,7 +442,7 @@ class App extends Component<Props, State> {
         .catch(error => {
           // eslint-disable-next-line no-console
           console.warn(
-            `There has been a problem with your fetch operation: ${error.message}`,
+            `There has been a problem with your fetch operation: ${error.message}`
           );
         });
     }
@@ -500,5 +500,5 @@ const mapDispatchToActions = {
 
 export default connect<any, any, any, any, any, any>(
   mapStateToProps,
-  mapDispatchToActions,
+  mapDispatchToActions
 )(App);
