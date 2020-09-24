@@ -4,7 +4,7 @@ import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
 import iconv from 'iconv-lite';
 import { Buffer } from 'buffer';
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 import { DateTime } from 'luxon';
 
 import { store } from '../store';
