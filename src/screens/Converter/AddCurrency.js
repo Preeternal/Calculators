@@ -161,7 +161,6 @@ class AddCurrency extends Component<Props, State> {
   };
 
   scrollToIndex = (letter: string, Y: number) => {
-    console.log('letter:', letter);
     this.setActiveLetter(letter);
     this.setState({ pointerTop: Y });
     if (letter === '#') {
