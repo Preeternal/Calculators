@@ -86,10 +86,10 @@ class Converter extends Component<Props, State> {
     const { preset, currencies, presetCurrencies } = this.props;
     if (preset.length) {
       const filter = currencies.filter(currency =>
-        preset.includes(currency.charCode),
+        preset.includes(currency.charCode)
       );
       filter.sort(
-        (a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode),
+        (a, b) => preset.indexOf(a.charCode) - preset.indexOf(b.charCode)
       );
 
       if (
@@ -101,7 +101,7 @@ class Converter extends Component<Props, State> {
         this.onPresetCurrencyChangeWithDivider(
           0,
           presetCurrencies[0].input,
-          filter,
+          filter
         );
       }
     } else {
@@ -123,7 +123,7 @@ class Converter extends Component<Props, State> {
   onPresetCurrencyChangeWithDivider = (
     index: number,
     input: string,
-    nextPresetCurrencies: Array<Currency>,
+    nextPresetCurrencies: Array<Currency>
   ) => {
     const currencies = [...nextPresetCurrencies];
     const { presetCurrencies } = this.props;
@@ -138,7 +138,7 @@ class Converter extends Component<Props, State> {
         curr.input = number(input);
       } else {
         curr.input = this.getLocalInput(
-          ((curr.nominal / curr.value) * divider).toString(),
+          ((curr.nominal / curr.value) * divider).toString()
         );
       }
       return curr;
@@ -203,112 +203,128 @@ class Converter extends Component<Props, State> {
   render() {
     const { t } = this.context;
     return (
-      <Fragment>
+      <>
         {this.props.currencies.length ? (
-          <Fragment>
-            <View
-              key={`${this.props.language}${this.props.country}`}
-              style={{ flex: 1 }}
-            >
-              <FlatList
-                ref={this.listRef}
-                data={[...this.props.presetCurrencies]}
-                extraData={this.props}
-                ListHeaderComponent={
-                  <Header
-                    headerText={t('converter.header')}
-                    headerStyle={styles.header}
-                  />
-                }
-                renderItem={({ item, index }) => (
-                  <CurrencyInput
-                    // placeholder={item.name}
-                    label={item.charCode}
-                    name={this.props.language === 0 ? item.name : item.nameEng}
-                    onChangeText={(input: string) => {
-                      this.onPresetCurrencyChangeWithDivider(
-                        index,
-                        input,
-                        this.props.presetCurrencies,
-                      );
-                    }}
-                    onFocus={() => this.onFocus(index)}
-                    onBlur={() => this.onBlur(index)}
-                    appInputStyle={{ color: this.state.inputStyle[index] }}
-                    value={`${item.input}`}
-                  />
-                )}
-                keyExtractor={item => item.charCode}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={this.onRefresh}
-                  />
-                }
-                ListFooterComponent={<View style={{ minHeight: 44 }} />}
-              />
-            </View>
-            {this.props.currencies[1] && !this.state.keyboard && (
-              <SafeAreaConsumer>
-                {insets => (
-                  <>
-                    <View
-                      style={[
-                        styles.footerView,
-                        { minHeight: insets.bottom ? 65 : 32 },
-                      ]}
-                    >
-                      <Text style={styles.footerText}>
-                        {/* {` ${t('converter.lastUpdate')} ${new Date(
+          <>
+            <SafeAreaConsumer>
+              {insets => (
+                <>
+                  <View
+                    key={`${this.props.language}${this.props.country}`}
+                    style={{ flex: 1 }}
+                  >
+                    <FlatList
+                      ref={this.listRef}
+                      data={[...this.props.presetCurrencies]}
+                      extraData={this.props}
+                      ListHeaderComponent={
+                        <Header
+                          headerText={t('converter.header')}
+                          headerStyle={[
+                            styles.header,
+                            {
+                              marginLeft: Math.max(insets.left, 5),
+                              marginRight: Math.max(insets.right, 5),
+                            },
+                          ]}
+                        />
+                      }
+                      renderItem={({ item, index }) => (
+                        <CurrencyInput
+                          // placeholder={item.name}
+                          label={item.charCode}
+                          name={
+                            this.props.language === 0 ? item.name : item.nameEng
+                          }
+                          onChangeText={(input: string) => {
+                            this.onPresetCurrencyChangeWithDivider(
+                              index,
+                              input,
+                              this.props.presetCurrencies
+                            );
+                          }}
+                          onFocus={() => this.onFocus(index)}
+                          onBlur={() => this.onBlur(index)}
+                          appInputStyle={{
+                            color: this.state.inputStyle[index],
+                          }}
+                          value={`${item.input}`}
+                        />
+                      )}
+                      keyExtractor={item => item.charCode}
+                      refreshControl={
+                        <RefreshControl
+                          refreshing={this.state.refreshing}
+                          onRefresh={this.onRefresh}
+                        />
+                      }
+                      ListFooterComponent={<View style={{ minHeight: 44 }} />}
+                    />
+                  </View>
+                  {this.props.currencies[1] && !this.state.keyboard && (
+                    <>
+                      <View
+                        style={[
+                          styles.footerView,
+                          { minHeight: insets.bottom ? 65 : 32 },
+                        ]}
+                      >
+                        <Text style={styles.footerText}>
+                          {/* {` ${t('converter.lastUpdate')} ${new Date(
                     Date.parse(this.props.currencies[1].updatedAt),
                   ).toLocaleString(currentLocale, { hour12: false })}`} */}
-                        {/* {`${t('converter.lastUpdate')} ${DateTime.fromJSDate(
+                          {/* {`${t('converter.lastUpdate')} ${DateTime.fromJSDate(
                     new Date(Date.parse(this.props.currencies[1].updatedAt)),
                   )
                     .setLocale('ru')
                     .toLocaleString(DateTime.DATE_SHORT)}`} */}
 
-                        {this.props.currencies[1]?.updatedAt
-                          ? `  ${t('converter.lastUpdate')} ${initDate(
-                              new Date(
-                                Date.parse(this.props.currencies[1]?.updatedAt),
-                              ),
-                            )} ${new Date(
-                              Date.parse(this.props.currencies[1]?.updatedAt) -
-                                new Date().getTimezoneOffset() * 1000,
-                            ).toLocaleTimeString()}`
-                          : ''}
+                          {this.props.currencies[1]?.updatedAt
+                            ? `  ${t('converter.lastUpdate')} ${initDate(
+                                new Date(
+                                  Date.parse(
+                                    this.props.currencies[1]?.updatedAt
+                                  )
+                                )
+                              )} ${new Date(
+                                Date.parse(
+                                  this.props.currencies[1]?.updatedAt
+                                ) -
+                                  new Date().getTimezoneOffset() * 1000
+                              ).toLocaleTimeString()}`
+                            : ''}
 
-                        {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
+                          {/* {new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                     - new Date(Date.parse(new Date().toUTCString())).valueOf()} */}
-                        {/* {new Date().toUTCString()} */}
-                        {/* {new Date(
+                          {/* {new Date().toUTCString()} */}
+                          {/* {new Date(
                     new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                       - (new Date(Date.parse(this.props.currencies[1].updatedAt)).valueOf()
                         - new Date(Date.parse(new Date().toUTCString())).valueOf()),
                   ).toLocaleTimeString()} */}
-                        {/* {`${t('converter.lastUpdate')} ${DateTime.fromISO(
+                          {/* {`${t('converter.lastUpdate')} ${DateTime.fromISO(
                       this.props.currencies[1].updatedAt,
                       { locale },
                     ).toLocaleString(DateTime.DATETIME_SHORT)}`} */}
-                      </Text>
-                    </View>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.props.navigation.navigate('AddCurrency');
-                      }}
-                      style={[
-                        styles.button,
-                        { bottom: insets.bottom ? 26 : 16 },
-                      ]}
-                    >
-                      <Icon name="add" style={styles.actionButtonIcon} />
-                    </TouchableOpacity>
-                  </>
-                )}
-              </SafeAreaConsumer>
-            )}
-          </Fragment>
+                        </Text>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.props.navigation.navigate('AddCurrency');
+                        }}
+                        style={[
+                          styles.button,
+                          { bottom: insets.bottom ? 26 : 16 },
+                        ]}
+                      >
+                        <Icon name="add" style={styles.actionButtonIcon} />
+                      </TouchableOpacity>
+                    </>
+                  )}
+                </>
+              )}
+            </SafeAreaConsumer>
+          </>
         ) : (
           <View
             style={{
@@ -319,7 +335,7 @@ class Converter extends Component<Props, State> {
             <ActivityIndicator size="large" color={textColor} />
           </View>
         )}
-      </Fragment>
+      </>
     );
   }
 }
@@ -378,5 +394,5 @@ const mapDispatchToActions = {
 
 export default connect<any, any, any, any, any, any>(
   mapStateToProps,
-  mapDispatchToActions,
+  mapDispatchToActions
 )(Converter);

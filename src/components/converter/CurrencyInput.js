@@ -1,8 +1,9 @@
 // @flow
 import React from 'react';
 import { TextInput, View, Text, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-type CurrencyType = {
+type Props = {
   label: string,
   value: string,
   name: string,
@@ -28,7 +29,7 @@ const CurrencyInput = ({
   onFocus,
   onBlur,
   appInputStyle,
-}: CurrencyType) => {
+}: Props) => {
   const {
     containerStyle,
     labelStyle,
@@ -44,9 +45,19 @@ const CurrencyInput = ({
     if (textInput.current) textInput.current.focus();
   }
 
+  const insets = useSafeAreaInsets();
+
   return (
     <TouchableOpacity onPress={handleClick}>
-      <View style={containerStyle}>
+      <View
+        style={[
+          containerStyle,
+          {
+            marginLeft: Math.max(insets.left, 5),
+            marginRight: Math.max(insets.right, 5),
+          },
+        ]}
+      >
         <View style={labelStyle}>
           <Text style={labelTextStyle}>{label}</Text>
         </View>
