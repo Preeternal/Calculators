@@ -37,7 +37,7 @@ class DrawerScreen extends Component<Props, State> {
   };
 
   isLandscape = () => {
-    const dim = Dimensions.get('screen');
+    const dim = Dimensions.get('window');
     const isLandscape = dim.width >= dim.height;
     this.props.screenOrientationChanged(isLandscape);
     return isLandscape;
@@ -51,7 +51,7 @@ class DrawerScreen extends Component<Props, State> {
       <>
         <Image
           resizeMode="cover"
-          style={[drawerImage, { height: isLandscape ? 50 : 215 }]}
+          style={[drawerImage, { height: isLandscape ? 70 : 215 }]}
           source={images.logo}
         />
         <DrawerContentScrollView
