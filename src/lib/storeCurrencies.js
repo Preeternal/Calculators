@@ -4,7 +4,7 @@ import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
 import iconv from 'iconv-lite';
 import { Buffer } from 'buffer';
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 import { DateTime } from 'luxon';
 
 import { store } from '../store';
@@ -21,7 +21,7 @@ const storeCurrencies = () => {
   const newLocal =
     currencies instanceof Object ? typeof currencies[2] : undefined;
   let comprasion;
-  if (newLocal === 'object' && currencies[2].nameEng !== undefined) {
+  if (newLocal === 'object' && currencies[2]?.nameEng !== undefined) {
     comprasion = [...currencies];
     comprasion.splice(0, 1);
   } else {
@@ -45,7 +45,10 @@ const storeCurrencies = () => {
         });
       })
       .catch(err => {
-        console.log(err);
+        console.warn(
+          'There has been a problem with your fetch operation "dailyEnUrl":',
+          err
+        );
       });
   }
 
@@ -75,10 +78,10 @@ const storeCurrencies = () => {
             const value = Number(
               element.Value[0].match(',')
                 ? element.Value[0].replace(',', '.')
-                : element.Value[0],
+                : element.Value[0]
             );
             const { id, input, nameEng } = comprasion.find(
-              el => el.charCode === charCode,
+              el => el.charCode === charCode
             );
             return {
               id,
@@ -105,12 +108,15 @@ const storeCurrencies = () => {
                 input: 1,
               },
               ...parsed,
-            ]),
+            ])
           );
         });
       })
       .catch(err => {
-        console.log(err);
+        console.warn(
+          'There has been a problem with your fetch operation "dailyUrl":',
+          err
+        );
       });
 
   client
@@ -123,10 +129,10 @@ const storeCurrencies = () => {
           const curr = { ...currency };
           curr.input = getLocalInput(curr.nominal / curr.value);
           return curr;
-        },
+        }
       );
       const cdt = DateTime.local();
-      const dt = DateTime.fromISO(currenciesWithInputField[0].updatedAt);
+      const dt = DateTime.fromISO(currenciesWithInputField[0]?.updatedAt);
       if (cdt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
         getFrontendRequest();
       } else {
@@ -138,19 +144,22 @@ const storeCurrencies = () => {
               nameEng: 'Russian ruble',
               charCode: 'RUB',
               nominal: 1,
-              updatedAt: currenciesWithInputField[0].updatedAt,
+              updatedAt: currenciesWithInputField[0]?.updatedAt,
               value: 1,
               __typename: 'Currency',
               input: 1,
             },
             ...currenciesWithInputField,
-          ]),
+          ])
         );
       }
     })
     .catch(err => {
-      console.log(err);
-      const dt = DateTime.fromISO(currencies[1].updatedAt);
+      console.warn(
+        'There has been a problem with your fetch operation "query":',
+        err
+      );
+      const dt = DateTime.fromISO(currencies[1]?.updatedAt);
       if (dt.minus({ hours: 1 }).toMillis() > dt.toMillis()) {
         getFrontendRequest();
       }

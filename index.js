@@ -1,17 +1,19 @@
+/**
+ * @format
+ */
+
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AppRegistry, YellowBox } from 'react-native';
+import { AppRegistry } from 'react-native';
 
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/client';
 
 import { store, persistor } from './src/store';
 import client from './src/client';
 import App from './src/screens';
 import { name as appName } from './app';
 import { Screen } from './src/components/common';
-
-YellowBox.ignoreWarnings(['`-[RCTRootView cancelTouches]`']);
 
 const Start = () => {
   const [gateLifted, setGateLifted] = useState(false);

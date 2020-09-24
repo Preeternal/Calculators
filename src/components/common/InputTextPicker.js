@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, Text, TextInput, Platform } from 'react-native';
-import { Picker } from '@react-native-community/picker';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { View, TextInput } from 'react-native';
+
 import { InputPicker } from './InputPicker';
-import { LocalizationContext } from '../../Context';
 
 const InputTextPicker = ({
   label,
@@ -18,55 +16,19 @@ const InputTextPicker = ({
   onSubmitEditing,
   onFocus,
   onBlur,
-  labelTextStyle,
   appInputStyle,
 }) => {
-  const {
-    containerStyle,
-    labelStyle,
-    componentLabelTextStyle,
-    inputStyle,
-    inputTextStyle,
-    pickerStyle,
-    arrowIosStyle,
-  } = styles;
-  const { t } = React.useContext(LocalizationContext);
+  const { containerStyle, labelStyle, inputStyle, inputTextStyle } = styles;
 
   return (
     <View style={containerStyle}>
       <View style={labelStyle}>
-        {/* <Text style={[componentLabelTextStyle, labelTextStyle]}>{label}</Text>
-        {Platform.OS === 'android' && <View style={{ paddingLeft: 1.5 }} />} */}
         <InputPicker
           label={label}
           options={options}
           selectedValue={selectedValue}
           onValueChange={onValueChange}
         />
-        {/* <Picker
-          selectedValue={selectedValue}
-          onValueChange={onValueChange}
-          // itemStyle={{ color: '#525050' }}
-          itemTextStyle={{ color: '#525050' }}
-          iosHeader={t('picker.iosHeader')}
-          headerBackButtonText={t('picker.headerBackButtonText')}
-          // headerStyle={{ color: '#525050' }}
-          textStyle={{
-            color: '#525050',
-            fontSize: Platform.OS === 'ios' ? 13 : 15,
-            fontFamily: 'Ubuntu',
-            fontWeight: 'normal',
-          }}
-          // mode='dropdown'
-          options={options}
-          style={pickerStyle}
-          // headerStyle={{ backgroundColor: '#b95dd3' }}
-          iosIcon={<Icon name="md-arrow-dropdown" style={arrowIosStyle} />}
-        >
-          {options.map((item, index) => (
-            <Picker.Item label={item} value={index} key={item} />
-          ))}
-        </Picker> */}
       </View>
       <View style={inputStyle}>
         <TextInput
@@ -99,16 +61,7 @@ const styles = {
     flex: 1.9,
     borderRightWidth: 1,
     borderColor: '#ddd',
-    // justifyContent: 'center',
     flexDirection: 'row',
-    // justifyContent: 'flex-start',
-  },
-  componentLabelTextStyle: {
-    fontFamily: 'Ubuntu',
-    paddingLeft: 10,
-    paddingRight: 5,
-    alignSelf: 'center',
-    // flex: 1,
   },
   inputStyle: {
     flex: 1.1,
@@ -123,15 +76,6 @@ const styles = {
     flex: 1,
     fontFamily: 'Ubuntu',
     fontWeight: 'normal',
-  },
-  pickerStyle: {
-    flex: 0.9,
-  },
-  arrowIosStyle: {
-    color: '#5c251c',
-    alignSelf: 'flex-start',
-    fontSize: 15,
-    marginLeft: -8,
   },
 };
 

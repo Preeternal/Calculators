@@ -37,7 +37,7 @@ class DrawerScreen extends Component<Props, State> {
   };
 
   isLandscape = () => {
-    const dim = Dimensions.get('screen');
+    const dim = Dimensions.get('window');
     const isLandscape = dim.width >= dim.height;
     this.props.screenOrientationChanged(isLandscape);
     return isLandscape;
@@ -51,7 +51,7 @@ class DrawerScreen extends Component<Props, State> {
       <>
         <Image
           resizeMode="cover"
-          style={[drawerImage, { height: isLandscape ? 50 : 215 }]}
+          style={[drawerImage, { height: isLandscape ? 70 : 215 }]}
           source={images.logo}
         />
         <DrawerContentScrollView
@@ -78,13 +78,13 @@ const mapDispatchToActions = { screenOrientationChanged };
 
 export default connect<any, any, any, any, any, any>(
   null,
-  mapDispatchToActions,
+  mapDispatchToActions
 )(DrawerScreen);
 
 const styles = {
   drawerImage: {
     alignSelf: 'center',
-    width: 280,
+    width: 304,
   },
   contentContainerStyle: {
     flexGrow: 1,
@@ -94,6 +94,6 @@ const styles = {
   menuItem: {
     justifyContent: 'flex-end',
     alignSelf: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
   },
 };

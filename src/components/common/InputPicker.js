@@ -26,6 +26,7 @@ const InputPicker = ({
     labelTextStyle,
     inputStyle,
     pickerStyle,
+    pickerStyleIOS,
     itemStyle,
   } = styles;
 
@@ -39,7 +40,7 @@ const InputPicker = ({
       },
       buttonIndex => {
         onValueChange(buttonIndex);
-      },
+      }
     );
 
   return (
@@ -62,7 +63,7 @@ const InputPicker = ({
             ))}
           </Picker>
         ) : (
-          <View style={pickerStyle}>
+          <View style={pickerStyleIOS}>
             <PickerButton
               onPress={onPress}
               title={options[selectedValue]}
@@ -85,10 +86,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   labelStyle: {
-    flex: 1.9,
+    flex: 1.4,
     justifyContent: 'center',
   },
-  borderRightStyle: { borderRightWidth: 1, borderColor: '#ddd' },
+  borderRightStyle: { flex: 1.9, borderRightWidth: 1, borderColor: '#ddd' },
   labelTextStyle: {
     fontFamily: 'Ubuntu',
     paddingLeft: 10,
@@ -98,6 +99,10 @@ const styles = StyleSheet.create({
     flex: 1.1,
   },
   pickerStyle: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  pickerStyleIOS: {
     flex: 1,
     marginLeft: 10,
   },

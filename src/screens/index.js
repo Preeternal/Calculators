@@ -41,6 +41,7 @@ enableScreens();
 const styles = {
   headerStyle: {
     backgroundColor: '#525050',
+    height: 90,
   },
   headerTitleStyle: {
     fontFamily: 'Ubuntu',
@@ -283,6 +284,7 @@ const Navigator = () => {
           labelStyle: {
             fontFamily: 'Ubuntu',
             fontWeight: '700',
+            // fontSize: 12,
           },
           itemStyle: {
             // alignSelf: 'flex-end', justifyContent: 'flex-end'
@@ -291,7 +293,7 @@ const Navigator = () => {
         }}
         drawerStyle={{
           // backgroundColor: '#c6cbef',
-          width: 280,
+          width: 304,
         }}
       >
         <Drawer.Screen
@@ -380,7 +382,7 @@ const AppContainer = () => {
       locale,
       setLocale,
     }),
-    [locale],
+    [locale]
   );
   return (
     <SafeAreaProvider>
@@ -441,7 +443,7 @@ class App extends Component<Props, State> {
         .catch(error => {
           // eslint-disable-next-line no-console
           console.warn(
-            `There has been a problem with your fetch operation: ${error.message}`,
+            `There has been a problem with your fetch operation: ${error.message}`
           );
         });
     }
@@ -499,5 +501,5 @@ const mapDispatchToActions = {
 
 export default connect<any, any, any, any, any, any>(
   mapStateToProps,
-  mapDispatchToActions,
+  mapDispatchToActions
 )(App);

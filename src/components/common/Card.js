@@ -1,9 +1,23 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const Card = props => (
-  <View style={styles.containerStyle}>{props.children}</View>
-);
+const Card = props => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View
+      style={[
+        styles.containerStyle,
+        {
+          marginLeft: Math.max(insets.left, 5),
+          marginRight: Math.max(insets.right, 5),
+        },
+      ]}
+    >
+      {props.children}
+    </View>
+  );
+};
 
 const styles = {
   containerStyle: {

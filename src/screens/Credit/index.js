@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import RadioForm from 'react-native-simple-radio-button';
@@ -494,10 +495,17 @@ class Credit extends Component<Props, State> {
                 <Icon
                   name={
                     !this.state.commission
-                      ? 'md-arrow-dropdown'
-                      : 'md-arrow-dropup'
+                      ? 'caret-down-sharp'
+                      : 'caret-up-sharp'
                   }
-                  style={{ fontSize: 20, color: '#525050' }}
+                  style={{
+                    fontSize: 12,
+                    color: '#525050',
+                    marginTop: Platform.select({
+                      android: 3,
+                      ios: 1,
+                    }),
+                  }}
                 />
               </TouchableOpacity>
             </CardSection>
