@@ -86,10 +86,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   labelStyle: {
-    flex: 1.9,
+    flex: 1.4,
     justifyContent: 'center',
   },
-  borderRightStyle: { borderRightWidth: 1, borderColor: '#ddd' },
+  borderRightStyle: { flex: 1.9, borderRightWidth: 1, borderColor: '#ddd' },
   labelTextStyle: {
     fontFamily: 'Ubuntu',
     paddingLeft: 10,
