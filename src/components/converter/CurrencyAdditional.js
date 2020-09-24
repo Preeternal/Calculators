@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 type Props = {
@@ -26,7 +26,7 @@ const CurrencyAdditional = ({ name, char, checked, handleClick }: Props) => {
         <View style={checkBoxStyle}>
           <CheckBox
             value={checked}
-            // onValueChange={handleClick}
+            onValueChange={Platform.OS === 'android' && handleClick}
             tintColors={{ true: 'gray' }}
             onTintColor="gray"
             onFillColor="gray"
