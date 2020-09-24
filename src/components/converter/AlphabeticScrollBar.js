@@ -23,7 +23,7 @@ let headerHeight = 0;
 const TOP = 2;
 
 const AlphabeticScrollBar = (props: Props) => {
-  const view = React.createRef();
+  const view = React.createRef<any>();
   const navigationHeaderHeight = useHeaderHeight();
   useEffect(() => {
     headerHeight = navigationHeaderHeight;
@@ -41,7 +41,7 @@ const AlphabeticScrollBar = (props: Props) => {
           handleOnFingerMove(evt, gestureState),
         onPanResponderRelease: () => handleOnFingerRelease(),
       }),
-    [],
+    []
   );
   const {
     onStartShouldSetResponder,
@@ -78,7 +78,7 @@ const AlphabeticScrollBar = (props: Props) => {
 
   const handleOnLayout = () => {
     if (view.current) {
-      view.current.measure((x, y, width, height, pageX, pageY) => {
+      view.current?.measure((x, y, width, height, pageX, pageY) => {
         // containerHeight = height - TOP - BOTTOM;
         // headerHeight = pageY + TOP;
         containerHeight = height;

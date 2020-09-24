@@ -71,7 +71,7 @@ class AddCurrency extends Component<Props, State> {
     super(props);
     const { preset, currencies } = this.props;
     const filter = currencies.filter(
-      currency => !preset.includes(currency.charCode),
+      currency => !preset.includes(currency.charCode)
     );
     filter.sort((a, b) => a.charCode.localeCompare(b.charCode));
     this.state = {
@@ -161,6 +161,7 @@ class AddCurrency extends Component<Props, State> {
   };
 
   scrollToIndex = (letter: string, Y: number) => {
+    console.log('letter:', letter);
     this.setActiveLetter(letter);
     this.setState({ pointerTop: Y });
     if (letter === '#') {
@@ -185,7 +186,7 @@ class AddCurrency extends Component<Props, State> {
     // changed: Array<Object>,
   }) => {
     const viewableLetters = new Set(
-      viewableItems.map(e => e.item.charCode.slice(0, 1)),
+      viewableItems.map(e => e.item.charCode.slice(0, 1))
     );
     this.setState({ viewableLetters: [...viewableLetters] });
   };
@@ -263,5 +264,5 @@ const mapDispatchToActions = {
 
 export default connect<any, any, any, any, any, any>(
   mapStateToProps,
-  mapDispatchToActions,
+  mapDispatchToActions
 )(AddCurrency);
