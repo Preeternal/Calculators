@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 type Props = {
@@ -14,6 +14,7 @@ const CurrencyAdditional = ({ name, char, checked, handleClick }: Props) => {
   const {
     containerStyle,
     checkBoxStyle,
+    rowStyle,
     nameStyle,
     nameTextStyle,
     charStyle,
@@ -21,30 +22,30 @@ const CurrencyAdditional = ({ name, char, checked, handleClick }: Props) => {
   } = styles;
 
   return (
-    <TouchableOpacity onPress={handleClick}>
-      <View style={containerStyle}>
-        <View style={checkBoxStyle}>
-          <CheckBox
-            value={checked}
-            onValueChange={Platform.OS === 'android' && handleClick}
-            tintColors={{ true: 'gray' }}
-            onTintColor="gray"
-            onFillColor="gray"
-            onCheckColor="white"
-          />
-        </View>
+    <View style={containerStyle}>
+      <View style={checkBoxStyle}>
+        <CheckBox
+          value={checked}
+          onValueChange={handleClick}
+          tintColors={{ true: 'gray' }}
+          onTintColor="gray"
+          onFillColor="gray"
+          onCheckColor="white"
+        />
+      </View>
+      <TouchableOpacity onPress={handleClick} style={rowStyle}>
         <View style={nameStyle}>
           <Text style={nameTextStyle}>{name}</Text>
         </View>
         <View style={charStyle}>
           <Text style={charTextStyle}>{char}</Text>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     borderBottomWidth: 1,
@@ -58,6 +59,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginLeft: 10,
+  },
+  rowStyle: {
+    flex: 4,
+    flexDirection: 'row',
   },
   nameStyle: {
     flex: 3,
@@ -78,6 +83,6 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 10,
   },
-};
+});
 
 export { CurrencyAdditional };
