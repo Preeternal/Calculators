@@ -17,7 +17,6 @@ node_modules/warning/.*
 
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*
-.*/node_modules/@react-native-community/checkbox/dist/CheckBox.ios.js
 .*/node_modules/@react-native-community/picker/js/PickerIOS.ios.js
 
 [include]
