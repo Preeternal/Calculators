@@ -304,7 +304,7 @@ PODS:
     - React
   - RNCAsyncStorage (1.12.0):
     - React
-  - RNCCheckbox (0.5.3):
+  - RNCCheckbox (0.5.5):
     - React
   - RNCMaskedView (0.1.10):
     - React
@@ -534,7 +534,7 @@ SPEC CHECKSUMS:
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
   ReactNativeART: 78edc68dd4a1e675338cd0cd113319cf3a65f2ab
   RNCAsyncStorage: 2a692bcb9b69b76a2f1a95f33db057129700af64
-  RNCCheckbox: 47d045535fbb16796df628022a7cd631c78a4d9b
+  RNCCheckbox: 5313bf49c2977c1c8f7135434fc01dc80f86bf0b
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPicker: a724b3aa22b182697c190a8fd7b060b66119e136
   RNDateTimePicker: a84d2b439666c9243d42a8396c588d4d1d36e3f3
